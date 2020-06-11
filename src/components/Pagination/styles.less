@@ -1,0 +1,28 @@
+.pagination {
+  display: flex;
+  align-items: center;
+
+  :global {
+    .pagination-btn,
+    [disabled]:hover {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      width: 35px;
+      min-width: 35px;
+      height: 35px;
+      padding: 0;
+      border: solid 1px #7f8fa4; // TODO: Move to config if needed
+      border-radius: 5px;
+
+      &[disabled]:hover {
+        border: solid 1px #7f8fa4;
+      }
+    }
+
+    .page-status {
+      padding: 0 32px;
+      font-size: 12px;
+    }
+  }
+}

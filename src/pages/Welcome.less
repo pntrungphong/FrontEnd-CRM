@@ -1,0 +1,41 @@
+@import '~antd/lib/style/themes/default.less';
+
+.welcome {
+  background-image: url('/bg.jpg');
+  background-size: cover;
+  width: 100vw;
+  height: 100vh;
+
+  :global {
+    .content {
+      width: 1200px;
+      height: 100%;
+      margin: 0 auto;
+      padding-top: 40px;
+      position: relative;
+
+      .cover-content {
+        position: absolute;
+        top: 40vh;
+        width: 380px;
+        color: #fff;
+
+        .heading-content {
+          letter-spacing: 0.5px;
+          font-size: 40px;
+          line-height: 48px;
+          color: #fff;
+          text-transform: uppercase;
+          font-weight: 600;
+          margin-bottom: 25px;
+        }
+
+        .body-content {
+          opacity: .7;
+          font-size: 18px;
+          line-height: 27px;
+        }
+      }
+    }
+  }
+}

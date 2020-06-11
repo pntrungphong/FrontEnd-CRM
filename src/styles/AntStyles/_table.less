@@ -1,0 +1,27 @@
+@table-prefix-cls: ~'@{ant-prefix}-table';
+
+.@{table-prefix-cls} {
+  .@{table-prefix-cls} {
+    &-title {
+      padding: 19px 17px 16px 17px;
+      font-weight: bold;
+    }
+
+    &-thead {
+      > tr > th {
+        padding-top: 14px;
+        padding-bottom: 14px;
+        color: @table-header-color;
+        font-weight: 600;
+        background-color: transparent;
+        border-top: 1px solid @border-color-split;
+      }
+    }
+
+    &-tbody {
+      > tr > td {
+        color: @table-body-color;
+      }
+    }
+  }
+}
