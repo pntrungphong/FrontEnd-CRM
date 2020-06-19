@@ -1,8 +1,10 @@
 @import '~antd/es/style/themes/default.less';
 
 .main {
-  width: 75%;
-  max-width: 545px;
+  width: 28%;
+  margin: auto;
+  padding-top: 40px;
+
   @media screen and (max-width: @screen-sm) {
     width: 100%;
   }
@@ -19,9 +21,12 @@
       color: @primary-color;
     }
   }
-
+  .title {
+    margin: 50px;
+  }
   .other {
-    margin-top: 24px;
+    width: 20%;
+    margin-top: 20px;
     line-height: 22px;
     text-align: left;
 
@@ -32,8 +37,18 @@
 
   :global {
     .antd-pro-login-submit {
-      width: 100%;
+      width: 60%;
       margin-top: 24px;
     }
   }
+}
+
+#normal_login,
+.cusForm {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 25%;
+  margin: auto;
+  transform: translate(-50%, -50%);
 }

@@ -1,7 +1,7 @@
 import request from 'umi-request';
 
 export async function fakeAccountLogin(params) {
-  return request('/api/login/account', {
+  return request('http://localhost:3100/auth/login', {
     method: 'POST',
     data: params,
   });

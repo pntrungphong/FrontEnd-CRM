@@ -7,6 +7,8 @@ const Model = {
   namespace: 'userAndlogin',
   state: {
     status: undefined,
+    email: undefined,
+    password: undefined,
   },
   effects: {
     *login({ payload }, { call, put }) {
