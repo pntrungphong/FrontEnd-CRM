@@ -12,7 +12,6 @@ const NormalLoginForm = (props) => {
       payload: { ...values },
     });
   };
-
   return (
     <Form
       name="normal_login"

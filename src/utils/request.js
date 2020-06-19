@@ -5,6 +5,7 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import api from '../../config/api';
+import { getToken } from './authority';
 
 const { REACT_APP_ENV } = process.env;
 
@@ -35,10 +36,14 @@ const errorHandler = (error) => {
 /**
  * request
  */
-
+const token = getToken();
 const request = extend({
   prefix: api[REACT_APP_ENV || 'dev'].baseUrl,
   errorHandler,
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  },
   credentials: 'include', // Default send cookie
 });
 export default request;

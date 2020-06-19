@@ -1,14 +1,14 @@
 import { history } from 'umi';
 import { message } from 'antd';
+import { setToken } from '@/utils/authority';
 import { fakeAccountLogin, getFakeCaptcha } from './service';
-import { getPageQuery, setAuthority } from './utils/utils';
+import { getPageQuery } from './utils/utils';
 
 const Model = {
   namespace: 'userAndlogin',
   state: {
     status: undefined,
-    email: undefined,
-    password: undefined,
+    token: undefined,
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -18,7 +18,7 @@ const Model = {
         payload: response,
       }); // Login successfully
 
-      if (response.status === 'ok') {
+      if (response.status === 200) {
         message.success('登录成功！');
         const urlParams = new URL(window.location.href);
         const params = getPageQuery();
@@ -49,7 +49,7 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
+      setToken(payload.token);
       return { ...state, status: payload.status, type: payload.type };
     },
   },
