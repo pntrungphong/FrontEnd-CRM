@@ -1,17 +1,34 @@
-export default [
-  {
+export default [{
     path: '/',
-    component: '../layouts/BlankLayout',
-    routes: [
-      {
+    component: '../layouts/BasicLayout',
+    routes: [{
         path: '/',
-        routes: [
-          {
-            path: '/',
-            component: 'Welcome',
-          }
+        routes: [{
+                path: '/',
+                component: 'Welcome',
+            },
+            {
+                path: '/company',
+                component: 'Company',
+            },
+            {
+                path: '/company/create',
+                component: 'company/create',
+            },
+            {
+                path: '/login',
+                component: 'user/login',
+            },
+            {
+                path: '/register',
+                component: 'user/register',
+            },
+            {
+                path: '/company/update',
+                component: 'company/update',
+            },
+
+
         ]
-      },
-    ],
-  },
-];
+    }, ],
+}, ];

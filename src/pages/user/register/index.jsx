@@ -1,6 +1,6 @@
 import { Form, Button, Col, Input, Popover, Progress, Row, Select, message } from 'antd';
 import React, { useState, useEffect } from 'react';
-import { Link, connect, router, FormattedMessage, formatMessage } from 'umi';
+import { Link, connect, history, FormattedMessage, formatMessage } from 'umi';
 import styles from './style.less';
 
 const FormItem = Form.Item;
@@ -46,7 +46,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
 
     if (userAndregister.status === 'ok') {
       message.success('注册成功！');
-      router.push({
+      history.push({
         pathname: '/user/register-result',
         state: {
           account,
@@ -89,10 +89,12 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
   };
 
   const onFinish = values => {
+    console.log(submitting);
     dispatch({
       type: 'userAndregister/submit',
       payload: { ...values, prefix },
     });
+  
   };
 
   const checkConfirm = (_, value) => {

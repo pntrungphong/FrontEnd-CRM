@@ -9,6 +9,7 @@ import LoginTab from './LoginTab';
 import styles from './index.less';
 
 const Login = props => {
+ 
   const { className } = props;
   const [tabs, setTabs] = useState([]);
   const [active, setActive] = useState();
@@ -16,6 +17,7 @@ const Login = props => {
     value: props.activeKey,
     onChange: props.onTabChange,
   });
+  
   const TabChildren = [];
   const otherChildren = [];
   React.Children.forEach(props.children, child => {
