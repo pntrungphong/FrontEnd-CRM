@@ -140,7 +140,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
     return promise.resolve();
   };
 
-  const changePrefix = value => {
+  const changePrefix = (value) => {
     setprefix(value);
   };
 
@@ -191,7 +191,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
           />
         </FormItem>
         <Popover
-          getPopupContainer={node => {
+          getPopupContainer={(node) => {
             if (node && node.parentNode) {
               return node.parentNode;
             }
