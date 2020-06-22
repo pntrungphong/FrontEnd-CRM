@@ -55,6 +55,7 @@
         "@types/lodash.debounce": "^4.0.6",
         "@types/lodash.isequal": "^4.5.5",
         "@umijs/plugin-sass": "^1.1.1",
+        "ahooks": "^2.0.1",
         "antd": "^4.3.4",
         "classnames": "^2.2.6",
         "gg-editor": "^2.0.2",

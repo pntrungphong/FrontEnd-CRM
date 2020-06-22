@@ -4,14 +4,15 @@ export async function fakeCreate(params) {
 
     params = {
         "name": `${params.user.name}`,
-        "address": `${params.user.address}`,
+        "address": "",
         "email": "",
-        "phone": `${params.user.phone}`,
+        "phone": "",
         "website": `${params.user.website}`,
-        "url": `${params.user.url}`,
-        "created_by": "",
-        "updated_by": ""
+        "url": "",
+        "createdBy": "",
+        "updatedBy": "",
     };
+    console.table(params);
 
     return request('http://localhost:3000/company', {
         method: 'POST',

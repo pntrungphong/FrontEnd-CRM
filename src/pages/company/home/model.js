@@ -1,13 +1,14 @@
 import { fakeCreate } from './service';
 
 const Model = {
-    namespace: 'companyAndcreatedetail',
+    namespace: 'companyAndcreate',
     state: {
         status: undefined,
+        submit: true,
     },
     effects: {
         * submit({ payload }, { call, put }) {
-            console.table(payload);
+
             const response = yield call(fakeCreate, payload);
 
             yield put({
@@ -19,11 +20,18 @@ const Model = {
     },
     reducers: {
         registerHandle(state, { payload }) {
-            return {...state, status: payload.code };
+
+            return {...state, status: 0 };
+        },
+        submitHandle(state) {
+            return {...state, submit: false };
         },
         changeStatus(state) {
-            return {...state, status: false };
+            return {...state, status: undefined };
         },
     },
 };
+
+
+
 export default Model;

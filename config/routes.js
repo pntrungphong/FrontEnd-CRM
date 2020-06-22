@@ -8,10 +8,6 @@ export default [{
                 component: 'Welcome',
             },
             {
-                path: '/company',
-                component: 'Company',
-            },
-            {
                 path: '/company/create',
                 component: 'company/create',
             },
@@ -24,9 +20,14 @@ export default [{
                 component: 'user/register',
             },
             {
+                path: '/company/',
+                component: 'company/home',
+            },
+            {
                 path: '/company/update',
                 component: 'company/update',
             },
+
 
 
         ]
