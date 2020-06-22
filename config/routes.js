@@ -8,9 +8,9 @@ export default [
         routes: [
           {
             path: '/',
-            component: 'Welcome',
-          }
-        ]
+            component: './user/login',
+          },
+        ],
       },
     ],
   },
