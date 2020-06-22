@@ -14,9 +14,13 @@ const { REACT_APP_ENV } = process.env;
  */
 
 const errorHandler = (error) => {
-  const { response } = error;
-
-  if (response && response.status) {
+  const { response, data } = error;
+  if (data && data.statusCode) {
+    notification.error({
+      message: `${data.message}`,
+      description: data.error,
+    });
+  } else if (response && response.status) {
     const errorText = response.statusText;
     const { status, url } = response;
     notification.error({
@@ -44,6 +48,6 @@ const request = extend({
     'Content-Type': 'application/json',
     Authorization: `Bearer ${token}`,
   },
-  credentials: 'include', // Default send cookie
+  // credentials: 'include', // Default send cookie
 });
 export default request;

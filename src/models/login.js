@@ -1,8 +1,9 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
-import { fakeAccountLogin } from '@/services/login';
-import { setAuthority } from '@/utils/authority';
+import { login } from '@/services/login';
+import { setAuthority, setToken } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
+import { message } from 'antd';
 
 const Model = {
   namespace: 'login',
@@ -11,42 +12,22 @@ const Model = {
   },
   effects: {
     *login({ payload }, { call, put }) {
-      const response = yield call(fakeAccountLogin, payload);
-      yield put({
-        type: 'changeLoginStatus',
-        payload: response,
-      }); // Login successfully
-
-      if (response.status === 'ok') {
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
-
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = '/';
-            return;
-          }
-        }
-
-        history.replace(redirect || '/');
+      const response = yield call(login, payload);
+      if (response && response.token) {
+        yield put({
+          type: 'changeLoginStatus',
+          payload: response,
+        });
+        const link = getRedirectLink();
+        window.location.replace(link || '/dashboard');
       }
     },
 
     logout() {
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
-
-      if (window.location.pathname !== '/user/login' && !redirect) {
+      if (window.location.pathname !== '/login' && !redirect) {
         history.replace({
-          pathname: '/user/login',
+          pathname: '/login',
           search: stringify({
             redirect: window.location.href,
           }),
@@ -56,9 +37,30 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      message.success('Đăng nhập thành công');
+      setToken(payload.token.accessToken);
+      setAuthority(payload.token.accessToken);
+      return { ...state, status: 'ok' };
     },
   },
 };
+
+function getRedirectLink() {
+  const urlParams = new URL(window.location.href);
+  let { redirect } = getPageQuery();
+
+  if (redirect) {
+    const redirectUrlParams = new URL(redirect);
+    if (redirectUrlParams.origin === urlParams.origin) {
+      redirect = redirect.substr(urlParams.origin.length);
+      if (redirect.match(/^\/.*#/)) {
+        redirect = redirect.substr(redirect.indexOf('#') + 1);
+      }
+    } else {
+      window.location.href = '/';
+      return '/';
+    }
+  }
+  return redirect;
+}
 export default Model;
