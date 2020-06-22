@@ -27,7 +27,7 @@ const NormalLoginForm = (props) => {
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Please input your Email!',
           },
         ]}
       >

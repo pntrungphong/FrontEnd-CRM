@@ -6,9 +6,7 @@ import { getPageQuery, setAuthority } from './utils/utils';
 const Model = {
   namespace: 'userAndlogin',
   state: {
-    status: undefined,
-    email: undefined,
-    password: undefined,
+    status: undefined
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -17,30 +15,6 @@ const Model = {
         type: 'changeLoginStatus',
         payload: response,
       }); // Login successfully
-
-      if (response.status === 'ok') {
-        message.success('登录成功！');
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
-
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = redirect;
-            return;
-          }
-        }
-
-        history.replace(redirect || '/');
-      }
     },
 
     *getCaptcha({ payload }, { call }) {
@@ -49,8 +23,29 @@ const Model = {
   },
   reducers: {
     changeLoginStatus(state, { payload }) {
-      setAuthority(payload.currentAuthority);
-      return { ...state, status: payload.status, type: payload.type };
+      setAuthority(payload.token.accessToken);
+      state.status = 'ok';
+      message.success('Đăng nhập thành công');
+      const urlParams = new URL(window.location.href);
+      const params = getPageQuery();
+      let { redirect } = params;
+
+      if (redirect) {
+        const redirectUrlParams = new URL(redirect);
+
+        if (redirectUrlParams.origin === urlParams.origin) {
+          redirect = redirect.substr(urlParams.origin.length);
+
+          if (redirect.match(/^\/.*#/)) {
+            redirect = redirect.substr(redirect.indexOf('#') + 1);
+          }
+        } else {
+          window.location.href = redirect;
+          return;
+        }
+      }
+
+      history.replace(redirect || '/a');
     },
   },
 };
