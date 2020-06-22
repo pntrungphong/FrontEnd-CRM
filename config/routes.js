@@ -1,16 +1,16 @@
 export default [
   {
     path: '/',
-    component: '../layouts/BlankLayout',
+    component: '../layouts/BasicLayout',
     routes: [
       {
         path: '/',
         routes: [
           {
-            path: '/',
-            component: 'Welcome',
-          }
-        ]
+            path: '/company',
+            component: './company',
+          },
+        ],
       },
     ],
   },
