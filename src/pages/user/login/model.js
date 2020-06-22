@@ -1,14 +1,13 @@
 import { history } from 'umi';
 import { message } from 'antd';
-import { setToken } from '@/utils/authority';
-import { fakeAccountLogin, getFakeCaptcha } from './service';
-import { getPageQuery } from './utils/utils';
+import { fakeAccountLogin } from './service';
+import {setToken} from '../../../utils/authority'
 
 const Model = {
   namespace: 'userAndlogin',
   state: {
     status: undefined,
-    token: undefined,
+    token:undefined
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -17,41 +16,17 @@ const Model = {
         type: 'changeLoginStatus',
         payload: response,
       }); // Login successfully
-
-      if (response.status === 200) {
-        message.success('登录成功！');
-        const urlParams = new URL(window.location.href);
-        const params = getPageQuery();
-        let { redirect } = params;
-
-        if (redirect) {
-          const redirectUrlParams = new URL(redirect);
-
-          if (redirectUrlParams.origin === urlParams.origin) {
-            redirect = redirect.substr(urlParams.origin.length);
-
-            if (redirect.match(/^\/.*#/)) {
-              redirect = redirect.substr(redirect.indexOf('#') + 1);
-            }
-          } else {
-            window.location.href = redirect;
-            return;
-          }
-        }
-
-        history.replace(redirect || '/');
-      }
-    },
-
-    *getCaptcha({ payload }, { call }) {
-      yield call(getFakeCaptcha, payload);
     },
   },
+  
   reducers: {
+   
     changeLoginStatus(state, { payload }) {
+      message.success('Đăng nhập thành công');
+      history.push('Welcome');
       setToken(payload.token);
-      return { ...state, status: payload.status, type: payload.type };
-    },
+      return { ...state};
+   },
   },
 };
 export default Model;

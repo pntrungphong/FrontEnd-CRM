@@ -13,7 +13,9 @@ const NormalLoginForm = (props) => {
     });
   };
   return (
-    <Form
+    <div>
+      <h1 style={{width:"300px",marginLeft:"546px",marginTop:"120px",color:"cadtblue"}}>Welcome to Harmonia</h1>
+      <Form
       name="normal_login"
       className={cusForm}
       initialValues={{
@@ -22,15 +24,16 @@ const NormalLoginForm = (props) => {
       onFinish={onFinish}
     >
       <Form.Item
+     
         name="email"
         rules={[
           {
             required: true,
-            message: 'Please input your Username!',
+            message: 'Please input your Email!',
           },
         ]}
       >
-        <Input prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
+        <Input style={{borderColor:"cadetblue"}} prefix={<UserOutlined className="site-form-item-icon" />} placeholder="Username" />
       </Form.Item>
       <Form.Item
         name="password"
@@ -42,28 +45,22 @@ const NormalLoginForm = (props) => {
         ]}
       >
         <Input
+         style={{borderColor:"cadetblue"}}
           prefix={<LockOutlined className="site-form-item-icon" />}
           type="password"
           placeholder="Password"
         />
       </Form.Item>
-      <Form.Item>
-        <Form.Item name="remember" valuePropName="checked" noStyle>
-          <Checkbox>Remember me</Checkbox>
-        </Form.Item>
 
-        <a className="login-form-forgot" href="">
-          Forgot password
-        </a>
-      </Form.Item>
 
       <Form.Item>
-        <Button type="primary" htmlType="submit" className="login-form-button">
+        <Button style={{marginLeft:"90px",backgroundColor:"cadetblue",borderColor:"cadetblue"}} type="primary" htmlType="submit" className="login-form-button">
           Log in
         </Button>
-        Or <a href="">register now!</a>
       </Form.Item>
     </Form>
+    </div>
+    
   );
 };
 
