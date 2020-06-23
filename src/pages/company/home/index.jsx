@@ -1,5 +1,5 @@
 import { message, Modal, Form, Input, Table, Button } from 'antd';
-import React, { useEffect } from 'react';
+import React, {  useEffect } from 'react';
 import { connect, history } from 'umi';
 import 'antd/dist/antd.css';
 import { useMount } from 'ahooks';
@@ -35,7 +35,7 @@ const columns = [
     dataIndex: 'website',
     key: 'website',
   },
-
+ 
 ];
 
 
@@ -59,7 +59,7 @@ class App extends React.Component {
 
 
   handleCancel = () => {
-
+   
     this.setState({
       visible: false,
     });
@@ -82,26 +82,24 @@ class App extends React.Component {
 
           <Create />
         </Modal>
-        <ListCompany />
+        <ListCompany/>
       </div>
-
+     
     );
   }
 }
 
 
-function validateMessages(label) {
-  return {
-    required: `${label} is required!`,
-  };
+const validateMessages  = (label) => ({
+  required: `${label} is required!`,
 
-};
+});
 
 
 const ListCompany = connect(({ company }) => ({
   company,
 }))(function (props) {
-
+ 
   useMount(() => {
     props.dispatch({
       type: 'company/loadData',
@@ -132,7 +130,7 @@ const Create = connect(({ company, loading }) => ({
   const createDetail = () => {
 
     const company = form.getFieldValue('user');
-
+  
     history.push({
       pathname: '/company/create',
       state: {
@@ -141,13 +139,13 @@ const Create = connect(({ company, loading }) => ({
     });
 
   };
-
+ 
   useEffect(() => {
     if (!props.company) {
       return;
     }
-
-    if (props.company.createStatus === 0) {
+  
+    if (props.company.createStatus === 0 ) {
       success();
       window.location.reload();
       // props.dispatch({
