@@ -5,10 +5,11 @@ import { setAuthority, setToken } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
 
+
 const Model = {
   namespace: 'login',
   state: {
-    status: undefined,
+    status: undefined
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -39,7 +40,7 @@ const Model = {
     changeLoginStatus(state, { payload }) {
       message.success('Đăng nhập thành công');
       setToken(payload.token.accessToken);
-      setAuthority(payload.token.accessToken);
+      setAuthority(payload.user.role.toLowerCase());
       return { ...state, status: 'ok' };
     },
   },
