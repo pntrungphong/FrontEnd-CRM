@@ -1,10 +1,12 @@
-import { fakeCreate } from './service';
+import { fakeCreate, getCompany } from './service';
 
 const Model = {
-    namespace: 'companyAndcreate',
+    namespace: 'company',
     state: {
-        status: undefined,
-        submit: true,
+        createStatus: undefined,
+        loadStatus: undefined,
+        companyInfo: undefined,
+
     },
     effects: {
         * submit({ payload }, { call, put }) {
@@ -16,22 +18,30 @@ const Model = {
                 payload: response,
             });
         },
+        * loadData({ payload }, { call, put }) {
+            const response = yield call(getCompany, payload);
+
+            yield put({
+                type: 'companyHandle',
+                payload: response,
+            });
+        },
 
     },
     reducers: {
         registerHandle(state, { payload }) {
 
-            return {...state, status: 0 };
+            return {...state, createStatus: payload.code };
         },
-        submitHandle(state) {
-            return {...state, submit: false };
+        companyHandle(state, { payload }) {
+            return {...state, loadStatus: payload.code, companyInfo: payload.data };
         },
+
         changeStatus(state) {
-            return {...state, status: undefined };
+            return {...state, createStatus: undefined };
         },
     },
 };
-
 
 
 export default Model;

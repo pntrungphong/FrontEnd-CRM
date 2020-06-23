@@ -1,7 +1,8 @@
-import { message, Modal, Form, Input, InputNumber, Button } from 'antd';
-import React, { useState, useEffect } from 'react';
-import { connect, Link, Row, Col, history } from 'umi';
+import { message, Modal, Form, Input, Table, Button } from 'antd';
+import React, { useEffect } from 'react';
+import { connect, history } from 'umi';
 import 'antd/dist/antd.css';
+import { useMount } from 'ahooks';
 
 const layout = {
   labelCol: { span: 8 },
@@ -12,6 +13,32 @@ const tailLayout = {
     offset: 4,
   },
 };
+const columns = [
+
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: 'Phone',
+    dataIndex: 'phone',
+    key: 'phone',
+  },
+  {
+    title: 'Website',
+    dataIndex: 'website',
+    key: 'website',
+  },
+
+];
+
+
 const success = () => {
   message.success('Tạo Company thành công');
 };
@@ -32,18 +59,18 @@ class App extends React.Component {
 
 
   handleCancel = () => {
-    console.log('Clicked cancel button');
+
     this.setState({
       visible: false,
     });
   };
 
   render() {
-    const { visible, confirmLoading, ModalText } = this.state;
+    const { visible, confirmLoading } = this.state;
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
-          Open Modal with async logic
+          Create Company
         </Button>
         <Modal
           title="Create Company"
@@ -55,32 +82,49 @@ class App extends React.Component {
 
           <Create />
         </Modal>
+        <ListCompany />
       </div>
+
     );
   }
 }
 
 
-const validateMessages = {
-  required: '${label} is required!',
-  types: {
-    email: '${label} is not validate email!',
-    number: '${label} is not a validate number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
+function validateMessages(label) {
+  return {
+    required: `${label} is required!`,
+  };
+
 };
 
 
-const Create = connect(({ companyAndcreate, loading }) => ({
-  companyAndcreate,
-  submitting: loading.effects['companyAndcreate/submit'],
+const ListCompany = connect(({ company }) => ({
+  company,
 }))(function (props) {
 
+  useMount(() => {
+    props.dispatch({
+      type: 'company/loadData',
+    });
+  });
+
+
+  return (
+    <Table pagination={false} columns={columns} dataSource={props.company.companyInfo}></Table>
+  );
+});
+
+
+
+
+const Create = connect(({ company, loading }) => ({
+  company,
+  submitting: loading.effects['company/submit'],
+}))(function (props) {
+  const [form] = Form.useForm();
   const onFinish = values => {
     props.dispatch({
-      type: 'companyAndcreate/submit',
+      type: 'company/submit',
       payload: { ...values },
     });
   };
@@ -88,7 +132,7 @@ const Create = connect(({ companyAndcreate, loading }) => ({
   const createDetail = () => {
 
     const company = form.getFieldValue('user');
-    console.table(company);
+
     history.push({
       pathname: '/company/create',
       state: {
@@ -97,21 +141,22 @@ const Create = connect(({ companyAndcreate, loading }) => ({
     });
 
   };
-  const [form] = Form.useForm();
+
   useEffect(() => {
-    if (!props.companyAndcreate) {
+    if (!props.company) {
       return;
     }
-  
-    if (props.companyAndcreate.status === 0 ) {
+
+    if (props.company.createStatus === 0) {
       success();
+      window.location.reload();
       // props.dispatch({
       //   type: 'companyAndupdate/changeStatus',
       // });
 
     }
 
-  }, [props.companyAndcreate]);
+  }, [props.company]);
 
 
   return (
