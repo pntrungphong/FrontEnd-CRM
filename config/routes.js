@@ -9,19 +9,19 @@ export default [{
 
         },
         {
-            path: '/company',
+
             Routes: ['src/pages/Authorized'],
             authority: ['admin', '', 'user', 'USER'],
             routes: [{
-                    path: '/',
-                    component: './company/home',
+                    path: '/company',
+                    component: 'company/home',
                 },
                 {
-                    path: '/update',
+                    path: '/company/update',
                     component: 'company/update',
                 },
                 {
-                    path: '/create',
+                    path: '/company/create',
                     component: 'company/create',
                 },
                 // {

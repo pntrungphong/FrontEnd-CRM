@@ -1,5 +1,4 @@
-import request from 'umi-request';
-
+import request from '../../../utils/request'
 
 export async function fakeUpdate(params) {
 
@@ -16,7 +15,7 @@ export async function fakeUpdate(params) {
     }
 
 
-    return request(`http://api-harmonia.geekup.io/company/${params.id}`, {
+    return request(`/company/${params.id}`, {
         method: 'PUT',
         headers: {
             "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2ZjBmNjc5LTQxODktNGQwMi05OWQ2LWM5NjBmMjM4YzlmNyIsImlhdCI6MTU5Mjc5OTYxN30.WkQzyQMcky85YEUbyb_5gCxt0Oy-eWFLcIkBGNCQhfw",
@@ -27,7 +26,7 @@ export async function fakeUpdate(params) {
 }
 export async function loadUser(params) {
 
-    return request(`http://api-harmonia.geekup.io/company/${params.id}`, {
+    return request(`/company/${params.id}`, {
         method: 'GET',
         headers: {
             "Authorization": "Bearer " + "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6ImI2ZjBmNjc5LTQxODktNGQwMi05OWQ2LWM5NjBmMjM4YzlmNyIsImlhdCI6MTU5Mjc5OTYxN30.WkQzyQMcky85YEUbyb_5gCxt0Oy-eWFLcIkBGNCQhfw",
