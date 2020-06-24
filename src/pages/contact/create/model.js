@@ -1,18 +1,19 @@
 import { history } from 'umi';
 import { message } from 'antd';
-import { createCompany } from './service';
+
+import { createContact } from './service';
 
 const Model = {
-  namespace: 'companyAndcreatedetail',
+  namespace: 'createContact',
   state: {},
   effects: {
     *submit({ payload }, { call }) {
       // const response =
-      yield call(createCompany, payload);
+      yield call(createContact, payload);
 
-      message.success('Tạo Company thành công');
+      message.success('Tạo Contact thành công');
       history.push({
-        pathname: '/company/',
+        pathname: '/contact/',
       });
     },
   },

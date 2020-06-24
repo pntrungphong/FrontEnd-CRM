@@ -1,42 +1,43 @@
 import { message } from 'antd';
-import { createCompany, getCompany } from './service';
+import { createContact, getContact } from './service';
 
 const Model = {
-  namespace: 'company',
+  namespace: 'contact',
   state: {
-    companyInfo: undefined,
     visible: false,
+    contactInfo: undefined,
   },
   effects: {
     *submit({ payload }, { call, put }) {
-      // const response =
-      yield call(createCompany, payload);
+      const response = yield call(createContact, payload);
+      console.table(response);
 
       yield put({
         type: 'modalHandle',
         payload: false,
       });
-      message.success('Tạo Company thành công');
+      message.success('Tạo Contact thành công');
 
       yield put({
         type: 'loadData',
       });
     },
     *loadData(_, { call, put }) {
-      const response = yield call(getCompany);
+      const response = yield call(getContact);
       console.table(response.data);
       yield put({
-        type: 'companyHandle',
+        type: 'contactHandle',
         payload: response.data,
       });
     },
   },
   reducers: {
-    companyHandle(state, { payload }) {
-      return { ...state, companyInfo: payload };
-    },
     modalHandle(state, { payload }) {
       return { ...state, visible: payload };
+    },
+
+    contactHandle(state, { payload }) {
+      return { ...state, contactInfo: payload };
     },
   },
 };
