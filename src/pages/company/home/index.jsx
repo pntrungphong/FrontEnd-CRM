@@ -1,0 +1,209 @@
+import { Modal, Form, Input, Table, Button } from 'antd';
+import React from 'react';
+import { connect, history } from 'umi';
+import 'antd/dist/antd.css';
+import { useMount } from 'ahooks';
+
+
+const layout = {
+  labelCol: { span: 8 },
+  wrapperCol: { span: 16 },
+};
+
+const tailLayout = {
+  wrapperCol: {
+    offset: 4,
+  },
+};
+
+const columns = [
+
+  {
+    title: 'Name',
+    dataIndex: 'name',
+    key: 'name',
+  },
+  {
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+  },
+  {
+    title: 'Phone',
+    dataIndex: 'phone',
+    key: 'phone',
+  },
+  {
+    title: 'Website',
+    dataIndex: 'website',
+    key: 'website',
+  },
+  {
+    title: 'Action',
+    key: 'action',
+    render: (record) => (
+      <span >
+        <a onClick={() => {
+          console.log(record.key);
+          window.location.href = `http://localhost:8000/company/update?id=${record.key}`;
+
+
+        }}
+        >Update</a>
+
+      </span>
+    ),
+  },
+
+];
+
+class App extends React.Component {
+
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      props: props,
+      
+    };
+
+  }
+
+  showModal = () => {
+    this.state.props.dispatch({
+      type: 'company/modalHandle',
+      payload: true,
+    });
+  };
+
+  handleCancel = () => {
+
+    this.props.dispatch({
+      type: 'company/modalHandle',
+      payload: false,
+    });
+  };
+
+  render() {
+    const visible = this.props.company.visible;
+  
+    return (
+      <div>
+        <Button type="primary" onClick={this.showModal}>
+          Create Company
+        </Button>
+        <Modal
+          title="Create Company"
+          visible={visible}
+          footer={null}
+         
+          onCancel={this.handleCancel}
+        >
+
+          <Create />
+        </Modal>
+        <ListCompany />
+      </div>
+
+    );
+  }
+}
+
+const validateMessages = (label) => ({
+  required: `${label} is required!`,
+
+});
+
+const ListCompany = connect(({ company, loading }) => ({
+  company,
+  loading: loading.effects['company/loadData'],
+}))(function (props) {
+
+  useMount(() => {
+    props.dispatch({
+      type: 'company/loadData',
+    });
+
+  });
+
+  return (
+    <Table bordered={true} loading={props.loading} pagination={true} columns={columns} dataSource={props.company.companyInfo}></Table>
+  );
+});
+
+const Create = connect(({ company, loading }) => ({
+  company,
+  submitting: loading.effects['company/submit'],
+}))(function (props) {
+  const [form] = Form.useForm();
+  const onFinish = values => {
+    props.dispatch({
+      type: 'company/submit',
+      payload: { ...values },
+    });
+  };
+
+  const createDetail = () => {
+
+    const company = form.getFieldValue('company');
+
+    history.push({
+      pathname: "/company/create",
+      state: {
+        name: company.name,
+        website: company.website,
+      }
+
+    });
+
+  };
+
+  return (
+    <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+      <Form.Item
+        name={['company', 'name']}
+        label="Name"
+        initialValue=""
+        rules={[
+          {
+            required: true,
+          },
+        ]}
+      >
+        <Input />
+      </Form.Item>
+
+
+      <Form.Item
+        name={['company', 'website']}
+        label="Website"
+        initialValue=""
+      >
+
+        <Input />
+      </Form.Item>
+
+      <Form.Item  {...tailLayout}>
+        <Button
+          htmlType="button"
+          style={{
+            margin: '0 8px',
+          }}
+          onClick={createDetail}
+        >
+          Create Detail
+        </Button>
+        <Button type="primary" htmlType="submit" loading={props.submitting}>
+          Submit
+        </Button>
+
+      </Form.Item>
+
+    </Form>
+  );
+});
+
+export default connect(({ company }) => ({
+  company,
+}))(App);
+
