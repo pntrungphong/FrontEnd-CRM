@@ -1,8 +1,7 @@
 import { Spin, Form, Input, Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import 'antd/dist/antd.css';
-import { useMount } from 'ahooks';
+import { useMount, useUnmount } from 'ahooks';
 import styles from './style.less';
 
 const layout = {
@@ -13,28 +12,33 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-const Update = connect(({ updateContact, loading }) => ({
-  updateContact,
-  submitting: loading.effects['updateContact/submit'],
-  querying: loading.effects['updateContact/loading'],
+const Update = connect(({ contact, loading }) => ({
+  contact,
+  submitting: loading.effects['contact/create'],
+  querying: loading.effects['contact/loading'],
 }))(function (props) {
   useMount(() => {
-    console.log(props.querying);
-    console.log(props.submitting);
     props.dispatch({
-      type: 'updateContact/loading',
+      type: 'contact/loading',
       payload: { id: props.location.query.id },
     });
   });
+
+  useUnmount(() => {
+    props.dispatch({
+      type: 'contact/cleanData',
+    });
+  });
+
   const onFinish = (values) => {
     props.dispatch({
-      type: 'updateContact/submit',
+      type: 'contact/update',
       payload: { ...values, id: props.location.query.id },
     });
   };
   const [form] = Form.useForm();
 
-  if (props.updateContact.data === undefined) {
+  if (props.contact.data === undefined) {
     return <Spin />;
   }
 
@@ -54,7 +58,7 @@ const Update = connect(({ updateContact, loading }) => ({
         <Form.Item
           name={['contact', 'name']}
           label="Name"
-          initialValue={props.updateContact.data.name}
+          initialValue={props.contact.data.name}
           rules={[
             {
               required: true,
@@ -67,32 +71,35 @@ const Update = connect(({ updateContact, loading }) => ({
         <Form.Item
           name={['contact', 'website']}
           label="Website"
-          initialValue={props.updateContact.data.website}
+          initialValue={props.contact.data.website}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name={['contact', 'email']}
+          label="Email"
+          initialValue={props.contact.data.email}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name={['contact', 'phone']}
           label="Phone"
-          initialValue={props.updateContact.data.phone}
+          initialValue={props.contact.data.phone}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name={['contact', 'address']}
           label="Address"
-          initialValue={props.updateContact.data.address}
+          initialValue={props.contact.data.address}
         >
           <Input />
         </Form.Item>
         <Form.Item name={['contact', 'tag']} label="Tag">
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['contact', 'url']}
-          label="URL"
-          initialValue={props.updateContact.data.url}
-        >
+        <Form.Item name={['contact', 'url']} label="URL" initialValue={props.contact.data.url}>
           <Input />
         </Form.Item>
 

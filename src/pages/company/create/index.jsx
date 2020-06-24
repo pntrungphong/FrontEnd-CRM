@@ -1,7 +1,7 @@
 import { Form, Input, Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import 'antd/dist/antd.css';
+
 import styles from './style.less';
 
 const layout = {
@@ -10,17 +10,14 @@ const layout = {
 };
 const validateMessages = (label) => ({
   required: `${label} is required!`,
-
 });
-const Create = connect(({ companyAndcreatedetail, loading }) => ({
-  companyAndcreatedetail,
-  submitting: loading.effects['companyAndcreatedetail/submit'],
-
+const Create = connect(({ company, loading }) => ({
+  company,
+  submitting: loading.effects['company/fullCreate'],
 }))(function (props) {
-
-  const onFinish = values => {
+  const onFinish = (values) => {
     props.dispatch({
-      type: 'companyAndcreatedetail/submit',
+      type: 'company/fullCreate',
       payload: { ...values },
     });
   };
@@ -33,11 +30,17 @@ const Create = connect(({ companyAndcreatedetail, loading }) => ({
         <h2> Create company</h2>
       </div>
 
-      <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
+      <Form
+        {...layout}
+        form={form}
+        name="nest-messages"
+        onFinish={onFinish}
+        validateMessages={validateMessages}
+      >
         <Form.Item
           name={['company', 'name']}
           label="Name"
-          initialValue={(props.location.state === undefined) ? "" : props.location.state.name}
+          initialValue={props.location.state === undefined ? '' : props.location.state.name}
           rules={[
             {
               required: true,
@@ -49,39 +52,23 @@ const Create = connect(({ companyAndcreatedetail, loading }) => ({
         <Form.Item
           name={['company', 'website']}
           label="Website"
-          initialValue={(props.location.state === undefined) ? "" : props.location.state.website}
+          initialValue={props.location.state === undefined ? '' : props.location.state.website}
         >
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['company', 'phone']}
-          label="Phone"
-        >
+        <Form.Item name={['company', 'phone']} label="Phone">
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['company', 'address']}
-          label="Address"
-        >
+        <Form.Item name={['company', 'address']} label="Address">
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['company', 'tag']}
-          label="Tag"
-        >
+        <Form.Item name={['company', 'tag']} label="Tag">
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['company', 'email']}
-          label="Email"
-        >
+        <Form.Item name={['company', 'email']} label="Email">
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['company', 'url']}
-          label="URL"
-
-        >
+        <Form.Item name={['company', 'url']} label="URL">
           <Input />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>

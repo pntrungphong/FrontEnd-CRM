@@ -1,7 +1,6 @@
 import { Modal, Form, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
-import 'antd/dist/antd.css';
 import { useMount } from 'ahooks';
 
 const layout = {
@@ -32,6 +31,11 @@ const columns = [
     key: 'phone',
   },
   {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
     title: 'Website',
     dataIndex: 'website',
     key: 'website',
@@ -43,7 +47,12 @@ const columns = [
       <span>
         <a
           onClick={() => {
-            window.location.href = `http://localhost:8000/company/update?id=${record.id}`;
+            history.push({
+              pathname: '/company/update',
+              query: {
+                id: record.id,
+              },
+            });
           }}
         >
           Update
@@ -64,20 +73,20 @@ class App extends React.Component {
 
   showModal = () => {
     this.state.props.dispatch({
-      type: 'company/modalHandle',
+      type: 'company/handleCreateModal',
       payload: true,
     });
   };
 
   handleCancel = () => {
     this.props.dispatch({
-      type: 'company/modalHandle',
+      type: 'company/handleCreateModal',
       payload: false,
     });
   };
 
   render() {
-    const { visible } = this.props.company.visible;
+    const { visible } = this.props.company;
 
     return (
       <div>
@@ -99,11 +108,11 @@ const validateMessages = (label) => ({
 
 const ListCompany = connect(({ company, loading }) => ({
   company,
-  loading: loading.effects['company/loadData'],
+  loading: loading.effects['company/loadListCompany'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'company/loadData',
+      type: 'company/loadListCompany',
     });
   });
 
@@ -121,12 +130,12 @@ const ListCompany = connect(({ company, loading }) => ({
 
 const Create = connect(({ company, loading }) => ({
   company,
-  submitting: loading.effects['company/submit'],
+  submitting: loading.effects['company/create'],
 }))(function (props) {
   const [form] = Form.useForm();
   const onFinish = (values) => {
     props.dispatch({
-      type: 'company/submit',
+      type: 'company/create',
       payload: { ...values },
     });
   };

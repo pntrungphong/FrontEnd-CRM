@@ -1,7 +1,6 @@
 import { Modal, Form, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
-import 'antd/dist/antd.css';
 import { useMount } from 'ahooks';
 
 const layout = {
@@ -37,13 +36,23 @@ const columns = [
     key: 'website',
   },
   {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
+  },
+  {
     title: 'Action',
     key: 'action',
     render: (record) => (
       <span>
         <a
           onClick={() => {
-            window.location.href = `http://localhost:8000/contact/update?id=${record.id}`;
+            history.push({
+              pathname: '/contact/update',
+              query: {
+                id: record.id,
+              },
+            });
           }}
         >
           Update
@@ -59,42 +68,31 @@ class App extends React.Component {
 
     this.state = {
       props,
-      confirmLoading: false,
     };
   }
 
   showModal = () => {
     this.state.props.dispatch({
-      type: 'contact/modalHandle',
+      type: 'contact/handleCreateModal',
       payload: true,
     });
   };
 
-  state = {
-    visible: false,
-    confirmLoading: false,
-  };
-
   handleCancel = () => {
-    this.setState({
-      visible: false,
+    this.props.dispatch({
+      type: 'contact/handleCreateModal',
+      payload: false,
     });
   };
 
   render() {
-    const { visible, confirmLoading } = this.state;
+    const { visible } = this.props.contact;
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
           Create Contact
         </Button>
-        <Modal
-          title="Create Contact"
-          visible={visible}
-          footer={null}
-          confirmLoading={confirmLoading}
-          onCancel={this.handleCancel}
-        >
+        <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
           <Create />
         </Modal>
         <ListContact />
@@ -109,11 +107,11 @@ const validateMessages = (label) => ({
 
 const ListContact = connect(({ contact, loading }) => ({
   contact,
-  loading: loading.effects['contact/loadData'],
+  loading: loading.effects['contact/loadListContact'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'contact/loadData',
+      type: 'contact/loadListContact',
     });
   });
 
@@ -131,14 +129,14 @@ const ListContact = connect(({ contact, loading }) => ({
 
 const Create = connect(({ contact, loading }) => ({
   contact,
-  submitting: loading.effects['contact/submit'],
+  submitting: loading.effects['contact/create'],
 }))(function (props) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
     console.table(values);
     props.dispatch({
-      type: 'contact/submit',
+      type: 'contact/create',
       payload: { ...values },
     });
   };

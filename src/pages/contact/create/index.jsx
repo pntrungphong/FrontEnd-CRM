@@ -1,7 +1,6 @@
 import { Form, Input, Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import 'antd/dist/antd.css';
 import styles from './style.less';
 
 const layout = {
@@ -12,13 +11,13 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-const Create = connect(({ createContact, loading }) => ({
-  createContact,
-  submitting: loading.effects['createContact/submit'],
+const Create = connect(({ contact, loading }) => ({
+  contact,
+  submitting: loading.effects['contact/fullCreate'],
 }))(function (props) {
   const onFinish = (values) => {
     props.dispatch({
-      type: 'createContact/submit',
+      type: 'contact/fullCreate',
       payload: { ...values },
     });
   };

@@ -1,8 +1,7 @@
 import { Spin, Form, Input, Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import 'antd/dist/antd.css';
-import { useMount } from 'ahooks';
+import { useMount, useUnmount } from 'ahooks';
 import styles from './style.less';
 
 const layout = {
@@ -14,35 +13,38 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-const Update = connect(({ companyAndupdate, loading }) => ({
-  companyAndupdate,
-  submitting: loading.effects['companyAndupdate/submit'],
-  querying: loading.effects['companyAndupdate/loading'],
+const Update = connect(({ company, loading }) => ({
+  company,
+  submitting: loading.effects['company/update'],
+  querying: loading.effects['company/loading'],
 }))(function (props) {
   useMount(() => {
-    // console.log(props.querying);
-    // console.log(props.submitting);
     props.dispatch({
-      type: 'companyAndupdate/loading',
+      type: 'company/loading',
       payload: { id: props.location.query.id },
+    });
+  });
+  useUnmount(() => {
+    props.dispatch({
+      type: 'company/cleanData',
     });
   });
   const onFinish = (values) => {
     props.dispatch({
-      type: 'companyAndupdate/submit',
+      type: 'company/update',
       payload: { ...values, id: props.location.query.id },
     });
     // console.log(props.submitting);
   };
   const [form] = Form.useForm();
 
-  if (props.companyAndupdate.data === undefined) {
+  if (props.company.data === undefined) {
     return <Spin />;
   }
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2> Update company </h2>{' '}
+        <h2> Update company </h2>
       </div>
 
       <Form
@@ -55,7 +57,7 @@ const Update = connect(({ companyAndupdate, loading }) => ({
         <Form.Item
           name={['company', 'name']}
           label="Name"
-          initialValue={props.companyAndupdate.data.name}
+          initialValue={props.company.data.name}
           rules={[
             {
               required: true,
@@ -67,37 +69,40 @@ const Update = connect(({ companyAndupdate, loading }) => ({
         <Form.Item
           name={['company', 'website']}
           label="Website"
-          initialValue={props.companyAndupdate.data.website}
+          initialValue={props.company.data.website}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name={['company', 'phone']}
           label="Phone"
-          initialValue={props.companyAndupdate.data.phone}
+          initialValue={props.company.data.phone}
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name={['company', 'email']}
+          label="Email"
+          initialValue={props.company.data.email}
         >
           <Input />
         </Form.Item>
         <Form.Item
           name={['company', 'address']}
           label="Address"
-          initialValue={props.companyAndupdate.data.address}
+          initialValue={props.company.data.address}
         >
           <Input />
-        </Form.Item>{' '}
+        </Form.Item>
         <Form.Item name={['company', 'tag']} label="Tag">
           <Input />
         </Form.Item>
-        <Form.Item
-          name={['company', 'url']}
-          label="URL"
-          initialValue={props.companyAndupdate.data.url}
-        >
+        <Form.Item name={['company', 'url']} label="URL" initialValue={props.company.data.url}>
           <Input />
         </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
-            Submit{' '}
+            Submit
           </Button>
         </Form.Item>
       </Form>

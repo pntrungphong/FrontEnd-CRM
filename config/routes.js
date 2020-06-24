@@ -1,8 +1,12 @@
 export default [
   {
     path: '/',
-    component: '../layouts/BasicLayout',
+    component: '../layouts/BlankLayout',
     routes: [
+      {
+        path: '/login',
+        component: './user/login',
+      },
       {
         path: '/dashboard',
         component: '../layouts/BasicLayout',
@@ -11,6 +15,7 @@ export default [
       },
       {
         Routes: ['src/pages/Authorized'],
+        component: '../layouts/BasicLayout',
         authority: ['admin', '', 'user', 'USER'],
         routes: [
           {
@@ -38,10 +43,6 @@ export default [
             component: 'contact/create',
           },
         ],
-      },
-      {
-        path: '/login',
-        component: './user/login',
       },
     ],
   },
