@@ -11,9 +11,9 @@ class GlobalHeaderRight extends Component {
     const { dispatch } = this.props;
 
     if (dispatch) {
-      dispatch({
-        type: 'global/fetchNotices',
-      });
+      // dispatch({
+      //   type: 'global/fetchNotices',
+      // });
     }
   }
 
@@ -33,12 +33,12 @@ class GlobalHeaderRight extends Component {
     const { dispatch } = this.props;
     message.success(`${'清空了'} ${title}`);
 
-    if (dispatch) {
-      dispatch({
-        type: 'global/clearNotices',
-        payload: key,
-      });
-    }
+    // if (dispatch) {
+    //   dispatch({
+    //     type: 'global/clearNotices',
+    //     payload: key,
+    //   });
+    // }
   };
 
   getNoticeData = () => {

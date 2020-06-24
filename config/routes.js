@@ -3,43 +3,48 @@ export default [{
     component: '../layouts/BasicLayout',
     routes: [{
             path: '/dashboard',
-            component: '../layouts/SecurityLayout',
+            component: '../layouts/BasicLayout',
+            Routes: ['src/pages/Authorized'],
+            authority: ['admin', '', 'user', 'USER'],
+
+        },
+        {
+            path: '/company',
             Routes: ['src/pages/Authorized'],
             authority: ['admin', '', 'user', 'USER'],
             routes: [{
                     path: '/',
-                    component: 'Welcome.jsx',
+                    component: './company/home',
                 },
                 {
-                    path: '/company/',
-                    component: 'company/home',
-                },
-                {
-                    path: '/company/update',
+                    path: '/update',
                     component: 'company/update',
                 },
                 {
-                    path: '/company/create',
+                    path: '/create',
                     component: 'company/create',
                 },
-                {
-                    path: '/contact/',
-                    component: 'contact/home',
-                },
-                {
-                    path: '/contact/update',
-                    component: 'contact/update',
-                },
-                {
-                    path: '/contact/create',
-                    component: 'contact/create',
-                },
-            ],
+                // {
+                //     path: '/contact/',
+                //     component: 'contact/home',
+                // },
+                // {
+                //     path: '/contact/update',
+                //     component: 'contact/update',
+                // },
+                // {
+                //     path: '/contact/create',
+                //     component: 'contact/create',
+                // },
+
+            ]
+
         },
         {
             path: '/login',
             component: './user/login',
         },
+
 
 
     ],
