@@ -1,9 +1,10 @@
 import { fakeUpdate, loadUser } from './service';
+import { history } from 'umi';
+import { message } from 'antd';
 
 const Model = {
     namespace: 'companyAndupdate',
     state: {
-        status: undefined,
         data: undefined
     },
     effects: {
@@ -11,11 +12,13 @@ const Model = {
 
             const response = yield call(fakeUpdate, payload);
             // console.table(response);
+            history.push({
+                pathname: '/company',
 
-            yield put({
-                type: 'registerHandle',
-                payload: response,
             });
+            message.success('Cập nhật Company thành công');
+
+
         },
         * loading({ payload }, { call, put }) {
             // console.table(payload);
@@ -30,15 +33,11 @@ const Model = {
 
     },
     reducers: {
-        registerHandle(state, { payload }) {
-            return {...state, status: payload.status };
-        },
+
         loadHandle(state, { payload }) {
             return {...state, data: payload };
         },
-        changeStatus(state) {
-            return {...state, status: false };
-        },
+
     },
 };
 export default Model;

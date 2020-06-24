@@ -31,8 +31,8 @@ const Update = connect(({ companyAndupdate, loading }) => ({
 
     useMount(
         () => {
-            console.log(props.querying);
-            console.log(props.submitting);
+            // console.log(props.querying);
+            // console.log(props.submitting);
             props.dispatch({
                 type: 'companyAndupdate/loading',
                 payload: { id: props.location.query.id },
@@ -45,27 +45,11 @@ const Update = connect(({ companyAndupdate, loading }) => ({
             type: 'companyAndupdate/submit',
             payload: { ...values, id: props.location.query.id},
         });
-        console.log(props.submitting);
+        // console.log(props.submitting);
     };
     const [form] = Form.useForm();
     
-    useEffect(() => {
-        if (!props.companyAndupdate) {
-            return;
-        }    
 
-        if (props.companyAndupdate.status === 'ok') {
-            history.push({
-                pathname: '/company/create',
-
-            });
-            props.dispatch({
-                type: 'companyAndupdate/changeStatus',
-            });
-        }
-    }, [props.companyAndupdate]);
-
-  
 
     if (props.companyAndupdate.data===undefined) {
         return (
@@ -81,7 +65,7 @@ const Update = connect(({ companyAndupdate, loading }) => ({
 
                 <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
                     <Form.Item
-                        name={['user', 'name']}
+                        name={['company', 'name']}
                         label="Name"
                         initialValue={props.companyAndupdate.data.name}
                         rules={[
@@ -95,14 +79,14 @@ const Update = connect(({ companyAndupdate, loading }) => ({
 
 
                     <Form.Item
-                        name={['user', 'website']}
+                        name={['company', 'website']}
                         label="Website"
                         initialValue={props.companyAndupdate.data.website}
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        name={['user', 'phone']}
+                        name={['company', 'phone']}
                         label="Phone"
                         initialValue={props.companyAndupdate.data.phone}
 
@@ -111,7 +95,7 @@ const Update = connect(({ companyAndupdate, loading }) => ({
 
                     </Form.Item>
                     <Form.Item
-                        name={['user', 'address']}
+                        name={['company', 'address']}
                         label="Address"
                         initialValue={props.companyAndupdate.data.address}
 
@@ -119,14 +103,14 @@ const Update = connect(({ companyAndupdate, loading }) => ({
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        name={['user', 'tag']}
+                        name={['company', 'tag']}
                         label="Tag"
 
                     >
                         <Input />
                     </Form.Item>
                     <Form.Item
-                        name={['user', 'url']}
+                        name={['company', 'url']}
                         label="URL"
                         initialValue={props.companyAndupdate.data.url}
 

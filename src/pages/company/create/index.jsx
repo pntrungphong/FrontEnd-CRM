@@ -1,32 +1,22 @@
-import { Alert, Modal, Form, Input, InputNumber, Button } from 'antd';
-import React, { useState, useEffect } from 'react';
-import { connect, Link, history } from 'umi';
+import { Form, Input, Button } from 'antd';
+import React from 'react';
+import { connect } from 'umi';
 import 'antd/dist/antd.css';
 import styles from './style.less';
+
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
-const validateMessages = {
-  required: '${label} is required!',
-  types: {
-    email: '${label} is not validate email!',
-    number: '${label} is not a validate number!',
-  },
-  number: {
-    range: '${label} must be between ${min} and ${max}',
-  },
-};
+const validateMessages = (label) => ({
+  required: `${label} is required!`,
 
-
-
-
-
+});
 const Create = connect(({ companyAndcreatedetail, loading }) => ({
   companyAndcreatedetail,
   submitting: loading.effects['companyAndcreatedetail/submit'],
-}))(function (props) {
 
+}))(function (props) {
 
   const onFinish = values => {
     props.dispatch({
@@ -34,27 +24,8 @@ const Create = connect(({ companyAndcreatedetail, loading }) => ({
       payload: { ...values },
     });
   };
+
   const [form] = Form.useForm();
-  console.table(props.location);
-
-  useEffect(() => {
-   
-    if (!props.companyAndcreatedetail) {
-      return;
-    }
-
-    if (props.companyAndcreatedetail.status === 0) {
-      history.push({
-        pathname: '/company/',
-
-      });
-      props.dispatch({
-        type: 'companyAndcreatedetail/changeStatus',
-      });
-    }
-  }, [props.companyAndcreatedetail]);
-
-
 
   return (
     <div className={styles.main}>
@@ -64,9 +35,9 @@ const Create = connect(({ companyAndcreatedetail, loading }) => ({
 
       <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
         <Form.Item
-          name={['user', 'name']}
+          name={['company', 'name']}
           label="Name"
-          initialValue={(props.location.state == undefined||props.location.state.company==undefined)  ? "" : props.location.state.company.name}
+          initialValue={(props.location.state === undefined) ? "" : props.location.state.name}
           rules={[
             {
               required: true,
@@ -75,47 +46,44 @@ const Create = connect(({ companyAndcreatedetail, loading }) => ({
         >
           <Input />
         </Form.Item>
-
-
         <Form.Item
-          name={['user', 'website']}
+          name={['company', 'website']}
           label="Website"
-          initialValue={(props.location.state == undefined||props.location.state.company==undefined) ? "" : props.location.state.company.website}
+          initialValue={(props.location.state === undefined) ? "" : props.location.state.website}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={['user', 'phone']}
+          name={['company', 'phone']}
           label="Phone"
-
         >
           <Input />
-
         </Form.Item>
         <Form.Item
-          name={['user', 'address']}
+          name={['company', 'address']}
           label="Address"
-
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={['user', 'tag']}
+          name={['company', 'tag']}
           label="Tag"
-
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={['user', 'url']}
+          name={['company', 'email']}
+          label="Email"
+        >
+          <Input />
+        </Form.Item>
+        <Form.Item
+          name={['company', 'url']}
           label="URL"
 
         >
           <Input />
         </Form.Item>
-
-
-
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Submit
@@ -125,6 +93,5 @@ const Create = connect(({ companyAndcreatedetail, loading }) => ({
     </div>
   );
 });
-
 
 export default Create;

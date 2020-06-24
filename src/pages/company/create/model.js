@@ -1,29 +1,31 @@
-import { fakeCreate } from './service';
+import { createCompany } from './service';
+import { history } from 'umi';
+import { message } from 'antd';
 
 const Model = {
     namespace: 'companyAndcreatedetail',
     state: {
-        status: undefined,
+
     },
     effects: {
         * submit({ payload }, { call, put }) {
-            console.table(payload);
-            const response = yield call(fakeCreate, payload);
+
+            const response = yield call(createCompany, payload);
 
             yield put({
                 type: 'registerHandle',
                 payload: response,
             });
+            message.success('Tạo Company thành công');
+            history.push({
+                pathname: '/company/',
+
+            });
         },
 
     },
     reducers: {
-        registerHandle(state, { payload }) {
-            return {...state, status: payload.code };
-        },
-        changeStatus(state) {
-            return {...state, status: false };
-        },
+
     },
 };
 export default Model;

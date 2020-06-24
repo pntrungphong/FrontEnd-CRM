@@ -1,18 +1,21 @@
-import { message, Modal, Form, Input, Table, Button } from 'antd';
-import React, {  useEffect } from 'react';
+import { Modal, Form, Input, Table, Button } from 'antd';
+import React from 'react';
 import { connect, history } from 'umi';
 import 'antd/dist/antd.css';
 import { useMount } from 'ahooks';
+
 
 const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
+
 const tailLayout = {
   wrapperCol: {
     offset: 4,
   },
 };
+
 const columns = [
 
   {
@@ -35,38 +38,55 @@ const columns = [
     dataIndex: 'website',
     key: 'website',
   },
- 
+  {
+    title: 'Action',
+    key: 'action',
+    render: (record) => (
+      <span >
+        <a onClick={() => {
+          console.log(record.key);
+          window.location.href = `http://localhost:8000/company/update?id=${record.key}`;
+
+
+        }}
+        >Update</a>
+
+      </span>
+    ),
+  },
+
 ];
 
-
-const success = () => {
-  message.success('Tạo Company thành công');
-};
-
-
 class App extends React.Component {
-  state = {
 
-    visible: false,
-    confirmLoading: false,
-  };
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      props: props,
+      
+    };
+
+  }
 
   showModal = () => {
-    this.setState({
-      visible: true,
+    this.state.props.dispatch({
+      type: 'company/modalHandle',
+      payload: true,
     });
   };
 
-
   handleCancel = () => {
-   
-    this.setState({
-      visible: false,
+
+    this.props.dispatch({
+      type: 'company/modalHandle',
+      payload: false,
     });
   };
 
   render() {
-    const { visible, confirmLoading } = this.state;
+    const visible = this.props.company.visible;
+  
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
@@ -76,44 +96,40 @@ class App extends React.Component {
           title="Create Company"
           visible={visible}
           footer={null}
-          confirmLoading={confirmLoading}
+         
           onCancel={this.handleCancel}
         >
 
           <Create />
         </Modal>
-        <ListCompany/>
+        <ListCompany />
       </div>
-     
+
     );
   }
 }
 
-
-const validateMessages  = (label) => ({
+const validateMessages = (label) => ({
   required: `${label} is required!`,
 
 });
 
-
-const ListCompany = connect(({ company }) => ({
+const ListCompany = connect(({ company, loading }) => ({
   company,
+  loading: loading.effects['company/loadData'],
 }))(function (props) {
- 
+
   useMount(() => {
     props.dispatch({
       type: 'company/loadData',
     });
+
   });
 
-
   return (
-    <Table pagination={false} columns={columns} dataSource={props.company.companyInfo}></Table>
+    <Table bordered={true} loading={props.loading} pagination={true} columns={columns} dataSource={props.company.companyInfo}></Table>
   );
 });
-
-
-
 
 const Create = connect(({ company, loading }) => ({
   company,
@@ -129,39 +145,25 @@ const Create = connect(({ company, loading }) => ({
 
   const createDetail = () => {
 
-    const company = form.getFieldValue('user');
-  
+    const company = form.getFieldValue('company');
+
     history.push({
-      pathname: '/company/create',
+      pathname: "/company/create",
       state: {
-        company,
-      },
+        name: company.name,
+        website: company.website,
+      }
+
     });
 
   };
- 
-  useEffect(() => {
-    if (!props.company) {
-      return;
-    }
-  
-    if (props.company.createStatus === 0 ) {
-      success();
-      window.location.reload();
-      // props.dispatch({
-      //   type: 'companyAndupdate/changeStatus',
-      // });
-
-    }
-
-  }, [props.company]);
-
 
   return (
     <Form {...layout} form={form} name="nest-messages" onFinish={onFinish} validateMessages={validateMessages}>
       <Form.Item
-        name={['user', 'name']}
+        name={['company', 'name']}
         label="Name"
+        initialValue=""
         rules={[
           {
             required: true,
@@ -172,7 +174,12 @@ const Create = connect(({ company, loading }) => ({
       </Form.Item>
 
 
-      <Form.Item name={['user', 'website']} label="Website">
+      <Form.Item
+        name={['company', 'website']}
+        label="Website"
+        initialValue=""
+      >
+
         <Input />
       </Form.Item>
 
@@ -190,16 +197,13 @@ const Create = connect(({ company, loading }) => ({
           Submit
         </Button>
 
-
-
-
       </Form.Item>
 
     </Form>
   );
 });
 
-
-
-export default App;
+export default connect(({ company }) => ({
+  company,
+}))(App);
 
