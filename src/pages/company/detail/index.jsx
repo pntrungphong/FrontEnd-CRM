@@ -1,22 +1,26 @@
-import { Card, Descriptions, Divider, Tag, Avatar } from 'antd';
+import { Card, Descriptions, Spin, Divider, Avatar } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect } from 'umi';
 import { one, two, three, five } from './style.less';
 
-class ContactDetail extends Component {
+class CompanyDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'contactModel/loadInfo',
+      type: 'company/loading',
+      payload: { id: this.props.location.query.id },
     });
   }
 
   render() {
-    const { contactModel } = this.props;
+    const { company } = this.props;
+    if (company.data === undefined) {
+      return <Spin />;
+    }
     return (
-      <PageHeaderWrapper title="Contact Details/">
+      <PageHeaderWrapper title="Company Details">
         <Card bordered="true">
           <div className={one}>
             <Avatar size={64} icon={<UserOutlined />} />
@@ -24,49 +28,43 @@ class ContactDetail extends Component {
           <Divider className={two} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Name">
-              {contactModel.name}
+              {company.data.name}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Email">
-              {contactModel.email}
+              {company.data.email}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
-              <Tag>{contactModel.tag}</Tag>
+              h
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Website">
-              {contactModel.website}
+              {company.data.website}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Address">
-              {contactModel.address}
+              {company.data.address}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Url">
-              {contactModel.url}
+              {company.data.url}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
-          <Descriptions bordered>
+          <Descriptions bordered className={three}>
             <Descriptions.Item className={five} span={3} label="Phone">
-              {contactModel.phone}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Company">
-              {contactModel.company}
+              {company.data.phone}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -76,7 +74,7 @@ class ContactDetail extends Component {
   }
 }
 
-export default connect(({ contactModel, loading }) => ({
-  contactModel,
-  loading: loading.effects['contactModel/loadInfo'],
-}))(ContactDetail);
+export default connect(({ company, loading }) => ({
+  company,
+  querying: loading.effects['company/loading'],
+}))(CompanyDetail);

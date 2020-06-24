@@ -27,6 +27,14 @@ export default [
             component: 'company/update',
           },
           {
+            path: '/company/detail',
+            component: 'company/detail',
+          },
+          {
+            path: '/contact/detail',
+            component: 'contact/detail',
+          },
+          {
             path: '/company/create',
             component: 'company/create',
           },

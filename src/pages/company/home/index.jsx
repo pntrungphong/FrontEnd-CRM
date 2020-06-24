@@ -44,20 +44,36 @@ const columns = [
     title: 'Action',
     key: 'action',
     render: (record) => (
-      <span>
-        <a
-          onClick={() => {
-            history.push({
-              pathname: '/company/update',
-              query: {
-                id: record.id,
-              },
-            });
-          }}
-        >
-          Update
-        </a>
-      </span>
+      <ul>
+        <li>
+          <a
+            onClick={() => {
+              history.push({
+                pathname: '/company/update',
+                query: {
+                  id: record.id,
+                },
+              });
+            }}
+          >
+            Update
+          </a>
+        </li>
+        <li>
+          <a
+            onClick={() => {
+              history.push({
+                pathname: '/company/detail',
+                query: {
+                  id: record.id,
+                },
+              });
+            }}
+          >
+            Detail
+          </a>
+        </li>
+      </ul>
     ),
   },
 ];
