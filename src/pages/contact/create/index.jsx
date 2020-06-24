@@ -1,7 +1,6 @@
 import { Form, Input, Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-
 import styles from './style.less';
 
 const layout = {
@@ -11,23 +10,23 @@ const layout = {
 const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
-const Create = connect(({ company, loading }) => ({
-  company,
-  submitting: loading.effects['company/fullCreate'],
+
+const Create = connect(({ contact, loading }) => ({
+  contact,
+  submitting: loading.effects['contact/fullCreate'],
 }))(function (props) {
   const onFinish = (values) => {
     props.dispatch({
-      type: 'company/fullCreate',
+      type: 'contact/fullCreate',
       payload: { ...values },
     });
   };
-
   const [form] = Form.useForm();
 
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2> Create company</h2>
+        <h2> Create contact</h2>
       </div>
 
       <Form
@@ -38,7 +37,7 @@ const Create = connect(({ company, loading }) => ({
         validateMessages={validateMessages}
       >
         <Form.Item
-          name={['company', 'name']}
+          name={['contact', 'name']}
           label="Name"
           initialValue={props.location.state === undefined ? '' : props.location.state.name}
           rules={[
@@ -50,27 +49,31 @@ const Create = connect(({ company, loading }) => ({
           <Input />
         </Form.Item>
         <Form.Item
-          name={['company', 'website']}
-          label="Website"
-          initialValue={props.location.state === undefined ? '' : props.location.state.website}
+          name={['contact', 'phone']}
+          label="Phone"
+          initialValue={props.location.state === undefined ? '' : props.location.state.phone}
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'phone']} label="Phone">
+
+        <Form.Item name={['contact', 'email']} label="Email">
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'address']} label="Address">
+
+        <Form.Item name={['contact', 'website']} label="Website">
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'tag']} label="Tag">
+
+        <Form.Item name={['contact', 'address']} label="Address">
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'email']} label="Email">
+        <Form.Item name={['contact   ', 'tag']} label="Tag">
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'url']} label="URL">
+        <Form.Item name={['contact', 'referral']} label="Referral">
           <Input />
         </Form.Item>
+
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Submit

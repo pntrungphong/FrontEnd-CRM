@@ -2,7 +2,6 @@ export default [
   {
     path: '/',
     component: '../layouts/BlankLayout',
-
     routes: [
       {
         path: '/login',
@@ -16,6 +15,7 @@ export default [
       },
       {
         Routes: ['src/pages/Authorized'],
+        component: '../layouts/BasicLayout',
         authority: ['admin', '', 'user', 'USER'],
         routes: [
           {
@@ -31,26 +31,17 @@ export default [
             component: 'company/create',
           },
           {
-            path: '/company/detail',
-            component: 'details/contactDetail',
+            path: '/contact/',
+            component: 'contact/home',
           },
-
-          // {
-          //     path: '/contact/',
-          //     component: 'contact/home',
-          // },
-          // {
-          //     path: '/contact/update',
-          //     component: 'contact/update',
-          // },
-          // {
-          //     path: '/contact/create',
-          //     component: 'contact/create',
-          // },
-          // {
-          //     path:'/company/detail',
-          //     component:'details/companyDetail'
-          // }
+          {
+            path: '/contact/update',
+            component: 'contact/update',
+          },
+          {
+            path: '/contact/create',
+            component: 'contact/create',
+          },
         ],
       },
     ],
