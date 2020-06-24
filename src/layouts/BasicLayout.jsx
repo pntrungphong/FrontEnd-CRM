@@ -20,7 +20,7 @@ const noMatch = (
     subTitle="Sorry, you are not authorized to access this page."
     extra={
       <Button type="primary">
-        <Link to="/user/login">Go Login</Link>
+        <Link to="/login">Go Login</Link>
       </Button>
     }
   />
@@ -93,11 +93,7 @@ const BasicLayout = (props) => {
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps) => {
           const { name } = menuItemProps;
-          const customDom = (
-            <span className={styles.antMenuItemInner}>
-              {name}
-            </span>
-          )
+          const customDom = <span className={styles.antMenuItemInner}>{name}</span>;
           if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {
             return customDom;
           }

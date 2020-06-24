@@ -5,6 +5,7 @@
 import { extend } from 'umi-request';
 import { notification } from 'antd';
 import api from '../../config/api';
+import { getToken } from './authority';
 
 const { REACT_APP_ENV } = process.env;
 
@@ -13,9 +14,13 @@ const { REACT_APP_ENV } = process.env;
  */
 
 const errorHandler = (error) => {
-  const { response } = error;
-
-  if (response && response.status) {
+  const { response, data } = error;
+  if (data && data.statusCode) {
+    notification.error({
+      message: `${data.message}`,
+      description: data.error,
+    });
+  } else if (response && response.status) {
     const errorText = response.statusText;
     const { status, url } = response;
     notification.error({
@@ -35,10 +40,14 @@ const errorHandler = (error) => {
 /**
  * request
  */
-
+const token = getToken();
 const request = extend({
   prefix: api[REACT_APP_ENV || 'dev'].baseUrl,
   errorHandler,
-  credentials: 'include', // Default send cookie
+  headers: {
+    'Content-Type': 'application/json',
+    Authorization: `Bearer ${token}`,
+  },
+  // credentials: 'include', // Default send cookie
 });
 export default request;
