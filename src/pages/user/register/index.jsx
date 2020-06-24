@@ -351,7 +351,7 @@ const Register = ({ submitting, dispatch, userAndregister }) => {
           >
             <FormattedMessage id="userandregister.register.register" />
           </Button>
-          <Link className={styles.login} to="/user/login">
+          <Link className={styles.login} to="/login">
             <FormattedMessage id="userandregister.register.sign-in" />
           </Link>
         </FormItem>

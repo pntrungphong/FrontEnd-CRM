@@ -1,6 +1,6 @@
 export default {
   dev: {
-    baseUrl: 'http://api-harmonia.geekup.io/auth/login',
+    baseUrl: 'http://localhost:3000',
   },
   test: {
     baseUrl: 'http://localhost:8000',
