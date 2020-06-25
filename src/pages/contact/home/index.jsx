@@ -31,14 +31,14 @@ const columns = [
     key: 'phone',
   },
   {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-  },
-  {
     title: 'Website',
     dataIndex: 'website',
     key: 'website',
+  },
+  {
+    title: 'Email',
+    dataIndex: 'email',
+    key: 'email',
   },
   {
     title: 'Action',
@@ -48,7 +48,7 @@ const columns = [
         <a
           onClick={() => {
             history.push({
-              pathname: '/company/update',
+              pathname: '/contact/update',
               query: {
                 id: record.id,
               },
@@ -73,30 +73,29 @@ class App extends React.Component {
 
   showModal = () => {
     this.state.props.dispatch({
-      type: 'company/handleCreateModal',
+      type: 'contact/handleCreateModal',
       payload: true,
     });
   };
 
   handleCancel = () => {
     this.props.dispatch({
-      type: 'company/handleCreateModal',
+      type: 'contact/handleCreateModal',
       payload: false,
     });
   };
 
   render() {
-    const { visible } = this.props.company;
-
+    const { visible } = this.props.contact;
     return (
       <div>
         <Button type="primary" onClick={this.showModal}>
-          Create Company
+          Create Contact
         </Button>
-        <Modal title="Create Company" visible={visible} footer={null} onCancel={this.handleCancel}>
+        <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
           <Create />
         </Modal>
-        <ListCompany />
+        <ListContact />
       </div>
     );
   }
@@ -106,13 +105,13 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-const ListCompany = connect(({ company, loading }) => ({
-  company,
-  loading: loading.effects['company/loadListCompany'],
+const ListContact = connect(({ contact, loading }) => ({
+  contact,
+  loading: loading.effects['contact/loadListContact'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'company/loadListCompany',
+      type: 'contact/loadListContact',
     });
   });
 
@@ -123,31 +122,33 @@ const ListCompany = connect(({ company, loading }) => ({
       pagination
       columns={columns}
       rowKey="id"
-      dataSource={props.company.companyInfo}
+      dataSource={props.contact.contactInfo}
     />
   );
 });
 
-const Create = connect(({ company, loading }) => ({
-  company,
-  submitting: loading.effects['company/create'],
+const Create = connect(({ contact, loading }) => ({
+  contact,
+  submitting: loading.effects['contact/create'],
 }))(function (props) {
   const [form] = Form.useForm();
+
   const onFinish = (values) => {
+    console.table(values);
     props.dispatch({
-      type: 'company/create',
+      type: 'contact/create',
       payload: { ...values },
     });
   };
 
   const createDetail = () => {
-    const company = form.getFieldValue('company');
+    const contact = form.getFieldValue('contact');
 
     history.push({
-      pathname: '/company/create',
+      pathname: '/contact/create',
       state: {
-        name: company.name,
-        website: company.website,
+        name: contact.name,
+        phone: contact.phone,
       },
     });
   };
@@ -161,7 +162,7 @@ const Create = connect(({ company, loading }) => ({
       validateMessages={validateMessages}
     >
       <Form.Item
-        name={['company', 'name']}
+        name={['contact', 'name']}
         label="Name"
         initialValue=""
         rules={[
@@ -173,7 +174,7 @@ const Create = connect(({ company, loading }) => ({
         <Input />
       </Form.Item>
 
-      <Form.Item name={['company', 'website']} label="Website" initialValue="">
+      <Form.Item name={['contact', 'phone']} label="Phone" initialValue="">
         <Input />
       </Form.Item>
 
@@ -195,6 +196,6 @@ const Create = connect(({ company, loading }) => ({
   );
 });
 
-export default connect(({ company }) => ({
-  company,
+export default connect(({ contact }) => ({
+  contact,
 }))(App);

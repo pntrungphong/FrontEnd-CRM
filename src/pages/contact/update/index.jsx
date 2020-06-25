@@ -8,43 +8,44 @@ const layout = {
   labelCol: { span: 8 },
   wrapperCol: { span: 16 },
 };
-
 const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-const Update = connect(({ company, loading }) => ({
-  company,
-  submitting: loading.effects['company/update'],
-  querying: loading.effects['company/loading'],
+const Update = connect(({ contact, loading }) => ({
+  contact,
+  submitting: loading.effects['contact/create'],
+  querying: loading.effects['contact/loading'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'company/loading',
+      type: 'contact/loading',
       payload: { id: props.location.query.id },
     });
   });
+
   useUnmount(() => {
     props.dispatch({
-      type: 'company/cleanData',
+      type: 'contact/cleanData',
     });
   });
+
   const onFinish = (values) => {
     props.dispatch({
-      type: 'company/update',
+      type: 'contact/update',
       payload: { ...values, id: props.location.query.id },
     });
-    // console.log(props.submitting);
   };
   const [form] = Form.useForm();
 
-  if (props.company.data === undefined) {
+  if (props.contact.data === undefined) {
     return <Spin />;
   }
+
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2> Update company </h2>
+        <h2> Update company</h2>
       </div>
 
       <Form
@@ -55,9 +56,9 @@ const Update = connect(({ company, loading }) => ({
         validateMessages={validateMessages}
       >
         <Form.Item
-          name={['company', 'name']}
+          name={['contact', 'name']}
           label="Name"
-          initialValue={props.company.data.name}
+          initialValue={props.contact.data.name}
           rules={[
             {
               required: true,
@@ -66,40 +67,42 @@ const Update = connect(({ company, loading }) => ({
         >
           <Input />
         </Form.Item>
+
         <Form.Item
-          name={['company', 'website']}
+          name={['contact', 'website']}
           label="Website"
-          initialValue={props.company.data.website}
+          initialValue={props.contact.data.website}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={['company', 'phone']}
-          label="Phone"
-          initialValue={props.company.data.phone}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={['company', 'email']}
+          name={['contact', 'email']}
           label="Email"
-          initialValue={props.company.data.email}
+          initialValue={props.contact.data.email}
         >
           <Input />
         </Form.Item>
         <Form.Item
-          name={['company', 'address']}
-          label="Address"
-          initialValue={props.company.data.address}
+          name={['contact', 'phone']}
+          label="Phone"
+          initialValue={props.contact.data.phone}
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'tag']} label="Tag">
+        <Form.Item
+          name={['contact', 'address']}
+          label="Address"
+          initialValue={props.contact.data.address}
+        >
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'url']} label="URL" initialValue={props.company.data.url}>
+        <Form.Item name={['contact', 'tag']} label="Tag">
           <Input />
         </Form.Item>
+        <Form.Item name={['contact', 'url']} label="URL" initialValue={props.contact.data.url}>
+          <Input />
+        </Form.Item>
+
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Submit
