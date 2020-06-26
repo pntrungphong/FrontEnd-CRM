@@ -105,13 +105,14 @@ class App extends React.Component {
     const { visible } = this.props.contact;
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
-          Create Contact
-        </Button>
+
         <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
           <Create />
         </Modal>
         <ListContact />
+        <Button type="primary" onClick={this.showModal} >
+          Create Contact
+        </Button>
       </div>
     );
   }
@@ -133,6 +134,7 @@ const ListContact = connect(({ contact, loading }) => ({
 
   return (
     <Table
+
       bordered
       loading={props.loading}
       pagination

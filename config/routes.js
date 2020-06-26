@@ -20,6 +20,7 @@ export default [
         routes: [
           {
             path: '/company',
+            name: 'company',
             component: 'company/home',
           },
           {
@@ -40,6 +41,7 @@ export default [
           },
           {
             path: '/contact/',
+            name: 'contact',
             component: 'contact/home',
           },
           {

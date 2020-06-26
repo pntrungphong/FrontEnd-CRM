@@ -27,7 +27,7 @@ const Create = connect(({ company, loading }) => ({
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2> Create company</h2>
+        <h2 className={styles.title}> Create company</h2>
       </div>
 
       <Form
