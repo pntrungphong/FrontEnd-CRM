@@ -44,7 +44,7 @@ const Update = connect(({ company, loading }) => ({
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2> Update company </h2>
+        <h2 className={styles.title}> Update company </h2>
       </div>
 
       <Form

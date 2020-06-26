@@ -76,15 +76,15 @@ const BasicLayout = (props) => {
     <>
       <ProLayout
         className={styles.antMenuCustom}
-        logo="Logo"
+        // logo="Logo"
         formatMessage={formatMessage}
-        menuHeaderRender={(logoDom, titleDom) => (
+        menuHeaderRender={(logoDom) => (
           <>
             <Link className={styles.logo} to="/">
               {logoDom}
             </Link>
             <div className={styles.splitter} />
-            <div className={styles.title}>{titleDom}</div>
+            <div className={styles.titleOne}>HARMONICA</div>
             {/* <Button type="primary" className="btn-logout">
               Logout
             </Button> */}
@@ -114,8 +114,8 @@ const BasicLayout = (props) => {
           return first ? (
             <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
           ) : (
-            <span>{route.breadcrumbName}</span>
-          );
+              <span>{route.breadcrumbName}</span>
+            );
         }}
         menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
