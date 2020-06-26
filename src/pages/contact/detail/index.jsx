@@ -46,7 +46,9 @@ class ContactDetail extends Component {
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Website">
-              {contact.data.website}
+              {contact.data.website.map((item) => {
+                return <Tag key={item.url}>item.url.toUpperCase()</Tag>;
+              })}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />

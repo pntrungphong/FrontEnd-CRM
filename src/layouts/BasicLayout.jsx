@@ -85,9 +85,9 @@ const BasicLayout = (props) => {
             </Link>
             <div className={styles.splitter} />
             <div className={styles.title}>{titleDom}</div>
-            <Button type="primary" className="btn-logout">
+            {/* <Button type="primary" className="btn-logout">
               Logout
-            </Button>
+            </Button> */}
           </>
         )}
         onCollapse={handleMenuCollapse}

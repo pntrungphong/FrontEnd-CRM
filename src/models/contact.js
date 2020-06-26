@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { history } from 'umi';
+
 import {
   createContact,
   getContact,
@@ -7,6 +8,7 @@ import {
   getContactById,
   fullCreateContact,
 } from '../services/contact';
+import { getCompanyByName } from '../services/company';
 
 const Model = {
   namespace: 'contact',
@@ -14,6 +16,8 @@ const Model = {
     visible: false,
     contactInfo: undefined,
     data: undefined,
+    listCompany: [],
+    searchValue: [],
   },
   effects: {
     *create({ payload }, { call, put }) {
@@ -30,13 +34,26 @@ const Model = {
         type: 'loadListContact',
       });
     },
+    *searchCompanyByName({ payload }, { call, put }) {
+      if (payload.value === '') return;
+      const response = yield call(getCompanyByName, payload.value);
+
+      if (response != null) {
+        yield put({
+          type: 'saveListCompany',
+          payload: response.data,
+        });
+      }
+    },
     *loadListContact(_, { call, put }) {
       const response = yield call(getContact);
-
-      yield put({
-        type: 'saveCompanyInfo',
-        payload: response.data,
-      });
+      console.table(response.data);
+      if (response != null) {
+        yield put({
+          type: 'saveContactInfo',
+          payload: response.data,
+        });
+      }
     },
     *fullCreate({ payload }, { call }) {
       // const response =
@@ -72,11 +89,17 @@ const Model = {
     cleanData(state) {
       return { ...state, data: undefined };
     },
+    saveListCompany(state, { payload }) {
+      return { ...state, listCompany: payload };
+    },
     handleCreateModal(state, { payload }) {
       return { ...state, visible: payload };
     },
+    handleSearchChange(state, { payload }) {
+      return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
+    },
 
-    saveCompanyInfo(state, { payload }) {
+    saveContactInfo(state, { payload }) {
       return { ...state, contactInfo: payload };
     },
   },

@@ -20,7 +20,7 @@ export async function createCompany(params) {
 }
 
 export async function getCompany() {
-  return request('/company?order=DESC&page=1&take=50', {
+  return request('/company?order=ASC&page=1&take=50', {
     method: 'GET',
   });
 }
@@ -44,6 +44,13 @@ export async function updateCompany(params) {
 }
 export async function getCompanyById(params) {
   return request(`/company/${params.id}`, {
+    method: 'GET',
+  });
+}
+
+export async function getCompanyByName(params) {
+  console.log(params);
+  return request(`/company?order=ASC&page=1&take=10&q=${params}`, {
     method: 'GET',
   });
 }

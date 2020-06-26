@@ -9,7 +9,7 @@ export async function createContact(params) {
     website: '',
   };
 
-  return request('/contacts', {
+  return request('/contact', {
     method: 'POST',
     data: body,
   });
@@ -24,35 +24,42 @@ export async function updateContact(params) {
     website: `${params.contact.website}`,
   };
 
-  return request(`/contacts/${params.id}`, {
+  return request(`/contact/${params.id}`, {
     method: 'PUT',
     data: body,
   });
 }
 
 export async function getContactById(params) {
-  return request(`/contacts/${params.id}`, {
+  return request(`/contact/${params.id}`, {
     method: 'GET',
   });
 }
 
 export async function fullCreateContact(params) {
+  const company = [];
+  params.contact.company.forEach((element) => {
+    company.push(element.key);
+  });
+
   const body = {
     name: `${params.contact.name}`,
     phone: `${params.contact.phone}`,
     address: `${params.contact.address}`,
+    company,
     email: `${params.contact.email}`,
     website: `${params.contact.website}`,
   };
+  console.table(body);
 
-  return request('/contacts', {
-    method: 'POST',
-    data: body,
-  });
+  // return request('/contact', {
+  //     method: 'POST',
+  //     data: body,
+  // });
 }
 
 export async function getContact() {
-  return request('/contacts?order=ASC&page=1&take=50', {
+  return request('/contact?order=ASC&page=1&take=50', {
     method: 'GET',
   });
 }

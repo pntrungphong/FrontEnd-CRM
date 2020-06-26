@@ -41,7 +41,6 @@ const Model = {
     },
     *loadListCompany(_, { call, put }) {
       const response = yield call(getCompany);
-
       yield put({
         type: 'saveCompanyInfo',
         payload: response.data,

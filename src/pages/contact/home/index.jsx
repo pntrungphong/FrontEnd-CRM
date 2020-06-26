@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Table, Button } from 'antd';
+import { Modal, Tag, Form, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -24,21 +24,49 @@ const columns = [
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+    render: (address) => (
+      <>
+        {address.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
+    render: (phone) => (
+      <>
+        {phone.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Website',
     dataIndex: 'website',
     key: 'website',
+    render: (website) => (
+      <>
+        {website.map((item) => {
+          return <Tag key={item}>{item.url.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
+    render: (email) => (
+      <>
+        {email.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Action',
@@ -91,6 +119,9 @@ class App extends React.Component {
     this.state.props.dispatch({
       type: 'contact/handleCreateModal',
       payload: true,
+    });
+    this.state.props.dispatch({
+      type: 'contact/searchCompanyByName',
     });
   };
 
