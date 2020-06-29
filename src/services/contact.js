@@ -3,10 +3,11 @@ import request from '../utils/request';
 export async function createContact(params) {
   const body = {
     name: `${params.contact.name}`,
-    phone: `${params.contact.phone}`,
-    address: '',
-    email: '1@abc.com',
-    website: '',
+    phone: [`${params.contact.phone}`],
+    address: [''],
+    email: [''],
+    company: [''],
+    website: [''],
   };
 
   return request('/contact', {
@@ -32,12 +33,6 @@ export async function updateContact(params) {
 
 export async function getContactById(params) {
   return request(`/contact/${params.id}`, {
-    method: 'GET',
-  });
-}
-
-export async function getContactByName(params) {
-  return request(`/contact?order=ASC&page=1&take=10&q=${params}`, {
     method: 'GET',
   });
 }
@@ -86,8 +81,13 @@ export async function fullCreateContact(params) {
   });
 }
 
-export async function getContact() {
-  return request('/contact?order=ASC&page=1&take=50', {
+export async function getContact(params) {
+  if (params.searchValue !== '') {
+    return request(`/contact?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+      method: 'GET',
+    });
+  }
+  return request(`/contact?order=ASC&page=${params.page}&take=10`, {
     method: 'GET',
   });
 }
