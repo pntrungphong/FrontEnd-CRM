@@ -7,6 +7,7 @@ import {
   updateContact,
   getContactById,
   fullCreateContact,
+  getContactByName,
 } from '../services/contact';
 import { getCompanyByName } from '../services/company';
 
@@ -41,6 +42,18 @@ const Model = {
       if (response != null) {
         yield put({
           type: 'saveListCompany',
+          payload: response.data,
+        });
+      }
+    },
+    *searchContactByName({ payload }, { call, put }) {
+      if (payload.value === '') return;
+
+      const response = yield call(getContactByName, payload);
+
+      if (response != null) {
+        yield put({
+          type: 'saveContactInfo',
           payload: response.data,
         });
       }

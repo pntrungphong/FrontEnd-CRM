@@ -27,7 +27,7 @@ const Model = {
       message.success('Tạo Company thành công');
 
       yield put({
-        type: 'loadListUser',
+        type: 'loadListCompany',
       });
     },
     *fullCreate({ payload }, { call }) {

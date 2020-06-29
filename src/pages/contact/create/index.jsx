@@ -3,13 +3,12 @@ import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import styles, { one } from './style.less';
-
+import styles from './style.less';
 
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
-    sm: { span: 4 },
+    sm: { span: 8 },
   },
   wrapperCol: {
     xs: { span: 24 },
@@ -22,8 +21,6 @@ const formItemLayoutWithOutLabel = {
     sm: { span: 20, offset: 4 },
   },
 };
-
-
 
 const layout = {
   labelCol: { span: 8 },
@@ -45,10 +42,10 @@ class Create extends React.Component {
   onFinish = (values) => {
     console.table(values);
 
-    // this.props.dispatch({
-    //   type: 'contact/fullCreate',
-    //   payload: { ...values },
-    // });
+    this.props.dispatch({
+      type: 'contact/fullCreate',
+      payload: { ...values },
+    });
   };
 
   fetchUser = (value) => {
@@ -120,7 +117,6 @@ class Create extends React.Component {
           <Form.Item
             name={['contact', 'name']}
             label="Name"
-          
             rules={[
               {
                 required: true,
@@ -129,126 +125,42 @@ class Create extends React.Component {
           >
             <Input />
           </Form.Item>
-          <Form.Item
-            name={['contact', 'phone']}
-            label="Phone"
-           
-          >
-            <Input />
-          </Form.Item>
 
-          <Form.Item name={['contact', 'email']} label="Email">
-            <Input />
-          </Form.Item>
-          <Form className={one}
-           
-            {...formItemLayoutWithOutLabel}
-
-          >
-
-            <Form.List name="names">
+          <div className={styles.one} {...formItemLayoutWithOutLabel}>
+            <Form.List name={['contact', 'phone']}>
               {(fields, { add, remove }) => {
                 return (
-                  <div >
-                    {fields.map((field, index) => (
-                      <Form.Item
-                        {...(index === 0
-                          ? formItemLayout
-                          : formItemLayoutWithOutLabel)}
-                        label={index === 0 ? "Phone" : ""}
-                        required={false}
-                        key={field.key}
-                      >
-                        <Form.Item
-                          {...field}
-                          validateTrigger={["onChange", "onBlur"]}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message:
-                                "Please input passenger's name or delete this field."
-                            }
-                          ]}
-                          noStyle
-                        >
-                          <Input
-                            placeholder="Your Phone"
-                            style={{ width: "60%" }}
-                          />
-                        </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: "0 8px" }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
-                      </Form.Item>
-                    ))}
-                    <Form.Item>
+                  <div>
+                    <Form.Item label="Phone" className={styles.two}>
                       <Button
                         type="dashed"
                         onClick={() => {
                           add();
                         }}
-                        style={{ width: "50%" }}
                       >
                         <PlusOutlined /> Add Phone
-                </Button>
+                      </Button>
                     </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Form>
-
-          {/* <Form.Item name={['contact', 'email']} label="Email">
-          <Input />
-        </Form.Item> */}
-          <Form className={one}
-            
-            {...formItemLayoutWithOutLabel}
-
-          >
-
-            <Form.List name="names">
-              {(fields, { add, remove }) => {
-                return (
-                  <div >
-                    {fields.map((field, index) => (
-                      <Form.Item
-                        {...(index === 0
-                          ? formItemLayout
-                          : formItemLayoutWithOutLabel)}
-                        label={index === 0 ? "Email" : ""}
-                        required={false}
-                        key={field.key}
-                      >
+                    {fields.map((field) => (
+                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
                         <Form.Item
                           {...field}
-                          validateTrigger={["onChange", "onBlur"]}
+                          validateTrigger={['onChange', 'onBlur']}
                           rules={[
                             {
                               required: true,
                               whitespace: true,
-                              message:
-                                "Please input passenger's name or delete this field."
-                            }
+                              message: "Please input passenger's name or delete this field.",
+                            },
                           ]}
                           noStyle
                         >
-                          <Input
-                            placeholder="Your Email"
-                            style={{ width: "60%" }}
-                          />
+                          <Input placeholder="Your Phone" style={{ width: '90%' }} />
                         </Form.Item>
                         {fields.length > 1 ? (
                           <MinusCircleOutlined
                             className="dynamic-delete-button"
-                            style={{ margin: "0 8px" }}
+                            style={{ margin: '0 8px' }}
                             onClick={() => {
                               remove(field.name);
                             }}
@@ -256,67 +168,53 @@ class Create extends React.Component {
                         ) : null}
                       </Form.Item>
                     ))}
-                    <Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
+          </div>
+
+          <div {...formItemLayoutWithOutLabel}>
+            <Form.List name={['contact', 'email']}>
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    <Form.Item label="Email">
                       <Button
                         type="dashed"
                         onClick={() => {
                           add();
                         }}
-                        style={{ width: "50%" }}
                       >
                         <PlusOutlined /> Add Email
-                </Button>
+                      </Button>
                     </Form.Item>
-                  </div>
-                );
-              }}
-            </Form.List>
-          </Form>
-          {/* <Form.Item name={['contact', 'website']} label="Website">
-
-          <Input />
-        </Form.Item> */}
-          <Form className={one}
-           
-            {...formItemLayoutWithOutLabel}
-
-          >
-
-            <Form.List name="names">
-              {(fields, { add, remove }) => {
-                return (
-                  <div >
-                    {fields.map((field, index) => (
+                    {fields.map((field) => (
                       <Form.Item
-                        {...(index === 0
-                          ? formItemLayout
-                          : formItemLayoutWithOutLabel)}
-                        label={index === 0 ? "Website" : ""}
+                        {...formItemLayout}
+                        className={styles.one}
                         required={false}
+                        label={' '}
                         key={field.key}
                       >
                         <Form.Item
                           {...field}
-                          validateTrigger={["onChange", "onBlur"]}
+                          validateTrigger={['onChange', 'onBlur']}
                           rules={[
                             {
                               required: true,
                               whitespace: true,
-                              message:
-                                "Please input passenger's name or delete this field."
-                            }
+                              message: "Please input passenger's name or delete this field.",
+                            },
                           ]}
                           noStyle
                         >
-                          <Input
-                            placeholder="URL Website"
-                            style={{ width: "60%" }}
-                          />
+                          <Input placeholder="Your Email" style={{ width: '90%' }} />
                         </Form.Item>
                         {fields.length > 1 ? (
                           <MinusCircleOutlined
                             className="dynamic-delete-button"
-                            style={{ margin: "0 8px" }}
+                            style={{ margin: '0 8px' }}
                             onClick={() => {
                               remove(field.name);
                             }}
@@ -324,30 +222,114 @@ class Create extends React.Component {
                         ) : null}
                       </Form.Item>
                     ))}
-                    <Form.Item>
+                  </div>
+                );
+              }}
+            </Form.List>
+          </div>
+
+          <div className={styles.one} {...formItemLayoutWithOutLabel}>
+            <Form.List name={['contact', 'website']}>
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    <Form.Item label="Website">
                       <Button
                         type="dashed"
                         onClick={() => {
                           add();
                         }}
-                        style={{ width: "50%" }}
                       >
                         <PlusOutlined /> Add Website
-                </Button>
+                      </Button>
                     </Form.Item>
+                    {fields.map((field) => (
+                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
+                        <Form.Item
+                          {...field}
+                          validateTrigger={['onChange', 'onBlur']}
+                          rules={[
+                            {
+                              required: true,
+                              whitespace: true,
+                              message: "Please input passenger's name or delete this field.",
+                            },
+                          ]}
+                          noStyle
+                        >
+                          <Input placeholder="URL Website" style={{ width: '80%' }} />
+                        </Form.Item>
+                        {fields.length > 1 ? (
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            style={{ margin: '0 8px' }}
+                            onClick={() => {
+                              remove(field.name);
+                            }}
+                          />
+                        ) : null}
+                      </Form.Item>
+                    ))}
                   </div>
                 );
               }}
             </Form.List>
-          </Form>
+          </div>
 
+          <div className={styles.one} {...formItemLayoutWithOutLabel}>
+            <Form.List name={['contact', 'address']}>
+              {(fields, { add, remove }) => {
+                return (
+                  <div>
+                    <Form.Item label="Address">
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          add();
+                        }}
+                      >
+                        <PlusOutlined /> Add Address
+                      </Button>
+                    </Form.Item>
+                    {fields.map((field) => (
+                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
+                        <Form.Item
+                          {...field}
+                          validateTrigger={['onChange', 'onBlur']}
+                          rules={[
+                            {
+                              required: true,
+                              whitespace: true,
+                              message: "Please input passenger's name or delete this field.",
+                            },
+                          ]}
+                          noStyle
+                        >
+                          <Input placeholder="Address" style={{ width: '80%' }} />
+                        </Form.Item>
+                        {fields.length > 1 ? (
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            style={{ margin: '0 8px' }}
+                            onClick={() => {
+                              remove(field.name);
+                            }}
+                          />
+                        ) : null}
+                      </Form.Item>
+                    ))}
+                  </div>
+                );
+              }}
+            </Form.List>
+          </div>
 
-          <Form.Item name={['contact', 'address']} label="Address">
+          {/* <Form.Item name={['contact', 'address']} label="Address">
             <Input />
-          </Form.Item>
-          <Form.Item name={['contact', 'tag']} label="Tag">
+          </Form.Item> */}
+          {/* <Form.Item name={['contact', 'tag']} label="Tag">
             <Input />
-          </Form.Item>
+          </Form.Item> */}
           <Form.Item name={['contact', 'referral']} label="Referral">
             <Input />
           </Form.Item>
@@ -361,12 +343,12 @@ class Create extends React.Component {
                 this.props.fetching ? (
                   <Spin size="small" />
                 ) : (
-                    <p>
-                      <Button type="text" onClick={this.createCompany}>
-                        Create Company
+                  <p>
+                    <Button type="text" onClick={this.createCompany}>
+                      Create Company
                     </Button>
-                    </p>
-                  )
+                  </p>
+                )
               }
               filterOption={false}
               onSearch={this.fetchUser}
