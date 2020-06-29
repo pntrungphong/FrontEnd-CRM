@@ -1,7 +1,7 @@
 import { stringify } from 'querystring';
 import { history } from 'umi';
 import { login } from '@/services/login';
-import { setAuthority, setToken } from '@/utils/authority';
+import { setAuthority, setToken, removeToken } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
 
@@ -20,7 +20,7 @@ const Model = {
           payload: response,
         });
         const link = getRedirectLink();
-        window.location.replace(link || '/dashboard');
+        window.location.replace(link || '/');
       }
     },
 
@@ -33,9 +33,11 @@ const Model = {
             redirect: window.location.href,
           }),
         });
+        removeToken();
       }
     },
   },
+
   reducers: {
     changeLoginStatus(state, { payload }) {
       message.success('Đăng nhập thành công');

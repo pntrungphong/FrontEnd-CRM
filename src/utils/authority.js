@@ -39,3 +39,9 @@ export function getToken() {
 export function setToken(token) {
   localStorage.setItem('harmonia-token', token);
 }
+
+export function removeToken() {
+  localStorage.removeItem('harmonia-token');
+  localStorage.removeItem('harmonia-authority');
+}
+
