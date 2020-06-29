@@ -1,7 +1,9 @@
-import { Modal, Form, Input, Table, Button } from 'antd';
+import { Modal, Tag, Form, Row, Pagination, Col, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+
+const { Search } = Input;
 
 const layout = {
   labelCol: { span: 8 },
@@ -24,21 +26,49 @@ const columns = [
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+    render: (address) => (
+      <>
+        {address.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
+    render: (phone) => (
+      <>
+        {phone.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Website',
     dataIndex: 'website',
     key: 'website',
+    render: (website) => (
+      <>
+        {website.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
+    render: (email) => (
+      <>
+        {email.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Action',
@@ -101,16 +131,38 @@ class App extends React.Component {
     });
   };
 
+  onSearch = (value) => {
+    this.props.dispatch({
+      type: 'contact/searchContactByName',
+      payload: {
+        page: 1,
+        searchValue: value,
+      },
+    });
+  };
+
   render() {
     const { visible } = this.props.contact;
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
-          Create Contact
-        </Button>
         <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
           <Create />
         </Modal>
+        <Row>
+          <Col span={16}>
+            <Button type="primary" onClick={this.showModal}>
+              Create Contact
+            </Button>
+          </Col>
+          <Col span={8}>
+            <Search
+              placeholder="input search text"
+              enterButton="Search"
+              size="large"
+              onSearch={this.onSearch}
+            />
+          </Col>
+        </Row>
         <ListContact />
       </div>
     );
@@ -131,15 +183,28 @@ const ListContact = connect(({ contact, loading }) => ({
     });
   });
 
+  const onPaginitionChange = (page) => {
+    props.dispatch({
+      type: 'contact/loadListContact',
+      payload: {
+        page,
+        searchValue: props.contact.searchContactValue,
+      },
+    });
+  };
+
   return (
-    <Table
-      bordered
-      loading={props.loading}
-      pagination
-      columns={columns}
-      rowKey="id"
-      dataSource={props.contact.contactInfo}
-    />
+    <div>
+      <Table
+        bordered
+        loading={props.loading}
+        pagination={false}
+        columns={columns}
+        rowKey="id"
+        dataSource={props.contact.contactInfo}
+      />
+      <Pagination total={props.contact.itemCount} onChange={onPaginitionChange} />
+    </div>
   );
 });
 
@@ -150,7 +215,6 @@ const Create = connect(({ contact, loading }) => ({
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.table(values);
     props.dispatch({
       type: 'contact/create',
       payload: { ...values },

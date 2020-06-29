@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { history } from 'umi';
+
 import {
   createContact,
   getContact,
@@ -7,6 +8,7 @@ import {
   getContactById,
   fullCreateContact,
 } from '../services/contact';
+import { getCompanyByName } from '../services/company';
 
 const Model = {
   namespace: 'contact',
@@ -14,6 +16,10 @@ const Model = {
     visible: false,
     contactInfo: undefined,
     data: undefined,
+    searchContactValue: '',
+    itemCount: undefined,
+    listCompany: [],
+    searchValue: [],
   },
   effects: {
     *create({ payload }, { call, put }) {
@@ -30,13 +36,58 @@ const Model = {
         type: 'loadListContact',
       });
     },
-    *loadListContact(_, { call, put }) {
-      const response = yield call(getContact);
+    *searchCompanyByName({ payload }, { call, put }) {
+      if (payload.value === '') return;
+      const response = yield call(getCompanyByName, payload.value);
 
+      if (response != null) {
+        yield put({
+          type: 'saveListCompany',
+          payload: response.data,
+        });
+      }
+    },
+    *searchContactByName(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
+      if (payload.value === '') return;
       yield put({
-        type: 'saveCompanyInfo',
-        payload: response.data,
+        type: 'saveContactSearchValue',
+        payload: payload.searchValue,
       });
+      const response = yield call(getContact, payload);
+
+      if (response != null) {
+        yield put({
+          type: 'saveContactInfo',
+          payload: response,
+        });
+      }
+    },
+    *loadListContact(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
+      const response = yield call(getContact, payload);
+
+      console.table(response);
+      if (response != null) {
+        yield put({
+          type: 'saveContactInfo',
+          payload: response,
+        });
+      }
     },
     *fullCreate({ payload }, { call }) {
       // const response =
@@ -72,12 +123,25 @@ const Model = {
     cleanData(state) {
       return { ...state, data: undefined };
     },
+    saveListCompany(state, { payload }) {
+      return { ...state, listCompany: payload };
+    },
     handleCreateModal(state, { payload }) {
       return { ...state, visible: payload };
     },
-
-    saveCompanyInfo(state, { payload }) {
-      return { ...state, contactInfo: payload };
+    handleSearchChange(state, { payload }) {
+      return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
+    },
+    saveContactInfo(state, { payload }) {
+      return {
+        ...state,
+        contactInfo: payload.data,
+        itemCount: payload.meta.itemCount,
+        currentPage: payload.meta.page,
+      };
+    },
+    saveContactSearchValue(state, { payload }) {
+      return { ...state, searchContactValue: payload };
     },
   },
 };

@@ -113,6 +113,7 @@ class App extends React.Component {
           <Create />
         </Modal>
         <ListCompany />
+
       </div>
     );
   }

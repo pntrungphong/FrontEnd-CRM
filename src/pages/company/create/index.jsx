@@ -27,7 +27,7 @@ const Create = connect(({ company, loading }) => ({
   return (
     <div className={styles.main}>
       <div className={styles.header}>
-        <h2> Create company</h2>
+        <h2 className={styles.title}> Create company</h2>
       </div>
 
       <Form
@@ -71,11 +71,13 @@ const Create = connect(({ company, loading }) => ({
         <Form.Item name={['company', 'url']} label="URL">
           <Input />
         </Form.Item>
+
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Submit
           </Button>
         </Form.Item>
+        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} />
       </Form>
     </div>
   );

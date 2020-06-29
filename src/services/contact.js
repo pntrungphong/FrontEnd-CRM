@@ -3,13 +3,14 @@ import request from '../utils/request';
 export async function createContact(params) {
   const body = {
     name: `${params.contact.name}`,
-    phone: `${params.contact.phone}`,
-    address: '',
-    email: '1@abc.com',
-    website: '',
+    phone: [`${params.contact.phone}`],
+    address: [''],
+    email: [''],
+    company: [''],
+    website: [''],
   };
 
-  return request('/contacts', {
+  return request('/contact', {
     method: 'POST',
     data: body,
   });
@@ -24,35 +25,69 @@ export async function updateContact(params) {
     website: `${params.contact.website}`,
   };
 
-  return request(`/contacts/${params.id}`, {
+  return request(`/contact/${params.id}`, {
     method: 'PUT',
     data: body,
   });
 }
 
 export async function getContactById(params) {
-  return request(`/contacts/${params.id}`, {
+  return request(`/contact/${params.id}`, {
     method: 'GET',
   });
 }
 
 export async function fullCreateContact(params) {
+  const company = [];
+  params.contact.company.forEach((element) => {
+    company.push({
+      companyId: element.key,
+    });
+  });
+
+  const email = [];
+  if (params.contact.email !== undefined) {
+    params.contact.email.forEach((element) => {
+      email.push(element);
+    });
+  }
+
+  const phone = [];
+  if (params.contact.phone !== undefined) {
+    params.contact.phone.forEach((element) => {
+      phone.push(element);
+    });
+  }
+  const website = [];
+  if (params.contact.website !== undefined) {
+    params.contact.website.forEach((element) => {
+      website.push(element);
+    });
+  }
+
   const body = {
     name: `${params.contact.name}`,
-    phone: `${params.contact.phone}`,
-    address: `${params.contact.address}`,
-    email: `${params.contact.email}`,
-    website: `${params.contact.website}`,
+    phone,
+    address: ['string'],
+    company,
+    email,
+    website,
   };
+  console.table(body);
 
-  return request('/contacts', {
+  return request('/contact', {
     method: 'POST',
     data: body,
   });
 }
 
-export async function getContact() {
-  return request('/contacts?order=ASC&page=1&take=50', {
+export async function getContact(params) {
+  if (params.searchValue !== '') {
+    return request(`/contact?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+      method: 'GET',
+    });
+  }
+  return request(`/contact?order=ASC&page=${params.page}&take=10`, {
     method: 'GET',
   });
 }
