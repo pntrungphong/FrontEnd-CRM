@@ -37,6 +37,7 @@ export async function getContactById(params) {
 }
 
 export async function getContactByName(params) {
+  console.log(params);
   return request(`/contact?order=ASC&page=1&take=10&q=${params}`, {
     method: 'GET',
   });
@@ -47,6 +48,13 @@ export async function fullCreateContact(params) {
   params.contact.company.forEach((element) => {
     company.push({
       companyId: element.key,
+    });
+  });
+
+  const referral = [];
+  params.contact.referral.forEach((element) => {
+    referral.push({
+      idTarget: element.key,
     });
   });
 
@@ -77,6 +85,7 @@ export async function fullCreateContact(params) {
     company,
     email,
     website,
+    referral,
   };
   console.table(body);
 
