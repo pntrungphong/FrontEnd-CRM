@@ -45,6 +45,13 @@ export async function fullCreateContact(params) {
     });
   });
 
+  const referral = [];
+  params.contact.referral.forEach((element) => {
+    referral.push({
+      idTarget: element.key,
+    });
+  });
+
   const email = [];
   if (params.contact.email !== undefined) {
     params.contact.email.forEach((element) => {
@@ -72,6 +79,7 @@ export async function fullCreateContact(params) {
     company,
     email,
     website,
+    referral,
   };
   console.table(body);
 

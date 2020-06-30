@@ -36,7 +36,8 @@ class Create extends React.Component {
   constructor(props) {
     super(props);
     // this.lastFetchId = 0;
-    this.fetchUser = debounce(this.fetchUser, 1000);
+    this.fetchCompany = debounce(this.fetchCompany, 1000);
+    this.fetchContact = debounce(this.fetchContact, 1000);
   }
 
   onFinish = (values) => {
@@ -48,11 +49,7 @@ class Create extends React.Component {
     });
   };
 
-  fetchUser = (value) => {
-    console.log('fetching user', value);
-    // this.lastFetchId += 1;
-    // const fetchId = this.lastFetchId;
-
+  fetchCompany = (value) => {
     this.props.dispatch({
       type: 'contact/handleSearchChange',
       payload: { value: this.props.contact.searchValue, listCompany: [] },
@@ -64,9 +61,30 @@ class Create extends React.Component {
     });
   };
 
+  fetchContact = (value) => {
+    this.props.dispatch({
+      type: 'contact/handleSearchChangeContactReferral',
+      payload: { value: this.props.contact.searchValueContactReferral, contactInfo: [] },
+    });
+
+    this.props.dispatch({
+      type: 'contact/searchContactReferralByName',
+      payload: {
+        page: 1,
+        searchValue: value,
+      },
+    });
+  };
+
   createCompany = () => {
     history.push({
       pathname: '/company/create',
+    });
+  };
+
+  createContact = () => {
+    history.push({
+      pathname: '/contact/update',
     });
   };
 
@@ -77,30 +95,16 @@ class Create extends React.Component {
     });
   };
 
+  handleChangeContactReferral = (value) => {
+    this.props.dispatch({
+      type: 'contact/handleSearchChangeContactReferral',
+      payload: { value, contactInfo: [] },
+    });
+  };
+
   render() {
     const { searchValue, listCompany } = this.props.contact;
-    // const { getFieldDecorator } = this.props.form;
-    // const websiteSelector = getFieldDecorator("prefix", {
-
-    //   rules: [
-    //     {
-    //       required: true,
-    //       message: "Prefix is required"
-    //     }
-    //   ]
-    // })(
-    //   <Select defaultValue="Facebook"  >
-    //     <Option value="Facebook">Facebook</Option>
-    //     <Option value="Zalo">Zalo</Option>
-    //     <Option value="Website">Website</Option>
-    //     <Option value="Github">Github</Option>
-    //     <Option value="Gmail">Gmail</Option>
-    //     <Option value="Instagram">Instagram</Option>
-    //     <Option value="Linkedin">Linkedin</Option>
-    //     <Option value="Order">Order</Option>
-
-    //   </Select>
-    // );
+    const { searchValueContactReferral, contactInfo } = this.props.contact;
 
     return (
       <div className={styles.main}>
@@ -324,14 +328,31 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          {/* <Form.Item name={['contact', 'address']} label="Address">
-            <Input />
-          </Form.Item> */}
-          {/* <Form.Item name={['contact', 'tag']} label="Tag">
-            <Input />
-          </Form.Item> */}
           <Form.Item name={['contact', 'referral']} label="Referral">
-            <Input />
+            <Select
+              mode="multiple"
+              labelInValue
+              value={searchValueContactReferral}
+              placeholder="Select contact"
+              notFoundContent={
+                this.props.fetchingContact ? (
+                  <Spin size="small" />
+                ) : (
+                  <p>
+                    <Button type="text" onClick={this.createContact}>
+                      Create Contact
+                    </Button>
+                  </p>
+                )
+              }
+              filterOption={false}
+              onSearch={this.fetchContact}
+              onChange={this.handleChangeContactReferral}
+            >
+              {contactInfo.map((d) => (
+                <Option key={d.id}>{d.name}</Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name={['contact', 'company']} label="Company">
             <Select
@@ -340,7 +361,7 @@ class Create extends React.Component {
               value={searchValue}
               placeholder="Select company"
               notFoundContent={
-                this.props.fetching ? (
+                this.props.fetchingCompany ? (
                   <Spin size="small" />
                 ) : (
                   <p>
@@ -351,7 +372,7 @@ class Create extends React.Component {
                 )
               }
               filterOption={false}
-              onSearch={this.fetchUser}
+              onSearch={this.fetchCompany}
               onChange={this.handleChange}
             >
               {listCompany.map((d) => (
@@ -374,5 +395,6 @@ class Create extends React.Component {
 export default connect(({ contact, loading }) => ({
   contact,
   submitting: loading.effects['contact/fullCreate'],
-  fetching: loading.effects['contact/searchCompanyByName'],
+  fetchingCompany: loading.effects['contact/searchCompanyByName'],
+  fetchingContact: loading.effects['contact/searchContactReferralByName'],
 }))(Create);

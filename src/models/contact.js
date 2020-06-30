@@ -14,12 +14,13 @@ const Model = {
   namespace: 'contact',
   state: {
     visible: false,
-    contactInfo: undefined,
+    contactInfo: [],
     data: undefined,
     searchContactValue: '',
     itemCount: undefined,
     listCompany: [],
     searchValue: [],
+    searchValueContactReferral: [],
   },
   effects: {
     *create({ payload }, { call, put }) {
@@ -43,6 +44,17 @@ const Model = {
       if (response != null) {
         yield put({
           type: 'saveListCompany',
+          payload: response.data,
+        });
+      }
+    },
+    *searchContactReferralByName({ payload }, { call, put }) {
+      if (payload.value === '') return;
+      const response = yield call(getContact, payload);
+
+      if (response != null) {
+        yield put({
+          type: 'saveListContactReferral',
           payload: response.data,
         });
       }
@@ -126,11 +138,24 @@ const Model = {
     saveListCompany(state, { payload }) {
       return { ...state, listCompany: payload };
     },
+    saveListContact(state, { payload }) {
+      return { ...state, list: payload };
+    },
+    saveListContactReferral(state, { payload }) {
+      return { ...state, contactInfo: payload };
+    },
     handleCreateModal(state, { payload }) {
       return { ...state, visible: payload };
     },
     handleSearchChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
+    },
+    handleSearchChangeContactReferral(state, { payload }) {
+      return {
+        ...state,
+        searchValueContactReferral: payload.value,
+        contactInfo: payload.contactInfo,
+      };
     },
     saveContactInfo(state, { payload }) {
       return {
