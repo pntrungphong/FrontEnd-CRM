@@ -9,6 +9,7 @@ export default {
                 "address": 'test',
                 "email": " 'test'",
                 "phone": 'test',
+                "title": 'text',
                 "website": 'test',
                 "url": 'test',
                 "created_by": 'test',
