@@ -93,7 +93,7 @@ const Model = {
     ) {
       const response = yield call(getContact, payload);
 
-      console.table(response);
+     
       if (response != null) {
         yield put({
           type: 'saveContactInfo',
@@ -121,7 +121,6 @@ const Model = {
     },
     *loading({ payload }, { call, put }) {
       const response = yield call(getContactById, payload);
-
       yield put({
         type: 'loadContact',
         payload: response,
@@ -130,6 +129,7 @@ const Model = {
   },
   reducers: {
     loadContact(state, { payload }) {
+
       return { ...state, data: payload };
     },
     cleanData(state) {

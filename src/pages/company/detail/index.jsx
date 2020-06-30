@@ -1,8 +1,8 @@
-import { Card, Descriptions, Spin, Divider, Avatar } from 'antd';
+import { Card, Descriptions, Spin, Divider, Avatar,Tag} from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
-import { connect } from 'umi';
+import { connect,history } from 'umi';
 import { one, two, three, five } from './style.less';
 
 class CompanyDetail extends Component {
@@ -40,7 +40,8 @@ class CompanyDetail extends Component {
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
-              h
+              {company.data.tag}
+
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -48,6 +49,28 @@ class CompanyDetail extends Component {
             <Descriptions.Item className={five} span={3} label="Website">
               {company.data.website}
             </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Contact">
+              {company.data.contact.map((item) => {
+                return <>
+                  <Tag key={item.contactId}><a
+            onClick={() => {
+              history.push({
+                pathname: '/contact/detail',
+                query: {
+                  id: item.contactId,
+                },
+              });
+            }}
+          >
+            {item.contactId}
+          </a>
+          </Tag>,
+                </>;
+              })}
+          </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
@@ -62,12 +85,12 @@ class CompanyDetail extends Component {
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
-          <Descriptions bordered className={three}>
+          <Descriptions bordered >
             <Descriptions.Item className={five} span={3} label="Phone">
               {company.data.phone}
             </Descriptions.Item>
           </Descriptions>
-          <Divider className={three} />
+
         </Card>
       </PageHeaderWrapper>
     );
