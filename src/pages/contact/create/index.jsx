@@ -64,12 +64,15 @@ class Create extends React.Component {
   fetchContact = (value) => {
     this.props.dispatch({
       type: 'contact/handleSearchChangeContactReferral',
-      payload: { value: this.props.contact.searchValueContactReferral, listContactReferral: [] },
+      payload: { value: this.props.contact.searchValueContactReferral, contactInfo: [] },
     });
 
     this.props.dispatch({
       type: 'contact/searchContactReferralByName',
-      payload: { value },
+      payload: {
+        page: 1,
+        searchValue: value,
+      },
     });
   };
 
@@ -95,13 +98,13 @@ class Create extends React.Component {
   handleChangeContactReferral = (value) => {
     this.props.dispatch({
       type: 'contact/handleSearchChangeContactReferral',
-      payload: { value, listContactReferral: [] },
+      payload: { value, contactInfo: [] },
     });
   };
 
   render() {
     const { searchValue, listCompany } = this.props.contact;
-    const { searchValueContactReferral, listContactReferral } = this.props.contact;
+    const { searchValueContactReferral, contactInfo } = this.props.contact;
 
     return (
       <div className={styles.main}>
@@ -346,7 +349,7 @@ class Create extends React.Component {
               onSearch={this.fetchContact}
               onChange={this.handleChangeContactReferral}
             >
-              {listContactReferral.map((d) => (
+              {contactInfo.map((d) => (
                 <Option key={d.id}>{d.name}</Option>
               ))}
             </Select>

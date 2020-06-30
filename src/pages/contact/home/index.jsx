@@ -1,4 +1,4 @@
-import { Modal, Tag, Form, Row, Col, Input, Table, Button } from 'antd';
+import { Modal, Tag, Form, Row, Pagination, Col, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -122,9 +122,6 @@ class App extends React.Component {
       type: 'contact/handleCreateModal',
       payload: true,
     });
-    this.state.props.dispatch({
-      type: 'contact/searchCompanyByName',
-    });
   };
 
   handleCancel = () => {
@@ -137,7 +134,10 @@ class App extends React.Component {
   onSearch = (value) => {
     this.props.dispatch({
       type: 'contact/searchContactByName',
-      payload: value,
+      payload: {
+        page: 1,
+        searchValue: value,
+      },
     });
   };
 
@@ -149,21 +149,21 @@ class App extends React.Component {
           <Create />
         </Modal>
         <Row>
-          <Col span={12} />
-          <Col span={12}>
+          <Col span={16}>
+            <Button type="primary" onClick={this.showModal}>
+              Create Contact
+            </Button>
+          </Col>
+          <Col span={8}>
             <Search
               placeholder="input search text"
               enterButton="Search"
               size="large"
-              onChange={(value) => console.log(value)}
               onSearch={this.onSearch}
             />
           </Col>
         </Row>
         <ListContact />
-        <Button type="primary" onClick={this.showModal}>
-          Create Contact
-        </Button>
       </div>
     );
   }
@@ -183,15 +183,28 @@ const ListContact = connect(({ contact, loading }) => ({
     });
   });
 
+  const onPaginitionChange = (page) => {
+    props.dispatch({
+      type: 'contact/loadListContact',
+      payload: {
+        page,
+        searchValue: props.contact.searchContactValue,
+      },
+    });
+  };
+
   return (
-    <Table
-      bordered
-      loading={props.loading}
-      pagination
-      columns={columns}
-      rowKey="id"
-      dataSource={props.contact.contactInfo}
-    />
+    <div>
+      <Table
+        bordered
+        loading={props.loading}
+        pagination={false}
+        columns={columns}
+        rowKey="id"
+        dataSource={props.contact.contactInfo}
+      />
+      <Pagination total={props.contact.itemCount} onChange={onPaginitionChange} />
+    </div>
   );
 });
 
@@ -202,7 +215,6 @@ const Create = connect(({ contact, loading }) => ({
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
-    console.table(values);
     props.dispatch({
       type: 'contact/create',
       payload: { ...values },

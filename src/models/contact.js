@@ -7,7 +7,6 @@ import {
   updateContact,
   getContactById,
   fullCreateContact,
-  getContactByName,
 } from '../services/contact';
 import { getCompanyByName } from '../services/company';
 
@@ -15,10 +14,11 @@ const Model = {
   namespace: 'contact',
   state: {
     visible: false,
-    contactInfo: undefined,
+    contactInfo: [],
     data: undefined,
+    searchContactValue: '',
+    itemCount: undefined,
     listCompany: [],
-    listContactReferral: [],
     searchValue: [],
     searchValueContactReferral: [],
   },
@@ -50,7 +50,7 @@ const Model = {
     },
     *searchContactReferralByName({ payload }, { call, put }) {
       if (payload.value === '') return;
-      const response = yield call(getContactByName, payload.value);
+      const response = yield call(getContact, payload);
 
       if (response != null) {
         yield put({
@@ -59,25 +59,45 @@ const Model = {
         });
       }
     },
-    *searchContactByName({ payload }, { call, put }) {
+    *searchContactByName(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
       if (payload.value === '') return;
-
-      const response = yield call(getContactByName, payload);
+      yield put({
+        type: 'saveContactSearchValue',
+        payload: payload.searchValue,
+      });
+      const response = yield call(getContact, payload);
 
       if (response != null) {
         yield put({
           type: 'saveContactInfo',
-          payload: response.data,
+          payload: response,
         });
       }
     },
-    *loadListContact(_, { call, put }) {
-      const response = yield call(getContact);
-      console.table(response.data);
+    *loadListContact(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
+      const response = yield call(getContact, payload);
+
+      console.table(response);
       if (response != null) {
         yield put({
           type: 'saveContactInfo',
-          payload: response.data,
+          payload: response,
         });
       }
     },
@@ -122,7 +142,7 @@ const Model = {
       return { ...state, list: payload };
     },
     saveListContactReferral(state, { payload }) {
-      return { ...state, listContactReferral: payload };
+      return { ...state, contactInfo: payload };
     },
     handleCreateModal(state, { payload }) {
       return { ...state, visible: payload };
@@ -134,11 +154,19 @@ const Model = {
       return {
         ...state,
         searchValueContactReferral: payload.value,
-        listContactReferral: payload.listContactReferral,
+        contactInfo: payload.contactInfo,
       };
     },
     saveContactInfo(state, { payload }) {
-      return { ...state, contactInfo: payload };
+      return {
+        ...state,
+        contactInfo: payload.data,
+        itemCount: payload.meta.itemCount,
+        currentPage: payload.meta.page,
+      };
+    },
+    saveContactSearchValue(state, { payload }) {
+      return { ...state, searchContactValue: payload };
     },
   },
 };
