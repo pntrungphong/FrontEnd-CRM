@@ -8,12 +8,6 @@ export default [
         component: './user/login',
       },
       {
-        path: '/dashboard',
-        component: '../layouts/BasicLayout',
-        Routes: ['src/pages/Authorized'],
-        authority: ['admin', '', 'user', 'USER'],
-      },
-      {
         Routes: ['src/pages/Authorized'],
         component: '../layouts/BasicLayout',
         authority: ['admin', '', 'user', 'USER'],

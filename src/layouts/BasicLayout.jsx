@@ -5,13 +5,17 @@
  */
 import ProLayout from '@ant-design/pro-layout';
 import React, { useEffect } from 'react';
-import { connect, Link, useIntl } from 'umi';
+import { connect, Link, useIntl, Redirect } from 'umi';
 import { Button, Result } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
+import { useMount } from "ahooks";
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import styles from './BasicLayout.less';
+import { PageLoading } from '@ant-design/pro-layout';
+import { stringify } from 'querystring';
+import { getAuthority } from '@/utils/authority';
 
 const noMatch = (
   <Result
@@ -35,7 +39,9 @@ const menuDataRender = (menuList) =>
     return Authorized.check(item.authority, localItem, null);
   });
 
+
 const BasicLayout = (props) => {
+
   const {
     dispatch,
     children,
@@ -48,16 +54,26 @@ const BasicLayout = (props) => {
    * constructor
    */
 
-  useEffect(() => {
+  useMount(() => {
+    const { dispatch } = props;
     if (dispatch) {
       dispatch({
         type: 'user/fetchCurrent',
       });
     }
-  }, []);
+  });
   /**
    * init variables
    */
+
+  const logout = () => {
+    dispatch({
+      type: 'login/logout',
+      payload: {},
+    });
+  };
+
+
 
   const handleMenuCollapse = (payload) => {
     if (dispatch) {
@@ -65,19 +81,31 @@ const BasicLayout = (props) => {
         type: 'global/changeLayoutCollapsed',
         payload,
       });
+
     }
   }; // get children authority
 
   const authorized = getAuthorityFromRouter(props.route.routes, location.pathname || '/') || {
-    authority: undefined,
+    authority: getAuthority(),
   };
   const { formatMessage } = useIntl();
+
+  const { loading, currentUser } = props;
+  const isLogin = currentUser && currentUser.id;
+  const queryString = stringify({
+    redirect: window.location.href,
+  });
+
+  if ((!isLogin && loading)) {
+    return <PageLoading />;
+  }
+
   return (
     <>
       <ProLayout
         className={styles.antMenuCustom}
         // logo="Logo"
-        formatMessage={formatMessage}
+        // formatMessage={formatMessage}
         menuHeaderRender={(logoDom) => (
           <>
             <Link className={styles.logo} to="/">
@@ -85,9 +113,9 @@ const BasicLayout = (props) => {
             </Link>
             <div className={styles.splitter} />
             <div className={styles.titleOne}>HARMONICA</div>
-            {/* <Button type="primary" className="btn-logout">
+            {<Button onClick={logout} type="primary" className="btn-logout">
               Logout
-            </Button> */}
+            </Button>}
           </>
         )}
         onCollapse={handleMenuCollapse}
@@ -132,7 +160,9 @@ const BasicLayout = (props) => {
   );
 };
 
-export default connect(({ global, settings }) => ({
+export default connect(({ global, settings, user, loading }) => ({
   collapsed: global.collapsed,
   settings,
+  currentUser: user.currentUser,
+  loading: loading.models.user,
 }))(BasicLayout);
