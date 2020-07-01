@@ -3,19 +3,18 @@
  * You can view component api by:
  * https://github.com/ant-design/ant-design-pro-layout
  */
-import ProLayout from '@ant-design/pro-layout';
-import React, { useEffect } from 'react';
-import { connect, Link, useIntl, Redirect } from 'umi';
+import ProLayout, { PageLoading } from '@ant-design/pro-layout';
+import React from 'react';
+import { connect, Link, useIntl } from 'umi';
 import { Button, Result } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
-import { useMount } from "ahooks";
+// import { useMount } from "ahooks";
 import Authorized from '@/utils/Authorized';
-import RightContent from '@/components/GlobalHeader/RightContent';
-import { getAuthorityFromRouter } from '@/utils/utils';
-import styles from './BasicLayout.less';
-import { PageLoading } from '@ant-design/pro-layout';
-import { stringify } from 'querystring';
 import { getAuthority } from '@/utils/authority';
+import { getAuthorityFromRouter } from '@/utils/utils';
+import RightContent from '@/components/GlobalHeader/RightContent';
+// import { stringify } from 'querystring';
+import styles from './BasicLayout.less';
 
 const noMatch = (
   <Result
@@ -39,9 +38,7 @@ const menuDataRender = (menuList) =>
     return Authorized.check(item.authority, localItem, null);
   });
 
-
 const BasicLayout = (props) => {
-
   const {
     dispatch,
     children,
@@ -54,14 +51,14 @@ const BasicLayout = (props) => {
    * constructor
    */
 
-  useMount(() => {
-    const { dispatch } = props;
-    if (dispatch) {
-      dispatch({
-        type: 'user/fetchCurrent',
-      });
-    }
-  });
+  // useMount(() => {
+  //   const { dispatch } = props;
+  //   if (dispatch) {
+  //     dispatch({
+  //       type: 'user/fetchCurrent',
+  //     });
+  //   }
+  // });
   /**
    * init variables
    */
@@ -73,15 +70,12 @@ const BasicLayout = (props) => {
     });
   };
 
-
-
   const handleMenuCollapse = (payload) => {
     if (dispatch) {
       dispatch({
         type: 'global/changeLayoutCollapsed',
         payload,
       });
-
     }
   }; // get children authority
 
@@ -92,11 +86,11 @@ const BasicLayout = (props) => {
 
   const { loading, currentUser } = props;
   const isLogin = currentUser && currentUser.id;
-  const queryString = stringify({
-    redirect: window.location.href,
-  });
+  // const queryString = stringify({
+  //   redirect: window.location.href,
+  // });
 
-  if ((!isLogin && loading)) {
+  if (!isLogin && loading) {
     return <PageLoading />;
   }
 
@@ -112,10 +106,10 @@ const BasicLayout = (props) => {
               {logoDom}
             </Link>
             <div className={styles.splitter} />
-            <div className={styles.titleOne}>HARMONICA</div>
-            {<Button onClick={logout} type="primary" className="btn-logout">
+            <div className={styles.titleOne}>HARMONIA</div>
+            <Button onClick={logout} type="primary" className="btn-logout">
               Logout
-            </Button>}
+            </Button>
           </>
         )}
         onCollapse={handleMenuCollapse}
@@ -142,8 +136,8 @@ const BasicLayout = (props) => {
           return first ? (
             <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
           ) : (
-              <span>{route.breadcrumbName}</span>
-            );
+            <span>{route.breadcrumbName}</span>
+          );
         }}
         menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}

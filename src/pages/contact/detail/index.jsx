@@ -2,9 +2,8 @@ import { Card, Descriptions, Divider, Tag, Spin, Avatar } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
-import { connect,history} from 'umi';
+import { connect, history } from 'umi';
 import { one, two, three, five } from './style.less';
-
 
 class ContactDetail extends Component {
   componentDidMount() {
@@ -36,9 +35,11 @@ class ContactDetail extends Component {
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Email">
               {contact.data.email.map((item) => {
-                return <>
-                  <Tag key={item}>{item}</Tag>,
-                </>;
+                return (
+                  <>
+                    <Tag key={item}>{item}</Tag>,
+                  </>
+                );
               })}
             </Descriptions.Item>
           </Descriptions>
@@ -46,57 +47,70 @@ class ContactDetail extends Component {
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Company">
               {contact.data.company.map((item) => {
-                
-                return <>
-                  <Tag key={item.companyId} >
-                    <a
-                     onClick={() => {
-                      history.push({
-                        pathname: '/company/detail',
-                        query: {
-                          id: item.companyId,
-                        },
-                      });
-                    }}
-                    > {item.companyId}</a>
-                  </Tag>,
-                </>;
+                return (
+                  <>
+                    <Tag key={item.companyId}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: '/company/detail',
+                            query: {
+                              id: item.companyId,
+                            },
+                          });
+                        }}
+                      >
+                        {' '}
+                        {item.companyId}
+                      </a>
+                    </Tag>
+                    ,
+                  </>
+                );
               })}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
-              h
+              {contact.data.tag}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Website">
-            {contact.data.website.map((item) => {
-                return <>
-                  <Tag key={item}>{item}</Tag>,
-                </>;
+              {contact.data.website.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.url}>{item.url}</Tag>
+                    <Tag key={item.type}>{item.type}</Tag>
+                    <br />
+                  </>
+                );
               })}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Phone">
-            {contact.data.phone.map((item) => {
-                return <>
-                  <Tag key={item}>{item}</Tag>,
-                </>;
+              {contact.data.phone.map((item) => {
+                return (
+                  <>
+                    <Tag key={item}>{item}</Tag>,
+                  </>
+                );
               })}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="address">
-            {contact.data.address.map((item) => {
-                return <>
-                  <Tag key={item}>{item}</Tag>,
-                </>;
+              {contact.data.address.map((item) => {
+                return (
+                  <>
+                    <Tag key={item}>{item}</Tag>,
+                  </>
+                );
               })}
             </Descriptions.Item>
           </Descriptions>

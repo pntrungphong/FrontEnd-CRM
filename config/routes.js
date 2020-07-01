@@ -34,7 +34,7 @@ export default [
             component: 'company/create',
           },
           {
-            path: '/contact/',
+            path: '/contact',
             name: 'contact',
             component: 'contact/home',
           },
@@ -45,6 +45,11 @@ export default [
           {
             path: '/contact/create',
             component: 'contact/create',
+          },
+          {
+            path: '/lead',
+            name: 'lead',
+            component: 'lead/home',
           },
         ],
       },

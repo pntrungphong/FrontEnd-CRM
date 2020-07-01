@@ -46,18 +46,18 @@ const columns = [
       </>
     ),
   },
-  {
-    title: 'Website',
-    dataIndex: 'website',
-    key: 'website',
-    render: (website) => (
-      <>
-        {website.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
-        })}
-      </>
-    ),
-  },
+  // {
+  //   title: 'Website',
+  //   dataIndex: 'website',
+  //   key: 'website',
+  //   render: (website) => (
+  //     <>
+  //       {website.map((item) => {
+  //         return <Tag key={item}>{item.toUpperCase()}</Tag>;
+  //       })}
+  //     </>
+  //   ),
+  // },
   {
     title: 'Email',
     dataIndex: 'email',
