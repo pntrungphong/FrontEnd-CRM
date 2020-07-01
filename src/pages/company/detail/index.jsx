@@ -37,7 +37,7 @@ class CompanyDetail extends Component {
               {company.data.email.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item.url}>{item.url}</Tag>
                   </>
                 );
               })}
@@ -46,7 +46,31 @@ class CompanyDetail extends Component {
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
-              {company.data.tag}
+              {company.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.tag}>{item.tag}</Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Phone">
+              {company.data.phone.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.number}>{item.number}</Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={two} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Url">
+              {company.data.url}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -55,7 +79,7 @@ class CompanyDetail extends Component {
               {company.data.website.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item.url}>{item.url}</Tag>,
                   </>
                 );
               })}
@@ -67,18 +91,18 @@ class CompanyDetail extends Component {
               {company.data.contact.map((item) => {
                 return (
                   <>
-                    <Tag key={item.contactId}>
+                    <Tag key={item.name}>
                       <a
                         onClick={() => {
                           history.push({
                             pathname: '/contact/detail',
                             query: {
-                              id: item.contactId,
+                              id: item.id,
                             },
                           });
                         }}
                       >
-                        {item.contactId}
+                        {item.name}
                       </a>
                     </Tag>
                     ,
@@ -91,24 +115,6 @@ class CompanyDetail extends Component {
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Address">
               {company.data.address.map((item) => {
-                return (
-                  <>
-                    <Tag key={item}>{item}</Tag>,
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Url">
-              {company.data.url}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Phone">
-              {company.data.phone.map((item) => {
                 return (
                   <>
                     <Tag key={item}>{item}</Tag>,

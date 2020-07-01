@@ -37,10 +37,23 @@ class ContactDetail extends Component {
               {contact.data.email.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item.url}>{item.url}</Tag>
                   </>
                 );
               })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Lead">
+              {contact.data.lead}
+              {/* {contact.data.email.map((item) => {
+                return (
+                  <>
+                    <Tag key={item}>{item}</Tag>,
+                  </>
+                );
+              })} */}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -49,19 +62,19 @@ class ContactDetail extends Component {
               {contact.data.company.map((item) => {
                 return (
                   <>
-                    <Tag key={item.companyId}>
+                    <Tag key={item.name}>
                       <a
                         onClick={() => {
                           history.push({
                             pathname: '/company/detail',
                             query: {
-                              id: item.companyId,
+                              id: item.id,
                             },
                           });
                         }}
                       >
-                        {' '}
-                        {item.companyId}
+                        {/* {' '} */}
+                        {item.name}
                       </a>
                     </Tag>
                     ,
@@ -74,6 +87,26 @@ class ContactDetail extends Component {
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
               {contact.data.tag}
+              {/* {contact.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item}>{item}</Tag>,
+                  </>
+                );
+              })} */}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Referral">
+              {contact.data.referral}
+              {/* {contact.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item}>{item}</Tag>,
+                  </>
+                );
+              })} */}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -83,7 +116,6 @@ class ContactDetail extends Component {
                 return (
                   <>
                     <Tag key={item.url}>{item.url}</Tag>
-                    <Tag key={item.type}>{item.type}</Tag>
                     <br />
                   </>
                 );
@@ -96,7 +128,7 @@ class ContactDetail extends Component {
               {contact.data.phone.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item.number}>{item.number}</Tag>,
                   </>
                 );
               })}

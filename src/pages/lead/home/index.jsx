@@ -1,7 +1,9 @@
-import { Modal, Form, Input, Table, Button } from 'antd';
+import { Modal, Tag, Form, Row, Pagination, Col, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+
+const { Search } = Input;
 
 const layout = {
   labelCol: { span: 8 },
@@ -24,21 +26,49 @@ const columns = [
     title: 'Address',
     dataIndex: 'address',
     key: 'address',
+    render: (address) => (
+      <>
+        {address.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
+    render: (phone) => (
+      <>
+        {phone.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
+  // {
+  //   title: 'Website',
+  //   dataIndex: 'website',
+  //   key: 'website',
+  //   render: (website) => (
+  //     <>
+  //       {website.map((item) => {
+  //         return <Tag key={item}>{item.toUpperCase()}</Tag>;
+  //       })}
+  //     </>
+  //   ),
+  // },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-  },
-  {
-    title: 'Website',
-    dataIndex: 'website',
-    key: 'website',
+    render: (email) => (
+      <>
+        {email.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
   },
   {
     title: 'Action',
@@ -63,7 +93,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/company/detail',
+                pathname: '/lead/detail',
                 query: {
                   id: record.id,
                 },
@@ -101,17 +131,38 @@ class App extends React.Component {
     });
   };
 
+  onSearch = (value) => {
+    this.props.dispatch({
+      type: 'lead/searchLeadByName',
+      payload: {
+        page: 1,
+        searchValue: value,
+      },
+    });
+  };
+
   render() {
     const { visible } = this.props.lead;
-
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
-          Create lead
-        </Button>
-        <Modal title="Create lead" visible={visible} footer={null} onCancel={this.handleCancel}>
+        <Modal title="Create Lead" visible={visible} footer={null} onCancel={this.handleCancel}>
           <Create />
         </Modal>
+        <Row>
+          <Col span={16}>
+            <Button type="primary" onClick={this.showModal}>
+              Create Lead
+            </Button>
+          </Col>
+          <Col span={8}>
+            <Search
+              placeholder="input search text"
+              enterButton="Search"
+              size="large"
+              onSearch={this.onSearch}
+            />
+          </Col>
+        </Row>
         <ListLead />
       </div>
     );
@@ -132,15 +183,28 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   });
 
+  const onPaginitionChange = (page) => {
+    props.dispatch({
+      type: 'lead/loadListLead',
+      payload: {
+        page,
+        searchValue: props.lead.searchLeadValue,
+      },
+    });
+  };
+
   return (
-    <Table
-      bordered
-      loading={props.loading}
-      pagination
-      columns={columns}
-      rowKey="id"
-      dataSource={props.lead.leadInfo}
-    />
+    <div>
+      <Table
+        bordered
+        loading={props.loading}
+        pagination={false}
+        columns={columns}
+        rowKey="id"
+        dataSource={props.lead.leadInfo}
+      />
+      <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+    </div>
   );
 });
 
@@ -149,6 +213,7 @@ const Create = connect(({ lead, loading }) => ({
   submitting: loading.effects['lead/create'],
 }))(function (props) {
   const [form] = Form.useForm();
+
   const onFinish = (values) => {
     props.dispatch({
       type: 'lead/create',
@@ -163,7 +228,7 @@ const Create = connect(({ lead, loading }) => ({
       pathname: '/lead/create',
       state: {
         name: lead.name,
-        website: lead.website,
+        phone: lead.phone,
       },
     });
   };
@@ -189,7 +254,7 @@ const Create = connect(({ lead, loading }) => ({
         <Input />
       </Form.Item>
 
-      <Form.Item name={['lead', 'website']} label="Website" initialValue="">
+      <Form.Item name={['lead', 'phone']} label="Phone" initialValue="">
         <Input />
       </Form.Item>
 

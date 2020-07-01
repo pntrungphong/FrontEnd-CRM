@@ -1,8 +1,8 @@
-import { Card, Descriptions, Spin, Divider, Avatar, Tag } from 'antd';
+import { Card, Descriptions, Spin, Divider, Avatar } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
-import { connect, history } from 'umi';
+import { connect } from 'umi';
 import { one, two, three, five } from './style.less';
 
 class LeadDetail extends Component {
@@ -49,7 +49,7 @@ class LeadDetail extends Component {
               {lead.data.website}
             </Descriptions.Item>
           </Descriptions>
-          <Divider className={three} />
+          {/* <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Contact">
               {lead.data.contact.map((item) => {
@@ -74,7 +74,7 @@ class LeadDetail extends Component {
                 );
               })}
             </Descriptions.Item>
-          </Descriptions>
+          </Descriptions> */}
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Address">
