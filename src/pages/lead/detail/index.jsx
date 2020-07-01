@@ -1,26 +1,26 @@
-import { Card, Descriptions, Spin, Divider, Avatar, Tag } from 'antd';
+import { Card, Descriptions, Spin, Divider, Avatar } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
-import { connect, history } from 'umi';
+import { connect } from 'umi';
 import { one, two, three, five } from './style.less';
 
-class CompanyDetail extends Component {
+class LeadDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'company/loading',
+      type: 'lead/loading',
       payload: { id: this.props.location.query.id },
     });
   }
 
   render() {
-    const { company } = this.props;
-    if (company.data === undefined) {
+    const { lead } = this.props;
+    if (lead.data === undefined) {
       return <Spin />;
     }
     return (
-      <PageHeaderWrapper title="Company Details">
+      <PageHeaderWrapper title="Lead Details">
         <Card bordered="true">
           <div className={one}>
             <Avatar size={64} icon={<UserOutlined />} />
@@ -28,81 +28,45 @@ class CompanyDetail extends Component {
           <Divider className={two} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Name">
-              {company.data.name}
+              {lead.data.name}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Email">
-              {company.data.email.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.url}>{item.url}</Tag>
-                  </>
-                );
-              })}
+              {lead.data.email}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
-              {company.data.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.tag}>{item.tag}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Phone">
-              {company.data.phone.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.number}>{item.number}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={two} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Url">
-              {company.data.url}
+              {lead.data.tag}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Website">
-              {company.data.website.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.url}>{item.url}</Tag>,
-                  </>
-                );
-              })}
+              {lead.data.website}
             </Descriptions.Item>
           </Descriptions>
-          <Divider className={three} />
+          {/* <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Contact">
-              {company.data.contact.map((item) => {
+              {lead.data.contact.map((item) => {
                 return (
                   <>
-                    <Tag key={item.name}>
+                    <Tag key={item.contactId}>
                       <a
                         onClick={() => {
                           history.push({
                             pathname: '/contact/detail',
                             query: {
-                              id: item.id,
+                              id: item.contactId,
                             },
                           });
                         }}
                       >
-                        {item.name}
+                        {item.contactId}
                       </a>
                     </Tag>
                     ,
@@ -110,17 +74,23 @@ class CompanyDetail extends Component {
                 );
               })}
             </Descriptions.Item>
-          </Descriptions>
+          </Descriptions> */}
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Address">
-              {company.data.address.map((item) => {
-                return (
-                  <>
-                    <Tag key={item}>{item}</Tag>,
-                  </>
-                );
-              })}
+              {lead.data.address}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Url">
+              {lead.data.url}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Phone">
+              {lead.data.phone}
             </Descriptions.Item>
           </Descriptions>
         </Card>
@@ -129,7 +99,7 @@ class CompanyDetail extends Component {
   }
 }
 
-export default connect(({ company, loading }) => ({
-  company,
-  querying: loading.effects['company/loading'],
-}))(CompanyDetail);
+export default connect(({ lead, loading }) => ({
+  lead,
+  querying: loading.effects['lead/loading'],
+}))(LeadDetail);

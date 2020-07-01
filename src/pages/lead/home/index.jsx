@@ -23,31 +23,13 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Company',
-    dataIndex: 'company',
-    key: 'company',
-    render: (company) => (
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+    render: (address) => (
       <>
-        {company.map((item) => {
-          return item.id !== undefined ? (
-            <Tag key={item.id}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: '/company/detail',
-                    query: {
-                      id: item.id,
-                    },
-                  });
-                }}
-              >
-                {' '}
-                {item.name.toUpperCase()}
-              </a>
-            </Tag>
-          ) : (
-            ''
-          );
+        {address.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
         })}
       </>
     ),
@@ -59,7 +41,7 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
         })}
       </>
     ),
@@ -83,7 +65,7 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
         })}
       </>
     ),
@@ -97,7 +79,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/contact/update',
+                pathname: '/lead/update',
                 query: {
                   id: record.id,
                 },
@@ -111,7 +93,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/contact/detail',
+                pathname: '/lead/detail',
                 query: {
                   id: record.id,
                 },
@@ -137,21 +119,21 @@ class App extends React.Component {
 
   showModal = () => {
     this.state.props.dispatch({
-      type: 'contact/handleCreateModal',
+      type: 'lead/handleCreateModal',
       payload: true,
     });
   };
 
   handleCancel = () => {
     this.props.dispatch({
-      type: 'contact/handleCreateModal',
+      type: 'lead/handleCreateModal',
       payload: false,
     });
   };
 
   onSearch = (value) => {
     this.props.dispatch({
-      type: 'contact/searchContactByName',
+      type: 'lead/searchLeadByName',
       payload: {
         page: 1,
         searchValue: value,
@@ -160,16 +142,16 @@ class App extends React.Component {
   };
 
   render() {
-    const { visible } = this.props.contact;
+    const { visible } = this.props.lead;
     return (
       <div>
-        <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
+        <Modal title="Create Lead" visible={visible} footer={null} onCancel={this.handleCancel}>
           <Create />
         </Modal>
         <Row>
           <Col span={16}>
             <Button type="primary" onClick={this.showModal}>
-              Create Contact
+              Create Lead
             </Button>
           </Col>
           <Col span={8}>
@@ -181,7 +163,7 @@ class App extends React.Component {
             />
           </Col>
         </Row>
-        <ListContact />
+        <ListLead />
       </div>
     );
   }
@@ -191,22 +173,22 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-const ListContact = connect(({ contact, loading }) => ({
-  contact,
-  loading: loading.effects['contact/loadListContact'],
+const ListLead = connect(({ lead, loading }) => ({
+  lead,
+  loading: loading.effects['lead/loadListLead'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'contact/loadListContact',
+      type: 'lead/loadListLead',
     });
   });
 
   const onPaginitionChange = (page) => {
     props.dispatch({
-      type: 'contact/loadListContact',
+      type: 'lead/loadListLead',
       payload: {
         page,
-        searchValue: props.contact.searchContactValue,
+        searchValue: props.lead.searchLeadValue,
       },
     });
   };
@@ -219,34 +201,34 @@ const ListContact = connect(({ contact, loading }) => ({
         pagination={false}
         columns={columns}
         rowKey="id"
-        dataSource={props.contact.contactInfo}
+        dataSource={props.lead.leadInfo}
       />
-      <Pagination total={props.contact.itemCount} onChange={onPaginitionChange} />
+      <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
     </div>
   );
 });
 
-const Create = connect(({ contact, loading }) => ({
-  contact,
-  submitting: loading.effects['contact/create'],
+const Create = connect(({ lead, loading }) => ({
+  lead,
+  submitting: loading.effects['lead/create'],
 }))(function (props) {
   const [form] = Form.useForm();
 
   const onFinish = (values) => {
     props.dispatch({
-      type: 'contact/create',
+      type: 'lead/create',
       payload: { ...values },
     });
   };
 
   const createDetail = () => {
-    const contact = form.getFieldValue('contact');
+    const lead = form.getFieldValue('lead');
 
     history.push({
-      pathname: '/contact/create',
+      pathname: '/lead/create',
       state: {
-        name: contact.name,
-        phone: contact.phone,
+        name: lead.name,
+        phone: lead.phone,
       },
     });
   };
@@ -260,7 +242,7 @@ const Create = connect(({ contact, loading }) => ({
       validateMessages={validateMessages}
     >
       <Form.Item
-        name={['contact', 'name']}
+        name={['lead', 'name']}
         label="Name"
         initialValue=""
         rules={[
@@ -272,7 +254,7 @@ const Create = connect(({ contact, loading }) => ({
         <Input />
       </Form.Item>
 
-      <Form.Item name={['contact', 'phone']} label="Phone" initialValue="">
+      <Form.Item name={['lead', 'phone']} label="Phone" initialValue="">
         <Input />
       </Form.Item>
 
@@ -294,6 +276,6 @@ const Create = connect(({ contact, loading }) => ({
   );
 });
 
-export default connect(({ contact }) => ({
-  contact,
+export default connect(({ lead }) => ({
+  lead,
 }))(App);

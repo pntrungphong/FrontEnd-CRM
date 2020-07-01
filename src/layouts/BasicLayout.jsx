@@ -10,9 +10,10 @@ import { Button, Result } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import Authorized from '@/utils/Authorized';
-import RightContent from '@/components/GlobalHeader/RightContent';
-import { getAuthorityFromRouter } from '@/utils/utils';
 import { getAuthority } from '@/utils/authority';
+import { getAuthorityFromRouter } from '@/utils/utils';
+import RightContent from '@/components/GlobalHeader/RightContent';
+// import { stringify } from 'querystring';
 import styles from './BasicLayout.less';
 
 const noMatch = (
@@ -94,15 +95,15 @@ const BasicLayout = (props) => {
     <>
       <ProLayout
         className={styles.antMenuCustom}
-        // logo="Logo"
-        // formatMessage={formatMessage}
+        logo="Logo"
+        formatMessage={formatMessage}
         menuHeaderRender={(logoDom) => (
           <>
             <Link className={styles.logo} to="/">
               {logoDom}
             </Link>
             <div className={styles.splitter} />
-            <div className={styles.titleOne}>HARMONICA</div>
+            <div className={styles.titleOne}>HARMONIA</div>
             <Button onClick={logout} type="primary" className="btn-logout">
               Logout
             </Button>
