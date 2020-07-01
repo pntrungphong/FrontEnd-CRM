@@ -74,6 +74,18 @@ const Update = connect(({ contact, loading }) => ({
     });
   };
 
+  const createCompany = () => {
+    history.push({
+      pathname: '/company/create',
+    });
+  };
+
+  const createContact = () => {
+    history.push({
+      pathname: '/contact/create',
+    });
+  };
+
   let fetchContact = (value) => {
     props.dispatch({
       type: 'contact/handleSearchChangeContactReferral',
@@ -389,12 +401,7 @@ const Update = connect(({ contact, loading }) => ({
                 <Spin size="small" />
               ) : (
                 <p>
-                  <Button
-                    type="text"
-                    onClick={history.push({
-                      pathname: '/contact/update',
-                    })}
-                  >
+                  <Button type="text" onClick={createContact}>
                     Create Contact
                   </Button>
                 </p>
@@ -420,12 +427,7 @@ const Update = connect(({ contact, loading }) => ({
                 <Spin size="small" />
               ) : (
                 <p>
-                  <Button
-                    type="text"
-                    onClick={history.push({
-                      pathname: '/company/create',
-                    })}
-                  >
+                  <Button type="text" onClick={createCompany}>
                     Create Company
                   </Button>
                 </p>
