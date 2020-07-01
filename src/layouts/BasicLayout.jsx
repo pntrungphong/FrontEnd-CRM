@@ -3,6 +3,7 @@
  * You can view component api by:
  * https://github.com/ant-design/ant-design-pro-layout
  */
+import ProLayout, { PageLoading } from '@ant-design/pro-layout';
 import React from 'react';
 import { connect, Link, useIntl } from 'umi';
 import { Button, Result } from 'antd';
@@ -11,7 +12,6 @@ import { useMount } from 'ahooks';
 import Authorized from '@/utils/Authorized';
 import RightContent from '@/components/GlobalHeader/RightContent';
 import { getAuthorityFromRouter } from '@/utils/utils';
-import { PageLoading, ProLayout } from '@ant-design/pro-layout';
 import { getAuthority } from '@/utils/authority';
 import styles from './BasicLayout.less';
 
