@@ -23,31 +23,13 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Company',
-    dataIndex: 'company',
-    key: 'company',
-    render: (company) => (
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
+    render: (address) => (
       <>
-        {company.map((item) => {
-          return item.id !== undefined ? (
-            <Tag key={item.id}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: '/company/detail',
-                    query: {
-                      id: item.id,
-                    },
-                  });
-                }}
-              >
-                {' '}
-                {item.name.toUpperCase()}
-              </a>
-            </Tag>
-          ) : (
-            ''
-          );
+        {address.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
         })}
       </>
     ),
@@ -59,12 +41,23 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
         })}
       </>
     ),
   },
-
+  {
+    title: 'Website',
+    dataIndex: 'website',
+    key: 'website',
+    render: (website) => (
+      <>
+        {website.map((item) => {
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        })}
+      </>
+    ),
+  },
   {
     title: 'Email',
     dataIndex: 'email',
@@ -72,7 +65,7 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
+          return <Tag key={item}>{item.toUpperCase()}</Tag>;
         })}
       </>
     ),
