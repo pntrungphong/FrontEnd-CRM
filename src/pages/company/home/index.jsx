@@ -1,4 +1,4 @@
-import { Modal, Form, Input, Tag, Table, Button } from 'antd';
+import { Modal, Form, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -21,79 +21,25 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Contact',
-    dataIndex: 'contact',
-    key: 'contact',
-    render: (company) => (
-      <>
-        {company.map((item) => {
-          return item.id !== undefined ? (
-            <Tag key={item.id}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: '/contact/detail',
-                    query: {
-                      id: item.id,
-                    },
-                  });
-                }}
-              >
-                {' '}
-                {item.name.toUpperCase()}
-              </a>
-            </Tag>
-          ) : (
-            ''
-          );
-        })}
-      </>
-    ),
+    title: 'Address',
+    dataIndex: 'address',
+    key: 'address',
   },
   {
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
-    render: (phone) => (
-      <>
-        {phone.map((item) => {
-          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
-        })}
-      </>
-    ),
   },
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    render: (email) => (
-      <>
-        {email.map((item) => {
-          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
-        })}
-      </>
-    ),
   },
-  // {
-  //   title: 'Address',
-  //   dataIndex: 'address',
-  //   key: 'address',
-  // },
-  // {
-  //   title: 'Phone',
-  //   dataIndex: 'phone',
-  //   key: 'phone',
-  // },
-  // {
-  //   title: 'Email',
-  //   dataIndex: 'email',
-  //   key: 'email',
-  // },
-  // {
-  //   title: 'Website',
-  //   dataIndex: 'website',
-  //   key: 'website',
-  // },
+  {
+    title: 'Website',
+    dataIndex: 'website',
+    key: 'website',
+  },
   {
     title: 'Action',
     key: 'action',
@@ -167,6 +113,7 @@ class App extends React.Component {
           <Create />
         </Modal>
         <ListCompany />
+
       </div>
     );
   }

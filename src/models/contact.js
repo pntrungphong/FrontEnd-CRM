@@ -93,6 +93,7 @@ const Model = {
     ) {
       const response = yield call(getContact, payload);
 
+     
       if (response != null) {
         yield put({
           type: 'saveContactInfo',
@@ -120,43 +121,15 @@ const Model = {
     },
     *loading({ payload }, { call, put }) {
       const response = yield call(getContactById, payload);
-      console.table(response);
-      const company = [];
-      if (response.company.length >= 0) {
-        response.company.forEach((element) => {
-          company.push({
-            key: element.id,
-            value: element.name,
-          });
-        });
-      }
-      const referral = [];
-      if (response.referral.length >= 0) {
-        response.referral.forEach((element) => {
-          referral.push({
-            key: element.idTarget,
-            value: element.name,
-          });
-        });
-      }
-      const formatedValue = {
-        name: response.name,
-        phone: response.phone,
-        address: response.address,
-        company,
-        email: response.email,
-        website: response.website,
-        referral,
-        tag: response.tag,
-      };
       yield put({
         type: 'loadContact',
-        payload: formatedValue,
+        payload: response,
       });
     },
   },
   reducers: {
     loadContact(state, { payload }) {
+
       return { ...state, data: payload };
     },
     cleanData(state) {
