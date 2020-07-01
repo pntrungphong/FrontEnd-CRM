@@ -2,8 +2,7 @@ import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { Form, Input, Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import style, { cusForm } from './style.less';
-
+import styles, { cusForm } from './style.less';
 
 const NormalLoginForm = (props) => {
   const onFinish = (values) => {
@@ -14,8 +13,7 @@ const NormalLoginForm = (props) => {
     });
   };
   return (
-    <div className={style.large}>
-
+    <div className={styles.large}>
       <Form
         name="normal_login"
         className={cusForm}
@@ -24,8 +22,8 @@ const NormalLoginForm = (props) => {
         }}
         onFinish={onFinish}
       >
-        <h1 className={style.titleOne}>Welcome Harmonica</h1>
-        <div className={style.medium}>
+        <h1 className={styles.titleOne}>Welcome Harmonica</h1>
+        <div className={styles.medium}>
           <Form.Item
             name="email"
             rules={[
@@ -43,7 +41,7 @@ const NormalLoginForm = (props) => {
           </Form.Item>
         </div>
 
-        <div className={style.mediumOne}>
+        <div className={styles.mediumOne}>
           <Form.Item
             name="password"
             rules={[
@@ -63,13 +61,12 @@ const NormalLoginForm = (props) => {
           <Form.Item>
             <Button
               loading={props.submitting}
-              style={{ marginLeft: '90px', backgroundColor: 'cadetblue', borderColor: 'cadetblue' }}
               type="primary"
               htmlType="submit"
-              className="login-form-button"
+              className={styles.butt}
             >
               Log in
-          </Button>
+            </Button>
           </Form.Item>
         </div>
       </Form>

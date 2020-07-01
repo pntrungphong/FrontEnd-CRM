@@ -8,7 +8,7 @@ import React from 'react';
 import { connect, Link, useIntl } from 'umi';
 import { Button, Result } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
-// import { useMount } from "ahooks";
+import { useMount } from 'ahooks';
 import Authorized from '@/utils/Authorized';
 import { getAuthority } from '@/utils/authority';
 import { getAuthorityFromRouter } from '@/utils/utils';
@@ -51,14 +51,14 @@ const BasicLayout = (props) => {
    * constructor
    */
 
-  // useMount(() => {
-  //   const { dispatch } = props;
-  //   if (dispatch) {
-  //     dispatch({
-  //       type: 'user/fetchCurrent',
-  //     });
-  //   }
-  // });
+  useMount(() => {
+    const { dispatch2 } = props;
+    if (dispatch2) {
+      dispatch({
+        type: 'user/fetchCurrent',
+      });
+    }
+  });
   /**
    * init variables
    */
@@ -98,8 +98,8 @@ const BasicLayout = (props) => {
     <>
       <ProLayout
         className={styles.antMenuCustom}
-        // logo="Logo"
-        // formatMessage={formatMessage}
+        logo="Logo"
+        formatMessage={formatMessage}
         menuHeaderRender={(logoDom) => (
           <>
             <Link className={styles.logo} to="/">
