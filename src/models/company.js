@@ -45,6 +45,7 @@ const Model = {
         type: 'saveCompanyInfo',
         payload: response.data,
       });
+      console.table(response);
     },
     *update({ payload }, { call }) {
       // const response =
