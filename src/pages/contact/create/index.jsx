@@ -1,22 +1,25 @@
-import { Form, Input, Button, Spin, Select } from 'antd';
+import { Form, Input, Button, Row, Col, Spin, Select } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
+const { Option } = Select;
+
 const formItemLayout = {
   labelCol: {
     xs: { span: 24 },
     sm: { span: 8 },
   },
-  wrapperCol: {
+  wrappercol: {
     xs: { span: 24 },
     sm: { span: 20 },
   },
 };
+
 const formItemLayoutWithOutLabel = {
-  wrapperCol: {
+  wrappercol: {
     xs: { span: 24, offset: 0 },
     sm: { span: 20, offset: 4 },
   },
@@ -24,13 +27,11 @@ const formItemLayoutWithOutLabel = {
 
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrappercol: { span: 16 },
 };
 const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
-
-const { Option } = Select;
 
 class Create extends React.Component {
   constructor(props) {
@@ -84,7 +85,7 @@ class Create extends React.Component {
 
   createContact = () => {
     history.push({
-      pathname: '/contact/update',
+      pathname: '/contact/create',
     });
   };
 
@@ -130,12 +131,12 @@ class Create extends React.Component {
             <Input />
           </Form.Item>
 
-          <div className={styles.one} {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'phone']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Phone" className={styles.two}>
+                    <Form.Item label="Phone">
                       <Button
                         type="dashed"
                         onClick={() => {
@@ -146,38 +147,50 @@ class Create extends React.Component {
                       </Button>
                     </Form.Item>
                     {fields.map((field) => (
-                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
-                        <Form.Item
-                          {...field}
-                          validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: "Please input passenger's name or delete this field.",
-                            },
-                          ]}
-                          noStyle
-                        >
-                          <Input placeholder="Your Phone" style={{ width: '90%' }} />
-                        </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: '0 8px' }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
-                      </Form.Item>
+                      <Row key={field.key}>
+                        <Col span={8} />
+                        <Col span={16}>
+                          <Row>
+                            <Col flex="2">
+                              <Form.Item
+                                {...field}
+                                name={[field.name, 'number']}
+                                fieldKey={[field.fieldKey, 'number']}
+                              >
+                                <Input placeholder="Your Phone" />
+                              </Form.Item>
+                            </Col>
+                            <Col flex="2">
+                              <Form.Item
+                                {...field}
+                                name={[field.name, 'type']}
+                                fieldKey={[field.fieldKey, 'type']}
+                              >
+                                <Select placeholder="Select Phone">
+                                  <Option value="Mobile">Mobile</Option>
+                                  <Option value="Home">Home</Option>
+                                  <Option value="Company">Company</Option>
+                                </Select>
+                              </Form.Item>
+                            </Col>
+                            <Col flex="none">
+                              <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                style={{ margin: '8px 8px' }}
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
                     ))}
                   </div>
                 );
               }}
             </Form.List>
           </div>
-
           <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'email']}>
               {(fields, { add, remove }) => {
@@ -194,37 +207,47 @@ class Create extends React.Component {
                       </Button>
                     </Form.Item>
                     {fields.map((field) => (
-                      <Form.Item
-                        {...formItemLayout}
-                        className={styles.one}
-                        required={false}
-                        label={' '}
-                        key={field.key}
-                      >
-                        <Form.Item
-                          {...field}
-                          validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: "Please input passenger's name or delete this field.",
-                            },
-                          ]}
-                          noStyle
-                        >
-                          <Input placeholder="Your Email" style={{ width: '90%' }} />
-                        </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: '0 8px' }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
-                      </Form.Item>
+                      <Row key={field.key}>
+                        <Col span={8} />
+                        <Col span={16}>
+                          <Row>
+                            <Col flex="2">
+                              <Form.Item
+                                {...field}
+                                name={[field.name, 'url']}
+                                fieldKey={[field.fieldKey, 'url']}
+                              >
+                                <Input placeholder="URL Email" />
+                              </Form.Item>
+                            </Col>
+                            <Col flex="2">
+                              <Form.Item
+                                {...field}
+                                name={[field.name, 'type']}
+                                fieldKey={[field.fieldKey, 'type']}
+                              >
+                                <Select placeholder="Select Email">
+                                  <Option value="Gmail">Gmail</Option>
+                                  <Option value="Yandex">Yandex</Option>
+                                  <Option value="Yahoo">Yahoo</Option>
+                                  <Option value="Outlook">Outlook</Option>
+                                  <Option value="Company">Company</Option>
+                                  <Option value="Personal">Personal</Option>
+                                </Select>
+                              </Form.Item>
+                            </Col>
+                            <Col flex="none">
+                              <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                style={{ margin: '8px 8px' }}
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
                     ))}
                   </div>
                 );
@@ -232,7 +255,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div className={styles.one} {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'website']}>
               {(fields, { add, remove }) => {
                 return (
@@ -248,31 +271,47 @@ class Create extends React.Component {
                       </Button>
                     </Form.Item>
                     {fields.map((field) => (
-                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
-                        <Form.Item
-                          {...field}
-                          validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: "Please input passenger's name or delete this field.",
-                            },
-                          ]}
-                          noStyle
-                        >
-                          <Input placeholder="URL Website" style={{ width: '80%' }} />
-                        </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: '0 8px' }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
-                      </Form.Item>
+                      <Row key={field.key}>
+                        <Col span={8} />
+                        <Col span={16}>
+                          <Row>
+                            <Col flex="2">
+                              <Form.Item
+                                {...field}
+                                name={[field.name, 'url']}
+                                fieldKey={[field.fieldKey, 'url']}
+                              >
+                                <Input placeholder="URL Website" />
+                              </Form.Item>
+                            </Col>
+                            <Col flex="2">
+                              <Form.Item
+                                {...field}
+                                name={[field.name, 'type']}
+                                fieldKey={[field.fieldKey, 'type']}
+                              >
+                                <Select placeholder="Select website">
+                                  <Option value="Facebook">Facebook</Option>
+                                  <Option value="Skype">Skype</Option>
+                                  <Option value="Zalo">Zalo</Option>
+                                  <Option value="Youtube">Youtube</Option>
+                                  <Option value="Linkedin">Linkedin</Option>
+                                  <Option value="Instagram">Instagram</Option>
+                                </Select>
+                              </Form.Item>
+                            </Col>
+                            <Col flex="none">
+                              <MinusCircleOutlined
+                                className="dynamic-delete-button"
+                                style={{ margin: '8px 8px' }}
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                            </Col>
+                          </Row>
+                        </Col>
+                      </Row>
                     ))}
                   </div>
                 );
@@ -280,7 +319,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div className={styles.one} {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'address']}>
               {(fields, { add, remove }) => {
                 return (
@@ -309,7 +348,7 @@ class Create extends React.Component {
                           ]}
                           noStyle
                         >
-                          <Input placeholder="Address" style={{ width: '80%' }} />
+                          <Input placeholder="Address" style={{ width: '90%' }} />
                         </Form.Item>
                         {fields.length > 1 ? (
                           <MinusCircleOutlined
@@ -381,7 +420,7 @@ class Create extends React.Component {
             </Select>
           </Form.Item>
 
-          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+          <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
               Submit
             </Button>

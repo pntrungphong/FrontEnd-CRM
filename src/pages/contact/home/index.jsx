@@ -23,13 +23,31 @@ const columns = [
     key: 'name',
   },
   {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-    render: (address) => (
+    title: 'Company',
+    dataIndex: 'company',
+    key: 'company',
+    render: (company) => (
       <>
-        {address.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+        {company.map((item) => {
+          return item.id !== undefined ? (
+            <Tag key={item.id}>
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: '/company/detail',
+                    query: {
+                      id: item.id,
+                    },
+                  });
+                }}
+              >
+                {' '}
+                {item.name.toUpperCase()}
+              </a>
+            </Tag>
+          ) : (
+            ''
+          );
         })}
       </>
     ),
@@ -41,7 +59,7 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
         })}
       </>
     ),
@@ -65,7 +83,7 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
+          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
         })}
       </>
     ),

@@ -86,9 +86,6 @@ const BasicLayout = (props) => {
 
   const { loading, currentUser } = props;
   const isLogin = currentUser && currentUser.id;
-  // const queryString = stringify({
-  //   redirect: window.location.href,
-  // });
 
   if (!isLogin && loading) {
     return <PageLoading />;
