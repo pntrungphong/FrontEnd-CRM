@@ -79,7 +79,7 @@ class CompanyDetail extends Component {
               {company.data.website.map((item) => {
                 return (
                   <>
-                    <Tag key={item.url}>{item.url}</Tag>,
+                    <Tag key={item.url}>{item.url}</Tag>
                   </>
                 );
               })}
@@ -105,7 +105,6 @@ class CompanyDetail extends Component {
                         {item.name}
                       </a>
                     </Tag>
-                    ,
                   </>
                 );
               })}
@@ -117,7 +116,7 @@ class CompanyDetail extends Component {
               {company.data.address.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item}>{item}</Tag>
                   </>
                 );
               })}
