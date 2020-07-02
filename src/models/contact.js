@@ -1,19 +1,12 @@
 import { message } from 'antd';
 import { history } from 'umi';
 
-import {
-  createContact,
-  getContact,
-  updateContact,
-  getContactById,
-  fullCreateContact,
-} from '../services/contact';
+import { getContact, updateContact, getContactById, fullCreateContact } from '../services/contact';
 import { getCompanyByName } from '../services/company';
 
 const Model = {
   namespace: 'contact',
   state: {
-    visible: false,
     contactInfo: [],
     data: undefined,
     searchContactValue: '',
@@ -23,20 +16,6 @@ const Model = {
     searchValueContactReferral: [],
   },
   effects: {
-    *create({ payload }, { call, put }) {
-      // const response =
-      yield call(createContact, payload);
-
-      yield put({
-        type: 'handleCreateModal',
-        payload: false,
-      });
-      message.success('Tạo Contact thành công');
-
-      yield put({
-        type: 'loadListContact',
-      });
-    },
     *searchCompanyByName({ payload }, { call, put }) {
       if (payload.value === '') return;
       const response = yield call(getCompanyByName, payload.value);

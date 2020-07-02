@@ -1,21 +1,10 @@
-import { Modal, Tag, Form, Row, Pagination, Col, Input, Table, Button } from 'antd';
+import { Tag, Form, Pagination, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import Styles from './style.less';
 
 const { Search } = Input;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-  },
-};
-
 const columns = [
   {
     title: 'Name',
@@ -64,18 +53,7 @@ const columns = [
       </>
     ),
   },
-  // {
-  //   title: 'Website',
-  //   dataIndex: 'website',
-  //   key: 'website',
-  //   render: (website) => (
-  //     <>
-  //       {website.map((item) => {
-  //         return <Tag key={item}>{item.toUpperCase()}</Tag>;
-  //       })}
-  //     </>
-  //   ),
-  // },
+
   {
     title: 'Email',
     dataIndex: 'email',
@@ -129,25 +107,8 @@ const columns = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-
-    this.state = {
-      props,
-    };
+    this.state = {};
   }
-
-  showModal = () => {
-    this.state.props.dispatch({
-      type: 'contact/handleCreateModal',
-      payload: true,
-    });
-  };
-
-  handleCancel = () => {
-    this.props.dispatch({
-      type: 'contact/handleCreateModal',
-      payload: false,
-    });
-  };
 
   onSearch = (value) => {
     this.props.dispatch({
@@ -160,37 +121,23 @@ class App extends React.Component {
   };
 
   render() {
-    const { visible } = this.props.contact;
     return (
       <div>
-        <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
+        <div className={Styles.display}>
           <Create />
-        </Modal>
-        <Row>
-          <Col span={16}>
-            <Button type="primary" onClick={this.showModal}>
-              Create Contact
-            </Button>
-          </Col>
-          <Col span={8}>
-            <Search
-              placeholder="input search text"
-              enterButton="Search"
-              size="large"
-              onSearch={this.onSearch}
-            />
-          </Col>
-        </Row>
+          <Search
+            className={Styles.search}
+            placeholder="input search text"
+            enterButton="Search"
+            size="large"
+            onSearch={this.onSearch}
+          />
+        </div>
         <ListContact />
       </div>
     );
   }
 }
-
-const validateMessages = (label) => ({
-  required: `${label} is required!`,
-});
-
 const ListContact = connect(({ contact, loading }) => ({
   contact,
   loading: loading.effects['contact/loadListContact'],
@@ -226,74 +173,24 @@ const ListContact = connect(({ contact, loading }) => ({
   );
 });
 
-const Create = connect(({ contact, loading }) => ({
+const Create = connect(({ contact }) => ({
   contact,
-  submitting: loading.effects['contact/create'],
-}))(function (props) {
-  const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    props.dispatch({
-      type: 'contact/create',
-      payload: { ...values },
-    });
-  };
-
+}))(function () {
   const createDetail = () => {
-    const contact = form.getFieldValue('contact');
-
     history.push({
       pathname: '/contact/create',
-      state: {
-        name: contact.name,
-        phone: contact.phone,
-      },
     });
   };
-
   return (
-    <Form
-      {...layout}
-      form={form}
-      name="nest-messages"
-      onFinish={onFinish}
-      validateMessages={validateMessages}
-    >
-      <Form.Item
-        name={['contact', 'name']}
-        label="Name"
-        initialValue=""
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item name={['contact', 'phone']} label="Phone" initialValue="">
-        <Input />
-      </Form.Item>
-
-      <Form.Item {...tailLayout}>
-        <Button
-          htmlType="button"
-          style={{
-            margin: '0 8px',
-          }}
-          onClick={createDetail}
-        >
-          Create Detail
-        </Button>
-        <Button type="primary" htmlType="submit" loading={props.submitting}>
-          Submit
+    <Form>
+      <Form.Item>
+        <Button htmlType="button" onClick={createDetail}>
+          Create
         </Button>
       </Form.Item>
     </Form>
   );
 });
-
 export default connect(({ contact }) => ({
   contact,
 }))(App);

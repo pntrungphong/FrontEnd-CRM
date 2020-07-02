@@ -1,42 +1,35 @@
 import { message } from 'antd';
 import { history } from 'umi';
-import {
-  createCompany,
-  getCompany,
-  updateCompany,
-  getCompanyById,
-  fullCreateCompany,
-} from '../services/company';
+import { getCompany, updateCompany, getCompanyById, fullCreateCompany } from '../services/company';
 
 const Model = {
   namespace: 'company',
   state: {
     companyInfo: undefined,
-    visible: false,
     data: undefined,
   },
   effects: {
-    *create({ payload }, { call, put }) {
-      // const response =
-      yield call(createCompany, payload);
+    // *create({ payload }, { call, put }) {
+    //   // const response =
+    //   yield call(createCompany, payload);
 
-      yield put({
-        type: 'handleCreateModal',
-        payload: false,
-      });
-      message.success('Tạo Company thành công');
+    //   yield put({
+    //     type: 'handleCreateModal',
+    //     payload: false,
+    //   });
+    //   message.success('Tạo Company thành công');
 
-      yield put({
-        type: 'loadListCompany',
-      });
-    },
-    *fullCreate({ payload }, { call }) {
+    // },
+    *fullCreate({ payload }, { call, put }) {
       // const response =
       yield call(fullCreateCompany, payload);
 
       message.success('Tạo Company thành công');
       history.push({
         pathname: '/company/',
+      });
+      yield put({
+        type: 'loadListCompany',
       });
     },
     *loadListCompany(_, { call, put }) {
