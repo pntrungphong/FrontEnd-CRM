@@ -62,22 +62,20 @@ class ContactDetail extends Component {
               {contact.data.company.map((item) => {
                 return (
                   <>
-                    <Tag key={item.name}>
+                    <Tag key={item.key}>
                       <a
                         onClick={() => {
                           history.push({
                             pathname: '/company/detail',
                             query: {
-                              id: item.id,
+                              id: item.key,
                             },
                           });
                         }}
                       >
-                        {/* {' '} */}
-                        {item.name}
+                        {item.value}
                       </a>
                     </Tag>
-                    ,
                   </>
                 );
               })}
@@ -99,14 +97,13 @@ class ContactDetail extends Component {
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Referral">
-              {contact.data.referral}
-              {/* {contact.data.tag.map((item) => {
+              {contact.data.referral.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item.key}>{item.value}</Tag>
                   </>
                 );
-              })} */}
+              })}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -128,7 +125,7 @@ class ContactDetail extends Component {
               {contact.data.phone.map((item) => {
                 return (
                   <>
-                    <Tag key={item.number}>{item.number}</Tag>,
+                    <Tag key={item.number}>{item.number}</Tag>
                   </>
                 );
               })}
@@ -140,7 +137,7 @@ class ContactDetail extends Component {
               {contact.data.address.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item}>{item}</Tag>
                   </>
                 );
               })}
