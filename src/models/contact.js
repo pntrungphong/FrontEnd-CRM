@@ -1,19 +1,12 @@
 import { message } from 'antd';
 import { history } from 'umi';
-
-import {
-  createContact,
-  getContact,
-  updateContact,
-  getContactById,
-  fullCreateContact,
-} from '../services/contact';
+import { formatedListContactData, formatedDetailContactData } from './utils';
+import { getContact, updateContact, getContactById, fullCreateContact } from '../services/contact';
 import { getCompanyByName } from '../services/company';
 
 const Model = {
   namespace: 'contact',
   state: {
-    visible: false,
     contactInfo: [],
     data: undefined,
     searchContactValue: '',
@@ -23,20 +16,6 @@ const Model = {
     searchValueContactReferral: [],
   },
   effects: {
-    *create({ payload }, { call, put }) {
-      // const response =
-      yield call(createContact, payload);
-
-      yield put({
-        type: 'handleCreateModal',
-        payload: false,
-      });
-      message.success('Tạo Contact thành công');
-
-      yield put({
-        type: 'loadListContact',
-      });
-    },
     *searchCompanyByName({ payload }, { call, put }) {
       if (payload.value === '') return;
       const response = yield call(getCompanyByName, payload.value);
@@ -68,7 +47,6 @@ const Model = {
       },
       { call, put },
     ) {
-      if (payload.value === '') return;
       yield put({
         type: 'saveContactSearchValue',
         payload: payload.searchValue,
@@ -78,7 +56,7 @@ const Model = {
       if (response != null) {
         yield put({
           type: 'saveContactInfo',
-          payload: response,
+          payload: formatedListContactData(response),
         });
       }
     },
@@ -92,11 +70,10 @@ const Model = {
       { call, put },
     ) {
       const response = yield call(getContact, payload);
-
       if (response != null) {
         yield put({
           type: 'saveContactInfo',
-          payload: response,
+          payload: formatedListContactData(response),
         });
       }
     },
@@ -109,6 +86,25 @@ const Model = {
         pathname: '/contact/',
       });
     },
+    // * quickCreate({ payload }, { call, put }) {
+
+    //     const response = yield call(fullCreateContact, payload);
+    //     console.table(response);
+    //     const previousData = payload.previousData;
+
+    //     previousData.push({
+    //         value: `${response.id}`,
+    //         key: `${response.id}`,
+    //         label: response.name,
+    //     });
+    //     console.table(previousData);
+
+    //     yield put({
+    //         type: 'handleQuickCreate',
+    //         payload: previousData,
+    //     });
+
+    // },
     *update({ payload }, { call }) {
       // const response =
       yield call(updateContact, payload);
@@ -120,38 +116,10 @@ const Model = {
     },
     *loading({ payload }, { call, put }) {
       const response = yield call(getContactById, payload);
-      console.table(response);
-      const company = [];
-      if (response.company.length >= 0) {
-        response.company.forEach((element) => {
-          company.push({
-            key: element.id,
-            value: element.name,
-          });
-        });
-      }
-      const referral = [];
-      if (response.referral.length >= 0) {
-        response.referral.forEach((element) => {
-          referral.push({
-            key: element.idTarget,
-            value: element.name,
-          });
-        });
-      }
-      const formatedValue = {
-        name: response.name,
-        phone: response.phone,
-        address: response.address,
-        company,
-        email: response.email,
-        website: response.website,
-        referral,
-        tag: response.tag,
-      };
+
       yield put({
         type: 'loadContact',
-        payload: formatedValue,
+        payload: formatedDetailContactData(response),
       });
     },
   },
@@ -177,6 +145,10 @@ const Model = {
     handleSearchChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
     },
+    handleQuickCreate(state, { payload }) {
+      return { ...state, searchValueContactReferral: payload };
+    },
+
     handleSearchChangeContactReferral(state, { payload }) {
       return {
         ...state,
@@ -188,8 +160,8 @@ const Model = {
       return {
         ...state,
         contactInfo: payload.data,
-        itemCount: payload.meta.itemCount,
-        currentPage: payload.meta.page,
+        itemCount: payload.itemCount,
+        currentPage: payload.page,
       };
     },
     saveContactSearchValue(state, { payload }) {

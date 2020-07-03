@@ -1,18 +1,7 @@
-import { Modal, Form, Input, Tag, Table, Button } from 'antd';
+import { Form, Tag, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-  },
-};
 
 const columns = [
   {
@@ -74,26 +63,7 @@ const columns = [
       </>
     ),
   },
-  // {
-  //   title: 'Address',
-  //   dataIndex: 'address',
-  //   key: 'address',
-  // },
-  // {
-  //   title: 'Phone',
-  //   dataIndex: 'phone',
-  //   key: 'phone',
-  // },
-  // {
-  //   title: 'Email',
-  //   dataIndex: 'email',
-  //   key: 'email',
-  // },
-  // {
-  //   title: 'Website',
-  //   dataIndex: 'website',
-  //   key: 'website',
-  // },
+
   {
     title: 'Action',
     key: 'action',
@@ -137,44 +107,20 @@ class App extends React.Component {
     super(props);
 
     this.state = {
-      props,
+      // props,
     };
   }
 
-  showModal = () => {
-    this.state.props.dispatch({
-      type: 'company/handleCreateModal',
-      payload: true,
-    });
-  };
-
-  handleCancel = () => {
-    this.props.dispatch({
-      type: 'company/handleCreateModal',
-      payload: false,
-    });
-  };
-
   render() {
-    const { visible } = this.props.company;
-
     return (
       <div>
-        <Button type="primary" onClick={this.showModal}>
-          Create Company
-        </Button>
-        <Modal title="Create Company" visible={visible} footer={null} onCancel={this.handleCancel}>
-          <Create />
-        </Modal>
+        <Create />
+
         <ListCompany />
       </div>
     );
   }
 }
-
-const validateMessages = (label) => ({
-  required: `${label} is required!`,
-});
 
 const ListCompany = connect(({ company, loading }) => ({
   company,
@@ -201,53 +147,16 @@ const ListCompany = connect(({ company, loading }) => ({
 const Create = connect(({ company, loading }) => ({
   company,
   submitting: loading.effects['company/create'],
-}))(function (props) {
-  const [form] = Form.useForm();
-  const onFinish = (values) => {
-    props.dispatch({
-      type: 'company/create',
-      payload: { ...values },
-    });
-  };
-
+}))(function () {
   const createDetail = () => {
-    const company = form.getFieldValue('company');
-
     history.push({
       pathname: '/company/create',
-      state: {
-        name: company.name,
-        website: company.website,
-      },
     });
   };
 
   return (
-    <Form
-      {...layout}
-      form={form}
-      name="nest-messages"
-      onFinish={onFinish}
-      validateMessages={validateMessages}
-    >
-      <Form.Item
-        name={['company', 'name']}
-        label="Name"
-        initialValue=""
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item name={['company', 'website']} label="Website" initialValue="">
-        <Input />
-      </Form.Item>
-
-      <Form.Item {...tailLayout}>
+    <Form>
+      <Form.Item>
         <Button
           htmlType="button"
           style={{
@@ -255,10 +164,7 @@ const Create = connect(({ company, loading }) => ({
           }}
           onClick={createDetail}
         >
-          Create Detail
-        </Button>
-        <Button type="primary" htmlType="submit" loading={props.submitting}>
-          Submit
+          Create
         </Button>
       </Form.Item>
     </Form>
