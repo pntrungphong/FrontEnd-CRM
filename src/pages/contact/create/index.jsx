@@ -36,14 +36,12 @@ const validateMessages = (label) => ({
 class Create extends React.Component {
   constructor(props) {
     super(props);
-    // this.lastFetchId = 0;
+
     this.fetchCompany = debounce(this.fetchCompany, 1000);
     this.fetchContact = debounce(this.fetchContact, 1000);
   }
 
   onFinish = (values) => {
-    console.table(values);
-
     this.props.dispatch({
       type: 'contact/fullCreate',
       payload: { ...values },
@@ -67,7 +65,10 @@ class Create extends React.Component {
       type: 'contact/handleSearchChangeContactReferral',
       payload: { value: this.props.contact.searchValueContactReferral, contactInfo: [] },
     });
-
+    this.props.dispatch({
+      type: 'searchModel/saveSearchValue',
+      payload: value,
+    });
     this.props.dispatch({
       type: 'contact/searchContactReferralByName',
       payload: {
@@ -84,9 +85,16 @@ class Create extends React.Component {
   };
 
   createContact = () => {
-    history.push({
-      pathname: '/contact/create',
-    });
+    // console.table(this.props.contact.searchValueContactReferral);
+    // this.props.dispatch({
+    //   type: 'contact/quickCreate',
+    //   payload: {
+    //     contact:{
+    //       name:this.props.searchModel.searchValue,
+    //   },
+    //   previousData: this.props.contact.searchValueContactReferral,
+    //  },
+    // });
   };
 
   handleChange = (value) => {
@@ -130,7 +138,9 @@ class Create extends React.Component {
           >
             <Input />
           </Form.Item>
-
+          <Form.Item name={['contact', 'title']} label="Title">
+            <Input />
+          </Form.Item>
           <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'phone']}>
               {(fields, { add, remove }) => {
@@ -431,8 +441,9 @@ class Create extends React.Component {
   }
 }
 
-export default connect(({ contact, loading }) => ({
+export default connect(({ contact, loading, searchModel }) => ({
   contact,
+  searchModel,
   submitting: loading.effects['contact/fullCreate'],
   fetchingCompany: loading.effects['contact/searchCompanyByName'],
   fetchingContact: loading.effects['contact/searchContactReferralByName'],

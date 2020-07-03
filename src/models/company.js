@@ -9,19 +9,7 @@ const Model = {
     data: undefined,
   },
   effects: {
-    // *create({ payload }, { call, put }) {
-    //   // const response =
-    //   yield call(createCompany, payload);
-
-    //   yield put({
-    //     type: 'handleCreateModal',
-    //     payload: false,
-    //   });
-    //   message.success('Tạo Company thành công');
-
-    // },
     *fullCreate({ payload }, { call, put }) {
-      // const response =
       yield call(fullCreateCompany, payload);
 
       message.success('Tạo Company thành công');
@@ -40,9 +28,8 @@ const Model = {
       });
     },
     *update({ payload }, { call }) {
-      // const response =
       yield call(updateCompany, payload);
-      // console.table(response);
+
       history.push({
         pathname: '/company',
       });

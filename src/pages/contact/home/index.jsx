@@ -12,26 +12,31 @@ const columns = [
     key: 'name',
   },
   {
+    title: 'Title',
+    dataIndex: 'title',
+    key: 'title',
+  },
+  {
     title: 'Company',
     dataIndex: 'company',
     key: 'company',
     render: (company) => (
       <>
         {company.map((item) => {
-          return item.id !== undefined ? (
-            <Tag key={item.id}>
+          return item.key !== undefined ? (
+            <Tag key={item.key}>
               <a
                 onClick={() => {
                   history.push({
                     pathname: '/company/detail',
                     query: {
-                      id: item.id,
+                      id: item.key,
                     },
                   });
                 }}
               >
                 {' '}
-                {item.name.toUpperCase()}
+                {item.value.toUpperCase()}
               </a>
             </Tag>
           ) : (
