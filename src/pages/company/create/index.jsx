@@ -154,8 +154,9 @@ class Create extends React.Component {
                           <Row>
                             <Col flex="2">
                               <Form.Item
-                                // {...field}
-                                name="phone"
+                                {...field}
+                                name={[field.name, 'number']}
+                                fieldKey={[field.fieldKey, 'number']}
                               >
                                 <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                               </Form.Item>
@@ -213,8 +214,9 @@ class Create extends React.Component {
                           <Row>
                             <Col flex="2">
                               <Form.Item
-                                // {...field}
-                                name="email"
+                                {...field}
+                                name={[field.name, 'url']}
+                                fieldKey={[field.fieldKey, 'url']}
                                 placeholder="Your Email"
                                 rules={[
                                   { type: 'email', message: 'The input is wrong' },

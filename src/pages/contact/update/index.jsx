@@ -186,6 +186,11 @@ const Update = connect(({ contact, loading }) => ({
                               {...field}
                               name={[field.name, 'number']}
                               fieldKey={[field.fieldKey, 'number']}
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
                             >
                               <Input placeholder="Your Phone" />
                             </Form.Item>
@@ -196,6 +201,11 @@ const Update = connect(({ contact, loading }) => ({
                               style={{ width: '100%' }}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
                             >
                               <Select placeholder="Select Phone">
                                 <Option value="Mobile">Mobile</Option>
@@ -248,6 +258,11 @@ const Update = connect(({ contact, loading }) => ({
                               {...field}
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
                             >
                               <Input placeholder="URL Email" />
                             </Form.Item>
@@ -257,6 +272,11 @@ const Update = connect(({ contact, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
                             >
                               <Select placeholder="Select Email">
                                 <Option value="Gmail">Gmail</Option>
@@ -311,6 +331,11 @@ const Update = connect(({ contact, loading }) => ({
                               {...field}
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
                             >
                               <Input placeholder="URL Website" />
                             </Form.Item>
@@ -320,6 +345,11 @@ const Update = connect(({ contact, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
+                              rules={[
+                                {
+                                  required: true,
+                                },
+                              ]}
                             >
                               <Select placeholder="Select website">
                                 <Option value="Facebook">Facebook</Option>

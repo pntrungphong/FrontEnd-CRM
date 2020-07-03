@@ -164,8 +164,14 @@ class Create extends React.Component {
                           <Row>
                             <Col flex="2">
                               <Form.Item
-                                // {...field}
-                                name="phone"
+                                {...field}
+                                name={[field.name, 'number']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
+                                fieldKey={[field.fieldKey, 'number']}
                               >
                                 <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                               </Form.Item>
@@ -175,6 +181,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Select placeholder="Select Phone">
                                   <Option value="Mobile">Mobile</Option>
@@ -223,8 +234,9 @@ class Create extends React.Component {
                           <Row>
                             <Col flex="2">
                               <Form.Item
-                                name="email"
-                                placeholder="Your Email"
+                                {...field}
+                                name={[field.name, 'url']}
+                                fieldKey={[field.fieldKey, 'url']}
                                 rules={[
                                   { type: 'email', message: 'The input is wrong' },
                                   {
@@ -241,6 +253,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Select placeholder="Select Email">
                                   <Option value="Gmail">Gmail</Option>
@@ -296,6 +313,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Input placeholder="URL Website" />
                               </Form.Item>
@@ -305,6 +327,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Select placeholder="Select website">
                                   <Option value="Facebook">Facebook</Option>
@@ -366,15 +393,13 @@ class Create extends React.Component {
                         >
                           <Input placeholder="Address" style={{ width: '90%' }} />
                         </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: '0 8px' }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
+                        <MinusCircleOutlined
+                          className="dynamic-delete-button"
+                          style={{ margin: '0 8px' }}
+                          onClick={() => {
+                            remove(field.name);
+                          }}
+                        />
                       </Form.Item>
                     ))}
                   </div>

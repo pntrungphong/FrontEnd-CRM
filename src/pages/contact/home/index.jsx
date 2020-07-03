@@ -64,8 +64,8 @@ const columns = [
         {phone.map((item) => {
           return (
             <div>
-              <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
-              <Tag key={item.type}>{item.number.toUpperCase()}</Tag>;
+              <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+              <Tag key={item.type}>{item.number.toUpperCase()}</Tag>
             </div>
           );
         })}
