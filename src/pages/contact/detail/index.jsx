@@ -20,7 +20,7 @@ class ContactDetail extends Component {
       return <Spin />;
     }
     return (
-      <PageHeaderWrapper title="Contact Details/">
+      <PageHeaderWrapper title="Contact Details">
         <Card bordered="true">
           <div className={one}>
             <Avatar size={64} icon={<UserOutlined />} />

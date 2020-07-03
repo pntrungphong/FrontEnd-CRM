@@ -1,26 +1,12 @@
 import request from '../utils/request';
 
-// export async function createCompany(params) {
-//   const body = {
-//     name: `${params.company.name}`,
-//     address: '',
-//     email: '',
-//     phone: '',
-//     website: `${params.company.website}`,
-//     url: '',
-//     createdBy: '',
-//     updatedBy: '',
-//   };
-
-//   return request('/company', {
-//     method: 'POST',
-
-//     data: body,
-//   });
-// }
-
-export async function getCompany() {
-  return request('/company?order=ASC&page=1&take=50', {
+export async function getCompany(params) {
+  if (params.searchValue !== '') {
+    return request(`/company?order=DESC&page=${params.page}&take=10&q=${params.searchValue}`, {
+      method: 'GET',
+    });
+  }
+  return request(`/company?order=DESC&page=${params.page}&take=10`, {
     method: 'GET',
   });
 }

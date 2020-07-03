@@ -95,7 +95,7 @@ const BasicLayout = (props) => {
     <>
       <ProLayout
         className={styles.antMenuCustom}
-        logo="Logo"
+        logo="./logo.png"
         formatMessage={formatMessage}
         menuHeaderRender={(logoDom) => (
           <>
@@ -103,7 +103,7 @@ const BasicLayout = (props) => {
               {logoDom}
             </Link>
             <div className={styles.splitter} />
-            <div className={styles.titleOne}>HARMONIA</div>
+
             <Button onClick={logout} type="primary" className="btn-logout">
               Logout
             </Button>
