@@ -2,6 +2,7 @@ import { Modal, Tag, Form, Row, Pagination, Col, Input, Table, Button } from 'an
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import { test } from './style.less';
 
 const { Search } = Input;
 
@@ -18,9 +19,23 @@ const tailLayout = {
 
 const columns = [
   {
+    title: 'STT',
+    dataIndex: 'stt',
+    sorter: {
+      compare: (a, b) => a.math - b.math,
+      multiple: 10,
+    },
+    key: 'stt',
+  },
+  {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+  },
+  {
+    title: 'Title',
+    dataIndex: 'title',
+    key: 'title',
   },
   {
     title: 'Company',
@@ -59,7 +74,12 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
+          return (
+            <div>
+              <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
+              <Tag key={item.type}>{item.number.toUpperCase()}</Tag>;
+            </div>
+          );
         })}
       </>
     ),
@@ -83,7 +103,12 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
+          return (
+            <div>
+              <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+              <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
+            </div>
+          );
         })}
       </>
     ),
@@ -163,7 +188,13 @@ class App extends React.Component {
     const { visible } = this.props.contact;
     return (
       <div>
-        <Modal title="Create Contact" visible={visible} footer={null} onCancel={this.handleCancel}>
+        <Modal
+          title="Create Contact"
+          visible={visible}
+          footer={null}
+          onCancel={this.handleCancel}
+          className={test}
+        >
           <Create />
         </Modal>
         <Row>
