@@ -33,6 +33,12 @@ class ContactDetail extends Component {
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Title">
+              {contact.data.title}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Email">
               {contact.data.email.map((item) => {
                 return (

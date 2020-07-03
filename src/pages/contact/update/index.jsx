@@ -138,6 +138,7 @@ const Update = connect(({ contact, loading }) => ({
             phone: props.contact.data.phone,
             website: props.contact.data.website,
             email: props.contact.data.email,
+            title: props.contact.data.title,
             referral: props.contact.data.referral,
             address: props.contact.data.address,
             company: props.contact.data.company,
@@ -154,6 +155,9 @@ const Update = connect(({ contact, loading }) => ({
             },
           ]}
         >
+          <Input />
+        </Form.Item>
+        <Form.Item name={['contact', 'title']} label="Title">
           <Input />
         </Form.Item>
 

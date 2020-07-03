@@ -86,6 +86,7 @@ export async function updateContact(params) {
 
   const body = {
     name: `${params.contact.name}`,
+    title: params.contact.title !== undefined ? params.contact.title : '',
     phone,
     address,
     company,
@@ -179,6 +180,7 @@ export async function fullCreateContact(params) {
 
   const body = {
     name: `${params.contact.name}`,
+    title: params.contact.title !== undefined ? params.contact.title : '',
     phone,
     address,
     company,
@@ -187,7 +189,7 @@ export async function fullCreateContact(params) {
     referral,
     tag,
   };
-
+  console.table(body);
   return request('/contact', {
     method: 'POST',
     data: body,
@@ -196,11 +198,11 @@ export async function fullCreateContact(params) {
 
 export async function getContact(params) {
   if (params.searchValue !== '') {
-    return request(`/contact?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+    return request(`/contact?order=DESC&page=${params.page}&take=10&q=${params.searchValue}`, {
       method: 'GET',
     });
   }
-  return request(`/contact?order=ASC&page=${params.page}&take=10`, {
+  return request(`/contact?order=DESC&page=${params.page}&take=10`, {
     method: 'GET',
   });
 }

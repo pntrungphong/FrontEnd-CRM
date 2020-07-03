@@ -44,7 +44,7 @@ class CompanyDetail extends Component {
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
-          <Descriptions bordered>
+          {/* <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
               {company.data.tag.map((item) => {
                 return (
@@ -54,7 +54,7 @@ class CompanyDetail extends Component {
                 );
               })}
             </Descriptions.Item>
-          </Descriptions>
+          </Descriptions> */}
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Phone">
