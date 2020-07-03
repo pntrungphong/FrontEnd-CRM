@@ -161,7 +161,6 @@ const Model = {
         ...state,
         contactInfo: payload.data,
         itemCount: payload.itemCount,
-        currentPage: payload.page,
       };
     },
     saveContactSearchValue(state, { payload }) {

@@ -4,6 +4,7 @@ import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
+// import { number } from 'prop-types';
 
 const { Option } = Select;
 
@@ -165,9 +166,14 @@ class Create extends React.Component {
                               <Form.Item
                                 {...field}
                                 name={[field.name, 'number']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                                 fieldKey={[field.fieldKey, 'number']}
                               >
-                                <Input placeholder="Your Phone" />
+                                <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                               </Form.Item>
                             </Col>
                             <Col flex="2">
@@ -175,6 +181,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Select placeholder="Select Phone">
                                   <Option value="Mobile">Mobile</Option>
@@ -213,11 +224,11 @@ class Create extends React.Component {
                           add();
                         }}
                       >
-                        <PlusOutlined /> Add Email
+                        <PlusOutlined /> Add Emails
                       </Button>
                     </Form.Item>
                     {fields.map((field) => (
-                      <Row key={field.key}>
+                      <Row key={[field.key, '@gmail.com', '@geekup.vn']}>
                         <Col span={8} />
                         <Col span={16}>
                           <Row>
@@ -226,8 +237,15 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
+                                rules={[
+                                  { type: 'email', message: 'The input is wrong' },
+                                  {
+                                    required: true,
+                                    messages: 'Please input your email',
+                                  },
+                                ]}
                               >
-                                <Input placeholder="URL Email" />
+                                <Input />
                               </Form.Item>
                             </Col>
                             <Col flex="2">
@@ -235,6 +253,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Select placeholder="Select Email">
                                   <Option value="Gmail">Gmail</Option>
@@ -290,6 +313,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Input placeholder="URL Website" />
                               </Form.Item>
@@ -299,6 +327,11 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[
+                                  {
+                                    required: true,
+                                  },
+                                ]}
                               >
                                 <Select placeholder="Select website">
                                   <Option value="Facebook">Facebook</Option>
@@ -360,15 +393,13 @@ class Create extends React.Component {
                         >
                           <Input placeholder="Address" style={{ width: '90%' }} />
                         </Form.Item>
-                        {fields.length > 1 ? (
-                          <MinusCircleOutlined
-                            className="dynamic-delete-button"
-                            style={{ margin: '0 8px' }}
-                            onClick={() => {
-                              remove(field.name);
-                            }}
-                          />
-                        ) : null}
+                        <MinusCircleOutlined
+                          className="dynamic-delete-button"
+                          style={{ margin: '0 8px' }}
+                          onClick={() => {
+                            remove(field.name);
+                          }}
+                        />
                       </Form.Item>
                     ))}
                   </div>

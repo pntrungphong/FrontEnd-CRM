@@ -1,5 +1,6 @@
 import { message } from 'antd';
 import { history } from 'umi';
+import { formatedListCompanyData } from './utils';
 import { getCompany, updateCompany, getCompanyById, fullCreateCompany } from '../services/company';
 
 const Model = {
@@ -7,6 +8,8 @@ const Model = {
   state: {
     companyInfo: undefined,
     data: undefined,
+    itemCount: undefined,
+    searchCompanyValue: '',
   },
   effects: {
     *fullCreate({ payload }, { call, put }) {
@@ -20,12 +23,45 @@ const Model = {
         type: 'loadListCompany',
       });
     },
-    *loadListCompany(_, { call, put }) {
-      const response = yield call(getCompany);
+    *searchCompanyByName(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
       yield put({
-        type: 'saveCompanyInfo',
-        payload: response.data,
+        type: 'saveCompanySearchValue',
+        payload: payload.searchValue,
       });
+      console.table(payload.searchValue);
+      const response = yield call(getCompany, payload);
+
+      if (response != null) {
+        yield put({
+          type: 'saveCompanyInfo',
+          payload: formatedListCompanyData(response),
+        });
+      }
+    },
+    *loadListCompany(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
+      const response = yield call(getCompany, payload);
+      if (response != null) {
+        yield put({
+          type: 'saveCompanyInfo',
+          payload: formatedListCompanyData(response),
+        });
+      }
     },
     *update({ payload }, { call }) {
       yield call(updateCompany, payload);
@@ -46,7 +82,7 @@ const Model = {
   },
   reducers: {
     saveCompanyInfo(state, { payload }) {
-      return { ...state, companyInfo: payload };
+      return { ...state, companyInfo: payload.data, itemCount: payload.itemCount };
     },
     handleCreateModal(state, { payload }) {
       return { ...state, visible: payload };
@@ -56,6 +92,9 @@ const Model = {
     },
     cleanData(state) {
       return { ...state, data: undefined };
+    },
+    saveCompanySearchValue(state, { payload }) {
+      return { ...state, searchCompanyValue: payload };
     },
   },
 };

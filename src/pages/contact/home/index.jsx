@@ -7,6 +7,15 @@ import Styles from './style.less';
 const { Search } = Input;
 const columns = [
   {
+    title: 'STT',
+    dataIndex: 'stt',
+    sorter: {
+      compare: (a, b) => a.math - b.math,
+      multiple: 10,
+    },
+    key: 'stt',
+  },
+  {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
@@ -53,7 +62,12 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
+          return (
+            <div>
+              <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+              <Tag key={item.type}>{item.number.toUpperCase()}</Tag>
+            </div>
+          );
         })}
       </>
     ),
@@ -66,7 +80,12 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
+          return (
+            <div>
+              <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+              <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
+            </div>
+          );
         })}
       </>
     ),

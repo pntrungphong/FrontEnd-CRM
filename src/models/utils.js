@@ -153,3 +153,53 @@ export const formatedListContactData = (response) => {
     throw new Error('Missing pagination data');
   }
 };
+
+export const formatedListCompanyData = (response) => {
+  try {
+    const formatedData = [];
+    response.data.forEach((element) => {
+      const contact = [];
+      if (element.contact != null) {
+        element.contact.forEach((data) => {
+          contact.push({
+            key: data.id,
+            value: data.name,
+          });
+        });
+      }
+
+      const email = [];
+      if (element.email != null) {
+        element.email.forEach((data) => {
+          email.push(data);
+        });
+      }
+
+      const phone = [];
+      if (element.phone != null) {
+        element.phone.forEach((data) => {
+          phone.push(data);
+        });
+      }
+      const data = {
+        contact,
+        email,
+        phone,
+
+        name: element.name,
+        id: element.id,
+      };
+      formatedData.push(data);
+    });
+    const returnData = {
+      data: formatedData,
+      itemCount: response.meta.itemCount,
+      currentPage: response.meta.page,
+    };
+    console.table(returnData);
+
+    return returnData;
+  } catch (error) {
+    throw new Error('Missing pagination data');
+  }
+};
