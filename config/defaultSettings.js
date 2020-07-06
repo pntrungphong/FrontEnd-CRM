@@ -4,7 +4,7 @@ export default {
   var: {
     'font-family': 'AvenirNext',
     'typography-title-font-weight': '600',
-    'primary-color': '#f1753b',
+    'primary-color': '#269f99',
     'success-color': '#5ccca0',
     'error-color': '#fa7580',
     'warning-color': '#f1753b',
@@ -45,7 +45,7 @@ export default {
   menu: {
     locale: true,
   },
-  title: 'Yan Shung Investment Company Limited',
+  title: 'Harmonia',
   pwa: true,
   iconfontUrl: '',
 };

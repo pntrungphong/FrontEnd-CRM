@@ -95,7 +95,7 @@ const BasicLayout = (props) => {
     <>
       <ProLayout
         className={styles.antMenuCustom}
-        logo="./logo.png"
+        logo="/logo.png"
         formatMessage={formatMessage}
         menuHeaderRender={(logoDom) => (
           <>
@@ -103,8 +103,7 @@ const BasicLayout = (props) => {
               {logoDom}
             </Link>
             <div className={styles.splitter} />
-
-            <Button onClick={logout} type="primary" className="btn-logout">
+            <Button onClick={logout} type="success" className="btn-logout">
               Logout
             </Button>
           </>
@@ -119,23 +118,23 @@ const BasicLayout = (props) => {
 
           return <Link to={menuItemProps.path}>{customDom}</Link>;
         }}
-        breadcrumbRender={(routers = []) => [
-          {
-            path: '/',
-            breadcrumbName: formatMessage({
-              id: 'menu.home',
-            }),
-          },
-          ...routers,
-        ]}
-        itemRender={(route, params, routes, paths) => {
-          const first = routes.indexOf(route) === 0;
-          return first ? (
-            <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
-          ) : (
-            <span>{route.breadcrumbName}</span>
-          );
-        }}
+        // breadcrumbRender={(routers = []) => [
+        //   {
+        //     path: '/',
+        //     breadcrumbName: formatMessage({
+        //       id: 'menu.home',
+        //     }),
+        //   },
+        //   ...routers,
+        // ]}
+        // itemRender={(route, params, routes, paths) => {
+        //   const first = routes.indexOf(route) === 0;
+        //   return first ? (
+        //     <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
+        //   ) : (
+        //       <span>{route.breadcrumbName}</span>
+        //     );
+        // }}
         menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
         breakpoint="sm"

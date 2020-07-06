@@ -10,11 +10,11 @@ export default [
       {
         Routes: ['src/pages/Authorized'],
         component: '../layouts/BasicLayout',
-        authority: ['admin', '', 'user', 'USER'],
+        authority: ['admin', 'user', 'USER'],
         routes: [
           {
             path: '/company',
-            name: 'company',
+            name: 'Company',
             component: 'company/home',
           },
           {
@@ -35,7 +35,7 @@ export default [
           },
           {
             path: '/contact',
-            name: 'contact',
+            name: 'Contact',
             component: 'contact/home',
           },
           {
@@ -48,7 +48,7 @@ export default [
           },
           {
             path: '/lead',
-            name: 'lead',
+            name: 'Lead',
             component: 'lead/home',
           },
           {
