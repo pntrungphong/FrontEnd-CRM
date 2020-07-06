@@ -2,10 +2,20 @@
 @import '../styles/AntStyles/index';
 
 .antMenuCustom {
-  li:last-child {
-    border-top: @border-width-base @border-style-base @border-color-base;
+  // li:last-child {
+  //   border-top: @border-width-base @border-style-base @border-color-base;
+  // }
+
+  li {
+    font-size: initial;
   }
 
+  img {
+    justify-content: center;
+    width: 95%;
+    height: auto;
+    margin-top: 15px;
+  }
   :global {
     @media screen and (min-width: @screen-sm-max) {
       .ant-pro-global-header-trigger {
@@ -30,8 +40,12 @@
     .btn-logout {
       position: fixed;
       bottom: 33px;
-      left: 50px;
+      left: 45px;
       z-index: 500;
+      color: white;
+      font-size: initial;
+      background-color: #056d6b;
+      border: none;
     }
   }
   .ant-pro-basicLayout-mobile {
@@ -39,13 +53,6 @@
       display: none;
     }
   }
-}
-
-.logo {
-  justify-content: center;
-  height: auto;
-  padding-top: 34px;
-  padding-bottom: 13px;
 }
 
 .splitter {
@@ -65,7 +72,6 @@
   display: flex;
   align-items: center;
   justify-content: flex-start;
-
   > img {
     margin-right: 16px;
   }
