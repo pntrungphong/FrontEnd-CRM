@@ -182,18 +182,17 @@ class ContactDetail extends Component {
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Address</h3>
+              <h3 className={styles.cloOne}>
+                <span> </span>Address
+              </h3>
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
                 <span className={styles.cloTwo}>
-                  {' '}
                   {contact.data.address.map((item) => {
                     return (
                       <>
-                        <Tag key={item} className={styles.ta}>
-                          {item}
-                        </Tag>
+                        <span key={item}>{item}</span>
                       </>
                     );
                   })}

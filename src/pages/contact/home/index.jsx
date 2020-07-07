@@ -1,4 +1,4 @@
-import { Tag, Form, Pagination, Input, Table, Button } from 'antd';
+import { Tag, Form, Pagination, Input, Table, Button, Row, Col } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -6,15 +6,15 @@ import Styles from './style.less';
 
 const { Search } = Input;
 const columns = [
-  {
-    title: 'STT',
-    dataIndex: 'stt',
-    sorter: {
-      compare: (a, b) => a.math - b.math,
-      multiple: 10,
-    },
-    key: 'stt',
-  },
+  // {
+  //   title: 'STT',
+  //   dataIndex: 'stt',
+  //   sorter: {
+  //     compare: (a, b) => a.math - b.math,
+  //     multiple: 10,
+  //   },
+  //   key: 'stt',
+  // },
   {
     title: 'Name',
     dataIndex: 'name',
@@ -64,8 +64,14 @@ const columns = [
         {phone.map((item) => {
           return (
             <div>
-              <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
-              <Tag key={item.type}>{item.number.toUpperCase()}</Tag>
+              <Row>
+                <Col flex="40%">
+                  <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="60%" style={{ textAlign: 'left' }}>
+                  <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+                </Col>
+              </Row>
             </div>
           );
         })}
@@ -82,8 +88,14 @@ const columns = [
         {email.map((item) => {
           return (
             <div>
-              <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
-              <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
+              <Row>
+                <Col flex="30%">
+                  <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="70%">
+                  <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+                </Col>
+              </Row>
             </div>
           );
         })}
