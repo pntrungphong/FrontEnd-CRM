@@ -1,10 +1,9 @@
-import { Card, Descriptions, Divider, Tag, Spin, Avatar } from 'antd';
+import { Card, Divider, Descriptions, Tag, Spin, Avatar, Row, Col } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
-import { StylesProvider } from '@material-ui/core';
-import { one, two, three, five } from './style.less';
+import styles, { three, five } from './style.less';
 
 class ContactDetail extends Component {
   componentDidMount() {
@@ -23,59 +22,38 @@ class ContactDetail extends Component {
     return (
       <PageHeaderWrapper title="Contact Details">
         <Card bordered="true">
-          <div className={one}>
+          <div className={styles.one}>
             <Avatar size={64} icon={<UserOutlined />} />
           </div>
-          <Divider className={two} />
-          <Descriptions bordered className={StylesProvider.four}>
+          <Divider className={styles.two} />
+          {/* <Descriptions bordered className={four}>
             <Descriptions.Item className={five} span={3} label="Name">
-              {contact.data.name}
+              
             </Descriptions.Item>
-          </Descriptions>
-          <Divider className={two} />
-          <Descriptions bordered className={StylesProvider.four}>
-            <Descriptions.Item className={five} span={3} label="Title">
-              {contact.data.title}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Email">
-              {contact.data.email.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.url}>{item.url}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Phone">
-              {contact.data.phone.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.number}>{item.number}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
+          </Descriptions> */}
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Name
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.clo}>
+                <span className={styles.cloTwo}>{contact.data.name}</span>
+              </div>
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Title</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.clo}>
+                <span className={styles.cloTwo}>{contact.data.title}</span>
+              </div>
+            </Col>
+          </Row>
 
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Tag">
-              {contact.data.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key}>{item.label}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Referral">
               {contact.data.referral.map((item) => {
@@ -114,6 +92,19 @@ class ContactDetail extends Component {
           </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Tag">
+              {contact.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key}>{item.label}</Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Divider className={three} />
+          <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Website">
               {contact.data.website.map((item) => {
                 return (
@@ -125,19 +116,153 @@ class ContactDetail extends Component {
             </Descriptions.Item>
           </Descriptions>
 
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Address">
-              {contact.data.address.map((item) => {
-                return (
-                  <>
-                    <Tag key={item}>{item}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Email</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {contact.data.email.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.url} className={styles.ta}>
+                          {item.url}
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Phone</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {contact.data.phone.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.number} className={styles.ta}>
+                          {item.number}
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>{contact.data.tag}</span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Referral</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {contact.data.referral.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.key} className={styles.ta}>
+                          {item.value}
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Company</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {contact.data.company.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.key} className={styles.ta}>
+                          <a
+                            onClick={() => {
+                              history.push({
+                                pathname: '/company/detail',
+                                query: {
+                                  id: item.key,
+                                },
+                              });
+                            }}
+                          >
+                            {item.value}
+                          </a>
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Website</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {contact.data.website.map((item) => {
+                    return (
+                      <>
+                        <a key={item.url}>{item.url}</a>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Address</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {' '}
+                  {contact.data.address.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item} className={styles.ta}>
+                          {item}
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Divider className={styles.three} />
         </Card>
       </PageHeaderWrapper>
     );
