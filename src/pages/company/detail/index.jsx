@@ -44,17 +44,17 @@ class CompanyDetail extends Component {
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
-          {/* <Descriptions bordered>
+          <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
               {company.data.tag.map((item) => {
                 return (
                   <>
-                    <Tag key={item.tag}>{item.tag}</Tag>
+                    <Tag key={item.key}>{item.label}</Tag>
                   </>
                 );
               })}
             </Descriptions.Item>
-          </Descriptions> */}
+          </Descriptions>
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Phone">
@@ -97,12 +97,12 @@ class CompanyDetail extends Component {
                           history.push({
                             pathname: '/contact/detail',
                             query: {
-                              id: item.id,
+                              id: item.key,
                             },
                           });
                         }}
                       >
-                        {item.name}
+                        {item.label}
                       </a>
                     </Tag>
                   </>

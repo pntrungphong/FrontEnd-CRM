@@ -1,7 +1,7 @@
 import { Tag, Form, Pagination, Input, Table, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
-import { useMount } from 'ahooks';
+import { useMount, useUnmount } from 'ahooks';
 import Styles from './style.less';
 
 const { Search } = Input;
@@ -45,7 +45,7 @@ const columns = [
                 }}
               >
                 {' '}
-                {item.value.toUpperCase()}
+                {item.label.toUpperCase()}
               </a>
             </Tag>
           ) : (
@@ -64,8 +64,9 @@ const columns = [
         {phone.map((item) => {
           return (
             <div>
-              <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
-              <Tag key={item.type}>{item.number.toUpperCase()}</Tag>
+              <Tag key={item.number}>
+                {item.number.toUpperCase()}|{item.type.toUpperCase()}
+              </Tag>
             </div>
           );
         })}
@@ -82,8 +83,9 @@ const columns = [
         {email.map((item) => {
           return (
             <div>
-              <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
-              <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
+              <Tag key={item.url}>
+                {item.url.toUpperCase()}|{item.type.toUpperCase()}
+              </Tag>
             </div>
           );
         })}
@@ -169,6 +171,12 @@ const ListContact = connect(({ contact, loading }) => ({
   useMount(() => {
     props.dispatch({
       type: 'contact/loadListContact',
+    });
+  });
+
+  useUnmount(() => {
+    props.dispatch({
+      type: 'contact/cleanData',
     });
   });
 
