@@ -17,6 +17,7 @@ export async function createContact(params) {
 }
 
 export async function updateContact(params) {
+  console.table(params);
   const email = [];
   if (params.contact.email !== undefined) {
     params.contact.email.forEach((element) => {
@@ -78,9 +79,16 @@ export async function updateContact(params) {
   const tag = [];
   if (params.contact.tag !== undefined) {
     params.contact.tag.forEach((element) => {
-      company.push({
-        tag: element,
-      });
+      if (element.value === element.key) {
+        tag.push({
+          tag: element.label,
+        });
+      } else {
+        tag.push({
+          id: parseInt(element.key, 10),
+          tag: element.label,
+        });
+      }
     });
   }
 
@@ -172,9 +180,16 @@ export async function fullCreateContact(params) {
   const tag = [];
   if (params.contact.tag !== undefined) {
     params.contact.tag.forEach((element) => {
-      company.push({
-        tag: element,
-      });
+      if (element.value === element.key) {
+        tag.push({
+          tag: element.label,
+        });
+      } else {
+        tag.push({
+          id: parseInt(element.key, 10),
+          tag: element.label,
+        });
+      }
     });
   }
 

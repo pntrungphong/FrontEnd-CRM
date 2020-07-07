@@ -43,6 +43,7 @@ class Create extends React.Component {
   }
 
   onFinish = (values) => {
+    // console.table(values);
     this.props.dispatch({
       type: 'contact/fullCreate',
       payload: { ...values },
@@ -142,6 +143,13 @@ class Create extends React.Component {
           <Form.Item name={['contact', 'title']} label="Title">
             <Input />
           </Form.Item>
+          <Form.Item name={['contact', 'tag']} label="Tag">
+            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+              <Option key="1">String</Option>
+              <Option key="6">tesst</Option>
+            </Select>
+          </Form.Item>
+
           <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'phone']}>
               {(fields, { add, remove }) => {
@@ -212,6 +220,7 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
+
           <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'email']}>
               {(fields, { add, remove }) => {
@@ -430,7 +439,7 @@ class Create extends React.Component {
               onChange={this.handleChangeContactReferral}
             >
               {contactInfo.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
+                <Option key={d.key}>{d.label}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -438,6 +447,7 @@ class Create extends React.Component {
             <Select
               mode="multiple"
               labelInValue
+              tokenSeparators={[',']}
               value={searchValue}
               placeholder="Select company"
               notFoundContent={
@@ -456,7 +466,7 @@ class Create extends React.Component {
               onChange={this.handleChange}
             >
               {listCompany.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
+                <Option key={d.key}>{d.label}</Option>
               ))}
             </Select>
           </Form.Item>

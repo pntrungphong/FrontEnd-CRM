@@ -1,27 +1,48 @@
 import { message } from 'antd';
 import { history } from 'umi';
-import { formatedListCompanyData } from './utils';
+import { formatedListCompanyData, formatedDetailCompanyData } from './utils';
 import { getCompany, updateCompany, getCompanyById, fullCreateCompany } from '../services/company';
+import { getContact } from '../services/contact';
 
 const Model = {
   namespace: 'company',
   state: {
     companyInfo: undefined,
+    contactInfo: [],
+    searchValueContact: [],
     data: undefined,
     itemCount: undefined,
     searchCompanyValue: '',
   },
   effects: {
-    *fullCreate({ payload }, { call, put }) {
+    *fullCreate({ payload }, { call }) {
       yield call(fullCreateCompany, payload);
 
       message.success('Tạo Company thành công');
       history.push({
         pathname: '/company/',
       });
-      yield put({
-        type: 'loadListCompany',
+    },
+    *searchContactByName({ payload }, { call, put }) {
+      if (payload.value === '') return;
+      const response = yield call(getContact, payload);
+      const formatedData = [];
+
+      response.data.forEach((element) => {
+        const data = {
+          key: element.id,
+          label: element.name,
+          value: element.id,
+        };
+        formatedData.push(data);
       });
+
+      if (response != null) {
+        yield put({
+          type: 'saveListContact',
+          payload: formatedData,
+        });
+      }
     },
     *searchCompanyByName(
       {
@@ -36,7 +57,7 @@ const Model = {
         type: 'saveCompanySearchValue',
         payload: payload.searchValue,
       });
-      console.table(payload.searchValue);
+
       const response = yield call(getCompany, payload);
 
       if (response != null) {
@@ -76,7 +97,7 @@ const Model = {
 
       yield put({
         type: 'loadCompany',
-        payload: response,
+        payload: formatedDetailCompanyData(response),
       });
     },
   },
@@ -91,10 +112,20 @@ const Model = {
       return { ...state, data: payload };
     },
     cleanData(state) {
-      return { ...state, data: undefined };
+      return { ...state, data: undefined, searchValueContact: [] };
+    },
+    handleSearchContactChange(state, { payload }) {
+      return {
+        ...state,
+        searchValueContact: payload.value,
+        contactInfo: payload.contactInfo,
+      };
     },
     saveCompanySearchValue(state, { payload }) {
       return { ...state, searchCompanyValue: payload };
+    },
+    saveListContact(state, { payload }) {
+      return { ...state, contactInfo: payload };
     },
   },
 };

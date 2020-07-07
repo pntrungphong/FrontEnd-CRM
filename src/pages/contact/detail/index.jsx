@@ -3,8 +3,8 @@ import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
-import { one, two, three, five } from './style.less';
 import { StylesProvider } from '@material-ui/core';
+import { one, two, three, five } from './style.less';
 
 class ContactDetail extends Component {
   componentDidMount() {
@@ -66,14 +66,13 @@ class ContactDetail extends Component {
           <Divider className={three} />
           <Descriptions bordered>
             <Descriptions.Item className={five} span={3} label="Tag">
-              {contact.data.tag}
-              {/* {contact.data.tag.map((item) => {
+              {contact.data.tag.map((item) => {
                 return (
                   <>
-                    <Tag key={item}>{item}</Tag>,
+                    <Tag key={item.key}>{item.label}</Tag>
                   </>
                 );
-              })} */}
+              })}
             </Descriptions.Item>
           </Descriptions>
           <Divider className={three} />
@@ -82,7 +81,7 @@ class ContactDetail extends Component {
               {contact.data.referral.map((item) => {
                 return (
                   <>
-                    <Tag key={item.key}>{item.value}</Tag>
+                    <Tag key={item.key}>{item.label}</Tag>
                   </>
                 );
               })}
@@ -105,7 +104,7 @@ class ContactDetail extends Component {
                           });
                         }}
                       >
-                        {item.value}
+                        {item.label}
                       </a>
                     </Tag>
                   </>
