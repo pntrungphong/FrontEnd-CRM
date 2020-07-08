@@ -60,11 +60,6 @@ class CompanyDetail extends Component {
             </Col>
           </Row>
 
-          {/* <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Tag">
-             
-            </Descriptions.Item>
-          </Descriptions> */}
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>

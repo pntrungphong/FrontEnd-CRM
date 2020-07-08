@@ -6,15 +6,6 @@ import Styles from './style.less';
 
 const { Search } = Input;
 const columns = [
-  // {
-  //   title: 'STT',
-  //   dataIndex: 'stt',
-  //   sorter: {
-  //     compare: (a, b) => a.math - b.math,
-  //     multiple: 10,
-  //   },
-  //   key: 'stt',
-  // },
   {
     title: 'Name',
     dataIndex: 'name',

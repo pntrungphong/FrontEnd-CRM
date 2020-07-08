@@ -165,7 +165,7 @@ const Update = connect(({ contact, loading }) => ({
           <Input />
         </Form.Item>
         <Form.Item name={['contact', 'tag']} label="Tag">
-          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+          <Select mode="tags" className={styles.slt} labelInValue tokenSeparators={[',']}>
             <Option key="1">String</Option>
             <Option key="6">tesst</Option>
           </Select>
@@ -197,7 +197,7 @@ const Update = connect(({ contact, loading }) => ({
                       <Col flex="2">
                         <Form.Item
                           {...field}
-                          style={{ width: '100%' }}
+                          className={styles.slt}
                           name={[field.name, 'type']}
                           fieldKey={[field.fieldKey, 'type']}
                           rules={[{ required: true }]}
@@ -212,8 +212,7 @@ const Update = connect(({ contact, loading }) => ({
                       </Col>
                       <Col flex="none">
                         <MinusCircleOutlined
-                          className="dynamic-delete-button"
-                          style={{ margin: '8px 8px' }}
+                          className={styles.sltOne}
                           onClick={() => {
                             remove(field.name);
                           }}
@@ -285,8 +284,7 @@ const Update = connect(({ contact, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -353,8 +351,7 @@ const Update = connect(({ contact, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -401,8 +398,7 @@ const Update = connect(({ contact, loading }) => ({
                         <Input placeholder="Address" style={{ width: '90%' }} />
                       </Form.Item>
                       <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        style={{ margin: '0 8px' }}
+                        className={styles.sltTwo}
                         onClick={() => {
                           remove(field.name);
                         }}
