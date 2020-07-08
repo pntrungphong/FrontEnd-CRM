@@ -159,12 +159,12 @@ class CompanyDetail extends Component {
                               history.push({
                                 pathname: '/contact/detail',
                                 query: {
-                                  id: item.id,
+                                  id: item.key,
                                 },
                               });
                             }}
                           >
-                            {item.name}
+                            {item.label}
                           </a>
                         </Tag>
                       </>
