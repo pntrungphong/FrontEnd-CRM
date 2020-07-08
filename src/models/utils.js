@@ -23,14 +23,25 @@ export const setPagination = (data) => {
 };
 
 export const formatedDetailContactData = (response) => {
+  console.table(response);
   try {
-    console.table(response);
     const company = [];
     if (response.company != null) {
       response.company.forEach((element) => {
         company.push({
-          key: element.id,
-          value: element.name,
+          key: element.id.toString(),
+          label: element.name,
+          value: element.id.toString(),
+        });
+      });
+    }
+    const tag = [];
+    if (response.tag != null) {
+      response.tag.forEach((element) => {
+        tag.push({
+          key: element.id.toString(),
+          value: element.id.toString(),
+          label: element.tag,
         });
       });
     }
@@ -39,8 +50,9 @@ export const formatedDetailContactData = (response) => {
     if (response.referral != null) {
       response.referral.forEach((element) => {
         referral.push({
-          key: element.idTarget,
-          value: element.name,
+          key: element.idTarget.toString(),
+          value: element.idTarget.toString(),
+          label: element.name,
         });
       });
     }
@@ -86,11 +98,89 @@ export const formatedDetailContactData = (response) => {
       email,
       website,
       address,
+      tag,
       phone,
       name: response.name,
       id: response.id,
     };
 
+    return returnData;
+  } catch (error) {
+    throw new Error('Missing pagination data');
+  }
+};
+
+export const formatedDetailCompanyData = (response) => {
+  try {
+    const contact = [];
+    if (response.contact != null) {
+      response.contact.forEach((element) => {
+        contact.push({
+          key: element.id.toString(),
+          value: element.id.toString(),
+          label: element.name,
+        });
+      });
+    }
+    const tag = [];
+
+    if (response.tag != null) {
+      response.tag.forEach((element) => {
+        tag.push({
+          key: element.id.toString(),
+          value: element.id.toString(),
+          label: element.tag,
+        });
+      });
+    }
+
+    const website = [];
+    if (response.website != null) {
+      response.website.forEach((element) => {
+        website.push({
+          type: element.type,
+          url: element.url,
+        });
+      });
+    }
+    const email = [];
+    if (response.email != null) {
+      response.email.forEach((element) => {
+        email.push({
+          type: element.type,
+          url: element.url,
+        });
+      });
+    }
+
+    const address = [];
+    if (response.address != null) {
+      response.address.forEach((element) => {
+        address.push(element);
+      });
+    }
+
+    const phone = [];
+    if (response.phone != null) {
+      response.phone.forEach((element) => {
+        phone.push({
+          type: element.type,
+          number: element.number,
+        });
+      });
+    }
+
+    const returnData = {
+      contact,
+      url: response.url != null ? response.url : '',
+      email,
+      website,
+      tag,
+      address,
+      phone,
+      name: response.name,
+      id: response.id,
+    };
     console.table(returnData);
 
     return returnData;
@@ -108,8 +198,9 @@ export const formatedListContactData = (response) => {
       if (element.company != null) {
         element.company.forEach((data) => {
           company.push({
-            key: data.id,
-            value: data.name,
+            label: data.name,
+            key: data.id.toString(),
+            value: data.id.toString(),
           });
         });
       }
@@ -162,8 +253,9 @@ export const formatedListCompanyData = (response) => {
       if (element.contact != null) {
         element.contact.forEach((data) => {
           contact.push({
-            key: data.id,
-            value: data.name,
+            label: data.name,
+            key: data.id.toString(),
+            value: data.id.toString(),
           });
         });
       }
@@ -185,7 +277,6 @@ export const formatedListCompanyData = (response) => {
         contact,
         email,
         phone,
-
         name: element.name,
         id: element.id,
       };

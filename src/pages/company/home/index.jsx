@@ -1,4 +1,4 @@
-import { Form, Tag, Table, Pagination, Input, Button } from 'antd';
+import { Form, Tag, Table, Pagination, Input, Button, Row, Col } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -23,15 +23,12 @@ const columns = [
               <a
                 onClick={() => {
                   history.push({
-                    pathname: '/contact/detail',
-                    query: {
-                      id: item.key,
-                    },
+                    pathname: `/contact/detail/${item.key}`,
                   });
                 }}
               >
                 {' '}
-                {item.value.toUpperCase()}
+                {item.label.toUpperCase()}
               </a>
             </Tag>
           ) : (
@@ -48,7 +45,18 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return <Tag key={item.number}>{item.number.toUpperCase()}</Tag>;
+          return (
+            <div>
+              <Row>
+                <Col flex="40%">
+                  <Tag key={item.type}>{item.number.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="60%" style={{ textAlign: 'left' }}>
+                  <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+                </Col>
+              </Row>
+            </div>
+          );
         })}
       </>
     ),
@@ -60,7 +68,18 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return <Tag key={item.url}>{item.url.toUpperCase()}</Tag>;
+          return (
+            <div>
+              <Row>
+                <Col flex="50%">
+                  <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="50%">
+                  <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+                </Col>
+              </Row>
+            </div>
+          );
         })}
       </>
     ),
@@ -75,10 +94,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/company/update',
-                query: {
-                  id: record.id,
-                },
+                pathname: `/company/update/${record.id}`,
               });
             }}
           >
@@ -89,10 +105,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/company/detail',
-                query: {
-                  id: record.id,
-                },
+                pathname: `/company/detail/${record.id}`,
               });
             }}
           >

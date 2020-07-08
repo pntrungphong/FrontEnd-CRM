@@ -17,6 +17,7 @@ export async function createContact(params) {
 }
 
 export async function updateContact(params) {
+  console.table(params);
   const email = [];
   if (params.contact.email !== undefined) {
     params.contact.email.forEach((element) => {
@@ -59,7 +60,7 @@ export async function updateContact(params) {
   if (params.contact.company !== undefined) {
     params.contact.company.forEach((element) => {
       company.push({
-        idCompany: element.key,
+        idCompany: parseInt(element.key, 10),
         // title:"String"
       });
     });
@@ -69,7 +70,7 @@ export async function updateContact(params) {
   if (params.contact.referral !== undefined) {
     params.contact.referral.forEach((element) => {
       referral.push({
-        idTarget: element.key,
+        idTarget: parseInt(element.key, 10),
         hastag: [],
       });
     });
@@ -78,9 +79,16 @@ export async function updateContact(params) {
   const tag = [];
   if (params.contact.tag !== undefined) {
     params.contact.tag.forEach((element) => {
-      company.push({
-        tag: element,
-      });
+      if (element.value === element.key) {
+        tag.push({
+          tag: element.label,
+        });
+      } else {
+        tag.push({
+          id: parseInt(element.key, 10),
+          tag: element.label,
+        });
+      }
     });
   }
 
@@ -153,7 +161,7 @@ export async function fullCreateContact(params) {
   if (params.contact.company !== undefined) {
     params.contact.company.forEach((element) => {
       company.push({
-        idCompany: element.key,
+        idCompany: parseInt(element.key, 10),
         // title:"String"
       });
     });
@@ -163,7 +171,7 @@ export async function fullCreateContact(params) {
   if (params.contact.referral !== undefined) {
     params.contact.referral.forEach((element) => {
       referral.push({
-        idTarget: element.key,
+        idTarget: parseInt(element.key, 10),
         hastag: [''],
       });
     });
@@ -172,9 +180,16 @@ export async function fullCreateContact(params) {
   const tag = [];
   if (params.contact.tag !== undefined) {
     params.contact.tag.forEach((element) => {
-      company.push({
-        tag: element,
-      });
+      if (element.value === element.key) {
+        tag.push({
+          tag: element.label,
+        });
+      } else {
+        tag.push({
+          id: parseInt(element.key, 10),
+          tag: element.label,
+        });
+      }
     });
   }
 

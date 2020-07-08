@@ -1,16 +1,16 @@
-import { Card, Descriptions, Spin, Divider, Avatar, Tag } from 'antd';
+import { Card, Spin, Divider, Avatar, Tag, Row, Col } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
-import { one, two, three, five } from './style.less';
+import styles from './style.less';
 
 class CompanyDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'company/loading',
-      payload: { id: this.props.location.query.id },
+      payload: { id: this.props.match.params.id },
     });
   }
 
@@ -22,106 +22,170 @@ class CompanyDetail extends Component {
     return (
       <PageHeaderWrapper title="Company Details">
         <Card bordered="true">
-          <div className={one}>
+          <div className={styles.one}>
             <Avatar size={64} icon={<UserOutlined />} />
           </div>
-          <Divider className={two} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Name">
-              {company.data.name}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Email">
-              {company.data.email.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.url}>{item.url}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          {/* <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Tag">
-              {company.data.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.tag}>{item.tag}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions> */}
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Phone">
-              {company.data.phone.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.number}>{item.number}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={two} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Url">
-              {company.data.url}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Website">
-              {company.data.website.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.url}>{item.url}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Contact">
-              {company.data.contact.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.name}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: '/contact/detail',
-                            query: {
-                              id: item.id,
-                            },
-                          });
-                        }}
-                      >
-                        {item.name}
-                      </a>
-                    </Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Address">
-              {company.data.address.map((item) => {
-                return (
-                  <>
-                    <Tag key={item}>{item}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
+          <Divider className={styles.two} />
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Name
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.clo}>
+                <span className={styles.cloTwo}>{company.data.name}</span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Email
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {company.data.email.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.url}>{item.url}</Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Tag
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {company.data.tag.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.key}>{item.label}</Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>phone
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {company.data.phone.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.number}>{item.number}</Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Url
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>{company.data.Url}</span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>website
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {company.data.website.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.url}>{item.url}</Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Contact
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {company.data.contact.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.name}>
+                          <a
+                            onClick={() => {
+                              history.push({
+                                pathname: `/contact/detail/${item.key}`,
+                              });
+                            }}
+                          >
+                            {item.label}
+                          </a>
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Address
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {company.data.address.map((item) => {
+                    return (
+                      <>
+                        <span key={item}>{item}</span>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
         </Card>
       </PageHeaderWrapper>
     );

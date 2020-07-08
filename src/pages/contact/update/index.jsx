@@ -33,8 +33,9 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const Update = connect(({ contact, loading }) => ({
+const Update = connect(({ contact, tag, loading }) => ({
   contact,
+  tag,
   submitting: loading.effects['contact/create'],
   querying: loading.effects['contact/loading'],
   fetchingCompany: loading.effects['contact/searchCompanyByName'],
@@ -43,11 +44,14 @@ const Update = connect(({ contact, loading }) => ({
   useMount(() => {
     props.dispatch({
       type: 'contact/loading',
-      payload: { id: props.location.query.id },
+      payload: { id: props.match.params.id },
     });
   });
 
   useUnmount(() => {
+    props.dispatch({
+      type: 'tag/getTag',
+    });
     props.dispatch({
       type: 'contact/cleanData',
     });
@@ -57,7 +61,7 @@ const Update = connect(({ contact, loading }) => ({
     console.table(values);
     props.dispatch({
       type: 'contact/update',
-      payload: { ...values, id: props.location.query.id },
+      payload: { ...values, id: props.match.params.id },
     });
   };
   const [form] = Form.useForm();
@@ -138,6 +142,7 @@ const Update = connect(({ contact, loading }) => ({
             phone: props.contact.data.phone,
             website: props.contact.data.website,
             email: props.contact.data.email,
+            tag: props.contact.data.tag,
             title: props.contact.data.title,
             referral: props.contact.data.referral,
             address: props.contact.data.address,
@@ -160,6 +165,13 @@ const Update = connect(({ contact, loading }) => ({
         <Form.Item name={['contact', 'title']} label="Title">
           <Input />
         </Form.Item>
+        <Form.Item name={['contact', 'tag']} label="Tag">
+          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+            {props.tag.tag.map((item) => {
+              return <Option key={item.key}>{item.label}</Option>;
+            })}
+          </Select>
+        </Form.Item>
 
         <div {...formItemLayoutWithOutLabel}>
           <Form.List name={['contact', 'phone']}>
@@ -167,64 +179,46 @@ const Update = connect(({ contact, loading }) => ({
               return (
                 <div>
                   <Form.Item label="Phone">
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        add();
-                      }}
-                    >
+                    <Button type="dashed" onClick={() => add()}>
                       <PlusOutlined /> Add Phone
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
                     <Row key={field.key}>
                       <Col span={8} />
-                      <Col span={16}>
-                        <Row>
-                          <Col flex="2">
-                            <Form.Item
-                              {...field}
-                              name={[field.name, 'number']}
-                              fieldKey={[field.fieldKey, 'number']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
-                            >
-                              <Input placeholder="Your Phone" />
-                            </Form.Item>
-                          </Col>
-                          <Col flex="2">
-                            <Form.Item
-                              {...field}
-                              style={{ width: '100%' }}
-                              name={[field.name, 'type']}
-                              fieldKey={[field.fieldKey, 'type']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
-                            >
-                              <Select placeholder="Select Phone">
-                                <Option value="Mobile">Mobile</Option>
-                                <Option value="Primary">Primary</Option>
-                                <Option value="Home">Home</Option>
-                                <Option value="Company">Company</Option>
-                              </Select>
-                            </Form.Item>
-                          </Col>
-                          <Col flex="none">
-                            <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
-                              onClick={() => {
-                                remove(field.name);
-                              }}
-                            />
-                          </Col>
-                        </Row>
+                      <Col flex="3">
+                        <Form.Item
+                          {...field}
+                          name={[field.name, 'number']}
+                          fieldKey={[field.fieldKey, 'number']}
+                          rules={[{ required: true }]}
+                        >
+                          <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
+                        </Form.Item>
+                      </Col>
+                      <Col flex="2">
+                        <Form.Item
+                          {...field}
+                          className={styles.slt}
+                          name={[field.name, 'type']}
+                          fieldKey={[field.fieldKey, 'type']}
+                          rules={[{ required: true }]}
+                        >
+                          <Select placeholder="Select Phone">
+                            <Option value="Mobile">Mobile</Option>
+                            <Option value="Primary">Primary</Option>
+                            <Option value="Home">Home</Option>
+                            <Option value="Company">Company</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col flex="none">
+                        <MinusCircleOutlined
+                          className={styles.sltOne}
+                          onClick={() => {
+                            remove(field.name);
+                          }}
+                        />
                       </Col>
                     </Row>
                   ))}
@@ -259,8 +253,10 @@ const Update = connect(({ contact, loading }) => ({
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
                               rules={[
+                                { type: 'email', message: 'The input is wrong' },
                                 {
                                   required: true,
+                                  messages: 'Please input your email',
                                 },
                               ]}
                             >
@@ -290,8 +286,7 @@ const Update = connect(({ contact, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -312,12 +307,7 @@ const Update = connect(({ contact, loading }) => ({
               return (
                 <div>
                   <Form.Item label="Website">
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        add();
-                      }}
-                    >
+                    <Button type="dashed" onClick={() => add()}>
                       <PlusOutlined /> Add Website
                     </Button>
                   </Form.Item>
@@ -363,8 +353,7 @@ const Update = connect(({ contact, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -411,8 +400,7 @@ const Update = connect(({ contact, loading }) => ({
                         <Input placeholder="Address" style={{ width: '90%' }} />
                       </Form.Item>
                       <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        style={{ margin: '0 8px' }}
+                        className={styles.sltTwo}
                         onClick={() => {
                           remove(field.name);
                         }}
@@ -446,7 +434,7 @@ const Update = connect(({ contact, loading }) => ({
             onChange={handleChangeContactReferral}
           >
             {props.contact.contactInfo.map((d) => (
-              <Option key={d.id}>{d.name}</Option>
+              <Option key={d.key}>{d.label}</Option>
             ))}
           </Select>
         </Form.Item>
@@ -472,7 +460,7 @@ const Update = connect(({ contact, loading }) => ({
             onChange={handleChange}
           >
             {props.contact.listCompany.map((d) => (
-              <Option key={d.id}>{d.name}</Option>
+              <Option key={d.key}>{d.label}</Option>
             ))}
           </Select>
         </Form.Item>

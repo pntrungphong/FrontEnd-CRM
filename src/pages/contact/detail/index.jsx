@@ -10,7 +10,7 @@ class ContactDetail extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'contact/loading',
-      payload: { id: this.props.location.query.id },
+      payload: { id: this.props.match.params.id },
     });
   }
 
@@ -26,11 +26,7 @@ class ContactDetail extends Component {
             <Avatar size={64} icon={<UserOutlined />} />
           </div>
           <Divider className={styles.two} />
-          {/* <Descriptions bordered className={four}>
-            <Descriptions.Item className={five} span={3} label="Name">
-              
-            </Descriptions.Item>
-          </Descriptions> */}
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>
@@ -43,7 +39,6 @@ class ContactDetail extends Component {
               </div>
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Title</h3>
@@ -54,7 +49,6 @@ class ContactDetail extends Component {
               </div>
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Email</h3>
@@ -103,7 +97,15 @@ class ContactDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>{contact.data.tag}</span>
+                <span className={styles.cloTwo}>
+                  {contact.data.tag.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.key}>{item.label}</Tag>
+                      </>
+                    );
+                  })}
+                </span>
               </div>
             </Col>
           </Row>
@@ -119,7 +121,7 @@ class ContactDetail extends Component {
                     return (
                       <>
                         <Tag key={item.key} className={styles.ta}>
-                          {item.value}
+                          {item.label}
                         </Tag>
                       </>
                     );
@@ -143,14 +145,11 @@ class ContactDetail extends Component {
                           <a
                             onClick={() => {
                               history.push({
-                                pathname: '/company/detail',
-                                query: {
-                                  id: item.key,
-                                },
+                                pathname: `/company/detail/${item.key}`,
                               });
                             }}
                           >
-                            {item.value}
+                            {item.label}
                           </a>
                         </Tag>
                       </>
@@ -182,18 +181,17 @@ class ContactDetail extends Component {
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Address</h3>
+              <h3 className={styles.cloOne}>
+                <span> </span>Address
+              </h3>
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
                 <span className={styles.cloTwo}>
-                  {' '}
                   {contact.data.address.map((item) => {
                     return (
                       <>
-                        <Tag key={item} className={styles.ta}>
-                          {item}
-                        </Tag>
+                        <span key={item}>{item}</span>
                       </>
                     );
                   })}

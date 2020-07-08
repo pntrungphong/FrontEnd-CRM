@@ -19,22 +19,41 @@ const Model = {
     *searchCompanyByName({ payload }, { call, put }) {
       if (payload.value === '') return;
       const response = yield call(getCompanyByName, payload.value);
+      const formatedData = [];
 
+      response.data.forEach((element) => {
+        const data = {
+          key: element.id.toString(),
+          label: element.name,
+          value: element.id.toString(),
+        };
+        formatedData.push(data);
+      });
       if (response != null) {
         yield put({
           type: 'saveListCompany',
-          payload: response.data,
+          payload: formatedData,
         });
       }
     },
     *searchContactReferralByName({ payload }, { call, put }) {
       if (payload.value === '') return;
       const response = yield call(getContact, payload);
+      const formatedData = [];
+
+      response.data.forEach((element) => {
+        const data = {
+          key: element.id.toString(),
+          label: element.name,
+          value: element.id.toString(),
+        };
+        formatedData.push(data);
+      });
 
       if (response != null) {
         yield put({
           type: 'saveListContactReferral',
-          payload: response.data,
+          payload: formatedData,
         });
       }
     },
@@ -86,25 +105,7 @@ const Model = {
         pathname: '/contact/',
       });
     },
-    // * quickCreate({ payload }, { call, put }) {
 
-    //     const response = yield call(fullCreateContact, payload);
-    //     console.table(response);
-    //     const previousData = payload.previousData;
-
-    //     previousData.push({
-    //         value: `${response.id}`,
-    //         key: `${response.id}`,
-    //         label: response.name,
-    //     });
-    //     console.table(previousData);
-
-    //     yield put({
-    //         type: 'handleQuickCreate',
-    //         payload: previousData,
-    //     });
-
-    // },
     *update({ payload }, { call }) {
       // const response =
       yield call(updateContact, payload);
@@ -128,7 +129,7 @@ const Model = {
       return { ...state, data: payload };
     },
     cleanData(state) {
-      return { ...state, data: undefined };
+      return { ...state, contactInfo: [], data: undefined };
     },
     saveListCompany(state, { payload }) {
       return { ...state, listCompany: payload };
