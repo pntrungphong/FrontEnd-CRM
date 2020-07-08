@@ -177,64 +177,47 @@ const Update = connect(({ contact, loading }) => ({
               return (
                 <div>
                   <Form.Item label="Phone">
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        add();
-                      }}
-                    >
+                    <Button type="dashed" onClick={() => add()}>
                       <PlusOutlined /> Add Phone
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
                     <Row key={field.key}>
                       <Col span={8} />
-                      <Col span={16}>
-                        <Row>
-                          <Col flex="2">
-                            <Form.Item
-                              {...field}
-                              name={[field.name, 'number']}
-                              fieldKey={[field.fieldKey, 'number']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
-                            >
-                              <Input placeholder="Your Phone" />
-                            </Form.Item>
-                          </Col>
-                          <Col flex="2">
-                            <Form.Item
-                              {...field}
-                              style={{ width: '100%' }}
-                              name={[field.name, 'type']}
-                              fieldKey={[field.fieldKey, 'type']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
-                            >
-                              <Select placeholder="Select Phone">
-                                <Option value="Mobile">Mobile</Option>
-                                <Option value="Primary">Primary</Option>
-                                <Option value="Home">Home</Option>
-                                <Option value="Company">Company</Option>
-                              </Select>
-                            </Form.Item>
-                          </Col>
-                          <Col flex="none">
-                            <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
-                              onClick={() => {
-                                remove(field.name);
-                              }}
-                            />
-                          </Col>
-                        </Row>
+                      <Col flex="3">
+                        <Form.Item
+                          {...field}
+                          name={[field.name, 'number']}
+                          fieldKey={[field.fieldKey, 'number']}
+                          rules={[{ required: true }]}
+                        >
+                          <Input placeholder="Your Phone" />
+                        </Form.Item>
+                      </Col>
+                      <Col flex="2">
+                        <Form.Item
+                          {...field}
+                          style={{ width: '100%' }}
+                          name={[field.name, 'type']}
+                          fieldKey={[field.fieldKey, 'type']}
+                          rules={[{ required: true }]}
+                        >
+                          <Select placeholder="Select Phone">
+                            <Option value="Mobile">Mobile</Option>
+                            <Option value="Primary">Primary</Option>
+                            <Option value="Home">Home</Option>
+                            <Option value="Company">Company</Option>
+                          </Select>
+                        </Form.Item>
+                      </Col>
+                      <Col flex="none">
+                        <MinusCircleOutlined
+                          className="dynamic-delete-button"
+                          style={{ margin: '8px 8px' }}
+                          onClick={() => {
+                            remove(field.name);
+                          }}
+                        />
                       </Col>
                     </Row>
                   ))}
@@ -322,12 +305,7 @@ const Update = connect(({ contact, loading }) => ({
               return (
                 <div>
                   <Form.Item label="Website">
-                    <Button
-                      type="dashed"
-                      onClick={() => {
-                        add();
-                      }}
-                    >
+                    <Button type="dashed" onClick={() => add()}>
                       <PlusOutlined /> Add Website
                     </Button>
                   </Form.Item>
