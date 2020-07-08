@@ -35,16 +35,21 @@ const formItemLayout = {
   },
 };
 
-const Update = connect(({ company, loading }) => ({
+const Update = connect(({ tag, company, loading }) => ({
   company,
+  tag,
   submitting: loading.effects['company/update'],
   querying: loading.effects['company/loading'],
   fetchingContact: loading.effects['company/searchContactByName'],
 }))(function (props) {
   useMount(() => {
+    console.table(props);
     props.dispatch({
       type: 'company/loading',
-      payload: { id: props.location.query.id },
+      payload: { id: props.match.params.id },
+    });
+    props.dispatch({
+      type: 'tag/getTag',
     });
   });
 
@@ -58,7 +63,7 @@ const Update = connect(({ company, loading }) => ({
     console.table(values);
     props.dispatch({
       type: 'company/update',
-      payload: { ...values, id: props.location.query.id },
+      payload: { ...values, id: props.match.params.id },
     });
   };
 
@@ -138,8 +143,9 @@ const Update = connect(({ company, loading }) => ({
         </Form.Item>
         <Form.Item name={['company', 'tag']} label="Tag">
           <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
-            <Option key="1">String</Option>
-            <Option key="6">tesst</Option>
+            {props.tag.tag.map((item) => {
+              return <Option key={item.key}>{item.label}</Option>;
+            })}
           </Select>
         </Form.Item>
         <div {...formItemLayoutWithOutLabel}>

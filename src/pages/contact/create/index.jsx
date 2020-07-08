@@ -42,6 +42,12 @@ class Create extends React.Component {
     this.fetchContact = debounce(this.fetchContact, 1000);
   }
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'tag/getTag',
+    });
+  }
+
   onFinish = (values) => {
     // console.table(values);
     this.props.dispatch({
@@ -114,8 +120,13 @@ class Create extends React.Component {
   };
 
   render() {
-    const { searchValue, listCompany } = this.props.contact;
-    const { searchValueContactReferral, contactInfo } = this.props.contact;
+    const {
+      searchValue,
+      listCompany,
+      searchValueContactReferral,
+      contactInfo,
+    } = this.props.contact;
+    const { tag } = this.props.tag;
 
     return (
       <div className={styles.main}>
@@ -163,8 +174,9 @@ class Create extends React.Component {
           </Form.Item>
           <Form.Item name={['contact', 'tag']} label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
-              <Option key="1">String</Option>
-              <Option key="6">tesst</Option>
+              {tag.map((item) => {
+                return <Option key={item.key}>{item.label}</Option>;
+              })}
             </Select>
           </Form.Item>
           <div {...formItemLayoutWithOutLabel}>
@@ -446,9 +458,10 @@ class Create extends React.Component {
   }
 }
 
-export default connect(({ contact, loading, searchModel }) => ({
+export default connect(({ contact, tag, loading, searchModel }) => ({
   contact,
   searchModel,
+  tag,
   submitting: loading.effects['contact/fullCreate'],
   fetchingCompany: loading.effects['contact/searchCompanyByName'],
   fetchingContact: loading.effects['contact/searchContactReferralByName'],

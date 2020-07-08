@@ -43,6 +43,9 @@ class Create extends React.Component {
     this.props.dispatch({
       type: 'company/cleanData',
     });
+    this.props.dispatch({
+      type: 'tag/getTag',
+    });
   }
 
   onFinish = (values) => {
@@ -82,6 +85,7 @@ class Create extends React.Component {
 
   render() {
     const { searchValueContact, contactInfo } = this.props.company;
+    const { tag } = this.props.tag;
 
     return (
       <div className={styles.main}>
@@ -111,8 +115,9 @@ class Create extends React.Component {
           </Form.Item>
           <Form.Item name={['company', 'tag']} label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
-              <Option key="1">String</Option>
-              <Option key="6">tesst</Option>
+              {tag.map((item) => {
+                return <Option key={item.key}>{item.label}</Option>;
+              })}
             </Select>
           </Form.Item>
 
@@ -399,8 +404,9 @@ class Create extends React.Component {
   }
 }
 
-export default connect(({ company, loading }) => ({
+export default connect(({ company, tag, loading }) => ({
   company,
+  tag,
   submitting: loading.effects['company/fullCreate'],
   fetchingContact: loading.effects['company/searchContactByName'],
 }))(Create);

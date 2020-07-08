@@ -1,16 +1,16 @@
-import { Card, Divider, Descriptions, Tag, Spin, Avatar, Row, Col } from 'antd';
+import { Card, Divider, Tag, Spin, Avatar, Row, Col } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
-import styles, { three, five } from './style.less';
+import styles from './style.less';
 
 class ContactDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
       type: 'contact/loading',
-      payload: { id: this.props.location.query.id },
+      payload: { id: this.props.match.params.id },
     });
   }
 
@@ -26,11 +26,7 @@ class ContactDetail extends Component {
             <Avatar size={64} icon={<UserOutlined />} />
           </div>
           <Divider className={styles.two} />
-          {/* <Descriptions bordered className={four}>
-            <Descriptions.Item className={five} span={3} label="Name">
-              
-            </Descriptions.Item>
-          </Descriptions> */}
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>
@@ -53,68 +49,6 @@ class ContactDetail extends Component {
               </div>
             </Col>
           </Row>
-
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Referral">
-              {contact.data.referral.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key}>{item.label}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Company">
-              {contact.data.company.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: '/company/detail',
-                            query: {
-                              id: item.key,
-                            },
-                          });
-                        }}
-                      >
-                        {item.label}
-                      </a>
-                    </Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Tag">
-              {contact.data.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key}>{item.label}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
-          <Divider className={three} />
-          <Divider className={three} />
-          <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Website">
-              {contact.data.website.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.url}>{item.url}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
@@ -164,7 +98,15 @@ class ContactDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>{contact.data.tag}</span>
+                <span className={styles.cloTwo}>
+                  {contact.data.tag.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.key}>{item.label}</Tag>
+                      </>
+                    );
+                  })}
+                </span>
               </div>
             </Col>
           </Row>
@@ -180,7 +122,7 @@ class ContactDetail extends Component {
                     return (
                       <>
                         <Tag key={item.key} className={styles.ta}>
-                          {item.value}
+                          {item.label}
                         </Tag>
                       </>
                     );
@@ -204,14 +146,11 @@ class ContactDetail extends Component {
                           <a
                             onClick={() => {
                               history.push({
-                                pathname: '/company/detail',
-                                query: {
-                                  id: item.key,
-                                },
+                                pathname: `/company/detail/${item.key}`,
                               });
                             }}
                           >
-                            {item.value}
+                            {item.label}
                           </a>
                         </Tag>
                       </>

@@ -10,7 +10,7 @@ class CompanyDetail extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'company/loading',
-      payload: { id: this.props.location.query.id },
+      payload: { id: this.props.match.params.id },
     });
   }
 
@@ -95,10 +95,7 @@ class CompanyDetail extends Component {
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: '/contact/detail',
-                            query: {
-                              id: item.key,
-                            },
+                            pathname: `/contact/detail/${item.key}`,
                           });
                         }}
                       >
