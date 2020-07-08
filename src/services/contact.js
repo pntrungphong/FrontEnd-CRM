@@ -60,7 +60,7 @@ export async function updateContact(params) {
   if (params.contact.company !== undefined) {
     params.contact.company.forEach((element) => {
       company.push({
-        idCompany: element.key,
+        idCompany: parseInt(element.key, 10),
         // title:"String"
       });
     });
@@ -70,7 +70,7 @@ export async function updateContact(params) {
   if (params.contact.referral !== undefined) {
     params.contact.referral.forEach((element) => {
       referral.push({
-        idTarget: element.key,
+        idTarget: parseInt(element.key, 10),
         hastag: [],
       });
     });
@@ -161,7 +161,7 @@ export async function fullCreateContact(params) {
   if (params.contact.company !== undefined) {
     params.contact.company.forEach((element) => {
       company.push({
-        idCompany: element.key,
+        idCompany: parseInt(element.key, 10),
         // title:"String"
       });
     });
@@ -171,7 +171,7 @@ export async function fullCreateContact(params) {
   if (params.contact.referral !== undefined) {
     params.contact.referral.forEach((element) => {
       referral.push({
-        idTarget: element.key,
+        idTarget: parseInt(element.key, 10),
         hastag: [''],
       });
     });
