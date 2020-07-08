@@ -78,12 +78,19 @@ const Update = connect(({ company, loading }) => ({
           label="Phone"
           initialValue={props.company.data.phone}
         >
-          <Input />
+          <Input pattern="^[0-9]{10}$" />
         </Form.Item>
         <Form.Item
           name={['company', 'email']}
           label="Email"
           initialValue={props.company.data.email}
+          rules={[
+            { type: 'email', message: 'The input is wrong' },
+            {
+              required: true,
+              messages: 'Please input your email',
+            },
+          ]}
         >
           <Input />
         </Form.Item>

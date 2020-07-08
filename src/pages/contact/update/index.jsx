@@ -192,7 +192,7 @@ const Update = connect(({ contact, loading }) => ({
                                 },
                               ]}
                             >
-                              <Input placeholder="Your Phone" />
+                              <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                             </Form.Item>
                           </Col>
                           <Col flex="2">
@@ -259,8 +259,10 @@ const Update = connect(({ contact, loading }) => ({
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
                               rules={[
+                                { type: 'email', message: 'The input is wrong' },
                                 {
                                   required: true,
+                                  messages: 'Please input your email',
                                 },
                               ]}
                             >
