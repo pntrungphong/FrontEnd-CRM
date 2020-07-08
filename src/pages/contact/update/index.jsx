@@ -138,6 +138,7 @@ const Update = connect(({ contact, loading }) => ({
             phone: props.contact.data.phone,
             website: props.contact.data.website,
             email: props.contact.data.email,
+            tag: props.contact.data.tag,
             title: props.contact.data.title,
             referral: props.contact.data.referral,
             address: props.contact.data.address,
@@ -159,6 +160,15 @@ const Update = connect(({ contact, loading }) => ({
         </Form.Item>
         <Form.Item name={['contact', 'title']} label="Title">
           <Input />
+        </Form.Item>
+        <Form.Item name={['contact', 'title']} label="Title">
+          <Input />
+        </Form.Item>
+        <Form.Item name={['contact', 'tag']} label="Tag">
+          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+            <Option key="1">String</Option>
+            <Option key="6">tesst</Option>
+          </Select>
         </Form.Item>
 
         <div {...formItemLayoutWithOutLabel}>
@@ -424,7 +434,7 @@ const Update = connect(({ contact, loading }) => ({
             onChange={handleChangeContactReferral}
           >
             {props.contact.contactInfo.map((d) => (
-              <Option key={d.id}>{d.name}</Option>
+              <Option key={d.key}>{d.label}</Option>
             ))}
           </Select>
         </Form.Item>
@@ -450,7 +460,7 @@ const Update = connect(({ contact, loading }) => ({
             onChange={handleChange}
           >
             {props.contact.listCompany.map((d) => (
-              <Option key={d.id}>{d.name}</Option>
+              <Option key={d.key}>{d.label}</Option>
             ))}
           </Select>
         </Form.Item>
