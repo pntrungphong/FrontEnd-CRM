@@ -203,8 +203,7 @@ const Update = connect(({ tag, company, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -245,8 +244,10 @@ const Update = connect(({ tag, company, loading }) => ({
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
                               rules={[
+                                { type: 'email', message: 'The input is wrong' },
                                 {
                                   required: true,
+                                  messages: 'Please input your email',
                                 },
                               ]}
                             >
@@ -276,8 +277,7 @@ const Update = connect(({ tag, company, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -349,8 +349,7 @@ const Update = connect(({ tag, company, loading }) => ({
                           </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
-                              className="dynamic-delete-button"
-                              style={{ margin: '8px 8px' }}
+                              className={styles.sltOne}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -398,8 +397,7 @@ const Update = connect(({ tag, company, loading }) => ({
                         <Input placeholder="Address" style={{ width: '90%' }} />
                       </Form.Item>
                       <MinusCircleOutlined
-                        className="dynamic-delete-button"
-                        style={{ margin: '0 8px' }}
+                        className={styles.sltTwo}
                         onClick={() => {
                           remove(field.name);
                         }}
