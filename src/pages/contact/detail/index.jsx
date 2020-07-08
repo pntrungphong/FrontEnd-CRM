@@ -10,7 +10,7 @@ class ContactDetail extends Component {
     const { dispatch } = this.props;
     dispatch({
       type: 'contact/loading',
-      payload: { id: this.props.location.query.id },
+      payload: { id: this.props.match.params.id },
     });
   }
 
@@ -26,11 +26,7 @@ class ContactDetail extends Component {
             <Avatar size={64} icon={<UserOutlined />} />
           </div>
           <Divider className={styles.two} />
-          {/* <Descriptions bordered className={four}>
-            <Descriptions.Item className={five} span={3} label="Name">
-              
-            </Descriptions.Item>
-          </Descriptions> */}
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>
@@ -53,17 +49,6 @@ class ContactDetail extends Component {
               </div>
             </Col>
           </Row>
-          {/* <Descriptions bordered>
-            <Descriptions.Item className={five} span={3} label="Tag">
-              {contact.data.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key}>{item.label}</Tag>
-                  </>
-                );
-              })}
-            </Descriptions.Item>
-          </Descriptions> */}
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Email</h3>
@@ -113,7 +98,6 @@ class ContactDetail extends Component {
             <Col flex="auto">
               <div className={styles.cloFour}>
                 <span className={styles.cloTwo}>
-                  {' '}
                   {contact.data.tag.map((item) => {
                     return (
                       <>
@@ -161,10 +145,7 @@ class ContactDetail extends Component {
                           <a
                             onClick={() => {
                               history.push({
-                                pathname: '/company/detail',
-                                query: {
-                                  id: item.key,
-                                },
+                                pathname: `/company/detail/${item.key}`,
                               });
                             }}
                           >

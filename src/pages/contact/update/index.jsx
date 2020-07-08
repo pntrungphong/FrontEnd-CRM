@@ -33,8 +33,9 @@ const formItemLayoutWithOutLabel = {
   },
 };
 
-const Update = connect(({ contact, loading }) => ({
+const Update = connect(({ contact, tag, loading }) => ({
   contact,
+  tag,
   submitting: loading.effects['contact/create'],
   querying: loading.effects['contact/loading'],
   fetchingCompany: loading.effects['contact/searchCompanyByName'],
@@ -43,11 +44,14 @@ const Update = connect(({ contact, loading }) => ({
   useMount(() => {
     props.dispatch({
       type: 'contact/loading',
-      payload: { id: props.location.query.id },
+      payload: { id: props.match.params.id },
     });
   });
 
   useUnmount(() => {
+    props.dispatch({
+      type: 'tag/getTag',
+    });
     props.dispatch({
       type: 'contact/cleanData',
     });
@@ -57,7 +61,7 @@ const Update = connect(({ contact, loading }) => ({
     console.table(values);
     props.dispatch({
       type: 'contact/update',
-      payload: { ...values, id: props.location.query.id },
+      payload: { ...values, id: props.match.params.id },
     });
   };
   const [form] = Form.useForm();
@@ -161,13 +165,11 @@ const Update = connect(({ contact, loading }) => ({
         <Form.Item name={['contact', 'title']} label="Title">
           <Input />
         </Form.Item>
-        <Form.Item name={['contact', 'title']} label="Title">
-          <Input />
-        </Form.Item>
         <Form.Item name={['contact', 'tag']} label="Tag">
-          <Select mode="tags" className={styles.slt} labelInValue tokenSeparators={[',']}>
-            <Option key="1">String</Option>
-            <Option key="6">tesst</Option>
+          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+            {props.tag.tag.map((item) => {
+              return <Option key={item.key}>{item.label}</Option>;
+            })}
           </Select>
         </Form.Item>
 

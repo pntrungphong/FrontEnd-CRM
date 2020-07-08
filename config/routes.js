@@ -18,15 +18,15 @@ export default [
             component: 'company/home',
           },
           {
-            path: '/company/update',
+            path: '/company/update/:id?',
             component: 'company/update',
           },
           {
-            path: '/company/detail',
+            path: '/company/detail/:id?',
             component: 'company/detail',
           },
           {
-            path: '/contact/detail',
+            path: '/contact/detail/:id?',
             component: 'contact/detail',
           },
           {
@@ -39,7 +39,7 @@ export default [
             component: 'contact/home',
           },
           {
-            path: '/contact/update',
+            path: '/contact/update/:id?',
             component: 'contact/update',
           },
           {

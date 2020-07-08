@@ -23,9 +23,9 @@ const Model = {
 
       response.data.forEach((element) => {
         const data = {
-          key: element.id,
+          key: element.id.toString(),
           label: element.name,
-          value: element.id,
+          value: element.id.toString(),
         };
         formatedData.push(data);
       });
@@ -43,9 +43,9 @@ const Model = {
 
       response.data.forEach((element) => {
         const data = {
-          key: element.id,
+          key: element.id.toString(),
           label: element.name,
-          value: element.id,
+          value: element.id.toString(),
         };
         formatedData.push(data);
       });

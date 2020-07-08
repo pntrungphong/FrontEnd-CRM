@@ -23,10 +23,7 @@ const columns = [
               <a
                 onClick={() => {
                   history.push({
-                    pathname: '/contact/detail',
-                    query: {
-                      id: item.key,
-                    },
+                    pathname: `/contact/detail/${item.key}`,
                   });
                 }}
               >
@@ -97,10 +94,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/company/update',
-                query: {
-                  id: record.id,
-                },
+                pathname: `/company/update/${record.id}`,
               });
             }}
           >
@@ -111,10 +105,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: '/company/detail',
-                query: {
-                  id: record.id,
-                },
+                pathname: `/company/detail/${record.id}`,
               });
             }}
           >
