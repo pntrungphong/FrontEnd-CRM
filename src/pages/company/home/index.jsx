@@ -31,7 +31,7 @@ const columns = [
                 }}
               >
                 {' '}
-                {item.value.toUpperCase()}
+                {item.label.toUpperCase()}
               </a>
             </Tag>
           ) : (

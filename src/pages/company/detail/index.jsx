@@ -77,7 +77,7 @@ class CompanyDetail extends Component {
                   {company.data.tag.map((item) => {
                     return (
                       <>
-                        <Tag key={item.tag}>{item.tag}</Tag>
+                        <Tag key={item.key}>{item.label}</Tag>
                       </>
                     );
                   })}

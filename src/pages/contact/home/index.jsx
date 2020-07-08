@@ -1,7 +1,7 @@
 import { Tag, Form, Pagination, Input, Table, Button, Row, Col } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
-import { useMount } from 'ahooks';
+import { useMount, useUnmount } from 'ahooks';
 import Styles from './style.less';
 
 const { Search } = Input;
@@ -45,7 +45,7 @@ const columns = [
                 }}
               >
                 {' '}
-                {item.value.toUpperCase()}
+                {item.label.toUpperCase()}
               </a>
             </Tag>
           ) : (
@@ -181,6 +181,12 @@ const ListContact = connect(({ contact, loading }) => ({
   useMount(() => {
     props.dispatch({
       type: 'contact/loadListContact',
+    });
+  });
+
+  useUnmount(() => {
+    props.dispatch({
+      type: 'contact/cleanData',
     });
   });
 

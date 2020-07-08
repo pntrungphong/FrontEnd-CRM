@@ -1,9 +1,9 @@
-import { Card, Divider, Tag, Spin, Avatar, Row, Col } from 'antd';
+import { Card, Divider, Descriptions, Tag, Spin, Avatar, Row, Col } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
-import styles from './style.less';
+import styles, { three, five } from './style.less';
 
 class ContactDetail extends Component {
   componentDidMount() {
@@ -43,7 +43,6 @@ class ContactDetail extends Component {
               </div>
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Title</h3>
@@ -54,6 +53,68 @@ class ContactDetail extends Component {
               </div>
             </Col>
           </Row>
+
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Referral">
+              {contact.data.referral.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key}>{item.label}</Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Company">
+              {contact.data.company.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: '/company/detail',
+                            query: {
+                              id: item.key,
+                            },
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Tag">
+              {contact.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key}>{item.label}</Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
+          <Divider className={three} />
+          <Divider className={three} />
+          <Descriptions bordered>
+            <Descriptions.Item className={five} span={3} label="Website">
+              {contact.data.website.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.url}>{item.url}</Tag>
+                  </>
+                );
+              })}
+            </Descriptions.Item>
+          </Descriptions>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">

@@ -43,6 +43,7 @@ class Create extends React.Component {
   }
 
   onFinish = (values) => {
+    // console.table(values);
     this.props.dispatch({
       type: 'contact/fullCreate',
       payload: { ...values },
@@ -128,82 +129,94 @@ class Create extends React.Component {
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item
-            name={['contact', 'name']}
-            label="Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
+          <Form.Item name={['contact', 'name']} label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
+
           <Form.Item name={['contact', 'title']} label="Title">
             <Input />
+          </Form.Item>
+
+          <Form.Item name={['contact', 'company']} label="Company">
+            <Select
+              mode="multiple"
+              labelInValue
+              value={searchValue}
+              placeholder="Select company"
+              notFoundContent={
+                this.props.fetchingCompany ? (
+                  <Spin size="small" />
+                ) : (
+                  <h4 type="text" onClick={this.createCompany} className={styles.optionCreate}>
+                    Create company
+                  </h4>
+                )
+              }
+              filterOption={false}
+              onSearch={this.fetchCompany}
+              onChange={this.handleChange}
+            >
+              {listCompany.map((d) => (
+                <Option key={d.id}>{d.name}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name={['contact', 'tag']} label="Tag">
+            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+              <Option key="1">String</Option>
+              <Option key="6">tesst</Option>
+            </Select>
           </Form.Item>
           <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'phone']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Phone">
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                      >
+                    <Form.Item
+                      className={fields.length === 0 ? '' : styles.customRow}
+                      label="Phone"
+                    >
+                      <Button type="dashed" onClick={() => add()}>
                         <PlusOutlined /> Add Phone
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
+                    {fields.map((field, index, arr) => (
                       <Row key={field.key}>
                         <Col span={8} />
-                        <Col span={16}>
-                          <Row>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                name={[field.name, 'number']}
-                                rules={[
-                                  {
-                                    required: true,
-                                  },
-                                ]}
-                                fieldKey={[field.fieldKey, 'number']}
-                              >
-                                <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
-                              </Form.Item>
-                            </Col>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                name={[field.name, 'type']}
-                                fieldKey={[field.fieldKey, 'type']}
-                                rules={[
-                                  {
-                                    required: true,
-                                  },
-                                ]}
-                              >
-                                <Select placeholder="Select Phone">
-                                  <Option value="Mobile">Mobile</Option>
-                                  <Option value="Home">Home</Option>
-                                  <Option value="Company">Company</Option>
-                                </Select>
-                              </Form.Item>
-                            </Col>
-                            <Col flex="none">
-                              <MinusCircleOutlined
-                                className="dynamic-delete-button"
-                                style={{ margin: '8px 8px' }}
-                                onClick={() => {
-                                  remove(field.name);
-                                }}
-                              />
-                            </Col>
-                          </Row>
+                        <Col flex="3">
+                          <Form.Item
+                            {...field}
+                            className={index + 1 === arr.length ? '' : styles.childrenRow}
+                            name={[field.name, 'number']}
+                            rules={[{ required: true }]}
+                            fieldKey={[field.fieldKey, 'number']}
+                          >
+                            <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
+                          </Form.Item>
+                        </Col>
+                        <Col flex="2">
+                          <Form.Item
+                            {...field}
+                            className={index + 1 === arr.length ? '' : styles.childrenRow}
+                            name={[field.name, 'type']}
+                            fieldKey={[field.fieldKey, 'type']}
+                            rules={[{ required: true }]}
+                          >
+                            <Select placeholder="Select Phone">
+                              <Option value="Mobile">Mobile</Option>
+                              <Option value="Home">Home</Option>
+                              <Option value="Company">Company</Option>
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                        <Col flex="none">
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            style={{ margin: '8px 8px' }}
+                            onClick={() => {
+                              remove(field.name);
+                            }}
+                          />
                         </Col>
                       </Row>
                     ))}
@@ -212,12 +225,16 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
+
           <div {...formItemLayoutWithOutLabel}>
             <Form.List name={['contact', 'email']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Email">
+                    <Form.Item
+                      className={fields.length === 0 ? '' : styles.customRow}
+                      label="Email"
+                    >
                       <Button
                         type="dashed"
                         onClick={() => {
@@ -227,58 +244,54 @@ class Create extends React.Component {
                         <PlusOutlined /> Add Emails
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
+                    {fields.map((field, index, arr) => (
                       <Row key={[field.key, '@gmail.com', '@geekup.vn']}>
                         <Col span={8} />
-                        <Col span={16}>
-                          <Row>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                name={[field.name, 'url']}
-                                fieldKey={[field.fieldKey, 'url']}
-                                rules={[
-                                  { type: 'email', message: 'The input is wrong' },
-                                  {
-                                    required: true,
-                                    messages: 'Please input your email',
-                                  },
-                                ]}
-                              >
-                                <Input />
-                              </Form.Item>
-                            </Col>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                name={[field.name, 'type']}
-                                fieldKey={[field.fieldKey, 'type']}
-                                rules={[
-                                  {
-                                    required: true,
-                                  },
-                                ]}
-                              >
-                                <Select placeholder="Select Email">
-                                  <Option value="Gmail">Gmail</Option>
-                                  <Option value="Yandex">Yandex</Option>
-                                  <Option value="Yahoo">Yahoo</Option>
-                                  <Option value="Outlook">Outlook</Option>
-                                  <Option value="Company">Company</Option>
-                                  <Option value="Personal">Personal</Option>
-                                </Select>
-                              </Form.Item>
-                            </Col>
-                            <Col flex="none">
-                              <MinusCircleOutlined
-                                className="dynamic-delete-button"
-                                style={{ margin: '8px 8px' }}
-                                onClick={() => {
-                                  remove(field.name);
-                                }}
-                              />
-                            </Col>
-                          </Row>
+                        <Col flex="3">
+                          <Form.Item
+                            {...field}
+                            className={index + 1 === arr.length ? '' : styles.childrenRow}
+                            name={[field.name, 'url']}
+                            fieldKey={[field.fieldKey, 'url']}
+                            rules={[
+                              { type: 'email', message: 'Email wrong format' },
+                              {
+                                required: true,
+                                messages: 'Please input your email',
+                              },
+                            ]}
+                          >
+                            <Input />
+                          </Form.Item>
+                        </Col>
+                        <Col flex="2">
+                          <Form.Item
+                            {...field}
+                            className={index + 1 === arr.length ? '' : styles.childrenRow}
+                            name={[field.name, 'type']}
+                            fieldKey={[field.fieldKey, 'type']}
+                            rules={[
+                              {
+                                required: true,
+                              },
+                            ]}
+                          >
+                            <Select placeholder="Select Email">
+                              <Option value="Gmail">Gmail</Option>
+                              <Option value="Yandex">Yandex</Option>
+                              <Option value="Yahoo">Yahoo</Option>
+                              <Option value="Outlook">Outlook</Option>
+                              <Option value="Company">Company</Option>
+                              <Option value="Personal">Personal</Option>
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                        <Col flex="none">
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            style={{ margin: '8px 8px' }}
+                            onClick={() => remove(field.name)}
+                          />
                         </Col>
                       </Row>
                     ))}
@@ -293,66 +306,52 @@ class Create extends React.Component {
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Website">
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                      >
+                    <Form.Item
+                      className={fields.length === 0 ? '' : styles.customRow}
+                      label="Website"
+                    >
+                      <Button type="dashed" onClick={() => add()}>
                         <PlusOutlined /> Add Website
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
+                    {fields.map((field, index, arr) => (
                       <Row key={field.key}>
                         <Col span={8} />
-                        <Col span={16}>
-                          <Row>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                name={[field.name, 'url']}
-                                fieldKey={[field.fieldKey, 'url']}
-                                rules={[
-                                  {
-                                    required: true,
-                                  },
-                                ]}
-                              >
-                                <Input placeholder="URL Website" />
-                              </Form.Item>
-                            </Col>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                name={[field.name, 'type']}
-                                fieldKey={[field.fieldKey, 'type']}
-                                rules={[
-                                  {
-                                    required: true,
-                                  },
-                                ]}
-                              >
-                                <Select placeholder="Select website">
-                                  <Option value="Facebook">Facebook</Option>
-                                  <Option value="Skype">Skype</Option>
-                                  <Option value="Zalo">Zalo</Option>
-                                  <Option value="Youtube">Youtube</Option>
-                                  <Option value="Linkedin">Linkedin</Option>
-                                  <Option value="Instagram">Instagram</Option>
-                                </Select>
-                              </Form.Item>
-                            </Col>
-                            <Col flex="none">
-                              <MinusCircleOutlined
-                                className="dynamic-delete-button"
-                                style={{ margin: '8px 8px' }}
-                                onClick={() => {
-                                  remove(field.name);
-                                }}
-                              />
-                            </Col>
-                          </Row>
+                        <Col flex="3">
+                          <Form.Item
+                            {...field}
+                            className={index + 1 === arr.length ? '' : styles.childrenRow}
+                            name={[field.name, 'url']}
+                            fieldKey={[field.fieldKey, 'url']}
+                            rules={[{ required: true }]}
+                          >
+                            <Input placeholder="URL Website" />
+                          </Form.Item>
+                        </Col>
+                        <Col flex="2">
+                          <Form.Item
+                            {...field}
+                            className={index + 1 === arr.length ? '' : styles.childrenRow}
+                            name={[field.name, 'type']}
+                            fieldKey={[field.fieldKey, 'type']}
+                            rules={[{ required: true }]}
+                          >
+                            <Select placeholder="Website">
+                              <Option value="Facebook">Facebook</Option>
+                              <Option value="Skype">Skype</Option>
+                              <Option value="Zalo">Zalo</Option>
+                              <Option value="Youtube">Youtube</Option>
+                              <Option value="Linkedin">Linkedin</Option>
+                              <Option value="Instagram">Instagram</Option>
+                            </Select>
+                          </Form.Item>
+                        </Col>
+                        <Col flex="none">
+                          <MinusCircleOutlined
+                            className="dynamic-delete-button"
+                            style={{ margin: '8px 8px' }}
+                            onClick={() => remove(field.name)}
+                          />
                         </Col>
                       </Row>
                     ))}
@@ -367,26 +366,30 @@ class Create extends React.Component {
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Address">
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                      >
+                    <Form.Item
+                      className={fields.length === 0 ? '' : styles.customRow}
+                      label="Address"
+                    >
+                      <Button type="dashed" onClick={() => add()}>
                         <PlusOutlined /> Add Address
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
-                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
+                    {fields.map((field, index, arr) => (
+                      <Form.Item
+                        {...formItemLayout}
+                        label={`Address ${index + 1}`}
+                        required={false}
+                        key={field.key}
+                      >
                         <Form.Item
                           {...field}
+                          className={index + 1 === arr.length ? '' : styles.childrenRow}
                           validateTrigger={['onChange', 'onBlur']}
                           rules={[
                             {
                               required: true,
                               whitespace: true,
-                              message: "Please input passenger's name or delete this field.",
+                              message: 'Enter address or remove field',
                             },
                           ]}
                           noStyle
@@ -418,11 +421,9 @@ class Create extends React.Component {
                 this.props.fetchingContact ? (
                   <Spin size="small" />
                 ) : (
-                  <p>
-                    <Button type="text" onClick={this.createContact}>
-                      Create Contact
-                    </Button>
-                  </p>
+                  <h4 type="text" onClick={this.createContact} className={styles.optionCreate}>
+                    Create company
+                  </h4>
                 )
               }
               filterOption={false}
@@ -430,37 +431,10 @@ class Create extends React.Component {
               onChange={this.handleChangeContactReferral}
             >
               {contactInfo.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
+                <Option key={d.key}>{d.label}</Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name={['contact', 'company']} label="Company">
-            <Select
-              mode="multiple"
-              labelInValue
-              value={searchValue}
-              placeholder="Select company"
-              notFoundContent={
-                this.props.fetchingCompany ? (
-                  <Spin size="small" />
-                ) : (
-                  <p>
-                    <Button type="text" onClick={this.createCompany}>
-                      Create Company
-                    </Button>
-                  </p>
-                )
-              }
-              filterOption={false}
-              onSearch={this.fetchCompany}
-              onChange={this.handleChange}
-            >
-              {listCompany.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
-              ))}
-            </Select>
-          </Form.Item>
-
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
               Submit

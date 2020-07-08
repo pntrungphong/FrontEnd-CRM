@@ -1,10 +1,9 @@
-import { Form, Input, Button, Row, Col, Select } from 'antd';
+import { Form, Input, Spin, Button, Row, Col, Select } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
-// import { number } from 'prop-types';
 
 const { Option } = Select;
 
@@ -37,14 +36,16 @@ const validateMessages = (label) => ({
 class Create extends React.Component {
   constructor(props) {
     super(props);
-    // this.lastFetchId = 0;
-    this.fetchCompany = debounce(this.fetchCompany, 1000);
     this.fetchContact = debounce(this.fetchContact, 1000);
   }
 
-  onFinish = (values) => {
-    console.table(values);
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'company/cleanData',
+    });
+  }
 
+  onFinish = (values) => {
     this.props.dispatch({
       type: 'company/fullCreate',
       payload: { ...values },
@@ -53,24 +54,12 @@ class Create extends React.Component {
 
   fetchContact = (value) => {
     this.props.dispatch({
-      type: 'contact/handleSearchChange',
-      payload: { value: this.props.contact.searchValue, listContact: [] },
+      type: 'company/handleSearchContactChange',
+      payload: { value: this.props.company.searchValueContact, contactInfo: [] },
     });
 
     this.props.dispatch({
-      type: 'contact/searchCompanyByName',
-      payload: { value },
-    });
-  };
-
-  fetchCompany = (value) => {
-    this.props.dispatch({
-      type: 'company/handleSearchChangeCompanyReferral',
-      payload: { value: this.props.company.searchValueCompanyReferral, companyInfo: [] },
-    });
-
-    this.props.dispatch({
-      type: 'company/searchCompanyReferralByName',
+      type: 'company/searchContactByName',
       payload: {
         page: 1,
         searchValue: value,
@@ -78,35 +67,21 @@ class Create extends React.Component {
     });
   };
 
-  createCompany = () => {
+  createContact = () => {
     history.push({
-      pathname: '/company/create',
-    });
-  };
-
-  createCompany = () => {
-    history.push({
-      pathname: '/company/create',
+      pathname: '/contact/create',
     });
   };
 
   handleChange = (value) => {
     this.props.dispatch({
-      type: 'company/handleSearchChange',
-      payload: { value, listCompany: [] },
-    });
-  };
-
-  handleChangeCompanyReferral = (value) => {
-    this.props.dispatch({
-      type: 'company/handleSearchChangeCompanyReferral',
-      payload: { value, companyInfo: [] },
+      type: 'company/handleSearchContactChange',
+      payload: { value, contactInfo: [] },
     });
   };
 
   render() {
-    // const { searchValue, listCompany } = this.props.company;
-    // const { searchValueCompanyReferral, companyInfo } = this.props.company;
+    const { searchValueContact, contactInfo } = this.props.company;
 
     return (
       <div className={styles.main}>
@@ -130,6 +105,15 @@ class Create extends React.Component {
             ]}
           >
             <Input />
+          </Form.Item>
+          <Form.Item name={['company', 'url']} label="URL">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['company', 'tag']} label="Tag">
+            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+              <Option key="1">String</Option>
+              <Option key="6">tesst</Option>
+            </Select>
           </Form.Item>
 
           <div {...formItemLayoutWithOutLabel}>
@@ -377,58 +361,32 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          {/* <Form.Item name={['company', 'referral']} label="Referral">
+          <Form.Item name={['company', 'contact']} label="Contact">
             <Select
               mode="multiple"
               labelInValue
-              value={searchValueCompanyReferral}
-              placeholder="Select company"
+              value={searchValueContact}
+              placeholder="Select contact"
               notFoundContent={
-                this.props.fetchingCompany ? (
+                this.props.fetchingContact ? (
                   <Spin size="small" />
                 ) : (
                   <p>
-                    <Button type="text" onClick={this.createCompany}>
-                      Create company
+                    <Button type="text" onClick={this.createContact}>
+                      Create contact
                     </Button>
                   </p>
                 )
               }
               filterOption={false}
-              onSearch={this.fetchCompany}
-              onChange={this.handleChangeCompanyReferral}
+              onSearch={this.fetchContact}
+              onChange={this.handleChange}
             >
-              {companyInfo.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
+              {contactInfo.map((d) => (
+                <Option key={d.key}>{d.label}</Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name={['company', 'company']} label="Company">
-            <Select
-              mode="multiple"
-              labelInValue
-              value={searchValue}
-              placeholder="Select company"
-              notFoundContent={
-                this.props.fetchingCompany ? (
-                  <Spin size="small" />
-                ) : (
-                  <p>
-                    <Button type="text" onClick={this.createCompany}>
-                      Create Company
-                    </Button>
-                  </p>
-                )
-              }
-              filterOption={false}
-              onSearch={this.fetchCompany}
-              onChange={this.handleChange}
-            >
-              {listCompany.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
-              ))}
-            </Select>
-          </Form.Item> */}
 
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
@@ -444,6 +402,5 @@ class Create extends React.Component {
 export default connect(({ company, loading }) => ({
   company,
   submitting: loading.effects['company/fullCreate'],
-  fetchingContact: loading.effects['company/searchCompanyByName'],
-  fetchingCompany: loading.effects['company/searchCReferralByName'],
+  fetchingContact: loading.effects['company/searchContactByName'],
 }))(Create);
