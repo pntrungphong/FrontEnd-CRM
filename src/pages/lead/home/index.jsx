@@ -1,4 +1,4 @@
-import { Form, Input, Button, Space, Card, Pagination, Modal } from 'antd';
+import { Input, Button, Space, Card, Pagination, Modal } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -240,13 +240,9 @@ const Create = connect(({ lead }) => ({
   };
 
   return (
-    <Form>
-      <Form.Item>
-        <Button htmlType="button" onClick={createDetail}>
-          Create
-        </Button>
-      </Form.Item>
-    </Form>
+    <Button htmlType="button" onClick={createDetail}>
+      Create
+    </Button>
   );
 });
 
