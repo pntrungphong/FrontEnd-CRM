@@ -92,7 +92,7 @@ class Create extends React.Component {
     });
   };
 
-  createContact = () => {
+  createCompany = () => {
     // console.table(this.props.contact.searchValueContactReferral);
     // this.props.dispatch({
     //   type: 'contact/quickCreate',
@@ -433,7 +433,7 @@ class Create extends React.Component {
                 this.props.fetchingContact ? (
                   <Spin size="small" />
                 ) : (
-                  <h4 type="text" onClick={this.createContact} className={styles.optionCreate}>
+                  <h4 type="text" onClick={this.createCompany} className={styles.optionCreate}>
                     Create company
                   </h4>
                 )

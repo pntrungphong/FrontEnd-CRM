@@ -1,86 +1,228 @@
-import { Form, Input, Button } from 'antd';
+import { Form, Input, Button, Spin, Select, Upload } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
-
+import { connect, history } from 'umi';
+import debounce from 'lodash/debounce';
+// import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
+const { Option } = Select;
+const { TextArea } = Input;
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrappercol: { span: 16 },
 };
+
 const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
-const Create = connect(({ lead, loading }) => ({
-  lead,
-  submitting: loading.effects['lead/fullCreate'],
-}))(function (props) {
-  const onFinish = (values) => {
-    props.dispatch({
+
+class Create extends React.Component {
+  constructor(props) {
+    super(props);
+    this.fetchCompany = debounce(this.fetchCompany, 1000);
+    this.fetchContact = debounce(this.fetchContact, 1000);
+  }
+
+  onFinish = (values) => {
+    this.props.dispatch({
       type: 'lead/fullCreate',
       payload: { ...values },
     });
   };
 
-  const [form] = Form.useForm();
+  fetchCompany = (value) => {
+    this.props.dispatch({
+      type: 'lead/handleSearchChange',
+      payload: { value: this.props.lead.searchValue, listCompany: [] },
+    });
 
-  return (
-    <div className={styles.main}>
-      <div className={styles.header}>
-        <h2 className={styles.title}> Create lead</h2>
+    this.props.dispatch({
+      type: 'lead/searchCompanyByName',
+      payload: { value },
+    });
+  };
+
+  fetchContact = (value) => {
+    this.props.dispatch({
+      type: 'lead/handleSearchContactChange',
+      payload: { value: this.props.lead.searchContactValue, listContact: [] },
+    });
+
+    this.props.dispatch({
+      type: 'lead/searchContactByName',
+      payload: { value },
+    });
+  };
+
+  createCompany = () => {
+    history.push({
+      pathname: '/company/create',
+    });
+  };
+
+  createContact = () => {
+    history.push({
+      pathname: '/contact/create',
+    });
+  };
+
+  handleChange = (value) => {
+    this.props.dispatch({
+      type: 'lead/handleSearchChange',
+      payload: { value, listCompany: [] },
+    });
+  };
+
+  handleContactChange = (value) => {
+    this.props.dispatch({
+      type: 'lead/handleSearchContactChange',
+      payload: { value, listContact: [] },
+    });
+  };
+
+  render() {
+    const { searchValue, listCompany, searchContactValue, listContact } = this.props.lead;
+
+    return (
+      <div className={styles.main}>
+        <div className={styles.header}>
+          <h2 className={styles.title}> CREATE LEAD</h2>
+        </div>
+
+        <Form
+          {...layout}
+          name="nest-messages"
+          onFinish={this.onFinish}
+          validateMessages={validateMessages}
+        >
+          <Form.Item
+            name={['lead', 'name']}
+            label="Name"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'rank']}
+            label="Rank"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'company']}
+            label="Company"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              labelInValue
+              tokenSeparators={[',']}
+              value={searchValue}
+              placeholder="Select company"
+              notFoundContent={
+                this.props.fetchingCompany ? (
+                  <Spin size="small" />
+                ) : (
+                  <p>
+                    <Button type="text" onClick={this.createCompany}>
+                      Create Company
+                    </Button>
+                  </p>
+                )
+              }
+              filterOption={false}
+              onSearch={this.fetchCompany}
+              onChange={this.handleChange}
+            >
+              {listCompany.map((d) => (
+                <Option key={d.key}>{d.label}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'contact']}
+            label="Related To"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              mode="multiple"
+              labelInValue
+              tokenSeparators={[',']}
+              value={searchContactValue}
+              placeholder="Select contact"
+              notFoundContent={
+                this.props.fetchingContact ? (
+                  <Spin size="small" />
+                ) : (
+                  <p>
+                    <Button type="text" onClick={this.createContact}>
+                      Create Contact
+                    </Button>
+                  </p>
+                )
+              }
+              filterOption={false}
+              onSearch={this.fetchContact}
+              onChange={this.handleContactChange}
+            >
+              {listContact.map((d) => (
+                <Option key={d.key}>{d.label}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name={['lead', 'tag']} label="Tag">
+            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+              <Option key="1">String</Option>
+              <Option key="6">tesst</Option>
+            </Select>
+          </Form.Item>
+          <Form.Item name={['lead', 'brief']} label="Brief">
+            <Upload action="#">
+              <Button>Click to Upload</Button>
+            </Upload>
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'description']}
+            label="Description"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
+          <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
+            <Button type="primary" htmlType="submit" loading={this.props.submitting}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
       </div>
-
-      <Form
-        {...layout}
-        form={form}
-        name="nest-messages"
-        onFinish={onFinish}
-        validateMessages={validateMessages}
-      >
-        <Form.Item
-          name={['lead', 'name']}
-          label="Name"
-          initialValue={props.location.state === undefined ? '' : props.location.state.name}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={['lead', 'website']}
-          label="Website"
-          initialValue={props.location.state === undefined ? '' : props.location.state.website}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'phone']} label="Phone">
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'address']} label="Address">
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'tag']} label="Tag">
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'email']} label="Email">
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'url']} label="URL">
-          <Input />
-        </Form.Item>
-
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit" loading={props.submitting}>
-            Submit
-          </Button>
-        </Form.Item>
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }} />
-      </Form>
-    </div>
-  );
-});
-
-export default Create;
+    );
+  }
+}
+export default connect(({ lead, loading, searchModel }) => ({
+  lead,
+  searchModel,
+  submitting: loading.effects['lead/fullCreate'],
+  fetchingCompany: loading.effects['lead/searchCompanyByName'],
+  fetchingContact: loading.effects['lead/searchContactByName'],
+}))(Create);
