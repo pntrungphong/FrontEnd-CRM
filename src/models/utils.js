@@ -21,6 +21,30 @@ export const setPagination = (data) => {
     throw new Error('Missing pagination data');
   }
 };
+export const formatedListLeadData = (response) => {
+  try {
+    const formatedData = [];
+    response.data.forEach((element) => {
+      const data = {
+        name: element.name,
+        rank: element.rank,
+        description: element.description,
+        id: element.id,
+      };
+      formatedData.push(data);
+    });
+    const returnData = {
+      data: formatedData,
+      itemCount: response.meta.itemCount,
+      currentPage: response.meta.page,
+    };
+    console.table(returnData);
+
+    return returnData;
+  } catch (error) {
+    throw new Error('Missing pagination data');
+  }
+};
 
 export const formatedDetailContactData = (response) => {
   console.table(response);
@@ -126,8 +150,8 @@ export const formatedDetailCompanyData = (response) => {
     if (response.tag != null) {
       response.tag.forEach((element) => {
         tag.push({
-          key: element.id,
-          value: element.id,
+          key: element.tag,
+          value: element.tag,
           label: element.tag,
         });
       });
@@ -288,6 +312,56 @@ export const formatedListCompanyData = (response) => {
       currentPage: response.meta.page,
     };
     console.table(returnData);
+
+    return returnData;
+  } catch (error) {
+    throw new Error('Missing pagination data');
+  }
+};
+
+export const formatedDetailLeadData = (response) => {
+  // console.table(response);
+  try {
+    // const contact = [];
+    // if (response.contact != null) {
+    //   response.contact.forEach((element) => {
+    //     contact.push({
+    //       key: element.id,
+    //       value: element.id,
+    //       label: element.name,
+    //     });
+    //   });
+    // }
+    const contact = [];
+    if (response.contact != null) {
+      response.contact.forEach((element) => {
+        contact.push({
+          key: element.id,
+          value: element.id,
+          label: element.name,
+        });
+      });
+    }
+    const tag = [];
+    if (response.tag != null) {
+      response.tag.forEach((element) => {
+        tag.push({
+          key: element.id,
+          value: element.id,
+          label: element.tag,
+        });
+      });
+    }
+
+    const returnData = {
+      company: response.company,
+      description: response.description,
+      rank: response.rank,
+      id: response.id,
+      name: response.name,
+      tag,
+      contact,
+    };
 
     return returnData;
   } catch (error) {

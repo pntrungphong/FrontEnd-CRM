@@ -1,135 +1,21 @@
-import { Modal, Tag, Form, Row, Pagination, Col, Input, Table, Button } from 'antd';
+import { Form, Input, Button, Space, Card, Pagination, Modal } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import styles from './style.less';
+// import { render } from 'enzyme';
+// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const { Search } = Input;
-
-const layout = {
-  labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
-};
-
-const tailLayout = {
-  wrapperCol: {
-    offset: 4,
-  },
-};
-
-const columns = [
-  {
-    title: 'Name',
-    dataIndex: 'name',
-    key: 'name',
-  },
-  {
-    title: 'Address',
-    dataIndex: 'address',
-    key: 'address',
-    render: (address) => (
-      <>
-        {address.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Phone',
-    dataIndex: 'phone',
-    key: 'phone',
-    render: (phone) => (
-      <>
-        {phone.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
-        })}
-      </>
-    ),
-  },
-  // {
-  //   title: 'Website',
-  //   dataIndex: 'website',
-  //   key: 'website',
-  //   render: (website) => (
-  //     <>
-  //       {website.map((item) => {
-  //         return <Tag key={item}>{item.toUpperCase()}</Tag>;
-  //       })}
-  //     </>
-  //   ),
-  // },
-  {
-    title: 'Email',
-    dataIndex: 'email',
-    key: 'email',
-    render: (email) => (
-      <>
-        {email.map((item) => {
-          return <Tag key={item}>{item.toUpperCase()}</Tag>;
-        })}
-      </>
-    ),
-  },
-  {
-    title: 'Action',
-    key: 'action',
-    render: (record) => (
-      <ul>
-        <li>
-          <a
-            onClick={() => {
-              history.push({
-                pathname: '/lead/update',
-                query: {
-                  id: record.id,
-                },
-              });
-            }}
-          >
-            Update
-          </a>
-        </li>
-        <li>
-          <a
-            onClick={() => {
-              history.push({
-                pathname: '/lead/detail',
-                query: {
-                  id: record.id,
-                },
-              });
-            }}
-          >
-            Detail
-          </a>
-        </li>
-      </ul>
-    ),
-  },
-];
-
+const [modal, contextHolder] = Modal.useModal();
 class App extends React.Component {
   constructor(props) {
     super(props);
 
     this.state = {
-      props,
+      // props,
     };
   }
-
-  showModal = () => {
-    this.state.props.dispatch({
-      type: 'lead/handleCreateModal',
-      payload: true,
-    });
-  };
-
-  handleCancel = () => {
-    this.props.dispatch({
-      type: 'lead/handleCreateModal',
-      payload: false,
-    });
-  };
 
   onSearch = (value) => {
     this.props.dispatch({
@@ -142,36 +28,23 @@ class App extends React.Component {
   };
 
   render() {
-    const { visible } = this.props.lead;
     return (
-      <div>
-        <Modal title="Create Lead" visible={visible} footer={null} onCancel={this.handleCancel}>
+      <div style={{ backgroundColor: 'white' }}>
+        <div className={styles.display}>
           <Create />
-        </Modal>
-        <Row>
-          <Col span={16}>
-            <Button type="primary" onClick={this.showModal}>
-              Create Lead
-            </Button>
-          </Col>
-          <Col span={8}>
-            <Search
-              placeholder="input search text"
-              enterButton="Search"
-              size="large"
-              onSearch={this.onSearch}
-            />
-          </Col>
-        </Row>
+          <Search
+            className={styles.search}
+            placeholder="input search text"
+            enterButton="Search"
+            size="large"
+            onSearch={this.onSearch}
+          />
+        </div>
         <ListLead />
       </div>
     );
   }
 }
-
-const validateMessages = (label) => ({
-  required: `${label} is required!`,
-});
 
 const ListLead = connect(({ lead, loading }) => ({
   lead,
@@ -182,94 +55,195 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/loadListLead',
     });
   });
-
   const onPaginitionChange = (page) => {
     props.dispatch({
       type: 'lead/loadListLead',
       payload: {
         page,
-        searchValue: props.lead.searchLeadValue,
+        searchValue: props.lead.searchContactValue,
       },
     });
   };
 
   return (
-    <div>
-      <Table
-        bordered
-        loading={props.loading}
-        pagination={false}
-        columns={columns}
-        rowKey="id"
-        dataSource={props.lead.leadInfo}
-      />
-      <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+    <div className={styles.spaceAll}>
+      <div className={styles.spaceOne}>
+        <div className={styles.spanTitle}>
+          <h4 className={styles.textOne}>Name</h4>
+          <h4 className={styles.textTwo}>Rank</h4>
+          <h4 className={styles.textThree}>Rank</h4>
+        </div>
+        <div className={styles.spcing}>
+          <Space align="center" direction="vertical">
+            {props.lead.leadInfo.map((item) => {
+              return (
+                <div>
+                  <Card
+                    title={item.name}
+                    className={styles.cardOne}
+                    extra={
+                      <Button
+                        onClick={() => {
+                          modal.info();
+                        }}
+                      >
+                        More
+                      </Button>
+                    }
+                  >
+                    {' '}
+                    {contextHolder}
+                    <p>{item.description}</p>
+                  </Card>
+                </div>
+              );
+            })}
+          </Space>
+
+          <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+        </div>
+      </div>
+      <div className={styles.horScroll}>
+        <div className={styles.spaceTwo}>
+          <h3 className={styles.titleOne}>Touchpoint 1</h3>
+          <Space align="center" direction="vertical">
+            <Card
+              title="Lead 1"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 2"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 3"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 4"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+          </Space>
+        </div>
+        <div className={styles.spaceTwo}>
+          <h3 className={styles.titleOne}>Touchpoint 2</h3>
+          <Space align="center" direction="vertical">
+            <Card
+              title="Lead 1"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 2"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+          </Space>
+        </div>
+        <div className={styles.spaceTwo}>
+          <h3 className={styles.titleOne}>Touchpoint 3</h3>
+          <Space align="center" direction="vertical">
+            <Card
+              title="Lead 1"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 2"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+          </Space>
+        </div>
+        <div className={styles.spaceTwo}>
+          <h3 className={styles.titleOne}>Touchpoint 4</h3>
+          <Space align="center" direction="vertical">
+            <Card
+              title="Lead 1"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 2"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+          </Space>
+        </div>
+        <div className={styles.spaceTwo}>
+          <h3 className={styles.titleOne}>Touchpoint 5</h3>
+          <Space align="center" direction="vertical">
+            <Card
+              title="Lead 1"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+            <Card
+              title="Lead 2"
+              className={styles.cardTwo}
+              extra={<p className={styles.titleTwo}>Time</p>}
+            >
+              <h2 className={styles.cardTwoOne}>Jun</h2>
+              <Button className={styles.btnOne}>Lead Manager</Button>
+            </Card>
+          </Space>
+        </div>
+      </div>
     </div>
   );
 });
 
-const Create = connect(({ lead, loading }) => ({
+const Create = connect(({ lead }) => ({
   lead,
-  submitting: loading.effects['lead/create'],
-}))(function (props) {
-  const [form] = Form.useForm();
-
-  const onFinish = (values) => {
-    props.dispatch({
-      type: 'lead/create',
-      payload: { ...values },
-    });
-  };
-
+}))(function () {
   const createDetail = () => {
-    const lead = form.getFieldValue('lead');
-
     history.push({
       pathname: '/lead/create',
-      state: {
-        name: lead.name,
-        phone: lead.phone,
-      },
     });
   };
 
   return (
-    <Form
-      {...layout}
-      form={form}
-      name="nest-messages"
-      onFinish={onFinish}
-      validateMessages={validateMessages}
-    >
-      <Form.Item
-        name={['lead', 'name']}
-        label="Name"
-        initialValue=""
-        rules={[
-          {
-            required: true,
-          },
-        ]}
-      >
-        <Input />
-      </Form.Item>
-
-      <Form.Item name={['lead', 'phone']} label="Phone" initialValue="">
-        <Input />
-      </Form.Item>
-
-      <Form.Item {...tailLayout}>
-        <Button
-          htmlType="button"
-          style={{
-            margin: '0 8px',
-          }}
-          onClick={createDetail}
-        >
-          Create Detail
-        </Button>
-        <Button type="primary" htmlType="submit" loading={props.submitting}>
-          Submit
+    <Form>
+      <Form.Item>
+        <Button htmlType="button" onClick={createDetail}>
+          Create
         </Button>
       </Form.Item>
     </Form>

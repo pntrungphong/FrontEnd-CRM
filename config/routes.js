@@ -47,6 +47,10 @@ export default [
             component: 'contact/create',
           },
           {
+            path: '/contact/detail/id',
+            component: 'contact/detail',
+          },
+          {
             path: '/lead',
             name: 'Lead',
             component: 'lead/home',
@@ -56,7 +60,7 @@ export default [
             component: 'lead/update',
           },
           {
-            path: '/lead/detail',
+            path: '/lead/detail/:id?',
             component: 'lead/detail',
           },
           {
