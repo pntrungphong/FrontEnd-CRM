@@ -151,13 +151,8 @@ export const formatedDetailCompanyData = (response) => {
     if (response.tag != null) {
       response.tag.forEach((element) => {
         tag.push({
-<<<<<<< HEAD
-          key: element.tag,
-          value: element.tag,
-=======
           key: element.id.toString(),
           value: element.id.toString(),
->>>>>>> origin
           label: element.tag,
         });
       });
