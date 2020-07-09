@@ -90,7 +90,7 @@ class Create extends React.Component {
     return (
       <div className={styles.main}>
         <div className={styles.header}>
-          <h2 className={styles.title}> CREATE company</h2>
+          <h2 className={styles.title}> CREATE COMPANY</h2>
         </div>
 
         <Form
@@ -126,17 +126,15 @@ class Create extends React.Component {
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Phone">
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          add();
-                        }}
-                      >
+                    <Form.Item
+                      label="Phone"
+                      className={fields.length === 0 ? '' : styles.customRow}
+                    >
+                      <Button type="dashed" onClick={() => add()}>
                         <PlusOutlined /> Add Phone
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
+                    {fields.map((field, index, arr) => (
                       <Row key={field.key}>
                         <Col span={8} />
                         <Col span={16}>
@@ -144,6 +142,7 @@ class Create extends React.Component {
                             <Col flex="2">
                               <Form.Item
                                 {...field}
+                                className={index + 1 === arr.length ? '' : styles.childrenRow}
                                 name={[field.name, 'number']}
                                 fieldKey={[field.fieldKey, 'number']}
                               >
@@ -153,6 +152,7 @@ class Create extends React.Component {
                             <Col flex="2">
                               <Form.Item
                                 {...field}
+                                className={index + 1 === arr.length ? '' : styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
                               >
@@ -186,7 +186,10 @@ class Create extends React.Component {
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Email">
+                    <Form.Item
+                      label="Email"
+                      className={fields.length === 0 ? '' : styles.customRow}
+                    >
                       <Button
                         type="dashed"
                         onClick={() => {
@@ -196,7 +199,7 @@ class Create extends React.Component {
                         <PlusOutlined /> Add Emails
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
+                    {fields.map((field, index, arr) => (
                       <Row key={[field.key, '@gmail.com', '@geekup.vn']}>
                         <Col span={8} />
                         <Col span={16}>
@@ -204,6 +207,7 @@ class Create extends React.Component {
                             <Col flex="2">
                               <Form.Item
                                 {...field}
+                                className={index + 1 === arr.length ? '' : styles.childrenRow}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
                                 placeholder="Your Email"
@@ -222,6 +226,7 @@ class Create extends React.Component {
                             <Col flex="2">
                               <Form.Item
                                 {...field}
+                                className={index + 1 === arr.length ? '' : styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
                               >
@@ -259,7 +264,10 @@ class Create extends React.Component {
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Website">
+                    <Form.Item
+                      label="Website"
+                      className={fields.length === 0 ? '' : styles.customRow}
+                    >
                       <Button
                         type="dashed"
                         onClick={() => {
@@ -269,7 +277,7 @@ class Create extends React.Component {
                         <PlusOutlined /> Add Website
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
+                    {fields.map((field, index, arr) => (
                       <Row key={field.key}>
                         <Col span={8} />
                         <Col span={16}>
@@ -277,6 +285,7 @@ class Create extends React.Component {
                             <Col flex="2">
                               <Form.Item
                                 {...field}
+                                className={index + 1 === arr.length ? '' : styles.childrenRow}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
                               >
@@ -286,6 +295,7 @@ class Create extends React.Component {
                             <Col flex="2">
                               <Form.Item
                                 {...field}
+                                className={index + 1 === arr.length ? '' : styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
                               >
@@ -323,7 +333,10 @@ class Create extends React.Component {
               {(fields, { add, remove }) => {
                 return (
                   <div>
-                    <Form.Item label="Address">
+                    <Form.Item
+                      label="Address"
+                      className={fields.length === 0 ? '' : styles.customRow}
+                    >
                       <Button
                         type="dashed"
                         onClick={() => {
@@ -333,10 +346,16 @@ class Create extends React.Component {
                         <PlusOutlined /> Add Address
                       </Button>
                     </Form.Item>
-                    {fields.map((field) => (
-                      <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
+                    {fields.map((field, index, arr) => (
+                      <Form.Item
+                        {...formItemLayout}
+                        label={`Address ${index + 1}`}
+                        required={false}
+                        key={field.key}
+                      >
                         <Form.Item
                           {...field}
+                          className={index + 1 === arr.length ? '' : styles.childrenRow}
                           validateTrigger={['onChange', 'onBlur']}
                           rules={[
                             {
