@@ -53,9 +53,9 @@ export const formatedDetailContactData = (response) => {
     if (response.company != null) {
       response.company.forEach((element) => {
         company.push({
-          key: element.id,
+          key: element.id.toString(),
           label: element.name,
-          value: element.id,
+          value: element.id.toString(),
         });
       });
     }
@@ -63,8 +63,8 @@ export const formatedDetailContactData = (response) => {
     if (response.tag != null) {
       response.tag.forEach((element) => {
         tag.push({
-          key: element.id,
-          value: element.id,
+          key: element.id.toString(),
+          value: element.id.toString(),
           label: element.tag,
         });
       });
@@ -74,8 +74,8 @@ export const formatedDetailContactData = (response) => {
     if (response.referral != null) {
       response.referral.forEach((element) => {
         referral.push({
-          key: element.idTarget,
-          value: element.idTarget,
+          key: element.idTarget.toString(),
+          value: element.idTarget.toString(),
           label: element.name,
         });
       });
@@ -140,18 +140,24 @@ export const formatedDetailCompanyData = (response) => {
     if (response.contact != null) {
       response.contact.forEach((element) => {
         contact.push({
-          key: element.id,
-          value: element.id,
+          key: element.id.toString(),
+          value: element.id.toString(),
           label: element.name,
         });
       });
     }
     const tag = [];
+
     if (response.tag != null) {
       response.tag.forEach((element) => {
         tag.push({
+<<<<<<< HEAD
           key: element.tag,
           value: element.tag,
+=======
+          key: element.id.toString(),
+          value: element.id.toString(),
+>>>>>>> origin
           label: element.tag,
         });
       });
@@ -204,7 +210,6 @@ export const formatedDetailCompanyData = (response) => {
       name: response.name,
       id: response.id,
     };
-
     console.table(returnData);
 
     return returnData;
@@ -223,8 +228,8 @@ export const formatedListContactData = (response) => {
         element.company.forEach((data) => {
           company.push({
             label: data.name,
-            key: data.id,
-            value: data.id,
+            key: data.id.toString(),
+            value: data.id.toString(),
           });
         });
       }
@@ -278,8 +283,8 @@ export const formatedListCompanyData = (response) => {
         element.contact.forEach((data) => {
           contact.push({
             label: data.name,
-            key: data.id,
-            value: data.id,
+            key: data.id.toString(),
+            value: data.id.toString(),
           });
         });
       }

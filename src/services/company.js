@@ -54,7 +54,7 @@ export async function updateCompany(params) {
   if (params.company.contact !== undefined) {
     params.company.contact.forEach((element) => {
       contact.push({
-        idContact: element.key,
+        idContact: parseInt(element.key, 10),
       });
     });
   }
@@ -148,7 +148,7 @@ export async function fullCreateCompany(params) {
   if (params.company.contact !== undefined) {
     params.company.contact.forEach((element) => {
       contact.push({
-        idContact: element.key,
+        idContact: parseInt(element.key, 10),
       });
     });
   }
