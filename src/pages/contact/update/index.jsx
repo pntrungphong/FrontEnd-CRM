@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrappercol: { span: 16 },
 };
 const validateMessages = (label) => ({
   required: `${label} is required!`,
@@ -58,7 +58,6 @@ const Update = connect(({ contact, tag, loading }) => ({
   });
 
   const onFinish = (values) => {
-    console.table(values);
     props.dispatch({
       type: 'contact/update',
       payload: { ...values, id: props.match.params.id },

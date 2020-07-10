@@ -6,43 +6,44 @@
 }
 .search {
   width: 400px;
+  height: 100%;
+}
+.containerBox {
+  margin: 10px 20px;
+}
+.customHeadCard {
+  padding: 0;
+}
+.top {
+  display: flex;
+  justify-content: space-between;
+  margin: 10px 0;
 }
 .spaceOne {
-  // flex: none;
   position: relative;
-  left: 24px;
   width: 310px;
+  margin: 2px 5px;
   padding: 4px;
-  background-color: #fff;
+  border-radius: 10px;
+  box-shadow: 0 0 3px 0.3px #9e9d9d;
   .spanTitle {
     position: relative;
-    top: 8px;
     display: flex;
     justify-content: space-between;
-    width: 100%;
-    height: 40px;
-    background-color: #f4f5f7;
-    border-radius: 4px;
-    .spcing {
-      background-color: #f4f5f7;
+    margin: 5px 10px;
+    font-size: 17px;
+    span {
+      font-weight: bold;
     }
-    .textTwo {
-      position: relative;
-      top: 4px;
-      align-items: center;
-      font-weight: 600;
-      font-size: 18px;
-      text-align: center;
-    }
-    .textOne {
-      position: relative;
-      top: 4px;
-      left: 8px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-weight: 600;
-      font-size: 18px;
+  }
+  .leadTitle {
+    position: relative;
+    display: flex;
+    justify-content: space-between;
+    margin: 5px 10px;
+    font-size: 17px;
+    span {
+      font-weight: bold;
     }
   }
 }
@@ -57,33 +58,36 @@
 .horScroll {
   // background-color: gray;
   position: relative;
-  left: 32px;
   display: flex;
   width: 100%;
   height: 100%;
   overflow-x: auto;
   .titleOne {
     position: relative;
-    top: 8px;
+    margin: 0;
     font-weight: 600;
     font-size: 20px;
+    text-align: center;
   }
 }
 .spaceAll {
   display: flex;
 }
 
-.spaceTwo {
-  // flex: none;
+.touchPointCol {
   position: relative;
   flex-direction: column;
   width: 310px;
+  margin: 2px 5px;
   padding: 4px;
+  // box-shadow: 0 0 3px 0.3px #9e9d9d;
+  border-radius: 10px;
 }
 
-.cardTwo {
+.phaseCard {
   width: 300px;
   height: 280px;
+  margin: 2px 0;
   background-color: #fff;
   border: 1px solid #ccc;
   border-radius: 4px;
