@@ -79,7 +79,7 @@ export async function updateContact(params) {
   const tag = [];
   if (params.contact.tag !== undefined) {
     params.contact.tag.forEach((element) => {
-      if (element.value === element.key) {
+      if (element.value === element.label) {
         tag.push({
           tag: element.label,
         });
@@ -180,7 +180,7 @@ export async function fullCreateContact(params) {
   const tag = [];
   if (params.contact.tag !== undefined) {
     params.contact.tag.forEach((element) => {
-      if (element.value === element.key) {
+      if (element.value === element.label) {
         tag.push({
           tag: element.label,
         });
