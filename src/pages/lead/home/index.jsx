@@ -93,7 +93,6 @@ const ListLead = connect(({ lead, loading }) => ({
                       </a>
                     }
                   >
-                    {' '}
                     {/* {contextHolder} */}
                     <p>{item.description}</p>
                   </Card>
