@@ -30,6 +30,7 @@ export const formatedListLeadData = (response) => {
         rank: element.rank,
         description: element.description,
         id: element.id,
+        company: element.company,
       };
       formatedData.push(data);
     });
@@ -38,8 +39,6 @@ export const formatedListLeadData = (response) => {
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
     };
-    console.table(returnData);
-
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
@@ -47,7 +46,6 @@ export const formatedListLeadData = (response) => {
 };
 
 export const formatedDetailContactData = (response) => {
-  console.table(response);
   try {
     const company = [];
     if (response.company != null) {
@@ -205,8 +203,6 @@ export const formatedDetailCompanyData = (response) => {
       name: response.name,
       id: response.id,
     };
-    console.table(returnData);
-
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
@@ -214,7 +210,6 @@ export const formatedDetailCompanyData = (response) => {
 };
 
 export const formatedListContactData = (response) => {
-  console.table(response);
   try {
     const formatedData = [];
     response.data.forEach((element) => {
@@ -261,8 +256,6 @@ export const formatedListContactData = (response) => {
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
     };
-    console.table(returnData);
-
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
@@ -311,8 +304,6 @@ export const formatedListCompanyData = (response) => {
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
     };
-    console.table(returnData);
-
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
@@ -320,7 +311,6 @@ export const formatedListCompanyData = (response) => {
 };
 
 export const formatedDetailLeadData = (response) => {
-  // console.table(response);
   try {
     // const contact = [];
     // if (response.contact != null) {

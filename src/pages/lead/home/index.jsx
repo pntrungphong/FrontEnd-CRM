@@ -1,13 +1,13 @@
-import { Input, Button, Space, Card, Pagination, Modal } from 'antd';
+import { Input, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import styles from './style.less';
-// import { render } from 'enzyme';
-// import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 
 const { Search } = Input;
-const [modal, contextHolder] = Modal.useModal();
+// const [modal, contextHolder] = Modal.useModal();
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -29,12 +29,11 @@ class App extends React.Component {
 
   render() {
     return (
-      <div style={{ backgroundColor: 'white' }}>
-        <div className={styles.display}>
-          <Create />
+      <div className={styles.containerBox}>
+        <div className={styles.top}>
           <Search
             className={styles.search}
-            placeholder="input search text"
+            placeholder="Search lead"
             enterButton="Search"
             size="large"
             onSearch={this.onSearch}
@@ -45,6 +44,38 @@ class App extends React.Component {
     );
   }
 }
+
+const Create = connect(({ lead }) => ({
+  lead,
+}))(function () {
+  const createDetail = () => {
+    history.push({
+      pathname: '/lead/create',
+    });
+  };
+
+  return <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} />;
+});
+
+const rankStore = {
+  '0': 'A',
+  '1': 'B',
+  '2': 'C',
+};
+
+const LeadTitle = ({ leadName, rank, id }) => {
+  return (
+    <>
+      <div className={styles.leadTitle}>
+        <span>{leadName}</span>
+        <span>{rankStore[rank]}</span>
+        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
+          <FontAwesomeIcon icon={faEllipsisH} size="md" />
+        </span>
+      </div>
+    </>
+  );
+};
 
 const ListLead = connect(({ lead, loading }) => ({
   lead,
@@ -69,9 +100,11 @@ const ListLead = connect(({ lead, loading }) => ({
     <div className={styles.spaceAll}>
       <div className={styles.spaceOne}>
         <div className={styles.spanTitle}>
-          <h4 className={styles.textOne}>Name</h4>
-          <h4 className={styles.textTwo}>Rank</h4>
-          <h4 className={styles.textThree}>Rank</h4>
+          <span>Name</span>
+          <span>Rank</span>
+          <span>
+            <Create />
+          </span>
         </div>
         <div className={styles.spcing}>
           <Space align="center" direction="vertical">
@@ -79,21 +112,26 @@ const ListLead = connect(({ lead, loading }) => ({
               return (
                 <div>
                   <Card
-                    title={item.name}
+                    headStyle={{ padding: 0 }}
+                    bodyStyle={{ padding: 5, paddingLeft: 10 }}
+                    title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
                     className={styles.cardOne}
-                    extra={
-                      <Button
+                  >
+                    <h3>
+                      <strong>Company: </strong>
+                      <a
                         onClick={() => {
-                          modal.info();
+                          history.push({
+                            pathname: `/lead/detail/${item.id}`,
+                          });
                         }}
                       >
-                        More
-                      </Button>
-                    }
-                  >
-                    {' '}
-                    {contextHolder}
-                    <p>{item.description}</p>
+                        {item.company.name}{' '}
+                      </a>
+                    </h3>
+                    <h3>
+                      <strong>Description: </strong> {item.description}
+                    </h3>
                   </Card>
                 </div>
               );
@@ -104,145 +142,129 @@ const ListLead = connect(({ lead, loading }) => ({
         </div>
       </div>
       <div className={styles.horScroll}>
-        <div className={styles.spaceTwo}>
+        <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 1</h3>
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 2"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 3"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 4"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
           </Space>
         </div>
-        <div className={styles.spaceTwo}>
+        <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 2</h3>
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 2"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
           </Space>
         </div>
-        <div className={styles.spaceTwo}>
+        <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 3</h3>
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 2"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
           </Space>
         </div>
-        <div className={styles.spaceTwo}>
+        <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 4</h3>
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 2"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
           </Space>
         </div>
-        <div className={styles.spaceTwo}>
+        <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 5</h3>
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
             <Card
               title="Lead 2"
-              className={styles.cardTwo}
-              extra={<p className={styles.titleTwo}>Time</p>}
+              className={styles.phaseCard}
+              extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <h2 className={styles.cardTwoOne}>Jun</h2>
-              <Button className={styles.btnOne}>Lead Manager</Button>
+              <h2 className={styles.phaseCardOne}>Jun 8</h2>
+              <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
           </Space>
         </div>
       </div>
     </div>
-  );
-});
-
-const Create = connect(({ lead }) => ({
-  lead,
-}))(function () {
-  const createDetail = () => {
-    history.push({
-      pathname: '/lead/create',
-    });
-  };
-
-  return (
-    <Button htmlType="button" onClick={createDetail}>
-      Create
-    </Button>
   );
 });
 

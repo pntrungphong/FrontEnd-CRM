@@ -1,7 +1,9 @@
-import { Form, Input, Button, Spin, Select, Upload } from 'antd';
+import { Form, Input, message, Button, Spin, Select, Upload } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
+import { getToken } from '../../../utils/authority';
+
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
@@ -23,10 +25,31 @@ class Create extends React.Component {
     this.fetchContact = debounce(this.fetchContact, 1000);
   }
 
+  onUpload = {
+    name: 'file',
+    action: 'http://api-harmonia.geekup.io/file',
+    headers: {
+      Authorization: `Bearer ${getToken()}`,
+    },
+    props: this.props,
+    onChange(info) {
+      if (info.file.status === 'done') {
+        message.success(`${info.file.name} file uploaded successfully`);
+
+        this.props.dispatch({
+          type: 'lead/saveListFile',
+          payload: info.fileList,
+        });
+      } else if (info.file.status === 'error') {
+        message.error(`${info.file.name} file upload failed.`);
+      }
+    },
+  };
+
   onFinish = (values) => {
     this.props.dispatch({
       type: 'lead/fullCreate',
-      payload: { ...values },
+      payload: { ...values, listFile: this.props.lead.listFile },
     });
   };
 
@@ -115,7 +138,11 @@ class Create extends React.Component {
               },
             ]}
           >
-            <Input />
+            <Select>
+              <Option value="0">A</Option>
+              <Option value="1">B</Option>
+              <Option value="2">C</Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name={['lead', 'company']}
@@ -194,7 +221,7 @@ class Create extends React.Component {
             </Select>
           </Form.Item>
           <Form.Item name={['lead', 'brief']} label="Brief">
-            <Upload action="#">
+            <Upload {...this.onUpload}>
               <Button>Click to Upload</Button>
             </Upload>
           </Form.Item>

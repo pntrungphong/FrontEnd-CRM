@@ -10,7 +10,7 @@ const { Option } = Select;
 
 const layout = {
   labelCol: { span: 8 },
-  wrapperCol: { span: 16 },
+  wrappercol: { span: 16 },
 };
 
 const validateMessages = (label) => ({
@@ -43,7 +43,6 @@ const Update = connect(({ tag, company, loading }) => ({
   fetchingContact: loading.effects['company/searchContactByName'],
 }))(function (props) {
   useMount(() => {
-    console.table(props);
     props.dispatch({
       type: 'company/loading',
       payload: { id: props.match.params.id },
@@ -60,7 +59,6 @@ const Update = connect(({ tag, company, loading }) => ({
   });
 
   const onFinish = (values) => {
-    console.table(values);
     props.dispatch({
       type: 'company/update',
       payload: { ...values, id: props.match.params.id },

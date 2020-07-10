@@ -42,7 +42,6 @@ export async function updateCompany(params) {
   const website = [];
   if (params.company.website !== undefined) {
     params.company.website.forEach((element) => {
-      console.table(element);
       website.push({
         type: element.type,
         url: element.url,
@@ -86,7 +85,6 @@ export async function updateCompany(params) {
     tag,
   };
 
-  console.table(body);
   return request(`/company/${params.id}`, {
     method: 'PUT',
     data: body,
@@ -99,7 +97,6 @@ export async function getCompanyById(params) {
 }
 
 export async function getCompanyByName(params) {
-  console.log(params);
   return request(`/company?order=ASC&page=1&take=10&q=${params}`, {
     method: 'GET',
   });
@@ -136,7 +133,6 @@ export async function fullCreateCompany(params) {
   const website = [];
   if (params.company.website !== undefined) {
     params.company.website.forEach((element) => {
-      console.table(element);
       website.push({
         type: element.type,
         url: element.url,
@@ -179,8 +175,6 @@ export async function fullCreateCompany(params) {
     contact,
     tag,
   };
-
-  console.table(body);
 
   return request('/company', {
     method: 'POST',
