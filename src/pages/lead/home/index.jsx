@@ -119,7 +119,15 @@ const ListLead = connect(({ lead, loading }) => ({
                   >
                     <h3>
                       <strong>Company: </strong>
-                      <span>{item.company.name} </span>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/lead/detail/${item.id}`,
+                          });
+                        }}
+                      >
+                        {item.company.name}{' '}
+                      </a>
                     </h3>
                     <h3>
                       <strong>Description: </strong> {item.description}

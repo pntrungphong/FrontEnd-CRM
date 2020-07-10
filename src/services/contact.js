@@ -17,7 +17,6 @@ export async function createContact(params) {
 }
 
 export async function updateContact(params) {
-  console.table(params);
   const email = [];
   if (params.contact.email !== undefined) {
     params.contact.email.forEach((element) => {
@@ -48,7 +47,6 @@ export async function updateContact(params) {
   const website = [];
   if (params.contact.website !== undefined) {
     params.contact.website.forEach((element) => {
-      console.table(element);
       website.push({
         type: element.type,
         url: element.url,
@@ -104,8 +102,6 @@ export async function updateContact(params) {
     tag,
   };
 
-  console.table(body);
-
   return request(`/contact/${params.id}`, {
     method: 'PUT',
     data: body,
@@ -149,7 +145,6 @@ export async function fullCreateContact(params) {
   const website = [];
   if (params.contact.website !== undefined) {
     params.contact.website.forEach((element) => {
-      console.table(element);
       website.push({
         type: element.type,
         url: element.url,
@@ -204,7 +199,7 @@ export async function fullCreateContact(params) {
     referral,
     tag,
   };
-  console.table(body);
+
   return request('/contact', {
     method: 'POST',
     data: body,

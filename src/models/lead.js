@@ -1,9 +1,9 @@
 import { message } from 'antd';
 import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
-// import { getContactByName } from '../services/contact';
+import { getContact } from '../services/contact';
 import { fullCreateLead, getLead, getLeadById } from '../services/lead';
-import { getCompanyByName } from '../services/company';
+import { getCompany } from '../services/company';
 
 const Model = {
   namespace: 'lead',
@@ -13,6 +13,7 @@ const Model = {
     itemCount: undefined,
     listCompany: [],
     searchValue: [],
+    listFile: [],
     listContact: [],
     searchContactValue: [],
   },
@@ -24,6 +25,7 @@ const Model = {
         pathname: '/lead/',
       });
     },
+
     *loadListLead(
       {
         payload = {
@@ -43,7 +45,11 @@ const Model = {
     },
     *searchCompanyByName({ payload }, { call, put }) {
       if (payload.value === '') return;
-      const response = yield call(getCompanyByName, payload.value);
+      const response = yield call(getCompany, {
+        page: 1,
+        searchValue: payload.value,
+      });
+
       const formatedData = [];
 
       response.data.forEach((element) => {
@@ -69,26 +75,29 @@ const Model = {
         payload: formatedDetailLeadData(response),
       });
     },
-    // *searchContactByName({ payload }, { call, put }) {
-    //   if (payload.value === '') return;
-    //   const response = yield call(getContactByName, payload.value);
-    //   const formatedData = [];
+    *searchContactByName({ payload }, { call, put }) {
+      if (payload.value === '') return;
+      const response = yield call(getContact, {
+        page: 1,
+        searchValue: payload.value,
+      });
+      const formatedData = [];
 
-    //   response.data.forEach((element) => {
-    //     const data = {
-    //       key: element.id,
-    //       label: element.name,
-    //       value: element.id,
-    //     };
-    //     formatedData.push(data);
-    //   });
-    //   if (response != null) {
-    //     yield put({
-    //       type: 'saveListContact',
-    //       payload: formatedData,
-    //     });
-    //   }
-    // },
+      response.data.forEach((element) => {
+        const data = {
+          key: element.id,
+          label: element.name,
+          value: element.id,
+        };
+        formatedData.push(data);
+      });
+      if (response != null) {
+        yield put({
+          type: 'saveListContact',
+          payload: formatedData,
+        });
+      }
+    },
   },
   // *update({ payload }, { call }) {
   //   // const response =
@@ -111,11 +120,18 @@ const Model = {
         itemCount: payload.itemCount,
       };
     },
+    saveListFile(state, { payload }) {
+      return { ...state, listFile: payload };
+    },
     saveListLead(state, { payload }) {
       return { ...state, listLead: payload };
     },
+    saveListCompany(state, { payload }) {
+      return { ...state, listCompany: payload };
+    },
+
     handleSearchChange(state, { payload }) {
-      return { ...state, searchValue: payload.value, listLead: payload.listLead };
+      return { ...state, searchValue: payload.value, listLead: payload };
     },
     saveListContact(state, { payload }) {
       return { ...state, listContact: payload };

@@ -16,6 +16,13 @@ export async function fullCreateLead(params) {
     });
   }
 
+  const file = [];
+  if (params.listFile !== undefined) {
+    params.listFile.forEach((element) => {
+      file.push(element.response.id);
+    });
+  }
+
   const tag = [];
   if (params.lead.tag !== undefined) {
     params.lead.tag.forEach((element) => {
@@ -31,8 +38,6 @@ export async function fullCreateLead(params) {
       }
     });
   }
-  // const { fileList } = params.lead.brief;
-  // const fileIdList = fileList ? fileList.map(file => file.uid) : [];
 
   const body = {
     name: `${params.lead.name}`,
@@ -42,6 +47,7 @@ export async function fullCreateLead(params) {
     idCompany: params.lead.company !== undefined ? params.lead.company.key : '',
     linkContact: contact,
     tag,
+    file,
     description: `${params.lead.description}`,
     note: [],
     status: '',
