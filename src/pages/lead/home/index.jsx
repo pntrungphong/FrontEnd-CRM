@@ -240,13 +240,9 @@ const Create = connect(({ lead }) => ({
   };
 
   return (
-    <Form>
-      <Form.Item>
-        <Button htmlType="button" onClick={createDetail}>
-          Create
-        </Button>
-      </Form.Item>
-    </Form>
+    <Button htmlType="button" onClick={createDetail}>
+      Create
+    </Button>
   );
 });
 

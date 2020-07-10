@@ -1,4 +1,4 @@
-import { Tag, Form, Pagination, Input, Table, Button, Row, Col } from 'antd';
+import { Tag, Pagination, Input, Table, Button, Row } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
@@ -32,7 +32,6 @@ const columns = [
                   });
                 }}
               >
-                {' '}
                 {item.label.toUpperCase()}
               </a>
             </Tag>
@@ -50,17 +49,15 @@ const columns = [
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return (
+          return item.type && item.number ? (
             <div>
               <Row>
-                <Col flex="40%">
-                  <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
-                </Col>
-                <Col flex="60%" style={{ textAlign: 'left' }}>
-                  <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
-                </Col>
+                <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
               </Row>
             </div>
+          ) : (
+            ''
           );
         })}
       </>
@@ -74,17 +71,15 @@ const columns = [
     render: (email) => (
       <>
         {email.map((item) => {
-          return (
+          return item.type && item.url ? (
             <div>
               <Row>
-                <Col flex="30%">
-                  <Tag key={item.url}>{item.type.toUpperCase()}</Tag>
-                </Col>
-                <Col flex="70%">
-                  <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
-                </Col>
+                <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
               </Row>
             </div>
+          ) : (
+            ''
           );
         })}
       </>
@@ -94,7 +89,7 @@ const columns = [
     title: 'Action',
     key: 'action',
     render: (record) => (
-      <ul>
+      <ul className={Styles.customUl}>
         <li>
           <a
             onClick={() => {
@@ -140,12 +135,12 @@ class App extends React.Component {
 
   render() {
     return (
-      <div>
-        <div className={Styles.display}>
+      <div className={Styles.containerBox}>
+        <div className={Styles.top}>
           <Create />
           <Search
             className={Styles.search}
-            placeholder="input search text"
+            placeholder="Search contact"
             enterButton="Search"
             size="large"
             onSearch={this.onSearch}
@@ -206,13 +201,9 @@ const Create = connect(({ contact }) => ({
     });
   };
   return (
-    <Form>
-      <Form.Item>
-        <Button htmlType="button" onClick={createDetail}>
-          Create
-        </Button>
-      </Form.Item>
-    </Form>
+    <Button htmlType="button" onClick={createDetail}>
+      Create
+    </Button>
   );
 });
 export default connect(({ contact }) => ({
