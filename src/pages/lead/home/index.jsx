@@ -1,4 +1,4 @@
-import { Form, Input, Button, Space, Card, Pagination, Modal } from 'antd';
+import { Form, Input, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -7,7 +7,7 @@ import styles from './style.less';
 // import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 
 const { Search } = Input;
-const [modal, contextHolder] = Modal.useModal();
+// const [modal, contextHolder] = Modal.useModal();
 class App extends React.Component {
   constructor(props) {
     super(props);
@@ -81,18 +81,18 @@ const ListLead = connect(({ lead, loading }) => ({
                   <Card
                     title={item.name}
                     className={styles.cardOne}
-                    extra={
-                      <Button
-                        onClick={() => {
-                          modal.info();
-                        }}
-                      >
-                        More
-                      </Button>
-                    }
+                    // extra={
+                    //   <Button
+                    //     onClick={() => {
+                    //       modal.info();
+                    //     }}
+                    //   >
+                    //     More
+                    //   </Button>
+                    // }
                   >
-                    {' '}
-                    {contextHolder}
+                    {/* {' '} */}
+                    {/* {contextHolder} */}
                     <p>{item.description}</p>
                   </Card>
                 </div>
