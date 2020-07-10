@@ -63,13 +63,13 @@ const rankStore = {
   '2': 'C',
 };
 
-const LeadTitle = ({ leadName, rank }) => {
+const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
         <span>{leadName}</span>
         <span>{rankStore[rank]}</span>
-        <span>
+        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
           <FontAwesomeIcon icon={faEllipsisH} size="md" />
         </span>
       </div>
