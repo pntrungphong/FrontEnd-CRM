@@ -48,6 +48,12 @@ class Create extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'contact/cleanData',
+    });
+  }
+
   onFinish = (values) => {
     // console.table(values);
     this.props.dispatch({
@@ -168,7 +174,31 @@ class Create extends React.Component {
               onChange={this.handleChange}
             >
               {listCompany.map((d) => (
-                <Option key={d.id}>{d.name}</Option>
+                <Option key={d.key}>{d.label}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item name={['contact', 'referral']} label="Referral">
+            <Select
+              mode="multiple"
+              labelInValue
+              value={searchValueContactReferral}
+              placeholder="Select contact"
+              notFoundContent={
+                this.props.fetchingContact ? (
+                  <Spin size="small" />
+                ) : (
+                  <h4 type="text" onClick={this.createContact} className={styles.optionCreate}>
+                    Create contact
+                  </h4>
+                )
+              }
+              filterOption={false}
+              onSearch={this.fetchContact}
+              onChange={this.handleChangeContactReferral}
+            >
+              {contactInfo.map((d) => (
+                <Option key={d.key}>{d.label}</Option>
               ))}
             </Select>
           </Form.Item>
@@ -422,31 +452,6 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-
-          <Form.Item name={['contact', 'referral']} label="Referral">
-            <Select
-              mode="multiple"
-              labelInValue
-              value={searchValueContactReferral}
-              placeholder="Select contact"
-              notFoundContent={
-                this.props.fetchingContact ? (
-                  <Spin size="small" />
-                ) : (
-                  <h4 type="text" onClick={this.createContact} className={styles.optionCreate}>
-                    Create company
-                  </h4>
-                )
-              }
-              filterOption={false}
-              onSearch={this.fetchContact}
-              onChange={this.handleChangeContactReferral}
-            >
-              {contactInfo.map((d) => (
-                <Option key={d.key}>{d.label}</Option>
-              ))}
-            </Select>
-          </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
               Submit

@@ -146,6 +146,7 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'number']}
                                 fieldKey={[field.fieldKey, 'number']}
+                                rules={[{ required: true }]}
                               >
                                 <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                               </Form.Item>
@@ -155,6 +156,7 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[{ required: true }]}
                               >
                                 <Select placeholder="Select Phone">
                                   <Option value="Mobile">Mobile</Option>
@@ -224,6 +226,7 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[{ required: true }]}
                               >
                                 <Select placeholder="Select Email">
                                   <Option value="Gmail">Gmail</Option>
@@ -279,6 +282,7 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
+                                rules={[{ required: true }]}
                               >
                                 <Input placeholder="URL Website" />
                               </Form.Item>
@@ -288,6 +292,7 @@ class Create extends React.Component {
                                 {...field}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
+                                rules={[{ required: true }]}
                               >
                                 <Select placeholder="Select website">
                                   <Option value="Facebook">Facebook</Option>

@@ -32,7 +32,6 @@ const columns = [
                   });
                 }}
               >
-                {' '}
                 {item.label.toUpperCase()}
               </a>
             </Tag>

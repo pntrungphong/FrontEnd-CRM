@@ -170,7 +170,9 @@ class ContactDetail extends Component {
                   {contact.data.website.map((item) => {
                     return (
                       <>
-                        <a key={item.url}>{item.url}</a>
+                        <a href={item.url} key={item.url}>
+                          {item.url}
+                        </a>
                       </>
                     );
                   })}
