@@ -128,7 +128,7 @@ class LeadDetail extends Component {
                           <a
                             onClick={() => {
                               history.push({
-                                pathname: `/contact/detail/${lead.data.contact.id}`,
+                                pathname: `/contact/detail/${item.key}`,
                               });
                             }}
                           >

@@ -138,7 +138,11 @@ class Create extends React.Component {
               },
             ]}
           >
-            <Input />
+            <Select>
+              <Option value="0">A</Option>
+              <Option value="1">B</Option>
+              <Option value="2">C</Option>
+            </Select>
           </Form.Item>
           <Form.Item
             name={['lead', 'company']}

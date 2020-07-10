@@ -36,7 +36,6 @@ const Model = {
       { call, put },
     ) {
       const response = yield call(getLead, payload);
-      console.table(response);
       if (response != null) {
         yield put({
           type: 'saveLeadInfo',
