@@ -78,10 +78,7 @@ class LeadDetail extends Component {
                     <a
                       onClick={() => {
                         history.push({
-                          pathname: '/company/detail',
-                          query: {
-                            id: lead.data.company.id,
-                          },
+                          pathname: `/company/detail/${lead.data.company.id}`,
                         });
                       }}
                     >
@@ -131,10 +128,7 @@ class LeadDetail extends Component {
                           <a
                             onClick={() => {
                               history.push({
-                                pathname: '/contact/detail',
-                                query: {
-                                  id: item.key,
-                                },
+                                pathname: `/contact/detail/${lead.data.contact.id}`,
                               });
                             }}
                           >

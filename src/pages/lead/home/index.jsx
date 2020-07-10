@@ -1,4 +1,4 @@
-import { Form, Input, Button, Space, Card, Pagination } from 'antd';
+import { Input, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -81,17 +81,18 @@ const ListLead = connect(({ lead, loading }) => ({
                   <Card
                     title={item.name}
                     className={styles.cardOne}
-                    // extra={
-                    //   <Button
-                    //     onClick={() => {
-                    //       modal.info();
-                    //     }}
-                    //   >
-                    //     More
-                    //   </Button>
-                    // }
+                    extra={
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/lead/detail/${item.id}`,
+                          });
+                        }}
+                      >
+                        Detail
+                      </a>
+                    }
                   >
-                    {/* {' '} */}
                     {/* {contextHolder} */}
                     <p>{item.description}</p>
                   </Card>
