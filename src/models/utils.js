@@ -311,6 +311,10 @@ export const formatedListCompanyData = (response) => {
 };
 
 export const formatedDetailLeadData = (response) => {
+  /* eslint no-console: "error" */
+
+  // custom console
+
   try {
     // const contact = [];
     // if (response.contact != null) {
@@ -326,8 +330,8 @@ export const formatedDetailLeadData = (response) => {
     if (response.contact != null) {
       response.contact.forEach((element) => {
         contact.push({
-          key: element.id,
-          value: element.id,
+          key: element.id.toString(),
+          value: element.id.toString(),
           label: element.name,
         });
       });
@@ -343,8 +347,13 @@ export const formatedDetailLeadData = (response) => {
       });
     }
 
+    const company = {
+      key: response.company.id,
+      label: response.company.name,
+    };
+
     const returnData = {
-      company: response.company,
+      company,
       description: response.description,
       rank: response.rank,
       id: response.id,

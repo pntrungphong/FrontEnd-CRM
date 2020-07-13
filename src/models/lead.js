@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
-import { fullCreateLead, getLead, getLeadById } from '../services/lead';
+import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
 const Model = {
@@ -69,6 +69,9 @@ const Model = {
     },
     *loading({ payload }, { call, put }) {
       const response = yield call(getLeadById, payload);
+      /* eslint no-console: "error" */
+
+      // custom console
 
       yield put({
         type: 'loadLead',
@@ -98,18 +101,23 @@ const Model = {
         });
       }
     },
+    *update({ payload }, { call }) {
+      // const response =
+
+      yield call(updateLead, payload);
+
+      // console.table(response);
+      history.push({
+        pathname: '/lead',
+      });
+      message.success('Cập nhật Contact thành công');
+    },
   },
-  // *update({ payload }, { call }) {
-  //   // const response =
-  //   yield call(updateContact, payload);
-  //   // console.table(response);
-  //   history.push({
-  //     pathname: '/contact',
-  //   });
-  //   message.success('Cập nhật Contact thành công');
-  // },
 
   reducers: {
+    cleanData(state) {
+      return { ...state, leadInfo: [], data: undefined };
+    },
     loadLead(state, { payload }) {
       return { ...state, data: payload };
     },

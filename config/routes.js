@@ -56,7 +56,7 @@ export default [
             component: 'lead/home',
           },
           {
-            path: '/lead/update',
+            path: '/lead/update/:id?',
             component: 'lead/update',
           },
           {
