@@ -2,9 +2,10 @@ import { Input, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import styles from './style.less';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import TouchpointCompleteForm from '../components/completeModal/completemodal';
+import styles from './style.less';
 
 const { Search } = Input;
 // const [modal, contextHolder] = Modal.useModal();
@@ -96,17 +97,52 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
+  const showComplete = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/showCompleteModal',
+      payload: { viewable: true },
+    });
+  };
+
+  const onComplete = (values) => {
+    const { dispatch } = props;
+    console.log(values);
+    dispatch({
+      type: 'lead/handleCompleteTouchpoint',
+      payload: { viewable: false },
+    });
+    console.log('Hello');
+  };
+
+  const onCancelComplete = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/handlecancelCompleteTouchpoint',
+      payload: { viewable: false },
+    });
+  };
+
   return (
     <div className={styles.spaceAll}>
       <div className={styles.spaceOne}>
         <div className={styles.spanTitle}>
           <span>Name</span>
           <span>Rank</span>
+
+          <span>
+            <FontAwesomeIcon icon={faPlus} size="md" onClick={showComplete} />
+          </span>
           <span>
             <Create />
           </span>
         </div>
         <div className={styles.spcing}>
+          <TouchpointCompleteForm
+            visible={props.lead.viewable}
+            onCreate={onComplete}
+            onCancel={onCancelComplete}
+          />
           <Space align="center" direction="vertical">
             {props.lead.leadInfo.map((item) => {
               return (
@@ -144,12 +180,17 @@ const ListLead = connect(({ lead, loading }) => ({
       <div className={styles.horScroll}>
         <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 1</h3>
+          {/* <Button onClick={showComplete}>Complete Touchpoint</Button> */}
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
               className={styles.phaseCard}
               extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
+              <span>
+                <FontAwesomeIcon icon={faPlus} size="md" onClick={showComplete} />
+              </span>
+
               <h2 className={styles.phaseCardOne}>Jun 8</h2>
               <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
