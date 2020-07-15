@@ -74,7 +74,7 @@ const NormalLoginForm = (props) => {
   );
 };
 
-export default connect(({ userAndlogin, loading }) => ({
-  userAndlogin,
+export default connect(({ login, loading }) => ({
+  login,
   submitting: loading.effects['login/login'],
 }))(NormalLoginForm);
