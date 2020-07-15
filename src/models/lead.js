@@ -16,6 +16,7 @@ const Model = {
     listFile: [],
     listContact: [],
     searchContactValue: [],
+    visible: false,
   },
   effects: {
     *fullCreate({ payload }, { call }) {
@@ -146,6 +147,18 @@ const Model = {
     },
     handleSearchContactChange(state, { payload }) {
       return { ...state, searchContactValue: payload.value, listContact: payload.listContact };
+    },
+
+    handleOK(state, { payload }) {
+      return { ...state, visible: payload.visible };
+    },
+    showModal(state, { payload }) {
+      // nsole.log(payload)co
+      return { ...state, visible: payload.visible };
+    },
+
+    handleCancel(state, { payload }) {
+      return { ...state, visible: payload.visible };
     },
   },
 };

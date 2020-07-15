@@ -2,9 +2,10 @@ import { Input, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import styles from './style.less';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+import styles from './style.less';
 
 const { Search } = Input;
 // const [modal, contextHolder] = Modal.useModal();
@@ -26,6 +27,12 @@ class App extends React.Component {
       },
     });
   };
+
+  // onClick=()=>{
+  //   history.push({
+  //     pathname: '/touchpoint/',
+  //   })
+  // }
 
   render() {
     return (
@@ -96,6 +103,31 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
+  const show = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/showModal',
+      payload: { visible: true },
+    });
+  };
+
+  const onCreate = (values) => {
+    const { dispatch } = props;
+    console.log(values);
+    dispatch({
+      type: 'lead/handleOK',
+      payload: { visible: false },
+    });
+    console.log('Hello');
+  };
+
+  const onCancel = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/handleCancel',
+      payload: { visible: false },
+    });
+  };
   return (
     <div className={styles.spaceAll}>
       <div className={styles.spaceOne}>
@@ -107,6 +139,11 @@ const ListLead = connect(({ lead, loading }) => ({
           </span>
         </div>
         <div className={styles.spcing}>
+          <TouchpointCreateForm
+            visible={props.lead.visible}
+            onCreate={onCreate}
+            onCancel={onCancel}
+          />
           <Space align="center" direction="vertical">
             {props.lead.leadInfo.map((item) => {
               return (
@@ -152,6 +189,7 @@ const ListLead = connect(({ lead, loading }) => ({
             >
               <h2 className={styles.phaseCardOne}>Jun 8</h2>
               <Button className={styles.btnOne}>Lead Management</Button>
+              <Button onClick={show}>Create Touchpoint</Button>
             </Card>
             <Card
               title="Lead 2"
