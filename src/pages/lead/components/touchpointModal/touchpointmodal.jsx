@@ -1,22 +1,10 @@
 import React from 'react';
-import {
-  Modal,
-  Form,
-  Input,
-  TimePicker,
-  DatePicker,
-  Radio,
-  Button,
-  message,
-  Spin,
-  Select,
-  Upload,
-} from 'antd';
+import { Modal, Form, Input, TimePicker, DatePicker, Radio, Button, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMount, useUnmount } from 'ahooks';
-import { getToken } from '../../../../utils/authority';
 import styles from './style.less';
+import CustomUploadFile from './customuploadfile';
 
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 const { TextArea } = Input;
@@ -24,7 +12,7 @@ const { TextArea } = Input;
 const { Option } = Select;
 
 const layout = {
-  labelCol: { span: 8 },
+  labelCol: { span: 0 },
   wrappercol: { span: 16 },
 };
 
@@ -38,7 +26,6 @@ const Update = connect(({ lead, tag, loading }) => ({
   submitting: loading.effects['lead/update'],
   querying: loading.effects['lead/loading'],
 }))(function (props) {
-  console.log(props);
   useMount(() => {
     props.dispatch({
       type: 'lead/loading',
@@ -87,26 +74,6 @@ const Update = connect(({ lead, tag, loading }) => ({
     });
   };
 
-  const onUpload = {
-    name: 'file',
-    action: 'http://api-harmonia.geekup.io/file',
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-    // props: this.props,
-    onChange(info) {
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-
-        this.props.dispatch({
-          type: 'lead/saveListFile',
-          payload: info.fileList,
-        });
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
   fetchCompany = debounce(fetchCompany, 1000);
   fetchContact = debounce(fetchContact, 1000);
 
@@ -235,34 +202,22 @@ const Update = connect(({ lead, tag, loading }) => ({
           </Select>
         </Form.Item>
         <Form.Item name={['lead', 'brief']} label="Brief">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+          <CustomUploadFile dataIndex="brief" />
         </Form.Item>
         <Form.Item name={['lead', 'scope']} label="Scope">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+          <CustomUploadFile dataIndex="scope" />
         </Form.Item>
         <Form.Item name={['lead', 'sla']} label="SLA">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+          <CustomUploadFile dataIndex="sla" />
         </Form.Item>
         <Form.Item name={['lead', 'pricing']} label="Pricing">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+          <CustomUploadFile dataIndex="pricing" />
         </Form.Item>
         <Form.Item name={['lead', 'estimation']} label="Estimation">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+          <CustomUploadFile dataIndex="estimation" />
         </Form.Item>
-        <Form.Item name={['lead', 'qoutation']} label="Qoutation">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+        <Form.Item name={['lead', 'quotation']} label="Quotation">
+          <CustomUploadFile dataIndex="quotation" />
         </Form.Item>
         <Form.Item
           name={['lead', 'description']}
