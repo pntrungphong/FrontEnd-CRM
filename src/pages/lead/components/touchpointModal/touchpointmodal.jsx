@@ -14,13 +14,13 @@ import {
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMount, useUnmount } from 'ahooks';
+import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import EditableTable from './tasktable';
-import styles from './style.less';
 
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 const { TextArea } = Input;
 const { Option } = Select;
+const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
 const layout = {
   labelCol: { span: 0 },
@@ -37,7 +37,6 @@ const Update = connect(({ lead, tag, loading }) => ({
   submitting: loading.effects['lead/update'],
   querying: loading.effects['lead/loading'],
 }))(function (props) {
-  console.log(props);
   useMount(() => {
     props.dispatch({
       type: 'lead/loading',

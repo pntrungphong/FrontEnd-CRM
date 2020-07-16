@@ -9,7 +9,7 @@ import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal'
 import styles from './style.less';
 
 const { Search } = Input;
-// const [modal, contextHolder] = Modal.useModal();
+
 class App extends React.Component {
   constructor(props) {
     super(props);

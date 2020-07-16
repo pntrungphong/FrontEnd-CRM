@@ -100,7 +100,7 @@ const EditableCell = ({
         }}
         onClick={toggleEdit}
       >
-        {children[1] === '' ? '--Add task name--' : children}
+        {children[1] === '' ? '--Add Task--' : children}
       </div>
     );
   } else if (select) {
@@ -185,7 +185,7 @@ class EditableTable extends React.Component {
         datetime: true,
       },
       {
-        title: 'operation',
+        title: 'Operation',
         action: true,
         dataIndex: 'operation',
         render: (text, record) =>
@@ -312,9 +312,9 @@ class EditableTable extends React.Component {
           Add a row
         </Button>
         <Table
-          style={{
-            minWidth: '200%',
-          }}
+          //   style={{
+          //     minWidth: '200%',
+          //   }}
           components={components}
           rowClassName={() => 'editable-row'}
           bordered
