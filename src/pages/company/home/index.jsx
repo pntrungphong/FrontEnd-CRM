@@ -1,4 +1,4 @@
-import { Tag, Table, Pagination, Input, Button, Row, Col } from 'antd';
+import { Tag, Table, Pagination, Input, Button, Row } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -10,18 +10,19 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    render: (name) => <div className={styles.customField}>{name.toUpperCase()}</div>,
   },
   {
     title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
-    size:"small",width: '30%',
+    size: 'small',
+    width: '30%',
     render: (company) => (
       <>
         {company.map((item) => {
           return item.key !== undefined ? (
-           
-              <Tag key={item.key} >
+            <Tag key={item.key} className={styles.customFieldContact}>
               <a
                 onClick={() => {
                   history.push({
@@ -32,7 +33,6 @@ const columns = [
                 {item.label.toUpperCase()}
               </a>
             </Tag>
-            
           ) : (
             ''
           );
@@ -44,7 +44,7 @@ const columns = [
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
-    size:"small",
+    size: 'small',
     width: '20%',
 
     render: (phone) => (
@@ -52,9 +52,10 @@ const columns = [
         {phone.map((item) => {
           return item.type && item.number ? (
             <div>
-              <Row>                
-                <Col flex="100px"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
-                <Col flex="auto"><Tag key={item.number} className={styles.tagM}>{item.number.toUpperCase()}</Tag></Col>
+              <Row>
+                <Tag key={item.type} className={styles.customField}>
+                  {item.type.toUpperCase()}: {item.number}
+                </Tag>
               </Row>
             </div>
           ) : (
@@ -68,16 +69,17 @@ const columns = [
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    size:"small",
+    size: 'small',
 
     render: (email) => (
       <>
         {email.map((item) => {
           return item.type && item.url ? (
             <div>
-              <Row>                
-                <Col flex="35%"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
-                <Col flex="63%" className={styles.tagM}><Tag key={item.url}>{item.url.toUpperCase()}</Tag></Col>
+              <Row>
+                <Tag key={item.type} className={styles.customField}>
+                  {item.type.toUpperCase()}: {item.url}
+                </Tag>
               </Row>
             </div>
           ) : (
@@ -91,7 +93,7 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    size:"small",
+    size: 'small',
 
     render: (record) => (
       <ul className={styles.customUl}>
@@ -149,7 +151,7 @@ class App extends React.Component {
           <Search
             className={styles.search}
             placeholder="input search text"
-            enterButton="Search"
+            enterButton="Search company"
             size="large"
             onSearch={this.onSearch}
           />

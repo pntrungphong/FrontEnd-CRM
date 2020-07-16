@@ -17,15 +17,18 @@ const rankStore = {
 
 const FileSpan = ({ fileinfo }) => {
   const downloadFile = () => {
-    fetch(`http://localhost:3000/file/${fileinfo.id}/download`).then((response) => {
-      response.blob().then((blob) => {
-        const url = window.URL.createObjectURL(blob);
-        const a = document.createElement('a');
-        a.href = url;
-        a.download = fileinfo.originalname;
-        a.click();
-      });
-    });
+    fetch(`https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg`).then(
+      (response) => {
+        // fetch(`http://localhost:3000/file/${fileinfo.id}/download`).then((response) => {
+        response.blob().then((blob) => {
+          const url = window.URL.createObjectURL(blob);
+          const a = document.createElement('a');
+          a.href = url;
+          a.download = fileinfo.originalname;
+          a.click();
+        });
+      },
+    );
   };
   return (
     <div className={styles.fileSpan}>
@@ -56,7 +59,6 @@ class LeadDetail extends Component {
     if (lead.data === undefined) {
       return <Spin />;
     }
-    console.log(lead.data.tag);
     return (
       <PageHeaderWrapper title="Lead Details">
         <Card bordered="true" className={styles.customCard}>
@@ -161,7 +163,6 @@ class LeadDetail extends Component {
             <Col flex="auto">
               {' '}
               {lead.data.contact.map((item) => {
-                console.log(lead.data);
                 return (
                   <>
                     <Tag key={item.label} className={styles.customTitle}>

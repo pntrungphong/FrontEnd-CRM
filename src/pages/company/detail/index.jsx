@@ -28,170 +28,136 @@ class CompanyDetail extends Component {
           <Divider className={styles.two} />
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Name
-              </h3>
+              <h3 className={styles.cloOne}>Name</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{company.data.name}</span>
-              </div>
+              <span className={styles.customField}>{company.data.name}</span>
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Email
-              </h3>
+              <h3 className={styles.cloOne}>Email</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {company.data.email.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.url} className={styles.tagOne}>
-                          {item.url}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {company.data.email.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.url} ({item.type})
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Tag
-              </h3>
+              <h3 className={styles.cloOne}>Tag</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {company.data.tag.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.key} className={styles.tagOne}>
-                          {item.label}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {company.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.tagOne}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>phone
-              </h3>
+              <h3 className={styles.cloOne}>Phone</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {company.data.phone.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.number} className={styles.tagOne}>
-                          {item.number}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {company.data.phone.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.number} ({item.type})
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Url
-              </h3>
+              <h3 className={styles.cloOne}>Url</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>{company.data.url}</span>
-              </div>
+              <span className={styles.customField}>{company.data.url}</span>
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>website
-              </h3>
+              <h3 className={styles.cloOne}>Website</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {company.data.website.map((item) => {
-                    return (
-                      <>
-                        <a key={item.url} className={styles.tagOne}>
-                          {item.url}
-                        </a>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {company.data.website.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <span className={styles.customField}>
+                        {item.type}: <a key={item.url}>{item.url}</a>
+                      </span>
+                    </Row>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Contact
-              </h3>
+              <h3 className={styles.cloOne}>Contact</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {company.data.contact.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.name} className={styles.tagOne}>
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/contact/detail/${item.key}`,
-                              });
-                            }}
-                          >
-                            {item.label}
-                          </a>
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {company.data.contact.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.name} className={styles.customFieldContact}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/contact/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
             </Col>
           </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Address
-              </h3>
+              <h3 className={styles.cloOne}>Address</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {company.data.address.map((item) => {
-                    return (
-                      <>
-                        <span key={item}>{item}</span>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {company.data.address.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <span key={item} className={styles.customField}>
+                        {item}
+                      </span>
+                    </Row>
+                  </>
+                );
+              })}
             </Col>
           </Row>
         </Card>
