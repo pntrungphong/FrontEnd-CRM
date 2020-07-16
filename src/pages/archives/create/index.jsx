@@ -41,7 +41,7 @@ class Create extends React.Component {
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'company/cleanData',
+      type: 'archives/cleanData',
     });
     this.props.dispatch({
       type: 'tag/getTag',
@@ -50,19 +50,19 @@ class Create extends React.Component {
 
   onFinish = (values) => {
     this.props.dispatch({
-      type: 'company/fullCreate',
+      type: 'archives/fullCreate',
       payload: { ...values },
     });
   };
 
   fetchContact = (value) => {
     this.props.dispatch({
-      type: 'company/handleSearchContactChange',
-      payload: { value: this.props.company.searchValueContact, contactInfo: [] },
+      type: 'archives/handleSearchContactChange',
+      payload: { value: this.props.archives.searchValueContact, contactInfo: [] },
     });
 
     this.props.dispatch({
-      type: 'company/searchContactByName',
+      type: 'archives/searchContactByName',
       payload: {
         page: 1,
         searchValue: value,
@@ -78,19 +78,19 @@ class Create extends React.Component {
 
   handleChange = (value) => {
     this.props.dispatch({
-      type: 'company/handleSearchContactChange',
+      type: 'archives/handleSearchContactChange',
       payload: { value, contactInfo: [] },
     });
   };
 
   render() {
-    const { searchValueContact, contactInfo } = this.props.company;
+    const { searchValueContact, contactInfo } = this.props.archives;
     const { tag } = this.props.tag;
 
     return (
       <div className={styles.main}>
         <div className={styles.header}>
-          <h2 className={styles.title}> CREATE COMPANY</h2>
+          <h2 className={styles.title}> CREATE archives</h2>
         </div>
 
         <Form
@@ -100,7 +100,7 @@ class Create extends React.Component {
           validateMessages={validateMessages}
         >
           <Form.Item
-            name={['company', 'name']}
+            name={['archives', 'name']}
             label="Name"
             rules={[
               {
@@ -110,10 +110,10 @@ class Create extends React.Component {
           >
             <Input />
           </Form.Item>
-          <Form.Item name={['company', 'url']} label="URL">
+          <Form.Item name={['archives', 'url']} label="URL">
             <Input />
           </Form.Item>
-          <Form.Item name={['company', 'tag']} label="Tag">
+          <Form.Item name={['archives', 'tag']} label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
@@ -122,7 +122,7 @@ class Create extends React.Component {
           </Form.Item>
 
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name={['company', 'phone']}>
+            <Form.List name={['archives', 'phone']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -161,7 +161,7 @@ class Create extends React.Component {
                                 <Select placeholder="Select Phone">
                                   <Option value="Mobile">Mobile</Option>
                                   <Option value="Home">Home</Option>
-                                  <Option value="Company">Company</Option>
+                                  <Option value="archives">archives</Option>
                                 </Select>
                               </Form.Item>
                             </Col>
@@ -184,7 +184,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name={['company', 'email']}>
+            <Form.List name={['archives', 'email']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -238,7 +238,7 @@ class Create extends React.Component {
                                   <Option value="Yandex">Yandex</Option>
                                   <Option value="Yahoo">Yahoo</Option>
                                   <Option value="Outlook">Outlook</Option>
-                                  <Option value="Company">Company</Option>
+                                  <Option value="archives">archives</Option>
                                   <Option value="Personal">Personal</Option>
                                 </Select>
                               </Form.Item>
@@ -263,7 +263,7 @@ class Create extends React.Component {
           </div>
 
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name={['company', 'website']}>
+            <Form.List name={['archives', 'website']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -334,7 +334,7 @@ class Create extends React.Component {
           </div>
 
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name={['company', 'address']}>
+            <Form.List name={['archives', 'address']}>
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -390,7 +390,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <Form.Item name={['company', 'contact']} label="Contact">
+          <Form.Item name={['archives', 'contact']} label="Contact">
             <Select
               mode="multiple"
               labelInValue
@@ -428,9 +428,9 @@ class Create extends React.Component {
   }
 }
 
-export default connect(({ company, tag, loading }) => ({
-  company,
+export default connect(({ archives, tag, loading }) => ({
+  archives,
   tag,
-  submitting: loading.effects['company/fullCreate'],
-  fetchingContact: loading.effects['company/searchContactByName'],
+  submitting: loading.effects['archives/fullCreate'],
+  fetchingContact: loading.effects['archives/searchContactByName'],
 }))(Create);

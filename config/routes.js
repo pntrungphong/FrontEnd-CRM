@@ -47,7 +47,7 @@ export default [
             component: 'contact/create',
           },
           {
-            path: '/contact/detail/id',
+            path: '/contact/detail/:id?',
             component: 'contact/detail',
           },
           {
@@ -70,6 +70,24 @@ export default [
           {
             path: '/lead/create',
             component: 'lead/create',
+          },
+          {
+            path: '/archives',
+            name: 'Archives',
+            component: 'archives/home',
+          },
+          {
+            path: '/archives/detail/:id?',
+            component: 'archives/detail',
+          },
+          {
+            path: '/archives/create',
+            component: 'archives/create',
+          },
+          {
+            path: '/service',
+            name: 'Service',
+            component: 'service/home',
           },
         ],
       },

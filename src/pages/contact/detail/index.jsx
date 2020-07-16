@@ -29,14 +29,10 @@ class ContactDetail extends Component {
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Name
-              </h3>
+              <h3 className={styles.cloOne}>Name</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{contact.data.name}</span>
-              </div>
+              <span className={styles.customField}>{contact.data.name}</span>
             </Col>
           </Row>
           <Row className={styles.rowCol}>
@@ -44,90 +40,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Title</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{contact.data.title}</span>
-              </div>
-            </Col>
-          </Row>
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Email</h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.email.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.url} className={styles.ta}>
-                          {item.url}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Phone</h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.phone.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.number} className={styles.ta}>
-                          {item.number}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.tag.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.key}>{item.label}</Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Referral</h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.referral.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.key} className={styles.ta}>
-                          {item.label}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              <span className={styles.customField}>{contact.data.title}</span>
             </Col>
           </Row>
 
@@ -136,27 +49,103 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Company</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.company.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.key} className={styles.ta}>
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/company/detail/${item.key}`,
-                              });
-                            }}
-                          >
-                            {item.label}
-                          </a>
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {contact.data.company.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.ta}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/company/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Email</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.data.email.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.url} ({item.type})
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Phone</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.data.phone.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.number} ({item.type})
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.ta}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Referral</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.data.referral.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.name} className={styles.customFieldContact}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/contact/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
@@ -165,40 +154,34 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Website</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.website.map((item) => {
-                    return (
-                      <>
-                        <a href={item.url} key={item.url}>
-                          {item.url}
-                        </a>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {contact.data.website.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <span className={styles.customField}>
+                        {item.type}: <a key={item.url}>{item.url}</a>
+                      </span>
+                    </Row>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Address
-              </h3>
+              <h3 className={styles.cloOne}>Address</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {contact.data.address.map((item) => {
-                    return (
-                      <>
-                        <span key={item}>{item}</span>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {contact.data.address.map((item) => {
+                return (
+                  <Row>
+                    <span key={item} className={styles.customField}>
+                      {item}
+                    </span>
+                  </Row>
+                );
+              })}
             </Col>
           </Row>
           <Divider className={styles.three} />

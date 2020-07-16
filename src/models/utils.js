@@ -91,6 +91,7 @@ export const formatedListLeadData = (response) => {
         name: element.name,
         touchPoint,
         rank: element.rank,
+        status: element.status,
         description: element.description,
         id: element.id,
         company: element.company,
@@ -403,9 +404,11 @@ export const formatedDetailLeadData = (response) => {
       rank: response.rank,
       id: response.id,
       name: response.name,
+      status: response.status,
       tag,
       contact,
       relation,
+      file: response.file,
     };
 
     return returnData;

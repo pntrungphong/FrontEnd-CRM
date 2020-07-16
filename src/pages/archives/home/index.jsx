@@ -1,8 +1,8 @@
-import { Tag, Table, Pagination, Input, Button, Row } from 'antd';
+import { Tag, Table, Pagination, Input, Button, Row, Col } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import styles from './style.less';
+import Styles from './style.less';
 
 const { Search } = Input;
 const columns = [
@@ -10,29 +10,43 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (name) => <div className={styles.customField}>{name.toUpperCase()}</div>,
   },
   {
     title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
-    size: 'small',
-    width: '30%',
-    render: (company) => (
+    render: (archives) => (
       <>
-        {company.map((item) => {
+        {archives.map((item) => {
           return item.key !== undefined ? (
-            <Tag key={item.key} className={styles.customFieldContact}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: `/contact/detail/${item.key}`,
-                  });
-                }}
-              >
-                {item.label.toUpperCase()}
-              </a>
-            </Tag>
+            <Row>
+              <Col flex="50%">
+                <Tag key={item.key}>
+                  <a
+                    onClick={() => {
+                      history.push({
+                        pathname: `/contact/detail/${item.key}`,
+                      });
+                    }}
+                  >
+                    {item.label.toUpperCase()}
+                  </a>
+                </Tag>
+              </Col>
+              <Col flex="50%">
+                <Tag key={item.key}>
+                  <a
+                    onClick={() => {
+                      history.push({
+                        pathname: `/contact/detail/${item.key}`,
+                      });
+                    }}
+                  >
+                    {item.label.toUpperCase()}
+                  </a>
+                </Tag>
+              </Col>
+            </Row>
           ) : (
             ''
           );
@@ -44,18 +58,18 @@ const columns = [
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
-    size: 'small',
-    width: '20%',
-
     render: (phone) => (
       <>
         {phone.map((item) => {
           return item.type && item.number ? (
             <div>
               <Row>
-                <Tag key={item.type} className={styles.customField}>
-                  {item.type.toUpperCase()}: {item.number}
-                </Tag>
+                <Col flex="50%">
+                  <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="50%">
+                  <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+                </Col>
               </Row>
             </div>
           ) : (
@@ -69,17 +83,18 @@ const columns = [
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    size: 'small',
-
     render: (email) => (
       <>
         {email.map((item) => {
           return item.type && item.url ? (
             <div>
               <Row>
-                <Tag key={item.type} className={styles.customField}>
-                  {item.type.toUpperCase()}: {item.url}
-                </Tag>
+                <Col flex="35%">
+                  <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="63%">
+                  <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+                </Col>
               </Row>
             </div>
           ) : (
@@ -93,15 +108,13 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    size: 'small',
-
     render: (record) => (
-      <ul className={styles.customUl}>
+      <ul className={Styles.customUl}>
         <li>
           <a
             onClick={() => {
               history.push({
-                pathname: `/company/update/${record.id}`,
+                pathname: `/archives/update/${record.id}`,
               });
             }}
           >
@@ -112,7 +125,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: `/company/detail/${record.id}`,
+                pathname: `/archives/detail/${record.id}`,
               });
             }}
           >
@@ -135,7 +148,7 @@ class App extends React.Component {
 
   onSearch = (value) => {
     this.props.dispatch({
-      type: 'company/searchCompanyByName',
+      type: 'archives/searchArchivesByName',
       payload: {
         page: 1,
         searchValue: value,
@@ -145,39 +158,39 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className={styles.containerBox}>
-        <div className={styles.top}>
+      <div className={Styles.containerBox}>
+        <div className={Styles.top}>
           <Create />
           <Search
-            className={styles.search}
+            className={Styles.search}
             placeholder="input search text"
-            enterButton="Search company"
+            enterButton="Search"
             size="large"
             onSearch={this.onSearch}
           />
         </div>
-        <ListCompany />
+        <ListArchives />
       </div>
     );
   }
 }
 
-const ListCompany = connect(({ company, loading }) => ({
-  company,
-  loading: loading.effects['company/loadListCompany'],
+const ListArchives = connect(({ archives, loading }) => ({
+  archives,
+  loading: loading.effects['archives/loadListArchives'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'company/loadListCompany',
+      type: 'archives/loadListArchives',
     });
   });
 
   const onPaginitionChange = (page) => {
     props.dispatch({
-      type: 'company/loadListCompany',
+      type: 'archives/loadListArchives',
       payload: {
         page,
-        searchValue: props.company.searchCompanyValue,
+        searchValue: props.archives.searchArchivesValue,
       },
     });
   };
@@ -190,20 +203,19 @@ const ListCompany = connect(({ company, loading }) => ({
         pagination={false}
         columns={columns}
         rowKey="id"
-        size="small"
-        dataSource={props.company.companyInfo}
+        // dataSource={props.archives.ArchivesInfo}
       />
-      <Pagination total={props.company.itemCount} onChange={onPaginitionChange} />
+      <Pagination onChange={onPaginitionChange} />
     </div>
   );
 });
 
-const Create = connect(({ company }) => ({
-  company,
+const Create = connect(({ archives }) => ({
+  archives,
 }))(function () {
   const createDetail = () => {
     history.push({
-      pathname: '/company/create',
+      pathname: '/archives/create',
     });
   };
 
@@ -214,6 +226,6 @@ const Create = connect(({ company }) => ({
   );
 });
 
-export default connect(({ company }) => ({
-  company,
+export default connect(({ archives }) => ({
+  archives,
 }))(App);
