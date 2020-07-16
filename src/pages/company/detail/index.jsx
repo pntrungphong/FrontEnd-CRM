@@ -110,7 +110,7 @@ class CompanyDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>{company.data.Url}</span>
+                <span className={styles.cloTwo}>{company.data.url}</span>
               </div>
             </Col>
           </Row>

@@ -21,7 +21,6 @@ class LeadDetail extends Component {
       // console.log(lead)
       return <Spin />;
     }
-    console.log(lead.data.tag);
     return (
       <PageHeaderWrapper title="Lead Details">
         <Card bordered="true">

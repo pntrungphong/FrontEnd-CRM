@@ -3,7 +3,6 @@ import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import { getToken } from '../../../utils/authority';
-
 // import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
 

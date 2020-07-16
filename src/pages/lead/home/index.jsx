@@ -1,10 +1,11 @@
-import { Input, Button, Space, Card, Pagination } from 'antd';
+import { Input, Spin, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+// import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -103,206 +104,166 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
-  const show = () => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'lead/showModal',
-      payload: { visible: true },
+  // const show = () => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'lead/showModal',
+  //     payload: { visible: true },
+  //   });
+  // };
+
+  // const onCreate = (values) => {
+  //   const { dispatch } = props;
+  //   console.log(values);
+  //   dispatch({
+  //     type: 'lead/handleOK',
+  //     payload: { visible: false },
+  //   });
+  //   console.log('Hello');
+  // };
+
+  // const onCancel = () => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'lead/handleCancel',
+  //     payload: { visible: false },
+  //   });
+  // };
+  //   <TouchpointCreateForm
+  //   visible={props.lead.visible}
+  //   onCreate={onCreate}
+  //   onCancel={onCancel}
+  // />
+  const fakeAdd = () => {
+    const touchpoint = {
+      status: 'Done',
+      goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
+      duration: '2 Weeks',
+      meetingDate: 'Jun 7',
+      task: [
+        {
+          type: 'Product Consulting',
+          PIC: 'Quan',
+        },
+        {
+          type: 'Product Consulting',
+          PIC: 'Ngan',
+        },
+        {
+          type: 'Proposal Handling',
+          PIC: 'Hoang',
+        },
+      ],
+    };
+    const list = props.lead.leadInfo;
+    list[0].touchPoint.push(touchpoint);
+    props.dispatch({
+      type: 'lead/saveListLead',
+      payload: list,
     });
   };
 
-  const onCreate = (values) => {
-    const { dispatch } = props;
-    console.log(values);
-    dispatch({
-      type: 'lead/handleOK',
-      payload: { visible: false },
-    });
-    console.log('Hello');
-  };
+  // if (props.loading) {
+  //   return <div>
+  //     <Row>
+  //       <Col span={8}/>
+  //       <Col span={8}><Spin /></Col>
+  //       <Col span={8}/>
+  //     </Row>
+  //   </div>
+  // }
 
-  const onCancel = () => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'lead/handleCancel',
-      payload: { visible: false },
-    });
-  };
   return (
-    <div className={styles.spaceAll}>
-      <div className={styles.spaceOne}>
-        <div className={styles.spanTitle}>
-          <span>Name</span>
-          <span>Rank</span>
-          <span>
-            <Create />
-          </span>
+    <Spin spinning={props.loading}>
+      <div className={styles.spaceAll}>
+        <div className={styles.spaceOne}>
+          <div className={styles.spanTitle}>
+            <span>Name</span>
+            <span>Rank</span>
+            <span>
+              <Create />
+            </span>
+          </div>
+          <div className={styles.spcing}>
+            <Space align="center" direction="vertical">
+              {props.lead.leadInfo.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <Card
+                      headStyle={{ padding: 0 }}
+                      bodyStyle={{ padding: 5, paddingLeft: 10 }}
+                      title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
+                      className={styles.cardOne}
+                    >
+                      <h3>
+                        <strong>Company: </strong>
+                        <a
+                          onClick={() => {
+                            history.push({
+                              pathname: `/lead/detail/${item.id}`,
+                            });
+                          }}
+                        >
+                          {item.company.name}{' '}
+                        </a>
+                      </h3>
+                      <h3>
+                        <strong>Description: </strong> {item.description}
+                      </h3>
+                    </Card>
+                  </div>
+                );
+              })}
+            </Space>
+
+            <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+          </div>
         </div>
-        <div className={styles.spcing}>
-          <TouchpointCreateForm
-            visible={props.lead.visible}
-            onCreate={onCreate}
-            onCancel={onCancel}
-          />
-          <Space align="center" direction="vertical">
-            {props.lead.leadInfo.map((item) => {
+        <div className={styles.horScroll}>
+          <div className={styles.touchPointCol}>
+            {props.lead.leadInfo.map((item, index) => {
               return (
-                <div>
-                  <Card
-                    headStyle={{ padding: 0 }}
-                    bodyStyle={{ padding: 5, paddingLeft: 10 }}
-                    title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
-                    className={styles.cardOne}
-                  >
-                    <h3>
-                      <strong>Company: </strong>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/lead/detail/${item.id}`,
-                          });
-                        }}
-                      >
-                        {item.company.name}{' '}
-                      </a>
-                    </h3>
-                    <h3>
-                      <strong>Description: </strong> {item.description}
-                    </h3>
-                  </Card>
-                </div>
+                <Space key={item.id} align="center" direction="horizontal">
+                  {item.touchPoint.map((touchpointItem, touchpointIndex) => {
+                    return (
+                      <div>
+                        {index === 0 ? (
+                          <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
+                        ) : null}
+                        <Card
+                          title="Lead 1"
+                          className={styles.phaseCard}
+                          extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
+                        >
+                          <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
+                          {touchpointItem.task.map((taskItem) => {
+                            return (
+                              <Button className={styles.btnOne}>
+                                {taskItem.type}|{taskItem.PIC}
+                              </Button>
+                            );
+                          })}
+                        </Card>
+                      </div>
+                    );
+                  })}
+                  <div>
+                    {index === 0 ? (
+                      <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
+                    ) : null}
+                    <Card className={styles.emptyCard}>
+                      <Button type="dashed" onClick={fakeAdd} className={styles.btnCreate}>
+                        <PlusOutlined /> Add Touchpoint
+                      </Button>
+                    </Card>
+                  </div>
+                </Space>
               );
             })}
-          </Space>
-
-          <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+          </div>
         </div>
       </div>
-      <div className={styles.horScroll}>
-        <div className={styles.touchPointCol}>
-          <h3 className={styles.titleOne}>Touchpoint 1</h3>
-          <Space align="center" direction="vertical">
-            <Card
-              title="Lead 1"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-              <Button onClick={show}>Create Touchpoint</Button>
-            </Card>
-            <Card
-              title="Lead 2"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-            <Card
-              title="Lead 3"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-            <Card
-              title="Lead 4"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-          </Space>
-        </div>
-        <div className={styles.touchPointCol}>
-          <h3 className={styles.titleOne}>Touchpoint 2</h3>
-          <Space align="center" direction="vertical">
-            <Card
-              title="Lead 1"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-            <Card
-              title="Lead 2"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-          </Space>
-        </div>
-        <div className={styles.touchPointCol}>
-          <h3 className={styles.titleOne}>Touchpoint 3</h3>
-          <Space align="center" direction="vertical">
-            <Card
-              title="Lead 1"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-            <Card
-              title="Lead 2"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-          </Space>
-        </div>
-        <div className={styles.touchPointCol}>
-          <h3 className={styles.titleOne}>Touchpoint 4</h3>
-          <Space align="center" direction="vertical">
-            <Card
-              title="Lead 1"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-            <Card
-              title="Lead 2"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-          </Space>
-        </div>
-        <div className={styles.touchPointCol}>
-          <h3 className={styles.titleOne}>Touchpoint 5</h3>
-          <Space align="center" direction="vertical">
-            <Card
-              title="Lead 1"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-            <Card
-              title="Lead 2"
-              className={styles.phaseCard}
-              extra={<p className={styles.titleTwo}>2 weeks</p>}
-            >
-              <h2 className={styles.phaseCardOne}>Jun 8</h2>
-              <Button className={styles.btnOne}>Lead Management</Button>
-            </Card>
-          </Space>
-        </div>
-      </div>
-    </div>
+    </Spin>
   );
 });
 
