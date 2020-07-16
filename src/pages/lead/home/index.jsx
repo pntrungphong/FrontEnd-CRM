@@ -2,6 +2,7 @@ import { Input, Button, Space, Card, Pagination, Dropdown, Menu } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -9,7 +10,6 @@ import {
   faCheckCircle,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { PlusOutlined } from '@ant-design/icons';
 import TouchpointCompleteForm from '../components/completeModal/completemodal';
 import styles from './style.less';
 
@@ -127,13 +127,13 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
-  // const showComplete = () => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/showCompleteModal',
-  //     payload: { viewable: true },
-  //   });
-  // };
+  const showComplete = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/showCompleteModal',
+      payload: { viewable: true },
+    });
+  };
 
   const onComplete = (values) => {
     const { dispatch } = props;
@@ -211,7 +211,7 @@ const ListLead = connect(({ lead, loading }) => ({
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: `/lead/detail/${item.id}`,
+                            pathname: `/company/detail/${item.company.id}`,
                           });
                         }}
                       >
@@ -244,7 +244,11 @@ const ListLead = connect(({ lead, loading }) => ({
                       <Card
                         title="Lead 1"
                         className={styles.phaseCard}
-                        extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
+                        extra={
+                          <p className={styles.titleTwo} onClick={showComplete}>
+                            {touchpointItem.duration}
+                          </p>
+                        }
                       >
                         <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
                         {touchpointItem.task.map((taskItem) => {
