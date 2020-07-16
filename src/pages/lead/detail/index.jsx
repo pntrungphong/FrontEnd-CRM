@@ -5,6 +5,12 @@ import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
 import styles from './style.less';
 
+const rankStore = {
+  '0': 'A',
+  '1': 'B',
+  '2': 'C',
+};
+
 class LeadDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
@@ -18,7 +24,6 @@ class LeadDetail extends Component {
   render() {
     const { lead } = this.props;
     if (lead.data === undefined) {
-      // console.log(lead)
       return <Spin />;
     }
     console.log(lead.data.tag);
@@ -63,10 +68,24 @@ class LeadDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.rank}</span>
+                <span className={styles.cloTwo}>{rankStore[lead.data.rank]}</span>
               </div>
             </Col>
           </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Status
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.clo}>
+                <span className={styles.cloTwo}>{lead.data.status}</span>
+              </div>
+            </Col>
+          </Row>
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Company</h3>
@@ -101,7 +120,9 @@ class LeadDetail extends Component {
                   {lead.data.tag.map((item) => {
                     return (
                       <>
-                        <Tag key={item.key} className={styles.cloOne}>{item.label}</Tag>
+                        <Tag key={item.key} className={styles.cloOne}>
+                          {item.label}
+                        </Tag>
                       </>
                     );
                   })}
@@ -122,6 +143,38 @@ class LeadDetail extends Component {
                   {' '}
                   {lead.data.contact.map((item) => {
                     console.log(lead.data);
+                    return (
+                      <>
+                        <Tag key={item.label} className={styles.cloOne}>
+                          <a
+                            onClick={() => {
+                              history.push({
+                                pathname: `/contact/detail/${item.key}`,
+                              });
+                            }}
+                          >
+                            {item.label}
+                          </a>
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Related to
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {' '}
+                  {lead.data.relatedContact.map((item) => {
                     return (
                       <>
                         <Tag key={item.label} className={styles.cloOne}>
