@@ -400,6 +400,7 @@ export const formatedDetailLeadData = (response) => {
       name: response.name,
       tag,
       contact,
+      file: response.file
     };
 
     return returnData;
