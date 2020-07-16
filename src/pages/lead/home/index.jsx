@@ -2,6 +2,7 @@ import { Input, Button, Space, Card, Pagination, Dropdown, Menu } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -59,13 +60,6 @@ const Create = connect(({ lead }) => ({
       pathname: '/lead/create',
     });
   };
-  // const ShowCompleteWin =() => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/showCompleteWinModal',
-  //     payload: { viewable: true }
-  //   })
-  // }
   return <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} />;
 });
 
@@ -103,9 +97,6 @@ const LeadTitle = ({ leadName, rank, id }) => {
             </div>
           </Dropdown>
         </div>
-        {/* <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
-          
-        </span> */}
       </div>
     </>
   );
@@ -217,7 +208,7 @@ const ListLead = connect(({ lead, loading }) => ({
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: `/lead/detail/${item.id}`,
+                            pathname: `/company/detail/${item.company.id}`,
                           });
                         }}
                       >
@@ -238,7 +229,7 @@ const ListLead = connect(({ lead, loading }) => ({
       </div>
       <div className={styles.horScroll}>
         <div className={styles.touchPointCol}>
-          <h3 className={styles.titleOne}>Touchpoint 1</h3>
+          {/* <h3 className={styles.titleOne}>Touchpoint 1</h3>
 
           <Space align="center" direction="vertical">
             <Card
@@ -357,8 +348,8 @@ const ListLead = connect(({ lead, loading }) => ({
               <h2 className={styles.phaseCardOne}>Jun 8</h2>
               <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
-          </Space>
-          {/* {props.lead.leadInfo.map((item, index) => {
+          </Space> */}
+          {props.lead.leadInfo.map((item, index) => {
             return (
               <Space key={item.id} align="center" direction="horizontal">
                 {item.touchPoint.map((touchpointItem, touchpointIndex) => {
@@ -370,7 +361,11 @@ const ListLead = connect(({ lead, loading }) => ({
                       <Card
                         title="Lead 1"
                         className={styles.phaseCard}
-                        extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
+                        extra={
+                          <p className={styles.titleTwo} onClick={showComplete}>
+                            {touchpointItem.duration}
+                          </p>
+                        }
                       >
                         <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
                         {touchpointItem.task.map((taskItem) => {
@@ -389,7 +384,7 @@ const ListLead = connect(({ lead, loading }) => ({
                     <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
                   ) : null}
                   <Card className={styles.emptyCard}>
-                    <Button type="dashed" onClick={fakeAdd} className={styles.btnCreate}>
+                    <Button type="dashed" className={styles.btnCreate}>
                       {' '}
                       <PlusOutlined /> Add Touchpoint
                     </Button>
@@ -397,7 +392,7 @@ const ListLead = connect(({ lead, loading }) => ({
                 </div>
               </Space>
             );
-          })} */}
+          })}
         </div>
       </div>
     </div>

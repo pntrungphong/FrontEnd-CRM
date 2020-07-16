@@ -46,6 +46,18 @@ class LeadDetail extends Component {
               </div>
             </Col>
           </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Status
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.clo}>
+                <span className={styles.cloTwo}>{lead.data.status}</span>
+              </div>
+            </Col>
+          </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
@@ -117,6 +129,39 @@ class LeadDetail extends Component {
             </Col>
           </Row>
 
+          {/* <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Related To
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {' '}
+                  {lead.data.relatedTo.map((item) => {
+                 
+                    return (
+                      <>
+                        <Tag key={item.label} className={styles.cloOne}>
+                          <a
+                            onClick={() => {
+                              history.push({
+                                pathname: `/related/detail/${item.key}`,
+                              });
+                            }}
+                          >
+                            {item.label}
+                          </a>
+                        </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row> */}
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>
@@ -149,6 +194,7 @@ class LeadDetail extends Component {
               </div>
             </Col>
           </Row>
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>File</h3>
