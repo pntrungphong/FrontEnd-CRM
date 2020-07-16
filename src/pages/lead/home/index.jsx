@@ -5,7 +5,7 @@ import { useMount } from 'ahooks';
 import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
-// import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -28,12 +28,6 @@ class App extends React.Component {
       },
     });
   };
-
-  // onClick=()=>{
-  //   history.push({
-  //     pathname: '/touchpoint/',
-  //   })
-  // }
 
   render() {
     return (
@@ -198,6 +192,7 @@ const ListLead = connect(({ lead, loading }) => ({
                           extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
                         >
                           <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
+                          <TouchpointCreateForm leadId={item.id} />
                           {touchpointItem.task.map((taskItem) => {
                             return (
                               <Button className={styles.btnOne}>

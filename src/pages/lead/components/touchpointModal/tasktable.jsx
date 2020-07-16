@@ -1,7 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-// import styles from './style.less';
 import { Table, Input, Tag, Button, DatePicker, Popconfirm, Select, Form } from 'antd';
-// import { isBuffer } from 'lodash';
 import moment from 'moment';
 
 const EditableContext = React.createContext();

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   Modal,
   Form,
@@ -7,24 +7,23 @@ import {
   DatePicker,
   Radio,
   Button,
-  message,
+  // message,
   Spin,
   Select,
-  Upload,
 } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMount, useUnmount } from 'ahooks';
-import { getToken } from '../../../../utils/authority';
+import CustomUploadFile from './customuploadfile';
+import EditableTable from './tasktable';
 import styles from './style.less';
 
 const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 const { TextArea } = Input;
-
 const { Option } = Select;
 
 const layout = {
-  labelCol: { span: 8 },
+  labelCol: { span: 0 },
   wrappercol: { span: 16 },
 };
 
@@ -42,7 +41,7 @@ const Update = connect(({ lead, tag, loading }) => ({
   useMount(() => {
     props.dispatch({
       type: 'lead/loading',
-      payload: { id: 19 },
+      payload: { id: props.leadId },
     });
   });
   useUnmount(() => {
@@ -57,11 +56,10 @@ const Update = connect(({ lead, tag, loading }) => ({
   const onFinish = (values) => {
     props.dispatch({
       type: 'lead/update',
-      payload: { ...values, id: 19 },
+      payload: { ...values, id: props.leadId },
     });
     // console.log(props.submitting);
   };
-  // const [form] = Form.useForm();
 
   let fetchCompany = (value) => {
     props.dispatch({
@@ -87,26 +85,6 @@ const Update = connect(({ lead, tag, loading }) => ({
     });
   };
 
-  const onUpload = {
-    name: 'file',
-    action: 'http://api-harmonia.geekup.io/file',
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-    // props: this.props,
-    onChange(info) {
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-
-        this.props.dispatch({
-          type: 'lead/saveListFile',
-          payload: info.fileList,
-        });
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
   fetchCompany = debounce(fetchCompany, 1000);
   fetchContact = debounce(fetchContact, 1000);
 
@@ -229,42 +207,6 @@ const Update = connect(({ lead, tag, loading }) => ({
             ))}
           </Select>
         </Form.Item>
-        <Form.Item name={['lead', 'tag']} label="Tag">
-          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
-            <Option key="1">String</Option>
-            <Option key="6">tesst</Option>
-          </Select>
-        </Form.Item>
-        <Form.Item name={['lead', 'brief']} label="Brief">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item name={['lead', 'scope']} label="Scope">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item name={['lead', 'sla']} label="SLA">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item name={['lead', 'pricing']} label="Pricing">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item name={['lead', 'estimation']} label="Estimation">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
-        </Form.Item>
-        <Form.Item name={['lead', 'qoutation']} label="Qoutation">
-          <Upload onUpload={onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
-        </Form.Item>
         <Form.Item
           name={['lead', 'description']}
           label="Description"
@@ -275,6 +217,30 @@ const Update = connect(({ lead, tag, loading }) => ({
           ]}
         >
           <TextArea rows={4} />
+        </Form.Item>
+        <Form.Item name={['lead', 'tag']} label="Tag">
+          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+            <Option key="1">String</Option>
+            <Option key="6">tesst</Option>
+          </Select>
+        </Form.Item>
+        <Form.Item name={['lead', 'brief']} label="Brief">
+          <CustomUploadFile dataIndex="brief" />
+        </Form.Item>
+        <Form.Item name={['lead', 'scope']} label="Scope">
+          <CustomUploadFile dataIndex="scope" />
+        </Form.Item>
+        <Form.Item name={['lead', 'sla']} label="SLA">
+          <CustomUploadFile dataIndex="sla" />
+        </Form.Item>
+        <Form.Item name={['lead', 'pricing']} label="Pricing">
+          <CustomUploadFile dataIndex="pricing" />
+        </Form.Item>
+        <Form.Item name={['lead', 'estimation']} label="Estimation">
+          <CustomUploadFile dataIndex="estimation" />
+        </Form.Item>
+        <Form.Item name={['lead', 'quotation']} label="Quotation">
+          <CustomUploadFile dataIndex="quotation" />
         </Form.Item>
       </Form>
     </div>
@@ -364,74 +330,92 @@ class Rankmodal extends React.Component {
   }
 }
 
-const TouchpointCreateForm = ({ visible, onCreate, onCancel }) => {
+const TouchpointCreateForm = ({ leadId }) => {
   const [form] = Form.useForm();
   const [updateForm] = Form.useForm();
+  const [visible, setVisible] = useState(false);
+
+  const onShow = () => {
+    setVisible(true);
+  };
+
+  const onCreate = (values) => {
+    console.table(values);
+  };
+
+  const onCancel = () => {
+    setVisible(false);
+  };
 
   return (
-    <Modal
-      title="Touchpoint #1"
-      visible={visible}
-      okText="ADD"
-      cancelText="Cancel"
-      okButtonProps="default"
-      cancelButtonProps="primary"
-      onCancel={onCancel}
-      onOk={() => {
-        form
-          .validateFields()
-          .then((values) => {
-            // console.table(values);
-            form.resetFields();
-            onCreate(values);
-          })
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-        updateForm
-          .validateFields()
+    <div>
+      <Button onClick={onShow}>Add</Button>
+      <Modal
+        title="Touchpoint #1"
+        visible={visible}
+        okText="ADD"
+        cancelText="Cancel"
+        okButtonProps="default"
+        cancelButtonProps="primary"
+        onCancel={onCancel}
+        onOk={() => {
+          form
+            .validateFields()
+            .then((values) => {
+              // console.table(values);
+              form.resetFields();
+              onCreate(values);
+            })
+            .catch((info) => {
+              console.log('Validate Failed:', info);
+            });
+          updateForm
+            .validateFields()
 
-          .then((values) => {
-            console.table(values);
+            .then((values) => {
+              console.table(values);
 
-            onCreate(values);
-          })
+              onCreate(values);
+            })
 
-          .catch((info) => {
-            console.log('Validate Failed:', info);
-          });
-        updateForm.submit();
-      }}
-    >
-      <Form form={form} layout="vertical" name="form_in_modal">
-        <Form.Item
-          name="goal"
-          label="Goal"
-          rules={[
-            {
-              required: true,
-              message: 'Please input Goal',
-            },
-          ]}
-        >
-          <TextArea rows={4} />
-        </Form.Item>
-        <Form.Item name="meetingtime" label="Meeting Time">
-          <TimePicker use12Hours format="h:mm a" />
-        </Form.Item>
-        <Form.Item name="meetingdate" label="Meeting Date">
-          <DatePicker format={dateFormatList} />
-        </Form.Item>
-        <Form.Item name="note" label="Note">
-          <TextArea rows={4} />
-        </Form.Item>
-
-        <Form.Item name="rank" label="Rank">
-          <Rankmodal />
-        </Form.Item>
-      </Form>
-      <Update updateForm={updateForm} />
-    </Modal>
+            .catch((info) => {
+              console.log('Validate Failed:', info);
+            });
+          updateForm.submit();
+        }}
+      >
+        <Form form={form} layout="vertical" name="form_in_modal">
+          <Form.Item
+            name="goal"
+            label="Goal"
+            rules={[
+              {
+                required: true,
+                message: 'Please input Goal',
+              },
+            ]}
+          >
+            <TextArea rows={4} />
+          </Form.Item>
+          <Form.Item name="task">
+            <EditableTable />
+          </Form.Item>
+          <Form.Item name="meetingtime" label="Meeting Time">
+            <TimePicker use12Hours format="h:mm a" />
+          </Form.Item>
+          <Form.Item name="meetingdate" label="Meeting Date">
+            <DatePicker format={dateFormatList} />
+          </Form.Item>
+          <Form.Item name="note" label="Note">
+            <TextArea rows={4} />
+          </Form.Item>
+          <Form.Item name="rank" label="Rank">
+            <Rankmodal />
+          </Form.Item>
+        </Form>
+        <Update leadId={leadId} updateForm={updateForm} />
+      </Modal>
+    </div>
   );
 };
 export default TouchpointCreateForm;
