@@ -5,12 +5,12 @@
  */
 import ProLayout, { PageLoading } from '@ant-design/pro-layout';
 import React from 'react';
-import { connect, Link, useIntl } from 'umi';
+import { connect, history, Link, useIntl } from 'umi';
 import { Button, Result } from 'antd';
 import { MenuOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import Authorized from '@/utils/Authorized';
-import { getAuthority } from '@/utils/authority';
+import { getAuthority, getToken } from '@/utils/authority';
 import { getAuthorityFromRouter } from '@/utils/utils';
 import RightContent from '@/components/GlobalHeader/RightContent';
 // import { stringify } from 'querystring';
@@ -89,6 +89,14 @@ const BasicLayout = (props) => {
 
   if (!isLogin && loading) {
     return <PageLoading />;
+  }
+  if (!getToken()) {
+    history.replace({
+      pathname: '/login',
+      // search: stringify({
+      //   redirect: window.location.href,
+      // }),
+    });
   }
 
   return (
