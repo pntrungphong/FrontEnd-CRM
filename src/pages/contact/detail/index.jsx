@@ -59,7 +59,7 @@ class ContactDetail extends Component {
                   {contact.data.email.map((item) => {
                     return (
                       <>
-                        <Tag key={item.url} className={styles.ta}>
+                        <Tag key={item.url} className={styles.ta} >
                           {item.url}
                         </Tag>
                       </>
@@ -101,7 +101,7 @@ class ContactDetail extends Component {
                   {contact.data.tag.map((item) => {
                     return (
                       <>
-                        <Tag key={item.key}>{item.label}</Tag>
+                        <Tag key={item.key} className={styles.ta}>{item.label}</Tag>
                       </>
                     );
                   })}

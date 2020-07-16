@@ -1,29 +1,26 @@
-import { Card, Spin, Divider, Avatar, Row, Tag, Col } from 'antd';
+import { Card, Spin, Divider, Avatar, Tag, Row, Col } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
 import styles from './style.less';
 
-class LeadDetail extends Component {
+class ArchivesDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-
     dispatch({
-      type: 'lead/loading',
+      type: 'archives/loading',
       payload: { id: this.props.match.params.id },
     });
   }
 
   render() {
-    const { lead } = this.props;
-    if (lead.data === undefined) {
-      // console.log(lead)
-      return <Spin />;
-    }
-    console.log(lead.data.tag);
+    const { archives } = this.props;
+    // if (archives.data === undefined) {
+    //   return <Spin />;
+    // }
     return (
-      <PageHeaderWrapper title="Lead Details">
+      <PageHeaderWrapper title="archives Details">
         <Card bordered="true">
           <div className={styles.one}>
             <Avatar size={64} icon={<UserOutlined />} />
@@ -37,7 +34,7 @@ class LeadDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.name}</span>
+    <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -45,46 +42,13 @@ class LeadDetail extends Component {
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>
-                <span> </span>Description
+                <span> </span>Email
               </h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.description}</span>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Rank
-              </h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.rank}</span>
-              </div>
-            </Col>
-          </Row>
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Company</h3>
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
                 <span className={styles.cloTwo}>
-                  <Tag key={lead.data.company.id} className={styles.ta}>
-                    <a
-                      onClick={() => {
-                        history.push({
-                          pathname: `/company/detail/${lead.data.company.id}`,
-                        });
-                      }}
-                    >
-                      {lead.data.company.name}
-                    </a>
-                  </Tag>
+                {}
                 </span>
               </div>
             </Col>
@@ -92,19 +56,57 @@ class LeadDetail extends Component {
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
+              <h3 className={styles.cloOne}>
+                <span> </span>Tag
+              </h3>
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
                 <span className={styles.cloTwo}>
-                  {' '}
-                  {lead.data.tag.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.key} className={styles.cloOne}>{item.label}</Tag>
-                      </>
-                    );
-                  })}
+               {}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>phone
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                {}
+                </span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Url
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+    <span className={styles.cloTwo}>{}</span>
+              </div>
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>website
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                    {}
                 </span>
               </div>
             </Col>
@@ -119,12 +121,12 @@ class LeadDetail extends Component {
             <Col flex="auto">
               <div className={styles.cloFour}>
                 <span className={styles.cloTwo}>
-                  {' '}
-                  {lead.data.contact.map((item) => {
-                    console.log(lead.data);
+                  {}
+                  {/* {archives.data.contact.map((item) => {
                     return (
                       <>
-                        <Tag key={item.label} className={styles.cloOne}>
+                        <Tag key={item.name} className={styles.tagOne}>
+                          
                           <a
                             onClick={() => {
                               history.push({
@@ -137,7 +139,28 @@ class LeadDetail extends Component {
                         </Tag>
                       </>
                     );
-                  })}
+                  })} */}
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>
+                <span> </span>Address
+              </h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {}
+                  {/* {archives.data.address.map((item) => {
+                    return (
+                      <>
+                        <span key={item}>{item}</span>
+                      </>
+                    );
+                  })} */}
                 </span>
               </div>
             </Col>
@@ -148,7 +171,7 @@ class LeadDetail extends Component {
   }
 }
 
-export default connect(({ lead, loading }) => ({
-  lead,
-  querying: loading.effects['lead/loading'],
-}))(LeadDetail);
+export default connect(({ archives, loading }) => ({
+    archives,
+  querying: loading.effects['archives/loading'],
+}))(ArchivesDetail);

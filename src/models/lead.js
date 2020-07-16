@@ -147,6 +147,12 @@ const Model = {
       // nsole.log(payload)co
       return { ...state, viewable: payload.viewable };
     },
+    showCompleteWinModal(state, { payload }) {   
+      return { ...state, viewable: payload.viewable };
+    },
+    showCompleteLoseModal(state, { payload }) {
+      return { ...state, viewable: payload.viewable };
+    },
 
     handlecancelCompleteTouchpoint(state, { payload }) {
       return { ...state, viewable: payload.viewable };

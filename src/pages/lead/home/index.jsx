@@ -1,11 +1,13 @@
-import { Input, Button, Space, Card, Pagination } from 'antd';
+import { Input, Button, Space, Card, Pagination,Dropdown, Menu } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEllipsisH, faCheckCircle, faTimesCircle,  } from '@fortawesome/free-solid-svg-icons';
 import TouchpointCompleteForm from '../components/completeModal/completemodal';
 import styles from './style.less';
+
+
 
 const { Search } = Input;
 // const [modal, contextHolder] = Modal.useModal();
@@ -39,6 +41,7 @@ class App extends React.Component {
             size="large"
             onSearch={this.onSearch}
           />
+          
         </div>
         <ListLead />
       </div>
@@ -54,7 +57,13 @@ const Create = connect(({ lead }) => ({
       pathname: '/lead/create',
     });
   };
-
+  // const ShowCompleteWin =() => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'lead/showCompleteWinModal',
+  //     payload: { viewable: true }
+  //   })
+  // }
   return <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} />;
 });
 
@@ -64,15 +73,38 @@ const rankStore = {
   '2': 'C',
 };
 
+const menu = (
+  
+  <Menu>
+    <Menu.Item>
+      <a target="_blank" >
+        <FontAwesomeIcon icon={faCheckCircle} size="md" />  Win      
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank" >
+      <FontAwesomeIcon icon={faTimesCircle} size="md" />  Archive     
+      </a>
+    </Menu.Item>
+    <Menu.Item danger>a danger item</Menu.Item>
+  </Menu>
+);
 const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
-        <span>{leadName}</span>
+        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>{leadName}</span>
         <span>{rankStore[rank]}</span>
-        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
-          <FontAwesomeIcon icon={faEllipsisH} size="md" />
-        </span>
+        <div id="components-dropdown-demo-dropdown-button">
+        <Dropdown overlay={menu}>
+            <div >
+              <FontAwesomeIcon icon={faEllipsisH} size="md" />
+            </div>
+          </Dropdown>
+        </div>
+        {/* <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
+          
+        </span> */}
       </div>
     </>
   );
@@ -96,6 +128,8 @@ const ListLead = connect(({ lead, loading }) => ({
       },
     });
   };
+
+ 
 
   const showComplete = () => {
     const { dispatch } = props;
@@ -180,17 +214,13 @@ const ListLead = connect(({ lead, loading }) => ({
       <div className={styles.horScroll}>
         <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 1</h3>
-          {/* <Button onClick={showComplete}>Complete Touchpoint</Button> */}
+          
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
               className={styles.phaseCard}
               extra={<p className={styles.titleTwo}>2 weeks</p>}
             >
-              <span>
-                <FontAwesomeIcon icon={faPlus} size="md" onClick={showComplete} />
-              </span>
-
               <h2 className={styles.phaseCardOne}>Jun 8</h2>
               <Button className={styles.btnOne}>Lead Management</Button>
             </Card>

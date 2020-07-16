@@ -51,7 +51,7 @@ class CompanyDetail extends Component {
                   {company.data.email.map((item) => {
                     return (
                       <>
-                        <Tag key={item.url}>{item.url}</Tag>
+                        <Tag key={item.url} className={styles.tagOne}>{item.url}</Tag>
                       </>
                     );
                   })}
@@ -72,7 +72,7 @@ class CompanyDetail extends Component {
                   {company.data.tag.map((item) => {
                     return (
                       <>
-                        <Tag key={item.key}>{item.label}</Tag>
+                        <Tag key={item.key} className={styles.tagOne}>{item.label}</Tag>
                       </>
                     );
                   })}
@@ -93,7 +93,7 @@ class CompanyDetail extends Component {
                   {company.data.phone.map((item) => {
                     return (
                       <>
-                        <Tag key={item.number}>{item.number}</Tag>
+                        <Tag key={item.number} className={styles.tagOne}>{item.number}</Tag>
                       </>
                     );
                   })}
@@ -127,7 +127,7 @@ class CompanyDetail extends Component {
                   {company.data.website.map((item) => {
                     return (
                       <>
-                        <Tag key={item.url}>{item.url}</Tag>
+                        <a key={item.url} className={styles.tagOne}>{item.url}</a>
                       </>
                     );
                   })}
@@ -148,7 +148,8 @@ class CompanyDetail extends Component {
                   {company.data.contact.map((item) => {
                     return (
                       <>
-                        <Tag key={item.name}>
+                        <Tag key={item.name} className={styles.tagOne}>
+                          
                           <a
                             onClick={() => {
                               history.push({
