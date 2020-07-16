@@ -1,4 +1,4 @@
-import { Input, Button, Space, Card, Pagination } from 'antd';
+import { Input, Spin, Button, Space, Card, Pagination } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -126,96 +126,107 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
+  // if (props.loading) {
+  //   return <div>
+  //     <Row>
+  //       <Col span={8}/>
+  //       <Col span={8}><Spin /></Col>
+  //       <Col span={8}/>
+  //     </Row>
+  //   </div>
+  // }
+
   return (
-    <div className={styles.spaceAll}>
-      <div className={styles.spaceOne}>
-        <div className={styles.spanTitle}>
-          <span>Name</span>
-          <span>Rank</span>
-          <span>
-            <Create />
-          </span>
+    <Spin spinning={props.loading}>
+      <div className={styles.spaceAll}>
+        <div className={styles.spaceOne}>
+          <div className={styles.spanTitle}>
+            <span>Name</span>
+            <span>Rank</span>
+            <span>
+              <Create />
+            </span>
+          </div>
+          <div className={styles.spcing}>
+            <Space align="center" direction="vertical">
+              {props.lead.leadInfo.map((item) => {
+                return (
+                  <div key={item.id}>
+                    <Card
+                      headStyle={{ padding: 0 }}
+                      bodyStyle={{ padding: 5, paddingLeft: 10 }}
+                      title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
+                      className={styles.cardOne}
+                    >
+                      <h3>
+                        <strong>Company: </strong>
+                        <a
+                          onClick={() => {
+                            history.push({
+                              pathname: `/lead/detail/${item.id}`,
+                            });
+                          }}
+                        >
+                          {item.company.name}{' '}
+                        </a>
+                      </h3>
+                      <h3>
+                        <strong>Description: </strong> {item.description}
+                      </h3>
+                    </Card>
+                  </div>
+                );
+              })}
+            </Space>
+
+            <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+          </div>
         </div>
-        <div className={styles.spcing}>
-          <Space align="center" direction="vertical">
-            {props.lead.leadInfo.map((item) => {
+        <div className={styles.horScroll}>
+          <div className={styles.touchPointCol}>
+            {props.lead.leadInfo.map((item, index) => {
               return (
-                <div key={item.id}>
-                  <Card
-                    headStyle={{ padding: 0 }}
-                    bodyStyle={{ padding: 5, paddingLeft: 10 }}
-                    title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
-                    className={styles.cardOne}
-                  >
-                    <h3>
-                      <strong>Company: </strong>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/lead/detail/${item.id}`,
-                          });
-                        }}
-                      >
-                        {item.company.name}{' '}
-                      </a>
-                    </h3>
-                    <h3>
-                      <strong>Description: </strong> {item.description}
-                    </h3>
-                  </Card>
-                </div>
+                <Space key={item.id} align="center" direction="horizontal">
+                  {item.touchPoint.map((touchpointItem, touchpointIndex) => {
+                    return (
+                      <div>
+                        {index === 0 ? (
+                          <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
+                        ) : null}
+                        <Card
+                          title="Lead 1"
+                          className={styles.phaseCard}
+                          extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
+                        >
+                          <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
+                          {touchpointItem.task.map((taskItem) => {
+                            return (
+                              <Button className={styles.btnOne}>
+                                {taskItem.type}|{taskItem.PIC}
+                              </Button>
+                            );
+                          })}
+                        </Card>
+                      </div>
+                    );
+                  })}
+                  <div>
+                    {index === 0 ? (
+                      <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
+                    ) : null}
+                    <Card className={styles.emptyCard}>
+                      <Button type="dashed" onClick={fakeAdd} className={styles.btnCreate}>
+                        <PlusOutlined /> Add Touchpoint
+                      </Button>
+                    </Card>
+                  </div>
+                </Space>
               );
             })}
-          </Space>
-
-          <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+          </div>
         </div>
       </div>
-      <div className={styles.horScroll}>
-        <div className={styles.touchPointCol}>
-          {props.lead.leadInfo.map((item, index) => {
-            return (
-              <Space key={item.id} align="center" direction="horizontal">
-                {item.touchPoint.map((touchpointItem, touchpointIndex) => {
-                  return (
-                    <div>
-                      {index === 0 ? (
-                        <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
-                      ) : null}
-                      <Card
-                        title="Lead 1"
-                        className={styles.phaseCard}
-                        extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
-                      >
-                        <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
-                        {touchpointItem.task.map((taskItem) => {
-                          return (
-                            <Button className={styles.btnOne}>
-                              {taskItem.type}|{taskItem.PIC}
-                            </Button>
-                          );
-                        })}
-                      </Card>
-                    </div>
-                  );
-                })}
-                <div>
-                  {index === 0 ? (
-                    <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
-                  ) : null}
-                  <Card className={styles.emptyCard}>
-                    <Button type="dashed" onClick={fakeAdd} className={styles.btnCreate}>
-                      {' '}
-                      <PlusOutlined /> Add Touchpoint
-                    </Button>
-                  </Card>
-                </div>
-              </Space>
-            );
-          })}
-        </div>
-      </div>
-    </div>
+    </Spin>
   );
 });
 

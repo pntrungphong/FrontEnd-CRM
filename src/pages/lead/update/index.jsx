@@ -38,67 +38,66 @@ const Update = connect(({ lead, loading }) => ({
   };
   const [form] = Form.useForm();
 
-  if (props.lead.data === undefined) {
-    return <Spin />;
-  }
   return (
-    <div className={styles.main}>
-      <div className={styles.header}>
-        <h2 className={styles.title}> Update lead </h2>
-      </div>
+    <Spin spinning={props.querying}>
+      <div className={styles.main}>
+        <div className={styles.header}>
+          <h2 className={styles.title}> Update lead </h2>
+        </div>
 
-      <Form
-        {...layout}
-        form={form}
-        name="nest-messages"
-        onFinish={onFinish}
-        validateMessages={validateMessages}
-      >
-        <Form.Item
-          name={['lead', 'name']}
-          label="Name"
-          initialValue={props.lead.data.name}
-          rules={[
-            {
-              required: true,
-            },
-          ]}
+        <Form
+          {...layout}
+          form={form}
+          name="nest-messages"
+          onFinish={onFinish}
+          validateMessages={validateMessages}
         >
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={['lead', 'website']}
-          label="Website"
-          initialValue={props.lead.data.website}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'phone']} label="Phone" initialValue={props.lead.data.phone}>
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'email']} label="Email" initialValue={props.lead.data.email}>
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={['lead', 'address']}
-          label="Address"
-          initialValue={props.lead.data.address}
-        >
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'tag']} label="Tag">
-          <Input />
-        </Form.Item>
-        <Form.Item name={['lead', 'url']} label="URL" initialValue={props.lead.data.url}>
-          <Input />
-        </Form.Item>
-        <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
-          <Button type="primary" htmlType="submit" loading={props.submitting}>
-            Submit
-          </Button>
-        </Form.Item>
-      </Form>
-    </div>
+          <Form.Item
+            name={['lead', 'name']}
+            label="Name"
+            initialValue={props.lead.data.name}
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'website']}
+            label="Website"
+            initialValue={props.lead.data.website}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name={['lead', 'phone']} label="Phone" initialValue={props.lead.data.phone}>
+            <Input />
+          </Form.Item>
+          <Form.Item name={['lead', 'email']} label="Email" initialValue={props.lead.data.email}>
+            <Input />
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'address']}
+            label="Address"
+            initialValue={props.lead.data.address}
+          >
+            <Input />
+          </Form.Item>
+          <Form.Item name={['lead', 'tag']} label="Tag">
+            <Input />
+          </Form.Item>
+          <Form.Item name={['lead', 'url']} label="URL" initialValue={props.lead.data.url}>
+            <Input />
+          </Form.Item>
+          <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
+            <Button type="primary" htmlType="submit" loading={props.submitting}>
+              Submit
+            </Button>
+          </Form.Item>
+        </Form>
+      </div>
+    </Spin>
   );
 });
 
