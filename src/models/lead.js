@@ -115,6 +115,9 @@ const Model = {
     cleanData(state) {
       return { ...state, leadInfo: [], data: undefined };
     },
+    cleanLeadData(state) {
+      return { ...state, data: undefined };
+    },
     loadLead(state, { payload }) {
       return { ...state, data: payload };
     },
@@ -152,7 +155,6 @@ const Model = {
       // nsole.log(payload)co
       return { ...state, visible: payload.visible };
     },
-
     handleCancel(state, { payload }) {
       return { ...state, visible: payload.visible };
     },

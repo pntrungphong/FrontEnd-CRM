@@ -1,16 +1,5 @@
 import React, { useState } from 'react';
-import {
-  Modal,
-  Form,
-  Input,
-  TimePicker,
-  DatePicker,
-  Radio,
-  Button,
-  // message,
-  Spin,
-  Select,
-} from 'antd';
+import { Modal, Form, Input, TimePicker, DatePicker, Radio, Button, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMount, useUnmount } from 'ahooks';
@@ -42,23 +31,17 @@ const Update = connect(({ lead, tag, loading }) => ({
       type: 'lead/loading',
       payload: { id: props.leadId },
     });
+    console.table(props.leadId);
   });
+
   useUnmount(() => {
     props.dispatch({
       type: 'tag/getTag',
     });
     props.dispatch({
-      type: 'lead/cleanData',
+      type: 'lead/cleanLeadData',
     });
   });
-
-  const onFinish = (values) => {
-    props.dispatch({
-      type: 'lead/update',
-      payload: { ...values, id: props.leadId },
-    });
-    // console.log(props.submitting);
-  };
 
   let fetchCompany = (value) => {
     props.dispatch({
@@ -94,6 +77,13 @@ const Update = connect(({ lead, tag, loading }) => ({
     });
   };
 
+  const handleRelationChange = (value) => {
+    props.dispatch({
+      type: 'lead/handleSearchContactChange',
+      payload: { value, listContact: [] },
+    });
+  };
+
   const handleContactChange = (value) => {
     props.dispatch({
       type: 'lead/handleSearchContactChange',
@@ -114,8 +104,6 @@ const Update = connect(({ lead, tag, loading }) => ({
         {...layout}
         form={props.updateForm}
         name="nest-messages"
-        onFinish={onFinish}
-        // title="Lead Infomation"
         initialValues={{
           lead: {
             name: props.lead.data.name,
@@ -123,6 +111,7 @@ const Update = connect(({ lead, tag, loading }) => ({
             company: props.lead.data.company,
             contact: props.lead.data.contact,
             tag: props.lead.data.tag,
+            relation: props.lead.data.relation,
             brief: props.lead.data.brief,
             description: props.lead.data.description,
           },
@@ -175,7 +164,7 @@ const Update = connect(({ lead, tag, loading }) => ({
         </Form.Item>
         <Form.Item
           name={['lead', 'contact']}
-          label="Related To"
+          label="Contact"
           rules={[
             {
               required: true,
@@ -193,13 +182,45 @@ const Update = connect(({ lead, tag, loading }) => ({
                 <Spin size="small" />
               ) : (
                 <p>
-                  <Button type="text">Create Contact</Button>
+                  <Button type="text">New</Button>
                 </p>
               )
             }
             filterOption={false}
             onSearch={fetchContact}
             onChange={handleContactChange}
+          >
+            {props.lead.listContact.map((d) => (
+              <Option key={d.key}>{d.label}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name={['lead', 'relation']}
+          label="Related To"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select
+            mode="multiple"
+            labelInValue
+            tokenSeparators={[',']}
+            value={props.lead.searchContactValue}
+            notFoundContent={
+              props.fetchingContact ? (
+                <Spin size="small" />
+              ) : (
+                <p>
+                  <Button type="text">New</Button>
+                </p>
+              )
+            }
+            filterOption={false}
+            onSearch={fetchContact}
+            onChange={handleRelationChange}
           >
             {props.lead.listContact.map((d) => (
               <Option key={d.key}>{d.label}</Option>
@@ -306,8 +327,6 @@ class Rankmodal extends React.Component {
           visible={this.state.visible}
           onOk={this.onOk}
           onCancel={this.onCancel}
-
-          // onCancel={this.handleCancel}
         >
           <Form>
             <Form.Item name="changerank">
@@ -338,7 +357,11 @@ const TouchpointCreateForm = ({ leadId }) => {
     setVisible(true);
   };
 
-  const onCreate = (values) => {
+  const onPlaning = (values) => {
+    console.table(values);
+  };
+
+  const onUpdate = (values) => {
     console.table(values);
   };
 
@@ -352,6 +375,8 @@ const TouchpointCreateForm = ({ leadId }) => {
       <Modal
         title="Touchpoint #1"
         visible={visible}
+        destroyOnClose
+        className={styles.customModal}
         okText="ADD"
         cancelText="Cancel"
         okButtonProps="default"
@@ -361,26 +386,21 @@ const TouchpointCreateForm = ({ leadId }) => {
           form
             .validateFields()
             .then((values) => {
-              // console.table(values);
               form.resetFields();
-              onCreate(values);
+              onPlaning(values);
+              updateForm
+                .validateFields()
+                .then((updateValues) => {
+                  onUpdate(updateValues);
+                  setVisible(false);
+                })
+                .catch((info) => {
+                  console.log('Validate Failed:', info);
+                });
             })
             .catch((info) => {
               console.log('Validate Failed:', info);
             });
-          updateForm
-            .validateFields()
-
-            .then((values) => {
-              console.table(values);
-
-              onCreate(values);
-            })
-
-            .catch((info) => {
-              console.log('Validate Failed:', info);
-            });
-          updateForm.submit();
         }}
       >
         <Form form={form} layout="vertical" name="form_in_modal">
