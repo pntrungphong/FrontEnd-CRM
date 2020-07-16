@@ -70,10 +70,6 @@ const Model = {
     },
     *loading({ payload }, { call, put }) {
       const response = yield call(getLeadById, payload);
-      /* eslint no-console: "error" */
-
-      // custom console
-
       yield put({
         type: 'loadLead',
         payload: formatedDetailLeadData(response),
@@ -111,7 +107,7 @@ const Model = {
       history.push({
         pathname: '/lead',
       });
-      message.success('Cập nhật Contact thành công');
+      message.success('Cập nhật Lead thành công');
     },
   },
 

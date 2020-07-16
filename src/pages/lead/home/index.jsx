@@ -75,7 +75,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
-        <span>{leadName}</span>
+        <span onClick={() => history.push({ pathname: `/lead/update/${id}` })}>{leadName}</span>
         <span>{rankStore[rank]}</span>
         <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
           <FontAwesomeIcon icon={faEllipsisH} size="md" />
@@ -200,11 +200,11 @@ const ListLead = connect(({ lead, loading }) => ({
                         <a
                           onClick={() => {
                             history.push({
-                              pathname: `/lead/detail/${item.id}`,
+                              pathname: `/company/detail/${item.company.id}`,
                             });
                           }}
                         >
-                          {item.company.name}{' '}
+                          {item.company.name}
                         </a>
                       </h3>
                       <h3>
