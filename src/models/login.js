@@ -5,11 +5,10 @@ import { setAuthority, setToken, removeToken } from '@/utils/authority';
 import { getPageQuery } from '@/utils/utils';
 import { message } from 'antd';
 
-
 const Model = {
   namespace: 'login',
   state: {
-    status: undefined
+    status: undefined,
   },
   effects: {
     *login({ payload }, { call, put }) {
@@ -23,6 +22,15 @@ const Model = {
         window.location.replace(link || '/');
       }
     },
+  },
+
+  reducers: {
+    changeLoginStatus(state, { payload }) {
+      message.success('Đăng nhập thành công');
+      setToken(payload.token.accessToken);
+      setAuthority(payload.user.role.toLowerCase());
+      return { ...state, status: 'ok' };
+    },
 
     logout() {
       const { redirect } = getPageQuery(); // Note: There may be security issues, please note
@@ -35,15 +43,7 @@ const Model = {
         });
         removeToken();
       }
-    },
-  },
-
-  reducers: {
-    changeLoginStatus(state, { payload }) {
-      message.success('Đăng nhập thành công');
-      setToken(payload.token.accessToken);
-      setAuthority(payload.user.role.toLowerCase());
-      return { ...state, status: 'ok' };
+      return null;
     },
   },
 };

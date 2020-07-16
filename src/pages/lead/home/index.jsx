@@ -1,13 +1,16 @@
-import { Input, Button, Space, Card, Pagination,Dropdown, Menu } from 'antd';
+import { Input, Button, Space, Card, Pagination, Dropdown, Menu } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEllipsisH, faCheckCircle, faTimesCircle,  } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faEllipsisH,
+  faCheckCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import TouchpointCompleteForm from '../components/completeModal/completemodal';
 import styles from './style.less';
-
-
 
 const { Search } = Input;
 // const [modal, contextHolder] = Modal.useModal();
@@ -41,7 +44,6 @@ class App extends React.Component {
             size="large"
             onSearch={this.onSearch}
           />
-          
         </div>
         <ListLead />
       </div>
@@ -74,16 +76,15 @@ const rankStore = {
 };
 
 const menu = (
-  
   <Menu>
     <Menu.Item>
-      <a target="_blank" >
-        <FontAwesomeIcon icon={faCheckCircle} size="md" />  Win      
+      <a target="_blank">
+        <FontAwesomeIcon icon={faCheckCircle} size="md" /> Win
       </a>
     </Menu.Item>
     <Menu.Item>
-      <a target="_blank" >
-      <FontAwesomeIcon icon={faTimesCircle} size="md" />  Archive     
+      <a target="_blank">
+        <FontAwesomeIcon icon={faTimesCircle} size="md" /> Archive
       </a>
     </Menu.Item>
     <Menu.Item danger>a danger item</Menu.Item>
@@ -96,8 +97,8 @@ const LeadTitle = ({ leadName, rank, id }) => {
         <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>{leadName}</span>
         <span>{rankStore[rank]}</span>
         <div id="components-dropdown-demo-dropdown-button">
-        <Dropdown overlay={menu}>
-            <div >
+          <Dropdown overlay={menu}>
+            <div>
               <FontAwesomeIcon icon={faEllipsisH} size="md" />
             </div>
           </Dropdown>
@@ -129,8 +130,6 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
- 
-
   const showComplete = () => {
     const { dispatch } = props;
     dispatch({
@@ -154,6 +153,32 @@ const ListLead = connect(({ lead, loading }) => ({
     dispatch({
       type: 'lead/handlecancelCompleteTouchpoint',
       payload: { viewable: false },
+      // const fakeAdd = () => {
+      //   const touchpoint = {
+      //     status: 'Done',
+      //     goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
+      //     duration: '2 Weeks',
+      //     meetingDate: 'Jun 7',
+      //     task: [
+      //       {
+      //         type: 'Product Consulting',
+      //         PIC: 'Quan',
+      //       },
+      //       {
+      //         type: 'Product Consulting',
+      //         PIC: 'Ngan',
+      //       },
+      //       {
+      //         type: 'Proposal Handling',
+      //         PIC: 'Hoang',
+      //       },
+      //     ],
+      //   };
+      //   const list = props.lead.leadInfo;
+      //   list[0].touchPoint.push(touchpoint);
+      //   props.dispatch({
+      //     type: 'lead/saveListLead',
+      //     payload: list,
     });
   };
 
@@ -180,7 +205,7 @@ const ListLead = connect(({ lead, loading }) => ({
           <Space align="center" direction="vertical">
             {props.lead.leadInfo.map((item) => {
               return (
-                <div>
+                <div key={item.id}>
                   <Card
                     headStyle={{ padding: 0 }}
                     bodyStyle={{ padding: 5, paddingLeft: 10 }}
@@ -214,7 +239,7 @@ const ListLead = connect(({ lead, loading }) => ({
       <div className={styles.horScroll}>
         <div className={styles.touchPointCol}>
           <h3 className={styles.titleOne}>Touchpoint 1</h3>
-          
+
           <Space align="center" direction="vertical">
             <Card
               title="Lead 1"
@@ -333,6 +358,46 @@ const ListLead = connect(({ lead, loading }) => ({
               <Button className={styles.btnOne}>Lead Management</Button>
             </Card>
           </Space>
+          {/* {props.lead.leadInfo.map((item, index) => {
+            return (
+              <Space key={item.id} align="center" direction="horizontal">
+                {item.touchPoint.map((touchpointItem, touchpointIndex) => {
+                  return (
+                    <div>
+                      {index === 0 ? (
+                        <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
+                      ) : null}
+                      <Card
+                        title="Lead 1"
+                        className={styles.phaseCard}
+                        extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
+                      >
+                        <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
+                        {touchpointItem.task.map((taskItem) => {
+                          return (
+                            <Button className={styles.btnOne}>
+                              {taskItem.type}|{taskItem.PIC}
+                            </Button>
+                          );
+                        })}
+                      </Card>
+                    </div>
+                  );
+                })}
+                <div>
+                  {index === 0 ? (
+                    <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
+                  ) : null}
+                  <Card className={styles.emptyCard}>
+                    <Button type="dashed" onClick={fakeAdd} className={styles.btnCreate}>
+                      {' '}
+                      <PlusOutlined /> Add Touchpoint
+                    </Button>
+                  </Card>
+                </div>
+              </Space>
+            );
+          })} */}
         </div>
       </div>
     </div>

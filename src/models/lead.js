@@ -130,7 +130,6 @@ const Model = {
     saveListCompany(state, { payload }) {
       return { ...state, listCompany: payload };
     },
-
     handleSearchChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listLead: payload };
     },
@@ -147,7 +146,7 @@ const Model = {
       // nsole.log(payload)co
       return { ...state, viewable: payload.viewable };
     },
-    showCompleteWinModal(state, { payload }) {   
+    showCompleteWinModal(state, { payload }) {
       return { ...state, viewable: payload.viewable };
     },
     showCompleteLoseModal(state, { payload }) {

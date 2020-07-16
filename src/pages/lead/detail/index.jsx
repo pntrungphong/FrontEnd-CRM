@@ -5,6 +5,11 @@ import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
 import styles from './style.less';
 
+const rankStore = {
+  '0': 'A',
+  '1': 'B',
+  '2': 'C',
+};
 class LeadDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
@@ -50,7 +55,7 @@ class LeadDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.description}</span>
+                <span className={styles.customDescription}>{lead.data.description}</span>
               </div>
             </Col>
           </Row>
@@ -63,7 +68,7 @@ class LeadDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.rank}</span>
+                <span className={styles.cloTwo}>{rankStore[lead.data.rank]}</span>
               </div>
             </Col>
           </Row>
@@ -101,7 +106,9 @@ class LeadDetail extends Component {
                   {lead.data.tag.map((item) => {
                     return (
                       <>
-                        <Tag key={item.key} className={styles.cloOne}>{item.label}</Tag>
+                        <Tag key={item.key} className={styles.cloOne}>
+                          {item.label}
+                        </Tag>
                       </>
                     );
                   })}
@@ -135,6 +142,25 @@ class LeadDetail extends Component {
                             {item.label}
                           </a>
                         </Tag>
+                      </>
+                    );
+                  })}
+                </span>
+              </div>
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>File</h3>
+            </Col>
+            <Col flex="auto">
+              <div className={styles.cloFour}>
+                <span className={styles.cloTwo}>
+                  {' '}
+                  {lead.data.file.map((item) => {
+                    return (
+                      <>
+                        <Tag key={item.id}>{item.originalname}</Tag>
                       </>
                     );
                   })}

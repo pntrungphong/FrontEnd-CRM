@@ -51,7 +51,9 @@ class CompanyDetail extends Component {
                   {company.data.email.map((item) => {
                     return (
                       <>
-                        <Tag key={item.url} className={styles.tagOne}>{item.url}</Tag>
+                        <Tag key={item.url} className={styles.tagOne}>
+                          {item.url}
+                        </Tag>
                       </>
                     );
                   })}
@@ -72,7 +74,9 @@ class CompanyDetail extends Component {
                   {company.data.tag.map((item) => {
                     return (
                       <>
-                        <Tag key={item.key} className={styles.tagOne}>{item.label}</Tag>
+                        <Tag key={item.key} className={styles.tagOne}>
+                          {item.label}
+                        </Tag>
                       </>
                     );
                   })}
@@ -93,7 +97,9 @@ class CompanyDetail extends Component {
                   {company.data.phone.map((item) => {
                     return (
                       <>
-                        <Tag key={item.number} className={styles.tagOne}>{item.number}</Tag>
+                        <Tag key={item.number} className={styles.tagOne}>
+                          {item.number}
+                        </Tag>
                       </>
                     );
                   })}
@@ -110,7 +116,7 @@ class CompanyDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>{company.data.Url}</span>
+                <span className={styles.cloTwo}>{company.data.url}</span>
               </div>
             </Col>
           </Row>
@@ -127,7 +133,9 @@ class CompanyDetail extends Component {
                   {company.data.website.map((item) => {
                     return (
                       <>
-                        <a key={item.url} className={styles.tagOne}>{item.url}</a>
+                        <a key={item.url} className={styles.tagOne}>
+                          {item.url}
+                        </a>
                       </>
                     );
                   })}
@@ -149,7 +157,6 @@ class CompanyDetail extends Component {
                     return (
                       <>
                         <Tag key={item.name} className={styles.tagOne}>
-                          
                           <a
                             onClick={() => {
                               history.push({
