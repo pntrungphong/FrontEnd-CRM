@@ -108,6 +108,14 @@ const Update = connect(({ lead, tag, loading }) => ({
       payload: { value, listContact: [] },
     });
   };
+
+  const handleRelationChange = (value) => {
+    props.dispatch({
+      type: 'lead/handleSearchContactChange',
+      payload: { value, listContact: [] },
+    });
+  };
+
   if (props.lead.data === undefined) {
     return <Spin />;
   }
@@ -128,6 +136,7 @@ const Update = connect(({ lead, tag, loading }) => ({
             rank: props.lead.data.rank,
             company: props.lead.data.company,
             contact: props.lead.data.contact,
+            relation: props.lead.data.relation,
             tag: props.lead.data.tag,
             brief: props.lead.data.brief,
             description: props.lead.data.description,
@@ -196,7 +205,7 @@ const Update = connect(({ lead, tag, loading }) => ({
         </Form.Item>
         <Form.Item
           name={['lead', 'contact']}
-          label="Related To"
+          label="Contact"
           rules={[
             {
               required: true,
@@ -214,13 +223,45 @@ const Update = connect(({ lead, tag, loading }) => ({
                 <Spin size="small" />
               ) : (
                 <p>
-                  <Button type="text">Create Contact</Button>
+                  <Button type="text">New</Button>
                 </p>
               )
             }
             filterOption={false}
             onSearch={fetchContact}
             onChange={handleContactChange}
+          >
+            {props.lead.listContact.map((d) => (
+              <Option key={d.key}>{d.label}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name={['lead', 'relation']}
+          label="Related To"
+          rules={[
+            {
+              required: true,
+            },
+          ]}
+        >
+          <Select
+            mode="multiple"
+            labelInValue
+            tokenSeparators={[',']}
+            value={props.lead.searchContactValue}
+            notFoundContent={
+              props.fetchingContact ? (
+                <Spin size="small" />
+              ) : (
+                <p>
+                  <Button type="text">New</Button>
+                </p>
+              )
+            }
+            filterOption={false}
+            onSearch={fetchContact}
+            onChange={handleRelationChange}
           >
             {props.lead.listContact.map((d) => (
               <Option key={d.key}>{d.label}</Option>

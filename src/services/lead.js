@@ -15,7 +15,14 @@ export async function fullCreateLead(params) {
       });
     });
   }
-
+  const relation = [];
+  if (params.lead.relation !== undefined) {
+    params.lead.relation.forEach((element) => {
+      relation.push({
+        idContact: element.key,
+      });
+    });
+  }
   const file = [];
   if (params.listFile !== undefined) {
     params.listFile.forEach((element) => {
@@ -46,6 +53,7 @@ export async function fullCreateLead(params) {
     rank: `${params.lead.rank}`,
     idCompany: params.lead.company !== undefined ? params.lead.company.key : '',
     linkContact: contact,
+    relatedTo: relation,
     tag,
     file,
     description: `${params.lead.description}`,
@@ -64,6 +72,15 @@ export async function updateLead(params) {
   if (params.lead.contact !== undefined) {
     params.lead.contact.forEach((element) => {
       contact.push({
+        idContact: element.key,
+      });
+    });
+  }
+
+  const relation = [];
+  if (params.lead.relation !== undefined) {
+    params.lead.relation.forEach((element) => {
+      relation.push({
         idContact: element.key,
       });
     });
@@ -99,6 +116,7 @@ export async function updateLead(params) {
     rank: `${params.lead.rank.toString()}`,
     idCompany: params.lead.company !== undefined ? params.lead.company.key.toString() : '',
     linkContact: contact,
+    relatedTo: relation,
     tag,
     file,
     description: `${params.lead.description}`,

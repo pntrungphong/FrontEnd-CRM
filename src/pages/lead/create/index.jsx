@@ -103,6 +103,13 @@ class Create extends React.Component {
     });
   };
 
+  handleRelationChange = (value) => {
+    this.props.dispatch({
+      type: 'lead/handleSearchContactChange',
+      payload: { value, listContact: [] },
+    });
+  };
+
   render() {
     const { searchValue, listCompany, searchContactValue, listContact } = this.props.lead;
 
@@ -181,7 +188,7 @@ class Create extends React.Component {
           </Form.Item>
           <Form.Item
             name={['lead', 'contact']}
-            label="Related To"
+            label="Contact"
             rules={[
               {
                 required: true,
@@ -200,7 +207,7 @@ class Create extends React.Component {
                 ) : (
                   <p>
                     <Button type="text" onClick={this.createContact}>
-                      Create Contact
+                      New
                     </Button>
                   </p>
                 )
@@ -208,6 +215,40 @@ class Create extends React.Component {
               filterOption={false}
               onSearch={this.fetchContact}
               onChange={this.handleContactChange}
+            >
+              {listContact.map((d) => (
+                <Option key={d.key}>{d.label}</Option>
+              ))}
+            </Select>
+          </Form.Item>
+          <Form.Item
+            name={['lead', 'relation']}
+            label="Related To"
+            rules={[
+              {
+                required: true,
+              },
+            ]}
+          >
+            <Select
+              mode="multiple"
+              labelInValue
+              tokenSeparators={[',']}
+              value={searchContactValue}
+              notFoundContent={
+                this.props.fetchingContact ? (
+                  <Spin size="small" />
+                ) : (
+                  <p>
+                    <Button type="text" onClick={this.createContact}>
+                      New
+                    </Button>
+                  </p>
+                )
+              }
+              filterOption={false}
+              onSearch={this.fetchContact}
+              onChange={this.handleRelationChange}
             >
               {listContact.map((d) => (
                 <Option key={d.key}>{d.label}</Option>

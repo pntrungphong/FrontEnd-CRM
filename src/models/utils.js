@@ -311,25 +311,21 @@ export const formatedListCompanyData = (response) => {
 };
 
 export const formatedDetailLeadData = (response) => {
-  /* eslint no-console: "error" */
-
-  // custom console
-
   try {
-    // const contact = [];
-    // if (response.contact != null) {
-    //   response.contact.forEach((element) => {
-    //     contact.push({
-    //       key: element.id,
-    //       value: element.id,
-    //       label: element.name,
-    //     });
-    //   });
-    // }
     const contact = [];
     if (response.contact != null) {
       response.contact.forEach((element) => {
         contact.push({
+          key: element.id.toString(),
+          value: element.id.toString(),
+          label: element.name,
+        });
+      });
+    }
+    const relation = [];
+    if (response.relatedTo != null) {
+      response.relatedTo.forEach((element) => {
+        relation.push({
           key: element.id.toString(),
           value: element.id.toString(),
           label: element.name,
@@ -360,6 +356,7 @@ export const formatedDetailLeadData = (response) => {
       name: response.name,
       tag,
       contact,
+      relation,
     };
 
     return returnData;

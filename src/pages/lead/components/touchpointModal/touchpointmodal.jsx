@@ -123,6 +123,7 @@ const Update = connect(({ lead, tag, loading }) => ({
       payload: { value, listContact: [] },
     });
   };
+
   if (props.lead.data === undefined) {
     return <Spin />;
   }
@@ -279,12 +280,14 @@ const Update = connect(({ lead, tag, loading }) => ({
     </div>
   );
 });
+
 const rankStore = {
   '0': 'A',
   '1': 'B',
   '2': 'C',
   '3': 'D',
 };
+
 class Rankmodal extends React.Component {
   constructor(props) {
     super(props);
