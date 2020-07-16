@@ -1,14 +1,52 @@
-import { Card, Spin, Divider, Avatar, Row, Tag, Col } from 'antd';
+import { Card, Spin, Avatar, Row, Tag, Col, Layout } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { getToken } from '../../../utils/authority';
 import styles from './style.less';
+
+const { Sider, Content } = Layout;
 
 const rankStore = {
   '0': 'A',
   '1': 'B',
   '2': 'C',
+};
+
+const FileSpan = ({ fileinfo }) => {
+  const downloadFile = () => {
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${getToken()}`);
+    fetch(`http://api-harmonia.geekup.io/file/${fileinfo.id}`, {
+      method: 'GET',
+      headers,
+    }).then((response) => {
+      response.blob().then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileinfo.originalname;
+        a.click();
+      });
+    });
+  };
+  return (
+    <div className={styles.fileSpan}>
+      <h4>{fileinfo.originalname}</h4>
+      <div className={styles.fileSpanHover}>
+        <FontAwesomeIcon
+          icon={faFileDownload}
+          size="3x"
+          className={styles.fileSpanHoverIcon}
+          onClick={downloadFile}
+        />
+      </div>
+    </div>
+  );
 };
 class LeadDetail extends Component {
   componentDidMount() {
@@ -23,195 +61,172 @@ class LeadDetail extends Component {
   render() {
     const { lead } = this.props;
     if (lead.data === undefined) {
-      // console.log(lead)
       return <Spin />;
     }
-    console.log(lead.data.tag);
     return (
       <PageHeaderWrapper title="Lead Details">
-        <Card bordered="true">
-          <div className={styles.one}>
-            <Avatar size={64} icon={<UserOutlined />} />
-          </div>
-          <Divider className={styles.two} />
+        <Card bordered="true" className={styles.customCard}>
+          <Layout className={styles.customContentLayout}>
+            <Layout className={styles.customContentLayout}>
+              <Content>
+                <Row className={styles.rowCol}>
+                  <Col flex="150px">
+                    <h3 className={styles.customTitle}>Name </h3>
+                  </Col>
+                  <Col flex="auto">
+                    <div className={styles.customContent}>
+                      <span className={styles.cloTwo}>{lead.data.name}</span>
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row className={styles.rowCol}>
+                  <Col flex="150px">
+                    <h3 className={styles.customTitle}>Description </h3>
+                  </Col>
+                  <Col flex="auto">
+                    <div className={styles.customContent}>
+                      <span className={styles.customDescription}>{lead.data.description}</span>
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row className={styles.rowCol}>
+                  <Col flex="150px">
+                    <h3 className={styles.customTitle}>Rank </h3>
+                  </Col>
+                  <Col flex="auto">
+                    <div className={styles.customContent}>
+                      <span className={styles.cloTwo}>{rankStore[lead.data.rank]}</span>
+                    </div>
+                  </Col>
+                </Row>
+
+                <Row className={styles.rowCol}>
+                  <Col flex="150px">
+                    <h3 className={styles.customTitle}>Status </h3>
+                  </Col>
+                  <Col flex="auto">
+                    <div className={styles.customContent}>
+                      <span className={styles.cloTwo}>{lead.data.status}</span>
+                    </div>
+                  </Col>
+                </Row>
+              </Content>
+              <Sider className={styles.customContentLayout}>
+                <div className={styles.customAvatar}>
+                  <Avatar size={150} icon={<UserOutlined />} />
+                </div>
+              </Sider>
+            </Layout>
+          </Layout>
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Name
-              </h3>
+              <h3 className={styles.customTitle}>Company</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.name}</span>
-              </div>
-            </Col>
-          </Row>
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Status
-              </h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{lead.data.status}</span>
-              </div>
+              <Tag key={lead.data.company.id} className={styles.ta}>
+                <a
+                  onClick={() => {
+                    history.push({
+                      pathname: `/company/detail/${lead.data.company.id}`,
+                    });
+                  }}
+                >
+                  {lead.data.company.name}
+                </a>
+              </Tag>
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Description
-              </h3>
+              <h3 className={styles.customTitle}>Tag</h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.customDescription}>{lead.data.description}</span>
-              </div>
+              {' '}
+              {lead.data.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.customTitle}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Rank
-              </h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.clo}>
-                <span className={styles.cloTwo}>{rankStore[lead.data.rank]}</span>
-              </div>
-            </Col>
-          </Row>
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Company</h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  <Tag key={lead.data.company.id} className={styles.ta}>
-                    <a
-                      onClick={() => {
-                        history.push({
-                          pathname: `/company/detail/${lead.data.company.id}`,
-                        });
-                      }}
-                    >
-                      {lead.data.company.name}
-                    </a>
-                  </Tag>
-                </span>
-              </div>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {' '}
-                  {lead.data.tag.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.key} className={styles.cloOne}>
-                          {item.label}
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
-            </Col>
-          </Row>
-
-          {/* <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>
-                <span> </span>Related To
-              </h3>
-            </Col>
-            <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {' '}
-                  {lead.data.relatedTo.map((item) => {
-                 
-                    return (
-                      <>
-                        <Tag key={item.label} className={styles.cloOne}>
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/related/detail/${item.key}`,
-                              });
-                            }}
-                          >
-                            {item.label}
-                          </a>
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
-            </Col>
-          </Row> */}
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>
+              <h3 className={styles.customTitle}>
                 <span> </span>Contact
               </h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {' '}
-                  {lead.data.contact.map((item) => {
-                    console.log(lead.data);
-                    return (
-                      <>
-                        <Tag key={item.label} className={styles.cloOne}>
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/contact/detail/${item.key}`,
-                              });
-                            }}
-                          >
-                            {item.label}
-                          </a>
-                        </Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {' '}
+              {lead.data.contact.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.label} className={styles.customTitle}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/contact/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
             </Col>
           </Row>
 
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>File</h3>
+              <h3 className={styles.customTitle}>
+                <span> </span>Related to
+              </h3>
             </Col>
             <Col flex="auto">
-              <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {' '}
-                  {lead.data.file.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.id}>{item.originalname}</Tag>
-                      </>
-                    );
-                  })}
-                </span>
-              </div>
+              {' '}
+              {lead.data.relatedContact.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.label} className={styles.customTitle}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/contact/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.customTitle}>File</h3>
+            </Col>
+            <Col flex="auto">
+              {' '}
+              {lead.data.file.map((item) => {
+                return (
+                  <>
+                    <FileSpan key={item.id} fileinfo={item} />
+                  </>
+                );
+              })}
             </Col>
           </Row>
         </Card>

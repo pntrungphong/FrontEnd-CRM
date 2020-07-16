@@ -1,4 +1,4 @@
-import { Tag, Pagination, Input, Table, Button, Row, Col } from 'antd';
+import { Tag, Pagination, Input, Table, Button, Row } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
@@ -10,32 +10,34 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    render: (name) => <div className={styles.customField}>{name.toUpperCase()}</div>,
   },
   {
     title: 'Title',
     dataIndex: 'title',
     key: 'title',
+    render: (title) => <div className={styles.customField}>{title}</div>,
   },
   {
     title: 'Company',
     dataIndex: 'company',
     key: 'company',
-    size :"small",
+    size: 'small',
     render: (company) => (
       <>
         {company.map((item) => {
           return item.key !== undefined ? (
-           <Tag key={item.key} >
-                <a
-                  onClick={() => {
-                    history.push({
-                      pathname: `/company/detail/${item.key}`,
-                    });
-                  }}
-                >
-                  {item.label.toUpperCase()}
-                </a>
-              </Tag>
+            <Tag key={item.key} className={styles.customFieldContact}>
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: `/company/detail/${item.key}`,
+                  });
+                }}
+              >
+                {item.label.toUpperCase()}
+              </a>
+            </Tag>
           ) : (
             ''
           );
@@ -47,15 +49,16 @@ const columns = [
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
-    size :"small",
+    size: 'small',
     render: (phone) => (
       <>
         {phone.map((item) => {
           return item.type && item.number ? (
             <div>
               <Row>
-                <Col flex="50%"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
-                <Col flex="50%"><Tag key={item.number} className={styles.tagM}>{item.number.toUpperCase()}</Tag></Col>              
+                <Tag key={item.type} className={styles.customField}>
+                  {item.type.toUpperCase()}: {item.number}
+                </Tag>
               </Row>
             </div>
           ) : (
@@ -70,7 +73,7 @@ const columns = [
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    size :"small",
+    size: 'small',
 
     render: (email) => (
       <>
@@ -78,8 +81,9 @@ const columns = [
           return item.type && item.url ? (
             <div>
               <Row>
-                <Col flex="100px"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
-                <Col flex="auto"><Tag key={item.url} className={styles.tagM}>{item.url.toUpperCase()}</Tag></Col>
+                <Tag key={item.type} className={styles.customField}>
+                  {item.type.toUpperCase()}: {item.url}
+                </Tag>
               </Row>
             </div>
           ) : (
@@ -146,7 +150,7 @@ class App extends React.Component {
             className={styles.search}
             placeholder="Search contact"
             enterButton="Search"
-            size="small"
+            size="large"
             onSearch={this.onSearch}
           />
         </div>
@@ -189,7 +193,6 @@ const ListContact = connect(({ contact, loading }) => ({
         pagination={false}
         columns={columns}
         size="small"
-        
         rowKey="id"
         dataSource={props.contact.contactInfo}
       />

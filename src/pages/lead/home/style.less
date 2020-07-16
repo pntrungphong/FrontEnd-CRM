@@ -27,23 +27,42 @@
   border-radius: 10px;
   box-shadow: 0 0 3px 0.3px #9e9d9d;
   .spanTitle {
-    position: relative;
     display: flex;
     justify-content: space-between;
-    margin: 5px 10px;
+    margin-top: 10px;
     font-size: 17px;
-    span {
+    div {
+      flex-basis: 0 0 1;
+      flex-grow: 1;
       font-weight: bold;
+      text-align: center;
     }
   }
+  .customCreateBtn {
+    color: #269f99;
+    cursor: pointer;
+  }
   .leadTitle {
-    position: relative;
     display: flex;
     justify-content: space-between;
-    margin: 5px 10px;
+    margin: 0 10px;
     font-size: 17px;
-    span {
+    div {
+      flex-basis: 0;
+      flex-grow: 1;
       font-weight: bold;
+      white-space: pre-wrap;
+      text-align: center;
+      cursor: pointer;
+
+      &:hover {
+        color: #269f99;
+      }
+
+      &:last-child {
+        margin-right: 10px;
+        text-align: right;
+      }
     }
   }
 }

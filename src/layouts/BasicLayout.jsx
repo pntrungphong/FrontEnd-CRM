@@ -91,7 +91,6 @@ const BasicLayout = (props) => {
     return <PageLoading />;
   }
   if (!getToken()) {
-    console.table(getToken());
     history.replace({
       pathname: '/login',
       // search: stringify({

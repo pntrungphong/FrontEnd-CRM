@@ -54,12 +54,11 @@ const EditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
-      console.log('Save failed:', errInfo);
+      console.log(errInfo);
     }
   };
 
   const onSelect = (value) => {
-    console.table(value);
     switch (dataIndex) {
       case 'pic':
         handleSave({ ...record, pic: value });
