@@ -60,14 +60,14 @@ const Create = connect(({ lead }) => ({
       pathname: '/lead/create',
     });
   };
-  // const ShowCompleteWin =() => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/showCompleteWinModal',
-  //     payload: { viewable: true }
-  //   })
-  // }
-  return <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} />;
+  return (
+    <FontAwesomeIcon
+      icon={faPlus}
+      size="md"
+      onClick={createDetail}
+      className={styles.customCreateBtn}
+    />
+  );
 });
 
 const rankStore = {
@@ -88,15 +88,14 @@ const menu = (
         <FontAwesomeIcon icon={faTimesCircle} size="md" /> Archive
       </a>
     </Menu.Item>
-    <Menu.Item danger>a danger item</Menu.Item>
   </Menu>
 );
 const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
-        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>{leadName}</span>
-        <span>{rankStore[rank]}</span>
+        <div onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>{leadName}</div>
+        <div>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
           <Dropdown overlay={menu}>
             <div>
@@ -104,9 +103,6 @@ const LeadTitle = ({ leadName, rank, id }) => {
             </div>
           </Dropdown>
         </div>
-        {/* <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
-          
-        </span> */}
       </div>
     </>
   );
@@ -131,13 +127,13 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
-  const showComplete = () => {
-    const { dispatch } = props;
-    dispatch({
-      type: 'lead/showCompleteModal',
-      payload: { viewable: true },
-    });
-  };
+  // const showComplete = () => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'lead/showCompleteModal',
+  //     payload: { viewable: true },
+  //   });
+  // };
 
   const onComplete = (values) => {
     const { dispatch } = props;
@@ -146,7 +142,6 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/handleCompleteTouchpoint',
       payload: { viewable: false },
     });
-    console.log('Hello');
   };
 
   const onCancelComplete = () => {
@@ -189,15 +184,11 @@ const ListLead = connect(({ lead, loading }) => ({
     <div className={styles.spaceAll}>
       <div className={styles.spaceOne}>
         <div className={styles.spanTitle}>
-          <span>Name</span>
-          <span>Rank</span>
-
-          <span>
-            <FontAwesomeIcon icon={faPlus} size="md" onClick={showComplete} />
-          </span>
-          <span>
+          <div>Name</div>
+          <div>Rank</div>
+          <div>
             <Create />
-          </span>
+          </div>
         </div>
         <div className={styles.spcing}>
           <TouchpointCompleteForm
