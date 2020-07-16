@@ -1,12 +1,12 @@
 import React from 'react';
-import { Modal, Form, Input, TimePicker, DatePicker, Radio, Button, Spin, Select } from 'antd';
+import { Modal, Form, Input, DatePicker, Radio, Button, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useMount, useUnmount } from 'ahooks';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
+import EditableTable from './tasktable';
 
-const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 const { TextArea } = Input;
 
 const { Option } = Select;
@@ -322,6 +322,7 @@ const TouchpointCreateForm = ({ visible, onCreate, onCancel }) => {
 
   return (
     <Modal
+      width={692}
       title="Touchpoint #1"
       visible={visible}
       okText="ADD"
@@ -333,7 +334,7 @@ const TouchpointCreateForm = ({ visible, onCreate, onCancel }) => {
         form
           .validateFields()
           .then((values) => {
-            // console.table(values);
+            console.log(values);
             form.resetFields();
             onCreate(values);
           })
@@ -368,11 +369,8 @@ const TouchpointCreateForm = ({ visible, onCreate, onCancel }) => {
         >
           <TextArea rows={4} />
         </Form.Item>
-        <Form.Item name="meetingtime" label="Meeting Time">
-          <TimePicker use12Hours format="h:mm a" />
-        </Form.Item>
         <Form.Item name="meetingdate" label="Meeting Date">
-          <DatePicker format={dateFormatList} />
+          <DatePicker format="YYYY-MM-DD HH:mm" showTime />
         </Form.Item>
         <Form.Item name="note" label="Note">
           <TextArea rows={4} />
@@ -380,6 +378,9 @@ const TouchpointCreateForm = ({ visible, onCreate, onCancel }) => {
 
         <Form.Item name="rank" label="Rank">
           <Rankmodal />
+        </Form.Item>
+        <Form.Item name="task">
+          <EditableTable />
         </Form.Item>
       </Form>
       <Update updateForm={updateForm} />
