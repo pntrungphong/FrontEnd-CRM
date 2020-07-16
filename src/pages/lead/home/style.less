@@ -30,21 +30,45 @@
     position: relative;
     display: flex;
     justify-content: space-between;
-    margin: 5px 10px;
+    margin: 0;
+    margin-top: 10px;
     font-size: 17px;
     span {
+      flex-basis: 0;
+      flex-grow: 1;
       font-weight: bold;
+      text-align: center;
     }
   }
+
+  .iconCreate {
+    cursor: pointer;
+  }
+  .iconCreate:hover {
+    color: #269f99;
+  }
+
   .leadTitle {
     position: relative;
     display: flex;
     justify-content: space-between;
-    margin: 5px 10px;
+    margin-left: 5px;
     font-size: 17px;
-    span {
+    div {
+      flex-basis: 0;
+      flex-grow: 1;
       font-weight: bold;
+      white-space: normal;
+      text-align: center;
+      cursor: pointer;
     }
+    div:hover {
+      color: #269f99;
+    }
+  }
+
+  .leadTitle:nth-last-child {
+    text-align: right;
   }
 }
 

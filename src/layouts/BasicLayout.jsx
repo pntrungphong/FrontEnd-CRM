@@ -32,11 +32,11 @@ const noMatch = (
 /**
  * use Authorized check all menu item
  */
-const menuDataRender = (menuList) =>
-  menuList.map((item) => {
-    const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-    return Authorized.check(item.authority, localItem, null);
-  });
+// const menuDataRender = (menuList) =>
+//   menuList.map((item) => {
+//     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
+//     return Authorized.check(item.authority, localItem, null);
+//   });
 
 const BasicLayout = (props) => {
   const {
@@ -144,7 +144,7 @@ const BasicLayout = (props) => {
         //       <span>{route.breadcrumbName}</span>
         //     );
         // }}
-        menuDataRender={menuDataRender}
+        // menuDataRender={menuDataRender}
         rightContentRender={() => <RightContent />}
         breakpoint="sm"
         collapsedButtonRender={() => <MenuOutlined />}

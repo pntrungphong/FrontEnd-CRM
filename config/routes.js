@@ -51,6 +51,10 @@ export default [
             component: 'contact/detail',
           },
           {
+            path: '/',
+            component: 'lead/home',
+          },
+          {
             path: '/lead',
             name: 'Lead',
             component: 'lead/home',

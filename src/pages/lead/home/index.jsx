@@ -62,7 +62,9 @@ const Create = connect(({ lead }) => ({
     });
   };
 
-  return <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} />;
+  return (
+    <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} className={styles.iconCreate} />
+  );
 });
 
 const rankStore = {
@@ -75,11 +77,11 @@ const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
-        <span onClick={() => history.push({ pathname: `/lead/update/${id}` })}>{leadName}</span>
-        <span>{rankStore[rank]}</span>
-        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
+        <div onClick={() => history.push({ pathname: `/lead/update/${id}` })}>{leadName}</div>
+        <div>{rankStore[rank]}</div>
+        <div onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
           <FontAwesomeIcon icon={faEllipsisH} size="md" />
-        </span>
+        </div>
       </div>
     </>
   );
@@ -104,36 +106,6 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
-  // const show = () => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/showModal',
-  //     payload: { visible: true },
-  //   });
-  // };
-
-  // const onCreate = (values) => {
-  //   const { dispatch } = props;
-  //   console.log(values);
-  //   dispatch({
-  //     type: 'lead/handleOK',
-  //     payload: { visible: false },
-  //   });
-  //   console.log('Hello');
-  // };
-
-  // const onCancel = () => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/handleCancel',
-  //     payload: { visible: false },
-  //   });
-  // };
-  //   <TouchpointCreateForm
-  //   visible={props.lead.visible}
-  //   onCreate={onCreate}
-  //   onCancel={onCancel}
-  // />
   const fakeAdd = () => {
     const touchpoint = {
       status: 'Done',
@@ -162,16 +134,6 @@ const ListLead = connect(({ lead, loading }) => ({
       payload: list,
     });
   };
-
-  // if (props.loading) {
-  //   return <div>
-  //     <Row>
-  //       <Col span={8}/>
-  //       <Col span={8}><Spin /></Col>
-  //       <Col span={8}/>
-  //     </Row>
-  //   </div>
-  // }
 
   return (
     <Spin spinning={props.loading}>
