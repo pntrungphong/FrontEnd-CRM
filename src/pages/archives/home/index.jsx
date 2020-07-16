@@ -1,8 +1,8 @@
-import { Tag, Pagination, Input, Table, Button, Row } from 'antd';
+import { Tag, Table, Pagination, Input, Button, Row, Col } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
-import { useMount, useUnmount } from 'ahooks';
-import styles from './style.less';
+import { useMount } from 'ahooks';
+import Styles from './style.less';
 
 const { Search } = Input;
 const columns = [
@@ -10,34 +10,44 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (name) => <div className={styles.customField}>{name.toUpperCase()}</div>,
   },
   {
-    title: 'Title',
-    dataIndex: 'title',
-    key: 'title',
-    render: (title) => <div className={styles.customField}>{title}</div>,
-  },
-  {
-    title: 'Company',
-    dataIndex: 'company',
-    key: 'company',
-    size: 'small',
-    render: (company) => (
+    title: 'Contact',
+    dataIndex: 'contact',
+    key: 'contact',
+    render: (archives) => (
       <>
-        {company.map((item) => {
+        {archives.map((item) => {
           return item.key !== undefined ? (
-            <Tag key={item.key} className={styles.customFieldContact}>
+            <Row>
+              <Col flex="50%">
+              <Tag key={item.key}>
               <a
                 onClick={() => {
                   history.push({
-                    pathname: `/company/detail/${item.key}`,
+                    pathname: `/contact/detail/${item.key}`,
                   });
                 }}
               >
                 {item.label.toUpperCase()}
               </a>
             </Tag>
+            </Col>
+            <Col flex="50%">
+              <Tag key={item.key}>
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: `/contact/detail/${item.key}`,
+                  });
+                }}
+              >
+                {item.label.toUpperCase()}
+              </a>
+            </Tag>
+            </Col>
+            
+            </Row>
           ) : (
             ''
           );
@@ -49,16 +59,14 @@ const columns = [
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
-    size: 'small',
     render: (phone) => (
       <>
         {phone.map((item) => {
           return item.type && item.number ? (
             <div>
-              <Row>
-                <Tag key={item.type} className={styles.customField}>
-                  {item.type.toUpperCase()}: {item.number}
-                </Tag>
+              <Row>                
+                <Col flex="50%"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
+                <Col flex="50%"><Tag key={item.number}>{item.number.toUpperCase()}</Tag></Col>
               </Row>
             </div>
           ) : (
@@ -68,22 +76,18 @@ const columns = [
       </>
     ),
   },
-
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
-    size: 'small',
-
     render: (email) => (
       <>
         {email.map((item) => {
           return item.type && item.url ? (
             <div>
-              <Row>
-                <Tag key={item.type} className={styles.customField}>
-                  {item.type.toUpperCase()}: {item.url}
-                </Tag>
+              <Row>                
+                <Col flex="35%"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
+                <Col flex="63%"><Tag key={item.url}>{item.url.toUpperCase()}</Tag></Col>
               </Row>
             </div>
           ) : (
@@ -93,16 +97,17 @@ const columns = [
       </>
     ),
   },
+
   {
     title: 'Action',
     key: 'action',
     render: (record) => (
-      <ul className={styles.customUl}>
+      <ul className={Styles.customUl}>
         <li>
           <a
             onClick={() => {
               history.push({
-                pathname: `/contact/update/${record.id}`,
+                pathname: `/archives/update/${record.id}`,
               });
             }}
           >
@@ -113,7 +118,7 @@ const columns = [
           <a
             onClick={() => {
               history.push({
-                pathname: `/contact/detail/${record.id}`,
+                pathname: `/archives/detail/${record.id}`,
               });
             }}
           >
@@ -128,12 +133,15 @@ const columns = [
 class App extends React.Component {
   constructor(props) {
     super(props);
-    this.state = {};
+
+    this.state = {
+      // props,
+    };
   }
 
   onSearch = (value) => {
     this.props.dispatch({
-      type: 'contact/searchContactByName',
+      type: 'archives/searchArchivesByName',
       payload: {
         page: 1,
         searchValue: value,
@@ -143,44 +151,39 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className={styles.containerBox}>
-        <div className={styles.top}>
+      <div className={Styles.containerBox}>
+        <div className={Styles.top}>
           <Create />
           <Search
-            className={styles.search}
-            placeholder="Search contact"
+            className={Styles.search}
+            placeholder="input search text"
             enterButton="Search"
             size="large"
             onSearch={this.onSearch}
           />
         </div>
-        <ListContact />
+        <ListArchives />
       </div>
     );
   }
 }
-const ListContact = connect(({ contact, loading }) => ({
-  contact,
-  loading: loading.effects['contact/loadListContact'],
+
+const ListArchives = connect(({ archives, loading }) => ({
+    archives,
+  loading: loading.effects['archives/loadListArchives'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
-      type: 'contact/loadListContact',
-    });
-  });
-
-  useUnmount(() => {
-    props.dispatch({
-      type: 'contact/cleanData',
+      type: 'archives/loadListArchives',
     });
   });
 
   const onPaginitionChange = (page) => {
     props.dispatch({
-      type: 'contact/loadListContact',
+      type: 'archives/loadListArchives',
       payload: {
         page,
-        searchValue: props.contact.searchContactValue,
+        searchValue: props.archives.searchArchivesValue,
       },
     });
   };
@@ -192,29 +195,30 @@ const ListContact = connect(({ contact, loading }) => ({
         loading={props.loading}
         pagination={false}
         columns={columns}
-        size="small"
         rowKey="id"
-        dataSource={props.contact.contactInfo}
+        // dataSource={props.archives.ArchivesInfo}
       />
-      <Pagination total={props.contact.itemCount} onChange={onPaginitionChange} />
+      <Pagination  onChange={onPaginitionChange} />
     </div>
   );
 });
 
-const Create = connect(({ contact }) => ({
-  contact,
+const Create = connect(({ archives }) => ({
+    archives,
 }))(function () {
   const createDetail = () => {
     history.push({
-      pathname: '/contact/create',
+      pathname: '/archives/create',
     });
   };
+
   return (
     <Button htmlType="button" onClick={createDetail}>
       Create
     </Button>
   );
 });
-export default connect(({ contact }) => ({
-  contact,
+
+export default connect(({ archives }) => ({
+    archives,
 }))(App);

@@ -2,7 +2,7 @@ import { Tag, Table, Pagination, Input, Button, Row } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import Styles from './style.less';
+import styles from './style.less';
 
 const { Search } = Input;
 const columns = [
@@ -10,16 +10,19 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    render: (name) => <div className={styles.customField}>{name.toUpperCase()}</div>,
   },
   {
     title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
+    size: 'small',
+    width: '30%',
     render: (company) => (
       <>
         {company.map((item) => {
           return item.key !== undefined ? (
-            <Tag key={item.key}>
+            <Tag key={item.key} className={styles.customFieldContact}>
               <a
                 onClick={() => {
                   history.push({
@@ -41,14 +44,18 @@ const columns = [
     title: 'Phone',
     dataIndex: 'phone',
     key: 'phone',
+    size: 'small',
+    width: '20%',
+
     render: (phone) => (
       <>
         {phone.map((item) => {
           return item.type && item.number ? (
             <div>
               <Row>
-                <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
-                <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+                <Tag key={item.type} className={styles.customField}>
+                  {item.type.toUpperCase()}: {item.number}
+                </Tag>
               </Row>
             </div>
           ) : (
@@ -62,14 +69,17 @@ const columns = [
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
+    size: 'small',
+
     render: (email) => (
       <>
         {email.map((item) => {
           return item.type && item.url ? (
             <div>
               <Row>
-                <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
-                <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+                <Tag key={item.type} className={styles.customField}>
+                  {item.type.toUpperCase()}: {item.url}
+                </Tag>
               </Row>
             </div>
           ) : (
@@ -83,8 +93,10 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
+    size: 'small',
+
     render: (record) => (
-      <ul className={Styles.customUl}>
+      <ul className={styles.customUl}>
         <li>
           <a
             onClick={() => {
@@ -133,13 +145,13 @@ class App extends React.Component {
 
   render() {
     return (
-      <div className={Styles.containerBox}>
-        <div className={Styles.top}>
+      <div className={styles.containerBox}>
+        <div className={styles.top}>
           <Create />
           <Search
-            className={Styles.search}
+            className={styles.search}
             placeholder="input search text"
-            enterButton="Search"
+            enterButton="Search company"
             size="large"
             onSearch={this.onSearch}
           />
@@ -178,6 +190,7 @@ const ListCompany = connect(({ company, loading }) => ({
         pagination={false}
         columns={columns}
         rowKey="id"
+        size="small"
         dataSource={props.company.companyInfo}
       />
       <Pagination total={props.company.itemCount} onChange={onPaginitionChange} />

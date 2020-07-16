@@ -91,6 +91,7 @@ export const formatedListLeadData = (response) => {
         name: element.name,
         touchPoint,
         rank: element.rank,
+        status: element.status,
         description: element.description,
         id: element.id,
         company: element.company,
@@ -361,16 +362,17 @@ export const formatedListCompanyData = (response) => {
 
 export const formatedDetailLeadData = (response) => {
   try {
-    // const contact = [];
-    // if (response.contact != null) {
-    //   response.contact.forEach((element) => {
-    //     contact.push({
-    //       key: element.id,
-    //       value: element.id,
-    //       label: element.name,
-    //     });
-    //   });
-    // }
+    const relatedContact = [];
+    if (response.relatedTo != null) {
+      response.relatedTo.forEach((element) => {
+        relatedContact.push({
+          key: element.id,
+          value: element.id,
+          label: element.name,
+        });
+      });
+    }
+
     const contact = [];
     if (response.contact != null) {
       response.contact.forEach((element) => {
@@ -398,9 +400,11 @@ export const formatedDetailLeadData = (response) => {
       rank: response.rank,
       id: response.id,
       name: response.name,
+      status: response.status,
       tag,
       contact,
-      file: response.file
+      relatedContact,
+      file: response.file,
     };
 
     return returnData;

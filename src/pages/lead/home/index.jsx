@@ -1,10 +1,16 @@
-import { Input, Button, Space, Card, Pagination } from 'antd';
+import { Input, Button, Space, Card, Pagination, Dropdown, Menu } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import {
+  faPlus,
+  faEllipsisH,
+  faCheckCircle,
+  faTimesCircle,
+} from '@fortawesome/free-solid-svg-icons';
+import { PlusOutlined } from '@ant-design/icons';
+import TouchpointCompleteForm from '../components/completeModal/completemodal';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -54,7 +60,13 @@ const Create = connect(({ lead }) => ({
       pathname: '/lead/create',
     });
   };
-
+  // const ShowCompleteWin =() => {
+  //   const { dispatch } = props;
+  //   dispatch({
+  //     type: 'lead/showCompleteWinModal',
+  //     payload: { viewable: true }
+  //   })
+  // }
   return <FontAwesomeIcon icon={faPlus} size="md" onClick={createDetail} />;
 });
 
@@ -64,15 +76,37 @@ const rankStore = {
   '2': 'C',
 };
 
+const menu = (
+  <Menu>
+    <Menu.Item>
+      <a target="_blank">
+        <FontAwesomeIcon icon={faCheckCircle} size="md" /> Win
+      </a>
+    </Menu.Item>
+    <Menu.Item>
+      <a target="_blank">
+        <FontAwesomeIcon icon={faTimesCircle} size="md" /> Archive
+      </a>
+    </Menu.Item>
+    <Menu.Item danger>a danger item</Menu.Item>
+  </Menu>
+);
 const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
-        <span>{leadName}</span>
+        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>{leadName}</span>
         <span>{rankStore[rank]}</span>
-        <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
-          <FontAwesomeIcon icon={faEllipsisH} size="md" />
-        </span>
+        <div id="components-dropdown-demo-dropdown-button">
+          <Dropdown overlay={menu}>
+            <div>
+              <FontAwesomeIcon icon={faEllipsisH} size="md" />
+            </div>
+          </Dropdown>
+        </div>
+        {/* <span onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>
+          
+        </span> */}
       </div>
     </>
   );
@@ -97,6 +131,31 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   };
 
+  const showComplete = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/showCompleteModal',
+      payload: { viewable: true },
+    });
+  };
+
+  const onComplete = (values) => {
+    const { dispatch } = props;
+    console.log(values);
+    dispatch({
+      type: 'lead/handleCompleteTouchpoint',
+      payload: { viewable: false },
+    });
+    console.log('Hello');
+  };
+
+  const onCancelComplete = () => {
+    const { dispatch } = props;
+    dispatch({
+      type: 'lead/handlecancelCompleteTouchpoint',
+      payload: { viewable: false },
+    });
+  };
   const fakeAdd = () => {
     const touchpoint = {
       status: 'Done',
@@ -132,11 +191,20 @@ const ListLead = connect(({ lead, loading }) => ({
         <div className={styles.spanTitle}>
           <span>Name</span>
           <span>Rank</span>
+
+          <span>
+            <FontAwesomeIcon icon={faPlus} size="md" onClick={showComplete} />
+          </span>
           <span>
             <Create />
           </span>
         </div>
         <div className={styles.spcing}>
+          <TouchpointCompleteForm
+            visible={props.lead.viewable}
+            onCreate={onComplete}
+            onCancel={onCancelComplete}
+          />
           <Space align="center" direction="vertical">
             {props.lead.leadInfo.map((item) => {
               return (

@@ -16,6 +16,7 @@ const Model = {
     listFile: [],
     listContact: [],
     searchContactValue: [],
+    viewable: false,
   },
   effects: {
     *fullCreate({ payload }, { call }) {
@@ -138,6 +139,23 @@ const Model = {
     },
     handleSearchContactChange(state, { payload }) {
       return { ...state, searchContactValue: payload.value, listContact: payload.listContact };
+    },
+    handleCompleteTouchpoint(state, { payload }) {
+      return { ...state, viewable: payload.viewable };
+    },
+    showCompleteModal(state, { payload }) {
+      // nsole.log(payload)co
+      return { ...state, viewable: payload.viewable };
+    },
+    showCompleteWinModal(state, { payload }) {   
+      return { ...state, viewable: payload.viewable };
+    },
+    showCompleteLoseModal(state, { payload }) {
+      return { ...state, viewable: payload.viewable };
+    },
+
+    handlecancelCompleteTouchpoint(state, { payload }) {
+      return { ...state, viewable: payload.viewable };
     },
   },
 };
