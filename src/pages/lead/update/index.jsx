@@ -42,11 +42,11 @@ const Update = connect(({ lead, tag, loading }) => ({
   });
 
   const onFinish = (values) => {
+    console.table(props.lead.listFile);
     props.dispatch({
       type: 'lead/update',
-      payload: { ...values, id: props.match.params.id },
+      payload: { ...values, listFile: props.lead.listFile },
     });
-    // console.log(props.submitting);
   };
   const [form] = Form.useForm();
 
@@ -80,11 +80,11 @@ const Update = connect(({ lead, tag, loading }) => ({
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },
-    // props: this.props,
+    props,
     onChange(info) {
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
-
+        console.table(this.props);
         this.props.dispatch({
           type: 'lead/saveListFile',
           payload: info.fileList,

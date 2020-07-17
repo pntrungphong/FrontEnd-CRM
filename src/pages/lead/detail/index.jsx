@@ -122,15 +122,15 @@ class LeadDetail extends Component {
               <h3 className={styles.customTitle}>Company</h3>
             </Col>
             <Col flex="auto">
-              <Tag key={lead.data.company.id} className={styles.ta}>
+              <Tag key={lead.data.company.key} className={styles.ta}>
                 <a
                   onClick={() => {
                     history.push({
-                      pathname: `/company/detail/${lead.data.company.id}`,
+                      pathname: `/company/detail/${lead.data.company.key}`,
                     });
                   }}
                 >
-                  {lead.data.company.name}
+                  {lead.data.company.label}
                 </a>
               </Tag>
             </Col>
@@ -189,8 +189,7 @@ class LeadDetail extends Component {
               </h3>
             </Col>
             <Col flex="auto">
-              {' '}
-              {lead.data.relatedContact.map((item) => {
+              {lead.data.relation.map((item) => {
                 return (
                   <>
                     <Tag key={item.label} className={styles.customTitle}>

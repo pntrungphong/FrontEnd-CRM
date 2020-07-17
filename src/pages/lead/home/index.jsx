@@ -109,8 +109,9 @@ const LeadTitle = ({ leadName, rank, id }) => {
   );
 };
 
-const ListLead = connect(({ lead, loading }) => ({
+const ListLead = connect(({ lead, task, loading }) => ({
   lead,
+  task,
   loading: loading.effects['lead/loadListLead'],
 }))(function (props) {
   useMount(() => {
@@ -123,61 +124,15 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/loadListLead',
       payload: {
         page,
-        searchValue: props.lead.searchContactValue,
+        searchValue: props.lead.searchValue,
       },
     });
   };
 
-  // const showComplete = () => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/showCompleteModal',
-  //     payload: { viewable: true },
-  //   });
-  // };
-
-  // const onComplete = (values) => {
-  //   const { dispatch } = props;
-  //   console.log(values);
-  //   dispatch({
-  //     type: 'lead/handleCompleteTouchpoint',
-  //     payload: { viewable: false },
-  //   });
-  // };
-
-  // const onCancelComplete = () => {
-  //   const { dispatch } = props;
-  //   dispatch({
-  //     type: 'lead/handlecancelCompleteTouchpoint',
-  //     payload: { viewable: false },
-  //   });
-  // };
-  const fakeAdd = () => {
-    const touchpoint = {
-      status: 'Done',
-      goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-      duration: '2 Weeks',
-      meetingDate: 'Jun 7',
-      task: [
-        {
-          type: 'Product Consulting',
-          PIC: 'Quan',
-        },
-        {
-          type: 'Product Consulting',
-          PIC: 'Ngan',
-        },
-        {
-          type: 'Proposal Handling',
-          PIC: 'Hoang',
-        },
-      ],
-    };
-    const list = props.lead.leadInfo;
-    list[0].touchPoint.push(touchpoint);
+  const fakeAdd = (id) => {
     props.dispatch({
-      type: 'lead/saveListLead',
-      payload: list,
+      type: 'lead/createTouchpoint',
+      payload: id,
     });
   };
 
@@ -238,17 +193,20 @@ const ListLead = connect(({ lead, loading }) => ({
                         {index === 0 ? (
                           <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
                         ) : null}
-                        <Card
-                          title="Lead 1"
-                          className={styles.phaseCard}
-                          extra={<p className={styles.titleTwo}>{touchpointItem.duration}</p>}
-                        >
+                        <Card className={styles.phaseCard}>
+                          <p className={styles.titleTwo}>{touchpointItem.duration}</p>
                           <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
-                          <TouchpointCreateForm leadId={item.id} />
+                          <TouchpointCreateForm
+                            touchpointId={touchpointItem.id}
+                            listTask={props.task.listTask}
+                            dispatch={props.dispatch}
+                            rank={item.rank}
+                            leadId={item.id}
+                          />
                           {touchpointItem.task.map((taskItem) => {
                             return (
                               <Button className={styles.btnOne}>
-                                {taskItem.type}|{taskItem.PIC}
+                                {taskItem.type}|{taskItem.userName}
                               </Button>
                             );
                           })}
@@ -261,7 +219,13 @@ const ListLead = connect(({ lead, loading }) => ({
                       <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
                     ) : null}
                     <Card className={styles.emptyCard}>
-                      <Button type="dashed" onClick={fakeAdd} className={styles.btnCreate}>
+                      <Button
+                        type="dashed"
+                        onClick={() => {
+                          fakeAdd(item.id);
+                        }}
+                        className={styles.btnCreate}
+                      >
                         <PlusOutlined /> Add Touchpoint
                       </Button>
                     </Card>

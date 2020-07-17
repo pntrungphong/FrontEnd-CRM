@@ -111,8 +111,6 @@ export async function updateLead(params) {
 
   const body = {
     name: `${params.lead.name}`,
-    createdBy: 'string',
-    updatedBy: 'string',
     rank: `${params.lead.rank.toString()}`,
     idCompany: params.lead.company !== undefined ? params.lead.company.key.toString() : '',
     linkContact: contact,

@@ -2,6 +2,7 @@ import { message } from 'antd';
 import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
+import { createTouchpoint } from '../services/touchpoint';
 import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
@@ -12,9 +13,10 @@ const Model = {
     data: undefined,
     itemCount: undefined,
     listCompany: [],
-    searchValue: [],
+    searchValue: '',
     listFile: [],
     listContact: [],
+    listTouchpoint: [],
     searchContactValue: [],
     viewable: false,
   },
@@ -26,7 +28,24 @@ const Model = {
         pathname: '/lead/',
       });
     },
-
+    *createTouchpoint({ payload }, { call, put }) {
+      const createTouchpointResponse = yield call(createTouchpoint, payload);
+      if (createTouchpointResponse) {
+        message.success('Successfully');
+        const response = yield call(getLead, {
+          page: 1,
+          searchValue: '',
+        });
+        if (response != null) {
+          yield put({
+            type: 'saveLeadInfo',
+            payload: formatedListLeadData(response),
+          });
+        }
+      } else {
+        message.error('Failed');
+      }
+    },
     *loadListLead(
       {
         payload = {
@@ -131,8 +150,8 @@ const Model = {
     saveListFile(state, { payload }) {
       return { ...state, listFile: payload };
     },
-    saveListLead(state, { payload }) {
-      return { ...state, listLead: payload };
+    saveListTouchpoint(state, { payload }) {
+      return { ...state, listTouchpoint: payload };
     },
     saveListCompany(state, { payload }) {
       return { ...state, listCompany: payload };

@@ -31,7 +31,6 @@ const Update = connect(({ lead, tag, loading }) => ({
       type: 'lead/loading',
       payload: { id: props.leadId },
     });
-    console.table(props.leadId);
   });
 
   useUnmount(() => {
@@ -321,7 +320,7 @@ class Rankmodal extends React.Component {
   render() {
     return (
       <div>
-        <Input readOnly value={rankStore[this.state.rank]} />
+        <Input readOnly value={rankStore[this.props.rank]} />
         <Modal
           title="Do you Want to update rank?"
           visible={this.state.visible}
@@ -330,7 +329,7 @@ class Rankmodal extends React.Component {
         >
           <Form>
             <Form.Item name="changerank">
-              <Radio.Group onChange={this.onRankChange} value={this.state.rank}>
+              <Radio.Group onChange={this.onRankChange} value={this.props.rank}>
                 <Radio value={0}>A</Radio>
                 <Radio value={1}>B</Radio>
                 <Radio value={2}>C</Radio>
@@ -348,13 +347,21 @@ class Rankmodal extends React.Component {
   }
 }
 
-const TouchpointCreateForm = ({ leadId }) => {
+const TouchpointCreateForm = ({ leadId, rank, dispatch, listTask, touchpointId }) => {
   const [form] = Form.useForm();
   const [updateForm] = Form.useForm();
   const [visible, setVisible] = useState(false);
 
   const onShow = () => {
     setVisible(true);
+  };
+
+  const cleanData = () => {
+    console.table(listTask);
+    dispatch({
+      type: 'task/cleanData',
+    });
+    console.table(listTask);
   };
 
   const onPlaning = (values) => {
@@ -376,6 +383,7 @@ const TouchpointCreateForm = ({ leadId }) => {
         title="Touchpoint #1"
         visible={visible}
         destroyOnClose
+        afterClose={cleanData}
         className={styles.customModal}
         okText="ADD"
         cancelText="Cancel"
@@ -417,7 +425,7 @@ const TouchpointCreateForm = ({ leadId }) => {
             <TextArea rows={4} />
           </Form.Item>
           <Form.Item name="task">
-            <EditableTable />
+            <EditableTable dispatch={dispatch} touchpointId={touchpointId} listTask={listTask} />
           </Form.Item>
           <Form.Item name="meetingtime" label="Meeting Time">
             <TimePicker use12Hours format="h:mm a" />
@@ -429,7 +437,7 @@ const TouchpointCreateForm = ({ leadId }) => {
             <TextArea rows={4} />
           </Form.Item>
           <Form.Item name="rank" label="Rank">
-            <Rankmodal />
+            <Rankmodal rank={rank} />
           </Form.Item>
         </Form>
         <Update leadId={leadId} updateForm={updateForm} />

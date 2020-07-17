@@ -25,68 +25,29 @@ export const formatedListLeadData = (response) => {
   try {
     const formatedData = [];
     response.data.forEach((element) => {
-      const touchPoint = [
-        {
-          status: 'Done',
-          goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-          duration: '2 Weeks',
-          meetingDate: 'Jun 7',
-          task: [
-            {
-              type: 'Product Consulting',
-              PIC: 'Quan',
-            },
-            {
-              type: 'Product Consulting',
-              PIC: 'Ngan',
-            },
-            {
-              type: 'Proposal Handling',
-              PIC: 'Hoang',
-            },
-          ],
-        },
-        {
-          status: 'Done',
-          goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-          duration: '2 Weeks',
-          meetingDate: 'Jun 7',
-          task: [
-            {
-              type: 'Product Consulting',
-              PIC: 'Quan',
-            },
-            {
-              type: 'Product Consulting',
-              PIC: 'Ngan',
-            },
-            {
-              type: 'Proposal Handling',
-              PIC: 'Hoang',
-            },
-          ],
-        },
-        {
-          status: 'Done',
-          goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-          duration: '2 Weeks',
-          meetingDate: 'Jun 7',
-          task: [
-            {
-              type: 'Product Consulting',
-              PIC: 'Quan',
-            },
-            {
-              type: 'Product Consulting',
-              PIC: 'Ngan',
-            },
-            {
-              type: 'Proposal Handling',
-              PIC: 'Hoang',
-            },
-          ],
-        },
-      ];
+      const touchPoint = element.touchpoint
+        ? element.touchpoint.map((touchpoint) => {
+            const tasks = touchpoint.task.map((task) => {
+              return {
+                taskname: task.taskname,
+                type: task.type,
+                userId: task.userId,
+                dueDate: task.dueDate,
+                userName: task.user.firstName,
+              };
+            });
+            return {
+              status: touchpoint.status,
+              order: touchpoint.order,
+              review: touchpoint.review ? touchpoint.review : '',
+              note: touchpoint.note ? touchpoint.note : '',
+              id: touchpoint.id,
+              goal: touchpoint.goal ? touchpoint.goal : '',
+              meetingDate: touchpoint.meetingDate ? touchpoint.meetingDate : '',
+              task: tasks,
+            };
+          })
+        : [];
       const data = {
         name: element.name,
         touchPoint,
