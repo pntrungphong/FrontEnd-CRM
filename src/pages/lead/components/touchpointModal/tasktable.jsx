@@ -1,12 +1,17 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-// import styles from './style.less';
-import { Table, Input, Tag, Button, DatePicker, Popconfirm, Select, Form } from 'antd';
-// import { isBuffer } from 'lodash';
+import { Table, Input, Tag, Button, DatePicker, Modal, Select, Form } from 'antd';
 import moment from 'moment';
 
 const EditableContext = React.createContext();
 
 const { Option } = Select;
+
+const User = {
+  '48862ade-6f9a-471f-835a-cff4f3b9a567': 'chau.dh',
+  '50b0cb2e-3782-4b11-82c0-4e2f6580ab94': 'tu.tt',
+  '171ecb82-4daa-43dc-8fec-61878b42d506': 'khoa.nd',
+  '39d088f6-cc81-4263-ac27-b920983a4eb0': 'nhan.lh',
+};
 
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
@@ -101,7 +106,7 @@ const EditableCell = ({
         }}
         onClick={toggleEdit}
       >
-        {children[1] === '' ? '--Add task name--' : children}
+        {children[1] === '' ? '--Add Task--' : children}
       </div>
     );
   } else if (select) {
@@ -185,22 +190,38 @@ class EditableTable extends React.Component {
         dataIndex: 'duedate',
         datetime: true,
       },
-      {
-        title: 'operation',
-        action: true,
-        dataIndex: 'operation',
-        render: (text, record) =>
-          this.state.dataSource.length >= 1 ? (
-            <Popconfirm title="Sure to delete?" onConfirm={() => this.handleDelete(record.key)}>
-              <a>Delete</a>
-            </Popconfirm>
-          ) : null,
-      },
     ];
     this.state = {
-      dataSource: [],
+      dataSource: undefined,
       count: 0,
+      firstSync: true,
+      visible: false,
     };
+  }
+
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'task/getTask',
+      payload: this.props.touchpointId,
+    });
+  }
+
+  componentDidUpdate() {
+    if (this.state.firstSync) {
+      const newData = [];
+      this.props.listTask.forEach((element) => {
+        newData.push({
+          key: this.state.count,
+          taskname: element.taskname,
+          type: element.type,
+          pic: User[element.userId],
+          duedate: moment(element.dueDate),
+        });
+      });
+      this.state.count += 1;
+      this.state.dataSource = newData;
+      this.state.firstSync = false;
+    }
   }
 
   handleDelete = (key) => {
@@ -211,7 +232,6 @@ class EditableTable extends React.Component {
       count: count - 1,
     });
 
-    // const deleteItem = dataSource.filter(item => item.key === key)[0];
     const formatedData = newData.filter((item) => item.taskname !== '');
 
     if (this.props.onChange) {
@@ -219,35 +239,84 @@ class EditableTable extends React.Component {
     }
   };
 
-  handleAdd = () => {
+  onShow = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
+  onCancel = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  handleAdd = (values) => {
     const { count, dataSource } = this.state;
+
+    const postData = {
+      touchpointId: this.props.touchpointId,
+      taskname: values.taskname,
+      type: values.type ? values.type : '',
+      pic: values.pic ? values.pic[1] : '',
+      duedate: values.duedate ? values.duedate.format('YYYY-MM-DD HH:mm') : '',
+    };
+    this.props.dispatch({
+      type: 'task/create',
+      payload: postData,
+    });
+
+    this.props.dispatch({
+      type: 'lead/loadListLead',
+    });
+
     const newData = {
       key: count,
-      taskname: '',
-      type: '',
-      pic: '',
-      duedate: '',
+      taskname: values.taskname,
+      type: values.type ? values.type : '',
+      pic: values.pic ? values.pic[0] : '',
+      duedate: values.duedate ? values.duedate : '',
     };
     const newSource = [...dataSource, newData];
     this.setState({
       dataSource: newSource,
       count: count + 1,
+      visible: false,
     });
+    if (this.props.onChange) {
+      this.props.onChange([...newSource]);
+    }
   };
 
   handleSave = (row) => {
+    console.table(row);
     const { dataSource } = this.state;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
+    console.table(newData);
+
+    this.props.dispatch({
+      type: 'task/update',
+      payload: {
+        newData: row,
+        index,
+        listTask: this.props.listTask,
+      },
+    });
     const selectItem = newData[index];
     newData.splice(index, 1, { ...selectItem, ...row });
     this.setState({
       dataSource: newData,
     });
+    console.table(selectItem);
     const formatedData = newData.filter(() => selectItem.taskname !== '');
     if (this.props.onChange) {
       this.props.onChange([...formatedData]);
     }
+  };
+
+  onChange = () => {
+    this.setState({});
   };
 
   render() {
@@ -303,8 +372,45 @@ class EditableTable extends React.Component {
     });
     return (
       <div>
+        <Modal
+          title="Add Task"
+          visible={this.state.visible}
+          destroyOnClose
+          footer={false}
+          onCancel={this.onCancel}
+        >
+          <Form onFinish={this.handleAdd}>
+            <Form.Item name="taskname" label="Task name" required>
+              <Input />
+            </Form.Item>
+            <Form.Item name="type" label="Type">
+              <Select>
+                <Option value="Product Consulting">Product Consulting</Option>
+                <Option value="Lead Management">Lead Management</Option>
+                <Option value="Proposal Handling">Proposal Handling</Option>
+                <Option value="Lead Generation">Lead Generation</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="pic" label="PIC">
+              <Select>
+                <Option value={['chau.dh', '48862ade-6f9a-471f-835a-cff4f3b9a567']}>chau.dh</Option>
+                <Option value={['tu.tt', '50b0cb2e-3782-4b11-82c0-4e2f6580ab94']}>tu.tt</Option>
+                <Option value={['khoa.nd', '171ecb82-4daa-43dc-8fec-61878b42d506']}>khoa.nd</Option>
+                <Option value={['nhan.lh', '39d088f6-cc81-4263-ac27-b920983a4eb0']}>nhan.lh</Option>
+              </Select>
+            </Form.Item>
+            <Form.Item name="duedate" label="Due Date">
+              <DatePicker format="YYYY-MM-DD HH:mm" showTime />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Add
+              </Button>
+            </Form.Item>
+          </Form>
+        </Modal>
         <Button
-          onClick={this.handleAdd}
+          onClick={this.onShow}
           type="primary"
           style={{
             marginBottom: 16,
@@ -313,9 +419,8 @@ class EditableTable extends React.Component {
           Add a row
         </Button>
         <Table
-          style={{
-            minWidth: '200%',
-          }}
+          loading={!this.state.dataSource}
+          onChange={this.onChange}
           components={components}
           rowClassName={() => 'editable-row'}
           bordered

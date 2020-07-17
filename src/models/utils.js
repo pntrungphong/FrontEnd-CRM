@@ -25,68 +25,29 @@ export const formatedListLeadData = (response) => {
   try {
     const formatedData = [];
     response.data.forEach((element) => {
-      const touchPoint = [
-        {
-          status: 'Done',
-          goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-          duration: '2 Weeks',
-          meetingDate: 'Jun 7',
-          task: [
-            {
-              type: 'Product Consulting',
-              PIC: 'Quan',
-            },
-            {
-              type: 'Product Consulting',
-              PIC: 'Ngan',
-            },
-            {
-              type: 'Proposal Handling',
-              PIC: 'Hoang',
-            },
-          ],
-        },
-        {
-          status: 'Done',
-          goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-          duration: '2 Weeks',
-          meetingDate: 'Jun 7',
-          task: [
-            {
-              type: 'Product Consulting',
-              PIC: 'Quan',
-            },
-            {
-              type: 'Product Consulting',
-              PIC: 'Ngan',
-            },
-            {
-              type: 'Proposal Handling',
-              PIC: 'Hoang',
-            },
-          ],
-        },
-        {
-          status: 'Done',
-          goal: 'lorem ispum lorem ispum lorem ispum lorem ispum',
-          duration: '2 Weeks',
-          meetingDate: 'Jun 7',
-          task: [
-            {
-              type: 'Product Consulting',
-              PIC: 'Quan',
-            },
-            {
-              type: 'Product Consulting',
-              PIC: 'Ngan',
-            },
-            {
-              type: 'Proposal Handling',
-              PIC: 'Hoang',
-            },
-          ],
-        },
-      ];
+      const touchPoint = element.touchpoint
+        ? element.touchpoint.map((touchpoint) => {
+            const tasks = touchpoint.task.map((task) => {
+              return {
+                taskname: task.taskname,
+                type: task.type,
+                userId: task.userId,
+                dueDate: task.dueDate,
+                userName: task.user.firstName,
+              };
+            });
+            return {
+              status: touchpoint.status,
+              order: touchpoint.order,
+              review: touchpoint.review ? touchpoint.review : '',
+              note: touchpoint.note ? touchpoint.note : '',
+              id: touchpoint.id,
+              goal: touchpoint.goal ? touchpoint.goal : '',
+              meetingDate: touchpoint.meetingDate ? touchpoint.meetingDate : '',
+              task: tasks,
+            };
+          })
+        : [];
       const data = {
         name: element.name,
         touchPoint,
@@ -362,23 +323,22 @@ export const formatedListCompanyData = (response) => {
 
 export const formatedDetailLeadData = (response) => {
   try {
-    const relatedContact = [];
-    if (response.relatedTo != null) {
-      response.relatedTo.forEach((element) => {
-        relatedContact.push({
-          key: element.id,
-          value: element.id,
-          label: element.name,
-        });
-      });
-    }
-
     const contact = [];
     if (response.contact != null) {
       response.contact.forEach((element) => {
         contact.push({
-          key: element.id,
-          value: element.id,
+          key: element.id.toString(),
+          value: element.id.toString(),
+          label: element.name,
+        });
+      });
+    }
+    const relation = [];
+    if (response.relatedTo != null) {
+      response.relatedTo.forEach((element) => {
+        relation.push({
+          key: element.id.toString(),
+          value: element.id.toString(),
           label: element.name,
         });
       });
@@ -394,8 +354,13 @@ export const formatedDetailLeadData = (response) => {
       });
     }
 
+    const company = {
+      key: response.company.id,
+      label: response.company.name,
+    };
+
     const returnData = {
-      company: response.company,
+      company,
       description: response.description,
       rank: response.rank,
       id: response.id,
@@ -403,7 +368,7 @@ export const formatedDetailLeadData = (response) => {
       status: response.status,
       tag,
       contact,
-      relatedContact,
+      relation,
       file: response.file,
     };
 

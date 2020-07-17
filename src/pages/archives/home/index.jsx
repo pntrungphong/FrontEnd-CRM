@@ -21,32 +21,31 @@ const columns = [
           return item.key !== undefined ? (
             <Row>
               <Col flex="50%">
-              <Tag key={item.key}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: `/contact/detail/${item.key}`,
-                  });
-                }}
-              >
-                {item.label.toUpperCase()}
-              </a>
-            </Tag>
-            </Col>
-            <Col flex="50%">
-              <Tag key={item.key}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: `/contact/detail/${item.key}`,
-                  });
-                }}
-              >
-                {item.label.toUpperCase()}
-              </a>
-            </Tag>
-            </Col>
-            
+                <Tag key={item.key}>
+                  <a
+                    onClick={() => {
+                      history.push({
+                        pathname: `/contact/detail/${item.key}`,
+                      });
+                    }}
+                  >
+                    {item.label.toUpperCase()}
+                  </a>
+                </Tag>
+              </Col>
+              <Col flex="50%">
+                <Tag key={item.key}>
+                  <a
+                    onClick={() => {
+                      history.push({
+                        pathname: `/contact/detail/${item.key}`,
+                      });
+                    }}
+                  >
+                    {item.label.toUpperCase()}
+                  </a>
+                </Tag>
+              </Col>
             </Row>
           ) : (
             ''
@@ -64,9 +63,13 @@ const columns = [
         {phone.map((item) => {
           return item.type && item.number ? (
             <div>
-              <Row>                
-                <Col flex="50%"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
-                <Col flex="50%"><Tag key={item.number}>{item.number.toUpperCase()}</Tag></Col>
+              <Row>
+                <Col flex="50%">
+                  <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="50%">
+                  <Tag key={item.number}>{item.number.toUpperCase()}</Tag>
+                </Col>
               </Row>
             </div>
           ) : (
@@ -85,9 +88,13 @@ const columns = [
         {email.map((item) => {
           return item.type && item.url ? (
             <div>
-              <Row>                
-                <Col flex="35%"><Tag key={item.type}>{item.type.toUpperCase()}</Tag></Col>
-                <Col flex="63%"><Tag key={item.url}>{item.url.toUpperCase()}</Tag></Col>
+              <Row>
+                <Col flex="35%">
+                  <Tag key={item.type}>{item.type.toUpperCase()}</Tag>
+                </Col>
+                <Col flex="63%">
+                  <Tag key={item.url}>{item.url.toUpperCase()}</Tag>
+                </Col>
               </Row>
             </div>
           ) : (
@@ -169,7 +176,7 @@ class App extends React.Component {
 }
 
 const ListArchives = connect(({ archives, loading }) => ({
-    archives,
+  archives,
   loading: loading.effects['archives/loadListArchives'],
 }))(function (props) {
   useMount(() => {
@@ -198,13 +205,13 @@ const ListArchives = connect(({ archives, loading }) => ({
         rowKey="id"
         // dataSource={props.archives.ArchivesInfo}
       />
-      <Pagination  onChange={onPaginitionChange} />
+      <Pagination onChange={onPaginitionChange} />
     </div>
   );
 });
 
 const Create = connect(({ archives }) => ({
-    archives,
+  archives,
 }))(function () {
   const createDetail = () => {
     history.push({
@@ -220,5 +227,5 @@ const Create = connect(({ archives }) => ({
 });
 
 export default connect(({ archives }) => ({
-    archives,
+  archives,
 }))(App);

@@ -2,7 +2,8 @@ import { message } from 'antd';
 import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
-import { fullCreateLead, getLead, getLeadById } from '../services/lead';
+import { createTouchpoint } from '../services/touchpoint';
+import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
 const Model = {
@@ -12,9 +13,10 @@ const Model = {
     data: undefined,
     itemCount: undefined,
     listCompany: [],
-    searchValue: [],
+    searchValue: '',
     listFile: [],
     listContact: [],
+    listTouchpoint: [],
     searchContactValue: [],
     viewable: false,
   },
@@ -26,7 +28,24 @@ const Model = {
         pathname: '/lead/',
       });
     },
-
+    *createTouchpoint({ payload }, { call, put }) {
+      const createTouchpointResponse = yield call(createTouchpoint, payload);
+      if (createTouchpointResponse) {
+        message.success('Successfully');
+        const response = yield call(getLead, {
+          page: 1,
+          searchValue: '',
+        });
+        if (response != null) {
+          yield put({
+            type: 'saveLeadInfo',
+            payload: formatedListLeadData(response),
+          });
+        }
+      } else {
+        message.error('Failed');
+      }
+    },
     *loadListLead(
       {
         payload = {
@@ -70,7 +89,6 @@ const Model = {
     },
     *loading({ payload }, { call, put }) {
       const response = yield call(getLeadById, payload);
-
       yield put({
         type: 'loadLead',
         payload: formatedDetailLeadData(response),
@@ -99,18 +117,26 @@ const Model = {
         });
       }
     },
+    *update({ payload }, { call }) {
+      // const response =
+
+      yield call(updateLead, payload);
+
+      // console.table(response);
+      history.push({
+        pathname: '/lead',
+      });
+      message.success('Cập nhật Lead thành công');
+    },
   },
-  // *update({ payload }, { call }) {
-  //   // const response =
-  //   yield call(updateContact, payload);
-  //   // console.table(response);
-  //   history.push({
-  //     pathname: '/contact',
-  //   });
-  //   message.success('Cập nhật Contact thành công');
-  // },
 
   reducers: {
+    cleanData(state) {
+      return { ...state, leadInfo: [], data: undefined };
+    },
+    cleanLeadData(state) {
+      return { ...state, data: undefined };
+    },
     loadLead(state, { payload }) {
       return { ...state, data: payload };
     },
@@ -124,8 +150,8 @@ const Model = {
     saveListFile(state, { payload }) {
       return { ...state, listFile: payload };
     },
-    saveListLead(state, { payload }) {
-      return { ...state, listLead: payload };
+    saveListTouchpoint(state, { payload }) {
+      return { ...state, listTouchpoint: payload };
     },
     saveListCompany(state, { payload }) {
       return { ...state, listCompany: payload };

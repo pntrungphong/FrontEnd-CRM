@@ -159,9 +159,9 @@ class Create extends React.Component {
                                 rules={[{ required: true }]}
                               >
                                 <Select placeholder="Select Phone">
-                                  <Option value="Mobile">Mobile</Option>
-                                  <Option value="Home">Home</Option>
+                                  <Option value="Primary">Primary</Option>
                                   <Option value="Company">Company</Option>
+                                  <Option value="Personal">Personal</Option>
                                 </Select>
                               </Form.Item>
                             </Col>
@@ -234,10 +234,7 @@ class Create extends React.Component {
                                 rules={[{ required: true }]}
                               >
                                 <Select placeholder="Select Email">
-                                  <Option value="Gmail">Gmail</Option>
-                                  <Option value="Yandex">Yandex</Option>
-                                  <Option value="Yahoo">Yahoo</Option>
-                                  <Option value="Outlook">Outlook</Option>
+                                  <Option value="Primary">Primary</Option>
                                   <Option value="Company">Company</Option>
                                   <Option value="Personal">Personal</Option>
                                 </Select>
@@ -292,7 +289,6 @@ class Create extends React.Component {
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
                                 rules={[{ required: true }]}
-                                
                               >
                                 <Input placeholder="URL Website" />
                               </Form.Item>

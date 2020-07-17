@@ -1,8 +1,8 @@
-import { Card, Spin, Divider, Avatar, Tag, Row, Col } from 'antd';
+import { Card, Divider, Avatar, Row, Col } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
-import { connect, history } from 'umi';
+import { connect } from 'umi';
 import styles from './style.less';
 
 class ArchivesDetail extends Component {
@@ -15,7 +15,7 @@ class ArchivesDetail extends Component {
   }
 
   render() {
-    const { archives } = this.props;
+    // const { archives } = this.props;
     // if (archives.data === undefined) {
     //   return <Spin />;
     // }
@@ -34,7 +34,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.clo}>
-    <span className={styles.cloTwo}>{}</span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -47,9 +47,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                {}
-                </span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -62,9 +60,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-               {}
-                </span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -77,9 +73,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                {}
-                </span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -92,7 +86,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-    <span className={styles.cloTwo}>{}</span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -105,9 +99,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                    {}
-                </span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -172,6 +164,6 @@ class ArchivesDetail extends Component {
 }
 
 export default connect(({ archives, loading }) => ({
-    archives,
+  archives,
   querying: loading.effects['archives/loading'],
 }))(ArchivesDetail);

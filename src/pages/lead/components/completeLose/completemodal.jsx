@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Input} from 'antd';
+import { Modal, Form, Input } from 'antd';
 // import { connect } from 'umi';
 
 // import Styles from './style.less';

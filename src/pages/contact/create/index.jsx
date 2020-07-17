@@ -245,8 +245,8 @@ class Create extends React.Component {
                             rules={[{ required: true }]}
                           >
                             <Select placeholder="Select Phone">
-                              <Option value="Mobile">Mobile</Option>
-                              <Option value="Home">Home</Option>
+                              <Option value="Personal">Personal</Option>
+                              <Option value="Primary">Primary</Option>
                               <Option value="Company">Company</Option>
                             </Select>
                           </Form.Item>
@@ -319,10 +319,7 @@ class Create extends React.Component {
                             ]}
                           >
                             <Select placeholder="Select Email">
-                              <Option value="Gmail">Gmail</Option>
-                              <Option value="Yandex">Yandex</Option>
-                              <Option value="Yahoo">Yahoo</Option>
-                              <Option value="Outlook">Outlook</Option>
+                              <Option value="Primary">Primary</Option>
                               <Option value="Company">Company</Option>
                               <Option value="Personal">Personal</Option>
                             </Select>
@@ -452,31 +449,6 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-
-          <Form.Item name={['contact', 'referral']} label="Referral">
-            <Select
-              mode="multiple"
-              labelInValue
-              value={searchValueContactReferral}
-              placeholder="Select contact"
-              notFoundContent={
-                this.props.fetchingContact ? (
-                  <Spin size="small" />
-                ) : (
-                  <h4 type="text" onClick={this.createCompany} className={styles.optionCreate}>
-                    Create company
-                  </h4>
-                )
-              }
-              filterOption={false}
-              onSearch={this.fetchContact}
-              onChange={this.handleChangeContactReferral}
-            >
-              {contactInfo.map((d) => (
-                <Option key={d.key}>{d.label}</Option>
-              ))}
-            </Select>
-          </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
               Submit

@@ -51,12 +51,16 @@ export default [
             component: 'contact/detail',
           },
           {
+            path: '/',
+            component: 'lead/home',
+          },
+          {
             path: '/lead',
             name: 'Lead',
             component: 'lead/home',
           },
           {
-            path: '/lead/update',
+            path: '/lead/update/:id?',
             component: 'lead/update',
           },
           {
@@ -79,12 +83,12 @@ export default [
           {
             path: '/archives/create',
             component: 'archives/create',
-          }, 
+          },
           {
             path: '/service',
             name: 'Service',
             component: 'service/home',
-          },         
+          },
         ],
       },
     ],

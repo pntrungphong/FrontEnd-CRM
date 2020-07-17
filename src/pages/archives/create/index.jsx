@@ -292,7 +292,6 @@ class Create extends React.Component {
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
                                 rules={[{ required: true }]}
-                                
                               >
                                 <Input placeholder="URL Website" />
                               </Form.Item>
@@ -430,7 +429,7 @@ class Create extends React.Component {
 }
 
 export default connect(({ archives, tag, loading }) => ({
-    archives,
+  archives,
   tag,
   submitting: loading.effects['archives/fullCreate'],
   fetchingContact: loading.effects['archives/searchContactByName'],
