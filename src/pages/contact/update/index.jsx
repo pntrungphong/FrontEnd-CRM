@@ -230,10 +230,9 @@ const Update = connect(({ contact, tag, loading }) => ({
                           rules={[{ required: true }]}
                         >
                           <Select placeholder="Select Phone">
-                            <Option value="Mobile">Mobile</Option>
                             <Option value="Primary">Primary</Option>
-                            <Option value="Home">Home</Option>
                             <Option value="Company">Company</Option>
+                            <Option value="Personal">Personal</Option>
                           </Select>
                         </Form.Item>
                       </Col>
@@ -300,10 +299,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                               ]}
                             >
                               <Select placeholder="Select Email">
-                                <Option value="Gmail">Gmail</Option>
-                                <Option value="Yandex">Yandex</Option>
-                                <Option value="Yahoo">Yahoo</Option>
-                                <Option value="Outlook">Outlook</Option>
+                                <Option value="Primary">Primary</Option>
                                 <Option value="Company">Company</Option>
                                 <Option value="Personal">Personal</Option>
                               </Select>

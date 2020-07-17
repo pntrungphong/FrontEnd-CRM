@@ -2,6 +2,7 @@ import { Input, Button, Space, Card, Pagination, Spin, Dropdown, Menu } from 'an
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -9,7 +10,6 @@ import {
   faCheckCircle,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
-import { PlusOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 // import TouchpointCompleteForm from '../components/completeModal/completemodal';
 import styles from './style.less';

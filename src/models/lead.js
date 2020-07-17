@@ -156,7 +156,6 @@ const Model = {
     saveListCompany(state, { payload }) {
       return { ...state, listCompany: payload };
     },
-
     handleSearchChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listLead: payload };
     },

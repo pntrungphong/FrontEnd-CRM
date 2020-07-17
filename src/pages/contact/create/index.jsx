@@ -245,8 +245,8 @@ class Create extends React.Component {
                             rules={[{ required: true }]}
                           >
                             <Select placeholder="Select Phone">
-                              <Option value="Mobile">Mobile</Option>
-                              <Option value="Home">Home</Option>
+                              <Option value="Personal">Personal</Option>
+                              <Option value="Primary">Primary</Option>
                               <Option value="Company">Company</Option>
                             </Select>
                           </Form.Item>
@@ -319,10 +319,7 @@ class Create extends React.Component {
                             ]}
                           >
                             <Select placeholder="Select Email">
-                              <Option value="Gmail">Gmail</Option>
-                              <Option value="Yandex">Yandex</Option>
-                              <Option value="Yahoo">Yahoo</Option>
-                              <Option value="Outlook">Outlook</Option>
+                              <Option value="Primary">Primary</Option>
                               <Option value="Company">Company</Option>
                               <Option value="Personal">Personal</Option>
                             </Select>

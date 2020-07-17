@@ -5,6 +5,7 @@ import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
+import { getToken } from '../../../utils/authority';
 import styles from './style.less';
 
 const { Sider, Content } = Layout;
@@ -17,18 +18,21 @@ const rankStore = {
 
 const FileSpan = ({ fileinfo }) => {
   const downloadFile = () => {
-    fetch(`https://cdn.jpegmini.com/user/images/slider_puffin_before_mobile.jpg`).then(
-      (response) => {
-        // fetch(`http://localhost:3000/file/${fileinfo.id}/download`).then((response) => {
-        response.blob().then((blob) => {
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = fileinfo.originalname;
-          a.click();
-        });
-      },
-    );
+    const headers = new Headers();
+    headers.append('Content-Type', 'application/json');
+    headers.append('Authorization', `Bearer ${getToken()}`);
+    fetch(`http://api-harmonia.geekup.io/file/${fileinfo.id}`, {
+      method: 'GET',
+      headers,
+    }).then((response) => {
+      response.blob().then((blob) => {
+        const url = window.URL.createObjectURL(blob);
+        const a = document.createElement('a');
+        a.href = url;
+        a.download = fileinfo.originalname;
+        a.click();
+      });
+    });
   };
   return (
     <div className={styles.fileSpan}>
@@ -208,6 +212,7 @@ class LeadDetail extends Component {
               })}
             </Col>
           </Row>
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.customTitle}>File</h3>
