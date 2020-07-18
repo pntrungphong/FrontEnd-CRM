@@ -378,7 +378,9 @@ const TouchpointCreateForm = ({ leadId, rank, dispatch, listTask, touchpointId }
 
   return (
     <div>
-      <Button onClick={onShow}>Add</Button>
+      <Button onClick={onShow} className={styles.updateTouchPointButton}>
+        Update
+      </Button>
       <Modal
         title="Touchpoint #1"
         visible={visible}
