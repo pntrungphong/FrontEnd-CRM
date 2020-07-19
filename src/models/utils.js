@@ -1,3 +1,5 @@
+import moment from 'moment';
+
 export const getDefaultPagination = () => {
   return {
     page_size: 0,
@@ -29,6 +31,8 @@ export const formatedListLeadData = (response) => {
         ? element.touchpoint.map((touchpoint) => {
             const tasks = touchpoint.task.map((task) => {
               return {
+                id: task.id,
+                touchpointId: touchpoint.id,
                 taskname: task.taskname,
                 type: task.type,
                 userId: task.userId,
@@ -318,6 +322,72 @@ export const formatedListCompanyData = (response) => {
     return returnData;
   } catch (error) {
     throw new Error('Missing data');
+  }
+};
+
+export const formatedDetailTouchpointData = (response) => {
+  try {
+    const sla = [];
+    const scope = [];
+    const estimation = [];
+    const pricing = [];
+    const quotation = [];
+    response.fileTouchPoint.forEach((file) => {
+      const newData = {
+        id: file.fileId,
+        originalname: file.file.originalname,
+        note: file.note,
+        touchPointId: file.touchPointId,
+      };
+      switch (file.type) {
+        case 'sla':
+          sla.push(newData);
+          break;
+        case 'scope':
+          scope.push(newData);
+          break;
+        case 'estimation':
+          estimation.push(newData);
+          break;
+        case 'pricing':
+          pricing.push(newData);
+          break;
+        case 'quotation':
+          quotation.push(newData);
+          break;
+        default:
+          break;
+      }
+    });
+
+    const tasks = response.task
+      ? response.task.map((task) => {
+          return {
+            id: task.id,
+            taskname: task.taskname,
+            type: task.type,
+            userId: task.userId,
+            dueDate: task.dueDate,
+          };
+        })
+      : [];
+
+    const returnData = {
+      goal: response.goal,
+      note: response.note ? response.note : '',
+      review: response.review ? response.review : '',
+      meetingdate: moment(response.meetingDate),
+      sla,
+      task: tasks,
+      estimation,
+      pricing,
+      quotation,
+      scope,
+    };
+
+    return returnData;
+  } catch (error) {
+    throw new Error('Missing pagination data');
   }
 };
 

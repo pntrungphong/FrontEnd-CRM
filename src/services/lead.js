@@ -69,8 +69,8 @@ export async function fullCreateLead(params) {
 
 export async function updateLead(params) {
   const contact = [];
-  if (params.lead.contact !== undefined) {
-    params.lead.contact.forEach((element) => {
+  if (params.contact !== undefined) {
+    params.contact.forEach((element) => {
       contact.push({
         idContact: element.key,
       });
@@ -78,8 +78,8 @@ export async function updateLead(params) {
   }
 
   const relation = [];
-  if (params.lead.relation !== undefined) {
-    params.lead.relation.forEach((element) => {
+  if (params.relation !== undefined) {
+    params.relation.forEach((element) => {
       relation.push({
         idContact: element.key,
       });
@@ -87,16 +87,16 @@ export async function updateLead(params) {
   }
 
   const file = [];
-  if (params.listFile !== undefined) {
-    params.listFile.forEach((element) => {
-      file.push(element.response.id);
+  if (params.brief !== undefined) {
+    params.brief.forEach((element) => {
+      file.push(element.id);
     });
   }
 
   const tag = [];
-  if (params.lead.tag !== undefined) {
-    params.lead.tag.forEach((element) => {
-      if (element.value === element.key) {
+  if (params.tag !== undefined) {
+    params.tag.forEach((element) => {
+      if (element.value === element.label) {
         tag.push({
           tag: element.label,
         });
@@ -110,14 +110,14 @@ export async function updateLead(params) {
   }
 
   const body = {
-    name: `${params.lead.name}`,
-    rank: `${params.lead.rank.toString()}`,
-    idCompany: params.lead.company !== undefined ? params.lead.company.key.toString() : '',
+    name: `${params.name}`,
+    idCompany: params.company !== undefined ? params.company.key.toString() : '',
     linkContact: contact,
     relatedTo: relation,
     tag,
+    rank: params.rank.toString(),
     file,
-    description: `${params.lead.description}`,
+    description: `${params.description}`,
     note: [],
     status: 'string',
   };
