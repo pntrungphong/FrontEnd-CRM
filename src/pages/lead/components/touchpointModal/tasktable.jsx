@@ -191,37 +191,28 @@ class EditableTable extends React.Component {
         datetime: true,
       },
     ];
+
+    this.props.dispatch({
+      type: 'task/saveListTask',
+      payload: this.props.listTask,
+    });
+
+    const newData = [];
+    this.props.listTask.forEach((element) => {
+      newData.push({
+        key: newData.length,
+        taskname: element.taskname,
+        type: element.type,
+        pic: User[element.userId],
+        duedate: moment(element.dueDate),
+      });
+    });
+
     this.state = {
-      dataSource: undefined,
-      count: 0,
-      firstSync: true,
+      dataSource: newData,
+      count: newData.length,
       visible: false,
     };
-  }
-
-  componentDidMount() {
-    this.props.dispatch({
-      type: 'task/getTask',
-      payload: this.props.touchpointId,
-    });
-  }
-
-  componentDidUpdate() {
-    if (this.state.firstSync) {
-      const newData = [];
-      this.props.listTask.forEach((element) => {
-        newData.push({
-          key: this.state.count,
-          taskname: element.taskname,
-          type: element.type,
-          pic: User[element.userId],
-          duedate: moment(element.dueDate),
-        });
-      });
-      this.state.count += 1;
-      this.state.dataSource = newData;
-      this.state.firstSync = false;
-    }
   }
 
   handleDelete = (key) => {
@@ -289,15 +280,13 @@ class EditableTable extends React.Component {
   };
 
   handleSave = (row) => {
-    console.table(row);
     const { dataSource } = this.state;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
-    console.table(newData);
-
     this.props.dispatch({
       type: 'task/update',
       payload: {
+        touchpointId: this.props.touchpointId,
         newData: row,
         index,
         listTask: this.props.listTask,
@@ -308,15 +297,10 @@ class EditableTable extends React.Component {
     this.setState({
       dataSource: newData,
     });
-    console.table(selectItem);
     const formatedData = newData.filter(() => selectItem.taskname !== '');
     if (this.props.onChange) {
       this.props.onChange([...formatedData]);
     }
-  };
-
-  onChange = () => {
-    this.setState({});
   };
 
   render() {
@@ -419,8 +403,6 @@ class EditableTable extends React.Component {
           Add a row
         </Button>
         <Table
-          loading={!this.state.dataSource}
-          onChange={this.onChange}
           components={components}
           rowClassName={() => 'editable-row'}
           bordered

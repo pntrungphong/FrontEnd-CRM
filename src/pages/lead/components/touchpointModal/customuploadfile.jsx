@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Input, List } from 'antd';
-import { FileAddOutlined, DeleteOutlined } from '@ant-design/icons';
+import { FileAddOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 
 const { TextArea } = Input;
@@ -16,10 +16,18 @@ function showNote(note) {
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
+    const fileData = props.value.map((file, index) => {
+      return {
+        key: index,
+        id: file.id,
+        originalname: file.originalname,
+        note: file.note,
+      };
+    });
     this.state = {
       visible: false,
-      dataSource: [],
-      count: 0,
+      dataSource: [...fileData],
+      count: fileData.length,
       currentFile: 0,
     };
   }
@@ -37,7 +45,8 @@ class CustomUploadFile extends React.Component {
         const { dataSource, count } = this.state.state;
         const fileData = {
           key: count,
-          name: info.file.name,
+          originalname: info.file.name,
+          id: info.file.response.id,
           note: undefined,
         };
         const newSource = [...dataSource, fileData];
@@ -48,9 +57,7 @@ class CustomUploadFile extends React.Component {
 
         message.success(`${info.file.name} file uploaded successfully`);
 
-        this.props.onChange({
-          fileData: newSource,
-        });
+        this.props.onChange([...newSource]);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
       }
@@ -100,9 +107,7 @@ class CustomUploadFile extends React.Component {
       visible: false,
       dataSource: fileData,
     });
-    this.props.onChange({
-      fileData,
-    });
+    this.props.onChange([...fileData]);
   };
 
   handleCancel = () => {
@@ -132,7 +137,7 @@ class CustomUploadFile extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Form.Item name={['lead', this.props.dataIndex]}>
+        <Form.Item name={this.props.dataIndex}>
           <Upload {...this.onUpload}>
             <Button>Click to Upload</Button>
           </Upload>
@@ -143,28 +148,32 @@ class CustomUploadFile extends React.Component {
           locale={{ emptyText: 'No file' }}
           renderItem={(item) => (
             <List.Item
-              actions={[
-                <FileAddOutlined
-                  onClick={() => {
-                    this.addNote(item.key);
-                  }}
-                />,
-                <Button
-                  onClick={() => {
-                    showNote(this.state.dataSource[item.key].note);
-                  }}
-                  type="text"
-                >
-                  View Note
-                </Button>,
-                <DeleteOutlined
-                  onClick={() => {
-                    this.removeFile(item.key);
-                  }}
-                />,
-              ]}
+              actions={
+                this.props.dataIndex !== 'brief'
+                  ? [
+                      <FileAddOutlined
+                        onClick={() => {
+                          this.addNote(item.key);
+                        }}
+                      />,
+                      <Button
+                        onClick={() => {
+                          showNote(this.state.dataSource[item.key].note);
+                        }}
+                        type="text"
+                      >
+                        View Note
+                      </Button>,
+                      // <DeleteOutlined
+                      //   onClick={() => {
+                      //     this.removeFile(item.key);
+                      //   }}
+                      // />,
+                    ]
+                  : []
+              }
             >
-              <a>{item.name}</a>
+              <a>{item.originalname}</a>
             </List.Item>
           )}
         />

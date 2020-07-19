@@ -118,15 +118,12 @@ const Model = {
       }
     },
     *update({ payload }, { call }) {
-      // const response =
-
       yield call(updateLead, payload);
-
       // console.table(response);
-      history.push({
-        pathname: '/lead',
-      });
-      message.success('Cập nhật Lead thành công');
+      // history.push({
+      //   pathname: '/lead',
+      // });
+      // message.success('Cập nhật Lead thành công');
     },
   },
 
