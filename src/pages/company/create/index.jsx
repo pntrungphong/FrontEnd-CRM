@@ -77,7 +77,7 @@ class Create extends React.Component {
 
   quickCreateContact = async () => {
     const value = await this.props.dispatch({
-      type: 'company/quickCreateContact',
+      type: 'contact/quickCreateContact',
       payload: {
         'name': this.newContactName
       },
@@ -85,6 +85,7 @@ class Create extends React.Component {
     let listValue = this.formRef.current.getFieldValue('contact');
     if (!listValue) listValue = [];
     listValue.push(value);
+    console.table(listValue);
     this.formRef.current.setFieldsValue({ 'contact': [...listValue] });
     this.newContactName = '';
   };
@@ -125,7 +126,7 @@ class Create extends React.Component {
           >
             <Input />
           </Form.Item>
-          <Form.Item name='url' label="Social Link">
+          <Form.Item name='url' label="Website">
             <Input />
           </Form.Item>
           <Form.Item name='tag' label="Tag">
@@ -285,7 +286,7 @@ class Create extends React.Component {
                                 fieldKey={[field.fieldKey, 'url']}
                                 rules={[{ required: true }]}
                               >
-                                <Input placeholder="URL Website" />
+                                <Input placeholder="Social Link" />
                               </Form.Item>
                             </Col>
                             <Col flex="2">
@@ -296,7 +297,7 @@ class Create extends React.Component {
                                 fieldKey={[field.fieldKey, 'type']}
                                 rules={[{ required: true }]}
                               >
-                                <Select placeholder="Select website">
+                                <Select placeholder="Social network">
                                   <Option value="Facebook">Facebook</Option>
                                   <Option value="Skype">Skype</Option>
                                   <Option value="Zalo">Zalo</Option>
@@ -317,14 +318,14 @@ class Create extends React.Component {
                       </Row>
                     ))}
                     <Form.Item
-                      label="Website"
+                      label="Social Link"
                       className={fields.length === 0 ? '' : styles.customRow}
                     >
                       <Button
                         className={styles.customButtomAdd}
                         onClick={() => add()}
                       >
-                        <PlusOutlined /> Add Website
+                        <PlusOutlined /> Add Social Link
                       </Button>
                     </Form.Item>
                   </div>
