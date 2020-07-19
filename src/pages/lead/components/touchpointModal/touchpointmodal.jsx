@@ -376,7 +376,9 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
 
   return (
     <div>
-      <Button onClick={onShow}>Add</Button>
+      <Button onClick={onShow} className={styles.updateTouchPointButton}>
+        Update
+      </Button>
       <Modal
         title="Touchpoint #1"
         visible={visible}
