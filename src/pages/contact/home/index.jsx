@@ -35,7 +35,7 @@ const columns = [
                   });
                 }}
               >
-                {item.label.toUpperCase()}
+                {item.label}
               </a>
             </Tag>
           ) : (
@@ -57,7 +57,7 @@ const columns = [
             <div>
               <Row>
                 <Tag key={item.type} className={styles.customField}>
-                  {item.type.toUpperCase()}: {item.number}
+                  {item.type}: {item.number}
                 </Tag>
               </Row>
             </div>
@@ -82,7 +82,7 @@ const columns = [
             <div>
               <Row>
                 <Tag key={item.type} className={styles.customField}>
-                  {item.type.toUpperCase()}: {item.url}
+                  {item.type}: {item.url}
                 </Tag>
               </Row>
             </div>
