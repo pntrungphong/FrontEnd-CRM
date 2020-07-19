@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { history } from 'umi';
 import { formatedListContactData, formatedDetailContactData } from './utils';
-import { getContact, updateContact, getContactById, fullCreateContact } from '../services/contact';
+import { getContact, updateContact, getContactById, fullCreateContact, quickCreateContact as quickCreateContactServices } from '../services/contact';
 import { getCompanyByName } from '../services/company';
 
 const Model = {
@@ -105,6 +105,17 @@ const Model = {
         pathname: '/contact/',
       });
     },
+    *quickCreateContact({ payload }, { call }) {
+      const createdContact = yield call(quickCreateContactServices, payload);
+      if (createdContact.id) {
+        const value = {
+          value: createdContact.id.toString(),
+          label: createdContact.name,
+          key: createdContact.id.toString()
+        }
+        return value;
+      }
+    },
 
     *update({ payload }, { call }) {
       // const response =
@@ -166,6 +177,9 @@ const Model = {
     },
     saveContactSearchValue(state, { payload }) {
       return { ...state, searchContactValue: payload };
+    },
+    showContact(state, { payload }) {
+      return { ...state, data: payload };
     },
   },
 };

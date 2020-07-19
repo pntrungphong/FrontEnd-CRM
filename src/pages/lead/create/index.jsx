@@ -109,6 +109,9 @@ class Create extends React.Component {
     });
   };
 
+
+
+
   render() {
     const { searchValue, listCompany, searchContactValue, listContact } = this.props.lead;
 
@@ -153,28 +156,22 @@ class Create extends React.Component {
           <Form.Item
             name={['lead', 'company']}
             label="Company"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
+            rules={[{ required: true }]}
           >
             <Select
-              showSearch
               labelInValue
-              tokenSeparators={[',']}
+              mode="multiple"
               value={searchValue}
-              placeholder="Select company"
               notFoundContent={
                 this.props.fetchingCompany ? (
                   <Spin size="small" />
                 ) : (
-                  <p>
-                    <Button type="text" onClick={this.createCompany}>
-                      Create Company
+                    <p>
+                      <Button type="text" onClick={this.createCompany}>
+                        Create Company
                     </Button>
-                  </p>
-                )
+                    </p>
+                  )
               }
               filterOption={false}
               onSearch={this.fetchCompany}
@@ -197,19 +194,17 @@ class Create extends React.Component {
             <Select
               mode="multiple"
               labelInValue
-              tokenSeparators={[',']}
               value={searchContactValue}
-              placeholder="Select contact"
               notFoundContent={
                 this.props.fetchingContact ? (
                   <Spin size="small" />
                 ) : (
-                  <p>
-                    <Button type="text" onClick={this.createContact}>
-                      New
+                    <p>
+                      <Button type="text" onClick={this.createContact}>
+                        New
                     </Button>
-                  </p>
-                )
+                    </p>
+                  )
               }
               filterOption={false}
               onSearch={this.fetchContact}
@@ -223,27 +218,21 @@ class Create extends React.Component {
           <Form.Item
             name={['lead', 'relation']}
             label="Related To"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
           >
             <Select
               mode="multiple"
               labelInValue
-              tokenSeparators={[',']}
               value={searchContactValue}
               notFoundContent={
                 this.props.fetchingContact ? (
                   <Spin size="small" />
                 ) : (
-                  <p>
-                    <Button type="text" onClick={this.createContact}>
-                      New
+                    <p>
+                      <Button type="text" onClick={this.createContact}>
+                        New
                     </Button>
-                  </p>
-                )
+                    </p>
+                  )
               }
               filterOption={false}
               onSearch={this.fetchContact}

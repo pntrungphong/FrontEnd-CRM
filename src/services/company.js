@@ -102,10 +102,21 @@ export async function getCompanyByName(params) {
   });
 }
 
+export async function quickCreateCompany(params) {
+  const body = {
+    name: `${params.name}`
+  };
+  return request('/company', {
+    method: 'POST',
+    data: body,
+  });
+}
+
 export async function fullCreateCompany(params) {
+
   const email = [];
-  if (params.company.email !== undefined) {
-    params.company.email.forEach((element) => {
+  if (params.email !== undefined) {
+    params.email.forEach((element) => {
       email.push({
         type: element.type,
         url: element.url,
@@ -114,8 +125,8 @@ export async function fullCreateCompany(params) {
   }
 
   const phone = [];
-  if (params.company.phone !== undefined) {
-    params.company.phone.forEach((element) => {
+  if (params.phone !== undefined) {
+    params.phone.forEach((element) => {
       phone.push({
         type: element.type,
         number: element.number,
@@ -124,15 +135,15 @@ export async function fullCreateCompany(params) {
   }
 
   const address = [];
-  if (params.company.address !== undefined) {
-    params.company.address.forEach((element) => {
+  if (params.address !== undefined) {
+    params.address.forEach((element) => {
       address.push(element);
     });
   }
 
   const website = [];
-  if (params.company.website !== undefined) {
-    params.company.website.forEach((element) => {
+  if (params.website !== undefined) {
+    params.website.forEach((element) => {
       website.push({
         type: element.type,
         url: element.url,
@@ -141,8 +152,8 @@ export async function fullCreateCompany(params) {
   }
 
   const contact = [];
-  if (params.company.contact !== undefined) {
-    params.company.contact.forEach((element) => {
+  if (params.contact !== undefined) {
+    params.contact.forEach((element) => {
       contact.push({
         idContact: parseInt(element.key, 10),
       });
@@ -150,8 +161,8 @@ export async function fullCreateCompany(params) {
   }
 
   const tag = [];
-  if (params.company.tag !== undefined) {
-    params.company.tag.forEach((element) => {
+  if (params.tag !== undefined) {
+    params.tag.forEach((element) => {
       if (element.label === element.key) {
         tag.push({
           tag: element.label,
@@ -165,12 +176,17 @@ export async function fullCreateCompany(params) {
     });
   }
 
+  let url = '';
+  if (params.url !== undefined) {
+    url = params.url;
+  }
+
   const body = {
-    name: `${params.company.name}`,
+    name: `${params.name}`,
     email,
     phone,
     address,
-    url: params.company.url !== undefined ? params.company.url : '',
+    url,
     website,
     contact,
     tag,
