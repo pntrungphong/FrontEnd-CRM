@@ -175,7 +175,7 @@ class Create extends React.Component {
                               </Form.Item>
                             </Col>
                             <MinusCircleOutlined
-                              className={"dynamic-delete-button", styles.customDeleteButton}
+                              className={["dynamic-delete-button", styles.customDeleteButton]}
                               onClick={() => remove(field.name)}
                             />
                           </Row>
@@ -242,7 +242,7 @@ class Create extends React.Component {
                               </Form.Item>
                             </Col>
                             <MinusCircleOutlined
-                              className={"dynamic-delete-button", styles.customDeleteButton}
+                              className={["dynamic-delete-button", styles.customDeleteButton]}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -308,7 +308,7 @@ class Create extends React.Component {
                               </Form.Item>
                             </Col>
                             <MinusCircleOutlined
-                              className={"dynamic-delete-button", styles.customDeleteButton}
+                              className={["dynamic-delete-button", styles.customDeleteButton]}
                               onClick={() => {
                                 remove(field.name);
                               }}
@@ -363,7 +363,7 @@ class Create extends React.Component {
                           <Input placeholder="Address" style={{ width: '90%' }} />
                         </Form.Item>
                         <MinusCircleOutlined
-                          className={"dynamic-delete-button", styles.customDeleteAddressButton}
+                          className={["dynamic-delete-button", styles.customDeleteAddressButton]}
                           onClick={() => {
                             remove(field.name);
                           }}
@@ -396,7 +396,7 @@ class Create extends React.Component {
                 this.props.fetchingContact ? (
                   <Spin size="small" />
                 ) :
-                  this.newContactName != '' ?
+                  this.newContactName !== '' ?
                     (
                       <>
                         <div className={styles.resultNotFound}>No results found</div>

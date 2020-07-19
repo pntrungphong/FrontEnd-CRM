@@ -272,7 +272,7 @@ class Create extends React.Component {
                           </Form.Item>
                         </Col>
                         <MinusCircleOutlined
-                          className={"dynamic-delete-button", styles.customDeleteButton}
+                          className={["dynamic-delete-button", styles.customDeleteButton]}
                           onClick={() => remove(field.name)}
                         />
                       </Row>
@@ -340,7 +340,7 @@ class Create extends React.Component {
                         </Col>
                         <Col flex="none">
                           <MinusCircleOutlined
-                            className={"dynamic-delete-button", styles.customDeleteButton}
+                            className={["dynamic-delete-button", styles.customDeleteButton]}
                             onClick={() => remove(field.name)}
                           />
                         </Col>
@@ -402,7 +402,7 @@ class Create extends React.Component {
                         </Col>
                         <Col flex="none">
                           <MinusCircleOutlined
-                            className={"dynamic-delete-button", styles.customDeleteButton}
+                            className={["dynamic-delete-button", styles.customDeleteButton]}
                             onClick={() => remove(field.name)}
                           />
                         </Col>
@@ -453,7 +453,7 @@ class Create extends React.Component {
                           <Input placeholder="Address" style={{ width: '90%' }} />
                         </Form.Item>
                         <MinusCircleOutlined
-                          className={"dynamic-delete-button", styles.customDeleteAddressButton}
+                          className={["dynamic-delete-button", styles.customDeleteAddressButton]}
                           onClick={() => remove(field.name)}
                         />
                       </Form.Item>

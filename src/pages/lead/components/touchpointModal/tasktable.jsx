@@ -400,7 +400,7 @@ class EditableTable extends React.Component {
             marginBottom: 16,
           }}
         >
-          Add a row
+          Add task
         </Button>
         <Table
           components={components}
