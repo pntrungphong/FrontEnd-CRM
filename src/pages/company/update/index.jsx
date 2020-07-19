@@ -387,7 +387,7 @@ const Update = connect(({ tag, company, loading }) => ({
                           {
                             required: true,
                             whitespace: true,
-                            message: "Please input passenger's name or delete this field.",
+                            message: "Please input address or delete this field.",
                           },
                         ]}
                         noStyle
@@ -418,12 +418,12 @@ const Update = connect(({ tag, company, loading }) => ({
               props.fetchingContact ? (
                 <Spin size="small" />
               ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create contact
+                  <p>
+                    <Button type="text" onClick={createContact}>
+                      Create contact
                   </Button>
-                </p>
-              )
+                  </p>
+                )
             }
             filterOption={false}
             onSearch={fetchContact}

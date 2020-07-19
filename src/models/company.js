@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import { history } from 'umi';
 import { formatedListCompanyData, formatedDetailCompanyData } from './utils';
-import { getCompany, updateCompany, getCompanyById, fullCreateCompany } from '../services/company';
+import { getCompany, updateCompany, getCompanyById, fullCreateCompany, quickCreateCompany as quickCreateCompanyServices } from '../services/company';
 import { getContact } from '../services/contact';
 
 const Model = {
@@ -22,6 +22,17 @@ const Model = {
       history.push({
         pathname: '/company/',
       });
+    },
+    *quickCreateCompany({ payload }, { call }) {
+      const createdCompany = yield call(quickCreateCompanyServices, payload);
+      if (createdCompany.id) {
+        const value = {
+          value: createdCompany.id.toString(),
+          label: createdCompany.name,
+          key: createdCompany.id.toString()
+        }
+        return value;
+      }
     },
     *searchContactByName({ payload }, { call, put }) {
       if (payload.value === '') return;

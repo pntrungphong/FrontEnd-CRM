@@ -2,8 +2,8 @@ import request from '../utils/request';
 
 export async function createContact(params) {
   const body = {
-    name: `${params.contact.name}`,
-    phone: [`${params.contact.phone}`],
+    name: `${params.name}`,
+    phone: [`${params.phone}`],
     address: [''],
     email: [''],
     company: [''],
@@ -18,8 +18,8 @@ export async function createContact(params) {
 
 export async function updateContact(params) {
   const email = [];
-  if (params.contact.email !== undefined) {
-    params.contact.email.forEach((element) => {
+  if (params.email !== undefined) {
+    params.email.forEach((element) => {
       email.push({
         type: element.type,
         url: element.url,
@@ -28,8 +28,8 @@ export async function updateContact(params) {
   }
 
   const phone = [];
-  if (params.contact.phone !== undefined) {
-    params.contact.phone.forEach((element) => {
+  if (params.phone !== undefined) {
+    params.phone.forEach((element) => {
       phone.push({
         type: element.type,
         number: element.number,
@@ -38,15 +38,15 @@ export async function updateContact(params) {
   }
 
   const address = [];
-  if (params.contact.address !== undefined) {
-    params.contact.address.forEach((element) => {
+  if (params.address !== undefined) {
+    params.address.forEach((element) => {
       address.push(element);
     });
   }
 
   const website = [];
-  if (params.contact.website !== undefined) {
-    params.contact.website.forEach((element) => {
+  if (params.website !== undefined) {
+    params.website.forEach((element) => {
       website.push({
         type: element.type,
         url: element.url,
@@ -55,8 +55,8 @@ export async function updateContact(params) {
   }
 
   const company = [];
-  if (params.contact.company !== undefined) {
-    params.contact.company.forEach((element) => {
+  if (params.company !== undefined) {
+    params.company.forEach((element) => {
       company.push({
         idCompany: parseInt(element.key, 10),
         // title:"String"
@@ -65,8 +65,8 @@ export async function updateContact(params) {
   }
 
   const referral = [];
-  if (params.contact.referral !== undefined) {
-    params.contact.referral.forEach((element) => {
+  if (params.referral !== undefined) {
+    params.referral.forEach((element) => {
       referral.push({
         idTarget: parseInt(element.key, 10),
         hastag: [],
@@ -75,8 +75,8 @@ export async function updateContact(params) {
   }
 
   const tag = [];
-  if (params.contact.tag !== undefined) {
-    params.contact.tag.forEach((element) => {
+  if (params.tag !== undefined) {
+    params.tag.forEach((element) => {
       if (element.value === element.label) {
         tag.push({
           tag: element.label,
@@ -91,8 +91,8 @@ export async function updateContact(params) {
   }
 
   const body = {
-    name: `${params.contact.name}`,
-    title: params.contact.title !== undefined ? params.contact.title : '',
+    name: `${params.name}`,
+    title: params.title !== undefined ? params.title : '',
     phone,
     address,
     company,
@@ -116,8 +116,8 @@ export async function getContactById(params) {
 
 export async function fullCreateContact(params) {
   const email = [];
-  if (params.contact.email !== undefined) {
-    params.contact.email.forEach((element) => {
+  if (params.email !== undefined) {
+    params.email.forEach((element) => {
       email.push({
         type: element.type,
         url: element.url,
@@ -126,8 +126,8 @@ export async function fullCreateContact(params) {
   }
 
   const phone = [];
-  if (params.contact.phone !== undefined) {
-    params.contact.phone.forEach((element) => {
+  if (params.phone !== undefined) {
+    params.phone.forEach((element) => {
       phone.push({
         type: element.type,
         number: element.number,
@@ -136,15 +136,15 @@ export async function fullCreateContact(params) {
   }
 
   const address = [];
-  if (params.contact.address !== undefined) {
-    params.contact.address.forEach((element) => {
+  if (params.address !== undefined) {
+    params.address.forEach((element) => {
       address.push(element);
     });
   }
 
   const website = [];
-  if (params.contact.website !== undefined) {
-    params.contact.website.forEach((element) => {
+  if (params.website !== undefined) {
+    params.website.forEach((element) => {
       website.push({
         type: element.type,
         url: element.url,
@@ -153,8 +153,8 @@ export async function fullCreateContact(params) {
   }
 
   const company = [];
-  if (params.contact.company !== undefined) {
-    params.contact.company.forEach((element) => {
+  if (params.company !== undefined) {
+    params.company.forEach((element) => {
       company.push({
         idCompany: parseInt(element.key, 10),
         // title:"String"
@@ -163,8 +163,8 @@ export async function fullCreateContact(params) {
   }
 
   const referral = [];
-  if (params.contact.referral !== undefined) {
-    params.contact.referral.forEach((element) => {
+  if (params.referral !== undefined) {
+    params.referral.forEach((element) => {
       referral.push({
         idTarget: parseInt(element.key, 10),
         hastag: [''],
@@ -173,8 +173,8 @@ export async function fullCreateContact(params) {
   }
 
   const tag = [];
-  if (params.contact.tag !== undefined) {
-    params.contact.tag.forEach((element) => {
+  if (params.tag !== undefined) {
+    params.tag.forEach((element) => {
       if (element.value === element.label) {
         tag.push({
           tag: element.label,
@@ -189,8 +189,8 @@ export async function fullCreateContact(params) {
   }
 
   const body = {
-    name: `${params.contact.name}`,
-    title: params.contact.title !== undefined ? params.contact.title : '',
+    name: `${params.name}`,
+    title: params.title !== undefined ? params.title : '',
     phone,
     address,
     company,
@@ -200,6 +200,16 @@ export async function fullCreateContact(params) {
     tag,
   };
 
+  return request('/contact', {
+    method: 'POST',
+    data: body,
+  });
+}
+
+export async function quickCreateContact(params) {
+  const body = {
+    name: `${params.name}`
+  };
   return request('/contact', {
     method: 'POST',
     data: body,
