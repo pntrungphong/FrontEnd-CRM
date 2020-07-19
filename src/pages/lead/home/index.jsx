@@ -10,8 +10,8 @@ import {
   faCheckCircle,
   faTimesCircle,
 } from '@fortawesome/free-solid-svg-icons';
+import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
-// import TouchpointCompleteForm from '../components/completeModal/completemodal';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -109,9 +109,8 @@ const LeadTitle = ({ leadName, rank, id }) => {
   );
 };
 
-const ListLead = connect(({ lead, task, loading }) => ({
+const ListLead = connect(({ lead, loading }) => ({
   lead,
-  task,
   loading: loading.effects['lead/loadListLead'],
 }))(function (props) {
   useMount(() => {
@@ -195,10 +194,14 @@ const ListLead = connect(({ lead, task, loading }) => ({
                         ) : null}
                         <Card className={styles.phaseCard}>
                           <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                          <h2 className={styles.phaseCardOne}>{touchpointItem.meetingDate}</h2>
+                          <h2 className={styles.phaseCardOne}>
+                            {touchpointItem.meetingDate
+                              ? `Due ${moment(touchpointItem.meetingDate).fromNow()}`
+                              : ''}
+                          </h2>
                           <TouchpointCreateForm
                             touchpointId={touchpointItem.id}
-                            listTask={props.task.listTask}
+                            listTask={touchpointItem.task}
                             dispatch={props.dispatch}
                             rank={item.rank}
                             leadId={item.id}

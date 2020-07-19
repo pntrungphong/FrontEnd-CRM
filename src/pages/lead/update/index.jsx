@@ -42,7 +42,6 @@ const Update = connect(({ lead, tag, loading }) => ({
   });
 
   const onFinish = (values) => {
-    console.table(props.lead.listFile);
     props.dispatch({
       type: 'lead/update',
       payload: { ...values, listFile: props.lead.listFile },
@@ -84,7 +83,6 @@ const Update = connect(({ lead, tag, loading }) => ({
     onChange(info) {
       if (info.file.status === 'done') {
         message.success(`${info.file.name} file uploaded successfully`);
-        console.table(this.props);
         this.props.dispatch({
           type: 'lead/saveListFile',
           payload: info.fileList,

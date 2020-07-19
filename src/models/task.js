@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { createTaskTouchpoint, updateTaskTouchpoint, getTask } from '../services/touchpoint';
+import { createTaskTouchpoint, updateTaskTouchpoint } from '../services/touchpoint';
 
 const User = {
   'chau.dh': '48862ade-6f9a-471f-835a-cff4f3b9a567',
@@ -14,24 +14,6 @@ const Model = {
     listTask: [],
   },
   effects: {
-    *getTask({ payload }, { call, put }) {
-      const response = yield call(getTask, payload);
-      const tasks = response.task.map((task) => {
-        return {
-          id: task.id,
-          touchpointId: payload,
-          taskname: task.taskname,
-          type: task.type,
-          userId: task.userId,
-          dueDate: task.dueDate,
-        };
-      });
-
-      yield put({
-        type: 'saveListTask',
-        payload: tasks,
-      });
-    },
     *create({ payload }, { call, put }) {
       const response = yield call(createTaskTouchpoint, payload);
 
@@ -53,15 +35,17 @@ const Model = {
       message.success('Successfully');
     },
     *update({ payload }, { call, put }) {
+      console.table(payload);
       const newData = {
         id: payload.listTask[payload.index].id,
-        touchpointId: payload.listTask[payload.index].touchpointId,
+        touchpointId: payload.touchpointId,
         taskname: payload.newData.taskname,
         type: payload.newData.type,
         userId: User[payload.newData.pic],
         duedate: payload.newData.duedate.format('YYYY-MM-DD HH:mm'),
       };
       const response = yield call(updateTaskTouchpoint, newData);
+      console.table(response);
       const updateData = {
         id: response.id,
         touchpointId: payload.listTask[payload.index].touchpointId,
@@ -72,7 +56,10 @@ const Model = {
       };
       yield put({
         type: 'updateTask',
-        payload: updateData,
+        payload: {
+          updateData,
+          oldId: payload.listTask[payload.index].id,
+        },
       });
     },
   },
@@ -94,11 +81,15 @@ const Model = {
       };
     },
     updateTask(state, { payload }) {
+      console.table(payload);
       const currentList = state.listTask;
       console.table(currentList);
-      const index = currentList.findIndex((item) => payload.id === item.id);
+      const index = currentList.findIndex((item) => payload.oldId === item.id);
+      console.table(index);
       const selectItem = currentList[index];
-      currentList.splice(index, 1, { ...selectItem, ...payload });
+      console.table(selectItem);
+      currentList.splice(index, 1, { ...selectItem, ...payload.updateData });
+      console.table(currentList);
       return {
         ...state,
         listTask: currentList,

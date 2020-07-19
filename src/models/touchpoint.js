@@ -1,5 +1,6 @@
 import { message } from 'antd';
-import { createTouchpoint } from '../services/touchpoint';
+import { createTouchpoint, updateTouchpoint, getTouchpoint } from '../services/touchpoint';
+import { formatedDetailTouchpointData } from './utils';
 
 const Model = {
   namespace: 'touchpoint',
@@ -13,9 +14,35 @@ const Model = {
       yield call(createTouchpoint, payload);
       message.success('Successfully');
     },
+    *update({ payload }, { call }) {
+      const response = yield call(updateTouchpoint, payload);
+      if (response) message.success('Successfully');
+    },
+    *get({ payload }, { call, put }) {
+      const response = yield call(getTouchpoint, payload);
+      if (response) {
+        yield put({
+          type: 'saveInfo',
+          payload: formatedDetailTouchpointData(response),
+        });
+      }
+    },
   },
 
-  reducers: {},
+  reducers: {
+    saveInfo(state, { payload }) {
+      return {
+        ...state,
+        data: payload,
+      };
+    },
+    cleanData(state) {
+      return {
+        ...state,
+        data: undefined,
+      };
+    },
+  },
 };
 
 export default Model;
