@@ -118,10 +118,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingCompany ? (
               <Spin size="small" />
             ) : (
-                <p>
-                  <Button type="text">Create Company</Button>
-                </p>
-              )
+              <p>
+                <Button type="text">Create Company</Button>
+              </p>
+            )
           }
           filterOption={false}
           onSearch={fetchCompany}
@@ -151,10 +151,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingContact ? (
               <Spin size="small" />
             ) : (
-                <p>
-                  <Button type="text">New</Button>
-                </p>
-              )
+              <p>
+                <Button type="text">New</Button>
+              </p>
+            )
           }
           filterOption={false}
           onSearch={fetchContact}
@@ -183,10 +183,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingContact ? (
               <Spin size="small" />
             ) : (
-                <p>
-                  <Button type="text">New</Button>
-                </p>
-              )
+              <p>
+                <Button type="text">New</Button>
+              </p>
+            )
           }
           filterOption={false}
           onSearch={fetchContact}
@@ -232,18 +232,10 @@ class Rankmodal extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      reason: '',
       rank: this.props.rank,
       visible: false,
-      tempRank: this.props.rank,
     };
   }
-
-  onRankChange = (e) => {
-    this.setState({
-      tempRank: e.target.value,
-    });
-  };
 
   showModal = () => {
     this.setState({
@@ -251,32 +243,25 @@ class Rankmodal extends React.Component {
     });
   };
 
-  onOk = () => {
+  onOk = (value) => {
+    console.table(value);
     this.setState({
       visible: false,
     });
 
-    const {tempRank} = this.state;
-
     this.setState({
-      rank: tempRank,
+      rank: value.rank,
     });
 
     this.props.onChange({
-      rank: this.state.tempRank,
-      reason: this.state.reason,
+      rank: value.rank,
+      reason: value.reason,
     });
   };
 
   onCancel = () => {
     this.setState({
       visible: false,
-    });
-  };
-
-  onReasonChange = (e) => {
-    this.setState({
-      reason: e.target.value,
     });
   };
 
@@ -287,25 +272,34 @@ class Rankmodal extends React.Component {
         <Modal
           title="Do you Want to update rank?"
           visible={this.state.visible}
-          onOk={this.onOk}
+          footer={false}
           onCancel={this.onCancel}
         >
-          <Form>
+          <Form onFinish={this.onOk}>
             <Form.Item name="rank">
-              <Radio.Group onChange={this.onRankChange} value={this.props.rank}>
+              <Radio.Group value={this.props.rank}>
                 <Radio value={0}>A</Radio>
                 <Radio value={1}>B</Radio>
                 <Radio value={2}>C</Radio>
                 <Radio value={3}>D</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item label="Reason" name="reason" rules={[
-              {
-                required: true,
-                message: 'Please input Reason',
-              },
-            ]}>
-              <TextArea value={this.state.reason} onChange={this.onReasonChange} />
+            <Form.Item
+              label="Reason"
+              name="reason"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input Reason',
+                },
+              ]}
+            >
+              <TextArea value={this.state.reason} />
+            </Form.Item>
+            <Form.Item>
+              <Button type="primary" htmlType="submit">
+                Submit
+              </Button>
             </Form.Item>
           </Form>
         </Modal>
@@ -350,15 +344,9 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     returnValue.touchpointId = props.touchpointId;
     returnValue.lead.id = props.leadId;
     if (values.rank.rank) {
-      if (values.rank.rank === props.rank)
-        returnValue.lead.rank = props.rank;
-      else
-        returnValue.lead.rank = values.rank;
-    }
-    else
-      returnValue.lead.rank = values.rank;
-
-
+      if (values.rank.rank === props.rank) returnValue.lead.rank = props.rank;
+      else returnValue.lead.rank = values.rank;
+    } else returnValue.lead.rank = values.rank;
 
     props.dispatch({
       type: 'touchpoint/cleanData',
@@ -372,6 +360,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     props.dispatch({
       type: 'lead/update',
       payload: { ...returnValue.lead },
+    });
+
+    props.dispatch({
+      type: 'lead/cleanListLead',
     });
 
     props.dispatch({
@@ -495,11 +487,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             <Form.Item name="quotation" label="Quotation">
               <CustomUploadFile dataIndex="quotation" />
             </Form.Item>
-
           </Form>
         ) : (
-            <Spin />
-          )}
+          <Spin />
+        )}
       </Modal>
     </div>
   );
