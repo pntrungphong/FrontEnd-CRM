@@ -56,7 +56,7 @@ class App extends React.Component {
 
 const Create = connect(({ lead }) => ({
   lead,
-}))(function () {
+}))(() => {
   const createDetail = () => {
     history.push({
       pathname: '/lead/create',
@@ -115,7 +115,7 @@ const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
   loadingCreate: loading.effects['lead/createTouchpoint'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'lead/loadListLead',
@@ -202,9 +202,9 @@ const ListLead = connect(({ lead, loading }) => ({
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
+                              rank={item.rank}
                               name={item.name}
                               status={touchpointItem.status}
-                              rank={item.rank}
                               leadId={item.id}
                             />
                             {touchpointItem.task.map((taskItem) => {
@@ -256,6 +256,24 @@ const ListLead = connect(({ lead, loading }) => ({
                       </Button>
                     </Card>
                   </div>
+                  {props.lead.touchpointList.map((_, secondIndex) => {
+                    const key = secondIndex;
+                    if (
+                      secondIndex >=
+                      props.lead.touchpointList.length - props.lead.leadInfo[0].touchPoint.length
+                    )
+                      return null;
+                    return (
+                      <div key={`additioncolum-${item.id} ${key}`}>
+                        {index === 0 ? (
+                          <h3 className={styles.titleOne}>
+                            Touchpoint {item.touchPoint.length + secondIndex + 2}
+                          </h3>
+                        ) : null}
+                        <Card className={styles.emptyCard} />
+                      </div>
+                    );
+                  })}
                 </Space>
               );
             })}

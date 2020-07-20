@@ -162,7 +162,7 @@ class App extends React.Component {
 const ListContact = connect(({ contact, loading }) => ({
   contact,
   loading: loading.effects['contact/loadListContact'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'contact/loadListContact',
@@ -203,7 +203,7 @@ const ListContact = connect(({ contact, loading }) => ({
 
 const Create = connect(({ contact }) => ({
   contact,
-}))(function () {
+}))(() => {
   const createDetail = () => {
     history.push({
       pathname: '/contact/create',

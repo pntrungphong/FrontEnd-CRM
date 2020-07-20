@@ -153,21 +153,24 @@ export async function updateLead(params) {
 
   const rank = params.rank.rank ? params.rank.rank.toString() : params.rank.toString();
 
-  const note = params.rank.rank
+  const rankRevision = params.rank.rank
     ? [
-      {
-        title: 'Change rank',
-        content: params.rank.reason,
-      },
-    ]
+        {
+          rank,
+          touchpoint: 0,
+          reason: params.rank.reason,
+        },
+      ]
     : [];
+
+  const note = [];
 
   const body = {
     name: `${params.name}`,
     idCompany: params.company !== undefined ? params.company.key.toString() : '',
     linkContact: contact,
     relatedTo: relation,
-    rankRevision: [],
+    rankRevision,
     review: '',
     tag,
     rank,
@@ -184,11 +187,11 @@ export async function updateLead(params) {
 }
 export async function getLead(params) {
   if (params.searchValue !== '') {
-    return request(`/lead?order=DESC&page=${params.page}&take=10&q=${params.searchValue}`, {
+    return request(`/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
       method: 'GET',
     });
   }
-  return request(`/lead?order=DESC&page=${params.page}&take=10`, {
+  return request(`/lead?order=ASC&page=${params.page}&take=10`, {
     method: 'GET',
   });
 }
