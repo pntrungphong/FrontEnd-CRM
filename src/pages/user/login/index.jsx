@@ -22,7 +22,7 @@ const NormalLoginForm = (props) => {
         }}
         onFinish={onFinish}
       >
-        <h1 className={styles.titleOne}>Welcome Harmonica</h1>
+        <h1 className={styles.titleOne}>Welcome Harmonia</h1>
         <div className={styles.medium}>
           <Form.Item
             name="email"

@@ -32,6 +32,18 @@ export async function getTask(params) {
   });
 }
 
+export async function markDoneTouchpoint(params) {
+  const body = {
+    status: 'Done',
+    review: params.review,
+  };
+
+  return request(`/touchpoint/${params.touchPointId}/markdone`, {
+    method: 'PUT',
+    data: body,
+  });
+}
+
 export async function updateTouchpoint(params) {
   const scope = params.scope
     ? params.scope.map((file) => {

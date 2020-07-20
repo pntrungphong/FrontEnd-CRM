@@ -114,6 +114,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingCreate: loading.effects['lead/createTouchpoint'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
@@ -226,6 +227,7 @@ const ListLead = connect(({ lead, loading }) => ({
                             dispatch={props.dispatch}
                             rank={item.rank}
                             leadId={item.id}
+                            status={touchpointItem.status}
                           />
                           {touchpointItem.task.map((taskItem) => {
                             return (
@@ -234,24 +236,6 @@ const ListLead = connect(({ lead, loading }) => ({
                               </Button>
                             );
                           })}
-                          {/* <div className={styles.cardFather}>
-                            <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                            <h2>{touchpointItem.meetingDate}</h2>
-                            <TouchpointCreateForm
-                              touchpointId={touchpointItem.id}
-                              listTask={props.task.listTask}
-                              dispatch={props.dispatch}
-                              rank={item.rank}
-                              leadId={item.id}
-                            />
-                            {touchpointItem.task.map((taskItem) => {
-                              return (
-                                <Button className={styles.btnOne}>
-                                  {taskItem.type}|{taskItem.userName}
-                                </Button>
-                              );
-                            })}
-                          </div> */}
                         </Card>
                       </div>
                     );

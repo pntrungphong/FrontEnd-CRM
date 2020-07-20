@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, DatePicker, Radio, Button, Spin, Select } from 'antd';
+import { Modal, Form, Input, DatePicker, Col, Row, Button, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useUnmount } from 'ahooks';
@@ -8,9 +8,37 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import EditableTable from './tasktable';
+import MarkDoneModal from './markdonetouchpoint';
+import Rankmodal from './rankmodal';
 
 const { TextArea } = Input;
 const { Option } = Select;
+
+class CustomHeader extends React.Component {
+  constructor(props) {
+    console.table(props);
+    super(props);
+  }
+
+  render() {
+    return (
+      <div>
+        <Row>
+          <Col flex={6}>2 / 5</Col>
+          <Col flex={1}>
+            <MarkDoneModal
+              form={this.props.form}
+              dispatch={this.props.dispatch}
+              status={this.props.status}
+              leadId={this.props.leadId}
+              touchpointId={this.props.touchpointId}
+            />
+          </Col>
+        </Row>
+      </div>
+    );
+  }
+}
 
 const Update = connect(({ lead, tag, loading }) => ({
   lead,
@@ -20,13 +48,6 @@ const Update = connect(({ lead, tag, loading }) => ({
   fetchingCompany: loading.effects['lead/searchCompanyByName'],
   fetchingContact: loading.effects['lead/searchContactByName'],
 }))(function (props) {
-  // useMount(() => {
-  //   props.dispatch({
-  //     type: 'lead/loading',
-  //     payload: { id: props.leadId },
-  //   });
-  // });
-
   useUnmount(() => {
     props.dispatch({
       type: 'tag/getTag',
@@ -223,94 +244,6 @@ const Update = connect(({ lead, tag, loading }) => ({
   );
 });
 
-const rankStore = {
-  '0': 'A',
-  '1': 'B',
-  '2': 'C',
-  '3': 'D',
-};
-
-class Rankmodal extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      rank: this.props.rank,
-      visible: false,
-    };
-  }
-
-  showModal = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  onOk = (value) => {
-    console.table(value);
-    this.setState({
-      visible: false,
-    });
-
-    this.setState({
-      rank: value.rank,
-    });
-
-    this.props.onChange({
-      rank: value.rank,
-      reason: value.reason,
-    });
-  };
-
-  onCancel = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-
-  render() {
-    return (
-      <div>
-        <Input readOnly value={rankStore[this.state.rank]} />
-        <Modal
-          title="Do you Want to update rank?"
-          visible={this.state.visible}
-          footer={false}
-          onCancel={this.onCancel}
-        >
-          <Form onFinish={this.onOk}>
-            <Form.Item name="rank">
-              <Radio.Group value={this.props.rank}>
-                <Radio value={0}>A</Radio>
-                <Radio value={1}>B</Radio>
-                <Radio value={2}>C</Radio>
-                <Radio value={3}>D</Radio>
-              </Radio.Group>
-            </Form.Item>
-            <Form.Item
-              label="Reason"
-              name="reason"
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input Reason',
-                },
-              ]}
-            >
-              <TextArea value={this.state.reason} />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Submit
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
-        <Button onClick={this.showModal}>Change</Button>
-      </div>
-    );
-  }
-}
-// ({ leadId, rank, dispatch, listTask, touchpointId })
 const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
   task,
   touchpoint,
@@ -331,14 +264,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     });
   };
 
-  const cleanData = () => {
-    // props.dispatch({
-    //   type: 'task/cleanData',
-    // });
-    // props.dispatch({
-    //   type: 'touchpoint/cleanData',
-    // });
-  };
+  const cleanData = () => {};
 
   const onPlaning = (values) => {
     const returnValue = values;
@@ -365,15 +291,11 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     });
 
     props.dispatch({
-      type: 'lead/cleanListLead',
+      type: 'touchpoint/cleanData',
     });
 
     props.dispatch({
       type: 'lead/loadListLead',
-    });
-
-    props.dispatch({
-      type: 'touchpoint/cleanData',
     });
 
     setVisible(false);
@@ -395,7 +317,15 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         <FontAwesomeIcon icon={faEllipsisH} size="lg" />
       </a>
       <Modal
-        title="Touchpoint #1"
+        title={
+          <CustomHeader
+            status={props.status}
+            form={form}
+            dispatch={props.dispatch}
+            leadId={props.leadId}
+            touchpointId={props.touchpointId}
+          />
+        }
         visible={visible}
         destroyOnClose
         afterClose={cleanData}

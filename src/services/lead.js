@@ -69,8 +69,23 @@ export async function fullCreateLead(params) {
   });
 }
 
+export async function changeRank(params) {
+  const body = {
+    rank: params.rank,
+    rankRevision: [
+      {
+        reason: params.reason,
+        touchpoint: 0,
+      },
+    ],
+  };
+  return request(`/lead/${params.id}/changerank`, {
+    method: 'PUT',
+    data: body,
+  });
+}
+
 export async function updateLead(params) {
-  console.table(params);
   const contact = [];
   if (params.contact !== undefined) {
     params.contact.forEach((element) => {
