@@ -202,6 +202,8 @@ const ListLead = connect(({ lead, loading }) => ({
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
+                              name={item.name}
+                              status={touchpointItem.status}
                               rank={item.rank}
                               leadId={item.id}
                             />

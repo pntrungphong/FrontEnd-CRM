@@ -99,16 +99,16 @@ const EditableCell = ({
         <Input ref={inputRef} onPressEnter={save} onBlur={save} />
       </Form.Item>
     ) : (
-      <div
-        className="editable-cell-value-wrap"
-        style={{
-          paddingRight: 24,
-        }}
-        onClick={toggleEdit}
-      >
-        {children[1] === '' ? '--Add Task--' : children}
-      </div>
-    );
+        <div
+          className="editable-cell-value-wrap"
+          style={{
+            paddingRight: 24,
+          }}
+          onClick={toggleEdit}
+        >
+          {children[1] === '' ? '--Add Task--' : children}
+        </div>
+      );
   } else if (select) {
     let selectElement;
     if (dataIndex === 'type') {
@@ -125,10 +125,10 @@ const EditableCell = ({
         </Select>
       </Form.Item>
     ) : (
-      <div className="editable-cell-value-wrap" onClick={toggleEdit}>
-        {selectElement}
-      </div>
-    );
+        <div className="editable-cell-value-wrap" onClick={toggleEdit}>
+          {selectElement}
+        </div>
+      );
   } else if (datetime) {
     const fakeChildren = [
       children[0],
@@ -146,10 +146,10 @@ const EditableCell = ({
         />
       </Form.Item>
     ) : (
-      <div className="editable-cell-value-wrap" onClick={toggleEdit}>
-        {fakeChildren[1] === '' ? '--Add date--' : fakeChildren}
-      </div>
-    );
+        <div className="editable-cell-value-wrap" onClick={toggleEdit}>
+          {fakeChildren[1] === '' ? '--Add date--' : fakeChildren}
+        </div>
+      );
   }
 
   return <td {...restProps}>{childNode}</td>;
@@ -173,7 +173,6 @@ class EditableTable extends React.Component {
           'Product Consulting',
           'Lead Management',
           'Proposal Handling',
-          'Lead Generation',
         ],
         select: true,
       },

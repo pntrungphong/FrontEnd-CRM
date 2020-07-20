@@ -24,7 +24,7 @@ class CustomHeader extends React.Component {
     return (
       <div>
         <Row>
-          <Col flex={6}>2 / 5</Col>
+          <Col flex={6}>{this.props.name}</Col>
           <Col flex={1}>
             <MarkDoneModal
               form={this.props.form}
@@ -141,10 +141,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingCompany ? (
               <Spin size="small" />
             ) : (
-              <p>
-                <Button type="text">Create Company</Button>
-              </p>
-            )
+                <p>
+                  <Button type="text">Create Company</Button>
+                </p>
+              )
           }
           filterOption={false}
           onSearch={fetchCompany}
@@ -174,10 +174,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingContact ? (
               <Spin size="small" />
             ) : (
-              <p>
-                <Button type="text">New</Button>
-              </p>
-            )
+                <p>
+                  <Button type="text">New</Button>
+                </p>
+              )
           }
           filterOption={false}
           onSearch={fetchContact}
@@ -206,10 +206,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingContact ? (
               <Spin size="small" />
             ) : (
-              <p>
-                <Button type="text">New</Button>
-              </p>
-            )
+                <p>
+                  <Button type="text">New</Button>
+                </p>
+              )
           }
           filterOption={false}
           onSearch={fetchContact}
@@ -264,7 +264,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     });
   };
 
-  const cleanData = () => {};
+  const cleanData = () => { };
 
   const onPlaning = (values) => {
     const returnValue = values;
@@ -321,6 +321,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
           <CustomHeader
             status={props.status}
             form={form}
+            name={props.name}
             dispatch={props.dispatch}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
@@ -421,8 +422,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             </Form.Item>
           </Form>
         ) : (
-          <Spin />
-        )}
+            <Spin />
+          )}
       </Modal>
     </div>
   );
