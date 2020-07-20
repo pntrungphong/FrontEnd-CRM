@@ -3,6 +3,8 @@ import { Modal, Form, Input, DatePicker, Radio, Button, Spin, Select } from 'ant
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useUnmount } from 'ahooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import EditableTable from './tasktable';
@@ -389,9 +391,9 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
 
   return (
     <div>
-      <Button onClick={onShow} className={styles.updateTouchPointButton}>
-        Update
-      </Button>
+      <a onClick={onShow} className={styles.updateTouchPointButton}>
+        <FontAwesomeIcon icon={faEllipsisH} size="lg" />
+      </a>
       <Modal
         title="Touchpoint #1"
         visible={visible}

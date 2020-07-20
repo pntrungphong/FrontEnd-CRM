@@ -75,7 +75,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span className={styles.cloTwo}>{lead.data.name}</span>
+                      <span>{lead.data.name}</span>
                     </div>
                   </Col>
                 </Row>
@@ -97,7 +97,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span className={styles.cloTwo}>{rankStore[lead.data.rank]}</span>
+                      <span>{rankStore[lead.data.rank]}</span>
                     </div>
                   </Col>
                 </Row>
@@ -108,7 +108,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span className={styles.cloTwo}>{lead.data.status}</span>
+                      <span>{lead.data.status}</span>
                     </div>
                   </Col>
                 </Row>

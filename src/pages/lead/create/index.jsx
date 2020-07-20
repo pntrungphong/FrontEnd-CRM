@@ -1,9 +1,8 @@
-import { Form, Input, message, Button, Spin, Select, Upload } from 'antd';
+import { Form, Input, message, Button, Spin, Select, Upload, Divider } from 'antd';
 import React from 'react';
-import { connect, history } from 'umi';
+import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { getToken } from '../../../utils/authority';
-// import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -17,11 +16,18 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
+// if function
+const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 class Create extends React.Component {
   constructor(props) {
     super(props);
     this.fetchCompany = debounce(this.fetchCompany, 1000);
     this.fetchContact = debounce(this.fetchContact, 1000);
+
+    this.newCompanyName = '';
+    this.newContactName = '';
+    this.newRelationName = '';
+    this.formRef = React.createRef();
   }
 
   onUpload = {
@@ -62,6 +68,7 @@ class Create extends React.Component {
       type: 'lead/searchCompanyByName',
       payload: { value },
     });
+    this.newCompanyName = value;
   };
 
   fetchContact = (value) => {
@@ -74,21 +81,55 @@ class Create extends React.Component {
       type: 'lead/searchContactByName',
       payload: { value },
     });
+
+    this.newContactName = value;
+    this.newRelationName = value;
   };
 
-  createCompany = () => {
-    history.push({
-      pathname: '/company/create',
+  createCompany = async () => {
+    const value = await this.props.dispatch({
+      type: 'company/quickCreateCompany',
+      payload: {
+        name: this.newCompanyName,
+      },
     });
+    let listValue = this.formRef.current.getFieldValue('company');
+    if (!listValue) listValue = [];
+    listValue.push(value);
+    this.formRef.current.setFieldsValue({ company: [...listValue] });
+    this.newCompanyName = '';
   };
 
-  createContact = () => {
-    history.push({
-      pathname: '/contact/create',
+  createContact = async () => {
+    const value = await this.props.dispatch({
+      type: 'contact/quickCreateContact',
+      payload: {
+        name: this.newContactName,
+      },
     });
+    let listValue = this.formRef.current.getFieldValue('contact');
+    if (!listValue) listValue = [];
+    listValue.push(value);
+    this.formRef.current.setFieldsValue({ contact: [...listValue] });
+    this.newContactName = '';
+  };
+
+  createRelation = async () => {
+    const value = await this.props.dispatch({
+      type: 'contact/quickCreateContact',
+      payload: {
+        name: this.newRelationName,
+      },
+    });
+    let listValue = this.formRef.current.getFieldValue('relation');
+    if (!listValue) listValue = [];
+    listValue.push(value);
+    this.formRef.current.setFieldsValue({ relation: [...listValue] });
+    this.newRelationName = '';
   };
 
   handleChange = (value) => {
+    this.newCompanyName = '';
     this.props.dispatch({
       type: 'lead/handleSearchChange',
       payload: { value, listCompany: [] },
@@ -96,6 +137,7 @@ class Create extends React.Component {
   };
 
   handleContactChange = (value) => {
+    this.newContactName = '';
     this.props.dispatch({
       type: 'lead/handleSearchContactChange',
       payload: { value, listContact: [] },
@@ -103,14 +145,12 @@ class Create extends React.Component {
   };
 
   handleRelationChange = (value) => {
+    this.newRelationName = '';
     this.props.dispatch({
       type: 'lead/handleSearchContactChange',
       payload: { value, listContact: [] },
     });
   };
-
-
-
 
   render() {
     const { searchValue, listCompany, searchContactValue, listContact } = this.props.lead;
@@ -123,12 +163,13 @@ class Create extends React.Component {
 
         <Form
           {...layout}
+          ref={this.formRef}
           name="nest-messages"
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
           <Form.Item
-            name={['lead', 'name']}
+            name="name"
             label="Name"
             rules={[
               {
@@ -139,7 +180,7 @@ class Create extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item
-            name={['lead', 'rank']}
+            name="rank"
             label="Rank"
             rules={[
               {
@@ -153,26 +194,28 @@ class Create extends React.Component {
               <Option value="2">C</Option>
             </Select>
           </Form.Item>
-          <Form.Item
-            name={['lead', 'company']}
-            label="Company"
-            rules={[{ required: true }]}
-          >
+          <Form.Item name="company" label="Company" rules={[{ required: true }]}>
             <Select
               labelInValue
+              autoClearSearchValue
+              maxTagCount={1}
               mode="multiple"
               value={searchValue}
-              notFoundContent={
-                this.props.fetchingCompany ? (
-                  <Spin size="small" />
+              notFoundContent={iff(
+                this.props.fetchingCompany,
+                <Spin size="small" />,
+                this.newCompanyName !== '' ? (
+                  <>
+                    <div className={styles.resultNotFound}>No results found</div>
+                    <Divider className={styles.customDevider} />
+                    <h3 onClick={this.createCompany} className={styles.createNewContact}>
+                      Create "{this.newCompanyName}" as company
+                    </h3>
+                  </>
                 ) : (
-                    <p>
-                      <Button type="text" onClick={this.createCompany}>
-                        Create Company
-                    </Button>
-                    </p>
-                  )
-              }
+                  ''
+                ),
+              )}
               filterOption={false}
               onSearch={this.fetchCompany}
               onChange={this.handleChange}
@@ -183,7 +226,7 @@ class Create extends React.Component {
             </Select>
           </Form.Item>
           <Form.Item
-            name={['lead', 'contact']}
+            name="contact"
             label="Contact"
             rules={[
               {
@@ -192,20 +235,25 @@ class Create extends React.Component {
             ]}
           >
             <Select
-              mode="multiple"
               labelInValue
+              autoClearSearchValue
+              mode="multiple"
               value={searchContactValue}
-              notFoundContent={
-                this.props.fetchingContact ? (
-                  <Spin size="small" />
+              notFoundContent={iff(
+                this.props.fetchingContact,
+                <Spin size="small" />,
+                this.newContactName !== '' ? (
+                  <>
+                    <div className={styles.resultNotFound}>No results found</div>
+                    <Divider className={styles.customDevider} />
+                    <h3 onClick={this.createContact} className={styles.createNewContact}>
+                      Create "{this.newContactName}" as contact
+                    </h3>
+                  </>
                 ) : (
-                    <p>
-                      <Button type="text" onClick={this.createContact}>
-                        New
-                    </Button>
-                    </p>
-                  )
-              }
+                  ''
+                ),
+              )}
               filterOption={false}
               onSearch={this.fetchContact}
               onChange={this.handleContactChange}
@@ -215,25 +263,27 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name={['lead', 'relation']}
-            label="Related To"
-          >
+          <Form.Item name="relation" label="Related To">
             <Select
               mode="multiple"
+              autoClearSearchValue
               labelInValue
               value={searchContactValue}
-              notFoundContent={
-                this.props.fetchingContact ? (
-                  <Spin size="small" />
+              notFoundContent={iff(
+                this.props.fetchingContact,
+                <Spin size="small" />,
+                this.newRelationName !== '' ? (
+                  <>
+                    <div className={styles.resultNotFound}>No results found</div>
+                    <Divider className={styles.customDevider} />
+                    <h3 onClick={this.createRelation} className={styles.createNewContact}>
+                      Create "{this.newRelationName}" as contact
+                    </h3>
+                  </>
                 ) : (
-                    <p>
-                      <Button type="text" onClick={this.createContact}>
-                        New
-                    </Button>
-                    </p>
-                  )
-              }
+                  ''
+                ),
+              )}
               filterOption={false}
               onSearch={this.fetchContact}
               onChange={this.handleRelationChange}
@@ -243,19 +293,19 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name={['lead', 'tag']} label="Tag">
+          <Form.Item name="tag" label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
               <Option key="1">String</Option>
               <Option key="6">tesst</Option>
             </Select>
           </Form.Item>
-          <Form.Item name={['lead', 'brief']} label="Brief">
+          <Form.Item name="brief" label="Brief">
             <Upload {...this.onUpload}>
               <Button>Click to Upload</Button>
             </Upload>
           </Form.Item>
           <Form.Item
-            name={['lead', 'description']}
+            name="description"
             label="Description"
             rules={[
               {
