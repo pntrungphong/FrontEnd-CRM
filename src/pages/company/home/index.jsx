@@ -10,7 +10,7 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (name) => <div className={styles.customField}>{name.toUpperCase()}</div>,
+    render: (name) => <div className={styles.customField}>{name}</div>,
   },
   {
     title: 'Contact',
