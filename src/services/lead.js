@@ -6,6 +6,7 @@ export async function getLeadById(params) {
   });
 }
 export async function fullCreateLead(params) {
+  console.table(params);
   let companyId = '';
   if (params.company !== undefined && params.company.length) {
     companyId = params.company[0].value;
@@ -63,10 +64,11 @@ export async function fullCreateLead(params) {
     note: [],
     status: '',
   };
-  return request('/lead', {
-    method: 'POST',
-    data: body,
-  });
+  console.table(body);
+  //   return request('/lead', {
+  //     method: 'POST',
+  //     data: body,
+  //   });
 }
 
 export async function updateLead(params) {

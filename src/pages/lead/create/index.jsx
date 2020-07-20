@@ -1,4 +1,4 @@
-import { Form, Input, message, Button, Spin, Select, Upload, Divider } from 'antd';
+import { Form, Input, message, Button, Spin, Select, Upload, Divider, Radio } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
@@ -168,31 +168,18 @@ class Create extends React.Component {
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item
-            name="rank"
-            label="Rank"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select>
-              <Option value="0">A</Option>
-              <Option value="1">B</Option>
-              <Option value="2">C</Option>
-            </Select>
+          <Form.Item name="rank" label="Rank" rules={[{ required: true }]}>
+            <Radio.Group className={styles.customRadioRank}>
+              <Radio value={1}>A</Radio>
+              <Radio value={2}>B</Radio>
+              <Radio value={3}>C</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="reason" label="Reason" rules={[{ required: true }]}>
+            <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
           </Form.Item>
           <Form.Item name="company" label="Company" rules={[{ required: true }]}>
             <Select
@@ -295,8 +282,12 @@ class Create extends React.Component {
           </Form.Item>
           <Form.Item name="tag" label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
-              <Option key="1">String</Option>
-              <Option key="6">tesst</Option>
+              <Option key="Coffee shop">Coffee shop</Option>
+              <Option key="Loyalty">Loyalty</Option>
+              <Option key="Technical">Technical</Option>
+              <Option key="Financial">Financial</Option>
+              <Option key="Stock">Stock</Option>
+              <Option key="Mobile app">Mobile app</Option>
             </Select>
           </Form.Item>
           <Form.Item name="brief" label="Brief">
