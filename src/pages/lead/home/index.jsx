@@ -114,6 +114,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingCreate: loading.effects['lead/createTouchpoint'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({

@@ -1,5 +1,10 @@
 import { message } from 'antd';
-import { createTouchpoint, updateTouchpoint, getTouchpoint } from '../services/touchpoint';
+import {
+  createTouchpoint,
+  updateTouchpoint,
+  markDoneTouchpoint,
+  getTouchpoint,
+} from '../services/touchpoint';
 import { formatedDetailTouchpointData } from './utils';
 
 const Model = {
@@ -26,6 +31,10 @@ const Model = {
           payload: formatedDetailTouchpointData(response),
         });
       }
+    },
+    *markDone({ payload }, { call }) {
+      const response = yield call(markDoneTouchpoint, payload);
+      if (response) message.success('Mark done Successfully');
     },
   },
 

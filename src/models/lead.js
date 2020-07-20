@@ -3,7 +3,7 @@ import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
 import { createTouchpoint } from '../services/touchpoint';
-import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
+import { fullCreateLead, changeRank, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
 const Model = {
@@ -137,6 +137,9 @@ const Model = {
       // });
       // message.success('Cập nhật Lead thành công');
     },
+    *changerank({ payload }, { call }) {
+      yield call(changeRank, payload);
+    },
   },
 
   reducers: {
@@ -145,6 +148,9 @@ const Model = {
     },
     cleanLeadData(state) {
       return { ...state, data: undefined };
+    },
+    cleanListLead(state) {
+      return { ...state, leadInfo: [] };
     },
     loadLead(state, { payload }) {
       return { ...state, data: payload };
