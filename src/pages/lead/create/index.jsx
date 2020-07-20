@@ -1,4 +1,4 @@
-import { Form, Input, message, Button, Spin, Select, Upload, Divider } from 'antd';
+import { Form, Input, message, Button, Spin, Select, Upload, Divider, Radio } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
@@ -168,32 +168,10 @@ class Create extends React.Component {
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item
-            name="name"
-            label="Name"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
+          <Form.Item name="name" label="Lead Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
-          <Form.Item
-            name="rank"
-            label="Rank"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <Select>
-              <Option value="0">A</Option>
-              <Option value="1">B</Option>
-              <Option value="2">C</Option>
-            </Select>
-          </Form.Item>
+
           <Form.Item name="company" label="Company" rules={[{ required: true }]}>
             <Select
               labelInValue
@@ -225,15 +203,8 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="contact"
-            label="Contact"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
+
+          <Form.Item name="contact" label="Contact" rules={[{ required: true }]}>
             <Select
               labelInValue
               autoClearSearchValue
@@ -263,6 +234,7 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
+
           <Form.Item name="relation" label="Related To">
             <Select
               mode="multiple"
@@ -293,31 +265,45 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
+
           <Form.Item name="tag" label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
-              <Option key="1">String</Option>
-              <Option key="6">tesst</Option>
+              <Option key="Coffee shop">Coffee shop</Option>
+              <Option key="Loyalty">Loyalty</Option>
+              <Option key="Technical">Technical</Option>
+              <Option key="Financial">Financial</Option>
+              <Option key="Stock">Stock</Option>
+              <Option key="Mobile app">Mobile app</Option>
             </Select>
           </Form.Item>
+
+          <Form.Item name="rank" label="Rank" rules={[{ required: true }]}>
+            <Radio.Group className={styles.customRadioRank}>
+              <Radio value="0">A</Radio>
+              <Radio value="1">B</Radio>
+              <Radio value="2">C</Radio>
+              <Radio value="3">D</Radio>
+            </Radio.Group>
+          </Form.Item>
+          <Form.Item name="reason" label="Explanation" rules={[{ required: true }]}>
+            <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
+          </Form.Item>
+
+          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+            <TextArea rows={4} />
+          </Form.Item>
+          <Form.Item name="note" label="Note" rules={[{ required: true }]}>
+            <TextArea rows={4} />
+          </Form.Item>
+
           <Form.Item name="brief" label="Brief">
             <Upload {...this.onUpload}>
               <Button>Click to Upload</Button>
             </Upload>
           </Form.Item>
-          <Form.Item
-            name="description"
-            label="Description"
-            rules={[
-              {
-                required: true,
-              },
-            ]}
-          >
-            <TextArea rows={4} />
-          </Form.Item>
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Submit
+              Create
             </Button>
           </Form.Item>
         </Form>
