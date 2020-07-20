@@ -49,19 +49,43 @@ export async function fullCreateLead(params) {
     });
   }
 
+  const review = '';
+  const status = '';
+  let rank = '';
+  if (params.rank) rank = params.rank.toString();
+
+  const note = [];
+  if (params.note !== undefined) {
+    note.push({
+      title: 'title',
+      content: params.note,
+    });
+  }
+
+  const rankRevision = [];
+  if (params.reason !== undefined) {
+    rankRevision.push({
+      rank,
+      touchpoint: 0,
+      reason: params.reason,
+    });
+  }
+
   const body = {
     name: `${params.name}`,
     createdBy: 'string',
     updatedBy: 'string',
-    rank: `${params.rank}`,
     idCompany: companyId,
     linkContact: contact,
     relatedTo: relation,
+    rank,
+    rankRevision,
     tag,
     file,
     description: `${params.description}`,
-    note: [],
-    status: '',
+    review,
+    status,
+    note,
   };
   return request('/lead', {
     method: 'POST',
@@ -69,8 +93,23 @@ export async function fullCreateLead(params) {
   });
 }
 
+export async function changeRank(params) {
+  const body = {
+    rank: params.rank,
+    rankRevision: [
+      {
+        reason: params.reason,
+        touchpoint: 0,
+      },
+    ],
+  };
+  return request(`/lead/${params.id}/changerank`, {
+    method: 'PUT',
+    data: body,
+  });
+}
+
 export async function updateLead(params) {
-  console.table(params);
   const contact = [];
   if (params.contact !== undefined) {
     params.contact.forEach((element) => {

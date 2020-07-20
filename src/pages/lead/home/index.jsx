@@ -114,6 +114,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingCreate: loading.effects['lead/createTouchpoint'],
 }))(function (props) {
   useMount(() => {
     props.dispatch({
@@ -129,26 +130,6 @@ const ListLead = connect(({ lead, loading }) => ({
       },
     });
   };
-
-  // const { confirm } = Modal;
-
-  // function showConfirm() {
-  //   for (let i = 0; i < 1; i += 1) {
-
-  //     setTimeout(() => {
-  //       confirm({
-  //         title: 'Do you want to delete these items?',
-  //         content: 'When clicked the OK button, this dialog will be closed after 1 second',
-  //         onOk() {
-
-  //         },
-  //         onCancel() {},
-
-  //       });
-  //     }, i * 500);
-  //   };
-  // }
-
   const fakeAdd = (id) => {
     props.dispatch({
       type: 'lead/createTouchpoint',
@@ -214,44 +195,45 @@ const ListLead = connect(({ lead, loading }) => ({
                           <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
                         ) : null}
                         <Card className={styles.phaseCard}>
-                          <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                          <h2 className={styles.phaseCardOne}>
-                            {touchpointItem.meetingDate
-                              ? `Due ${moment(touchpointItem.meetingDate).fromNow()}`
-                              : ''}
-                          </h2>
-                          <TouchpointCreateForm
-                            touchpointId={touchpointItem.id}
-                            listTask={touchpointItem.task}
-                            dispatch={props.dispatch}
-                            rank={item.rank}
-                            leadId={item.id}
-                          />
-                          {touchpointItem.task.map((taskItem) => {
-                            return (
-                              <Button className={styles.btnOne}>
-                                {taskItem.type}|{taskItem.userName}
-                              </Button>
-                            );
-                          })}
-                          {/* <div className={styles.cardFather}>
+                          <div className={styles.spaceTouchpoint}>
                             <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                            <h2>{touchpointItem.meetingDate}</h2>
+
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
-                              listTask={props.task.listTask}
+                              listTask={touchpointItem.task}
                               dispatch={props.dispatch}
                               rank={item.rank}
                               leadId={item.id}
                             />
                             {touchpointItem.task.map((taskItem) => {
                               return (
-                                <Button className={styles.btnOne}>
-                                  {taskItem.type}|{taskItem.userName}
-                                </Button>
+                                <span className={styles.btnOne}>
+                                  {taskItem.type} <br />
+                                </span>
                               );
                             })}
-                          </div> */}
+                            <h3 className={styles.phaseCardOne}>
+                              {touchpointItem.meetingDate
+                                ? `${moment(touchpointItem.meetingDate).fromNow()}`
+                                : ''}
+                            </h3>
+                          </div>
+                          <div className={styles.spanOne}> </div>
+                          <div className={styles.spanTwo}>
+                            {touchpointItem.task.map((taskItem) => {
+                              return (
+                                <div className={styles.spaceTask}>
+                                  <span className={styles.textTouchpoint}>
+                                    {taskItem.taskname}
+                                    <br />
+                                    {moment(taskItem.dueDate).format('mm:HH DD-MM-YYYY')}
+                                  </span>
+                                  <span className={styles.textTouchpoint}>{taskItem.userName}</span>
+                                </div>
+                              );
+                            })}
+                            {/* <p>{taskItem.dueDate}</p> */}
+                          </div>
                         </Card>
                       </div>
                     );
