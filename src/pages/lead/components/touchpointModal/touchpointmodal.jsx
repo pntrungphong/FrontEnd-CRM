@@ -3,6 +3,8 @@ import { Modal, Form, Input, DatePicker, Radio, Button, Spin, Select } from 'ant
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useUnmount } from 'ahooks';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import EditableTable from './tasktable';
@@ -235,12 +237,13 @@ class Rankmodal extends React.Component {
       reason: '',
       rank: this.props.rank,
       visible: false,
+      tempRank: this.props.rank,
     };
   }
 
   onRankChange = (e) => {
     this.setState({
-      rank: e.target.value,
+      tempRank: e.target.value,
     });
   };
 
@@ -255,8 +258,14 @@ class Rankmodal extends React.Component {
       visible: false,
     });
 
+    const { tempRank } = this.state;
+
+    this.setState({
+      rank: tempRank,
+    });
+
     this.props.onChange({
-      rank: this.state.rank,
+      rank: this.state.tempRank,
       reason: this.state.reason,
     });
   };
@@ -292,7 +301,16 @@ class Rankmodal extends React.Component {
                 <Radio value={3}>D</Radio>
               </Radio.Group>
             </Form.Item>
-            <Form.Item label="Reason" name="reason">
+            <Form.Item
+              label="Reason"
+              name="reason"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input Reason',
+                },
+              ]}
+            >
               <TextArea value={this.state.reason} onChange={this.onReasonChange} />
             </Form.Item>
           </Form>
@@ -337,7 +355,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     returnValue.leadId = props.leadId;
     returnValue.touchpointId = props.touchpointId;
     returnValue.lead.id = props.leadId;
-    if (!values.lead.rank) returnValue.lead.rank = props.rank;
+    if (values.rank.rank) {
+      if (values.rank.rank === props.rank) returnValue.lead.rank = props.rank;
+      else returnValue.lead.rank = values.rank;
+    } else returnValue.lead.rank = values.rank;
 
     props.dispatch({
       type: 'touchpoint/cleanData',
@@ -376,9 +397,9 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
 
   return (
     <div>
-      <Button onClick={onShow} className={styles.updateTouchPointButton}>
-        Update
-      </Button>
+      <a onClick={onShow} className={styles.updateTouchPointButton}>
+        <FontAwesomeIcon icon={faEllipsisH} size="lg" />
+      </a>
       <Modal
         title="Touchpoint #1"
         visible={visible}
@@ -448,6 +469,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
                 listTask={props.touchpoint.data.task}
               />
             </Form.Item>
+
             <Form.Item name="meetingdate" label="Meeting Date">
               <DatePicker format="YYYY-MM-DD HH:mm" showTime />
             </Form.Item>
@@ -457,6 +479,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             <Form.Item name="rank" label="Rank">
               <Rankmodal rank={props.rank} />
             </Form.Item>
+            <Update leadId={props.leadId} />
             <Form.Item name="scope" label="Scope">
               <CustomUploadFile dataIndex="scope" />
             </Form.Item>
@@ -472,7 +495,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             <Form.Item name="quotation" label="Quotation">
               <CustomUploadFile dataIndex="quotation" />
             </Form.Item>
-            <Update leadId={props.leadId} />
           </Form>
         ) : (
           <Spin />

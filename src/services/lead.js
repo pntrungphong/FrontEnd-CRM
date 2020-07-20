@@ -1,23 +1,26 @@
 import request from '../utils/request';
 
-//* *Create lead* *//'
 export async function getLeadById(params) {
   return request(`/lead/${params.id}`, {
     method: 'GET',
   });
 }
 export async function fullCreateLead(params) {
+  let companyId = '';
+  if (params.company !== undefined && params.company.length) {
+    companyId = params.company[0].value;
+  }
   const contact = [];
-  if (params.lead.contact !== undefined) {
-    params.lead.contact.forEach((element) => {
+  if (params.contact !== undefined) {
+    params.contact.forEach((element) => {
       contact.push({
         idContact: element.key,
       });
     });
   }
   const relation = [];
-  if (params.lead.relation !== undefined) {
-    params.lead.relation.forEach((element) => {
+  if (params.relation !== undefined) {
+    params.relation.forEach((element) => {
       relation.push({
         idContact: element.key,
       });
@@ -31,8 +34,8 @@ export async function fullCreateLead(params) {
   }
 
   const tag = [];
-  if (params.lead.tag !== undefined) {
-    params.lead.tag.forEach((element) => {
+  if (params.tag !== undefined) {
+    params.tag.forEach((element) => {
       if (element.value === element.key) {
         tag.push({
           tag: element.label,
@@ -47,20 +50,19 @@ export async function fullCreateLead(params) {
   }
 
   const body = {
-    name: `${params.lead.name}`,
+    name: `${params.name}`,
     createdBy: 'string',
     updatedBy: 'string',
-    rank: `${params.lead.rank}`,
-    idCompany: params.lead.company !== undefined ? params.lead.company.key : '',
+    rank: `${params.rank}`,
+    idCompany: companyId,
     linkContact: contact,
     relatedTo: relation,
     tag,
     file,
-    description: `${params.lead.description}`,
+    description: `${params.description}`,
     note: [],
     status: '',
   };
-
   return request('/lead', {
     method: 'POST',
     data: body,
@@ -68,6 +70,7 @@ export async function fullCreateLead(params) {
 }
 
 export async function updateLead(params) {
+  console.table(params);
   const contact = [];
   if (params.contact !== undefined) {
     params.contact.forEach((element) => {
@@ -109,16 +112,27 @@ export async function updateLead(params) {
     });
   }
 
+  const rank = params.rank.rank ? params.rank.rank.toString() : params.rank.toString();
+
+  const note = params.rank.rank
+    ? [
+        {
+          title: 'Change rank',
+          content: params.rank.reason,
+        },
+      ]
+    : [];
+
   const body = {
     name: `${params.name}`,
     idCompany: params.company !== undefined ? params.company.key.toString() : '',
     linkContact: contact,
     relatedTo: relation,
     tag,
-    rank: params.rank.toString(),
+    rank,
     file,
     description: `${params.description}`,
-    note: [],
+    note,
     status: 'string',
   };
 

@@ -13,6 +13,7 @@ import {
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
+// import { TRUE } from 'node-sass';
 
 const { Search } = Input;
 
@@ -75,6 +76,7 @@ const rankStore = {
   '0': 'A',
   '1': 'B',
   '2': 'C',
+  '3': 'D',
 };
 
 const menu = (
@@ -99,8 +101,8 @@ const LeadTitle = ({ leadName, rank, id }) => {
         <div>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
           <Dropdown overlay={menu}>
-            <div>
-              <FontAwesomeIcon icon={faEllipsisH} size="md" />
+            <div className={styles.iconOne}>
+              <FontAwesomeIcon icon={faEllipsisH} size="lg" />
             </div>
           </Dropdown>
         </div>
@@ -127,6 +129,25 @@ const ListLead = connect(({ lead, loading }) => ({
       },
     });
   };
+
+  // const { confirm } = Modal;
+
+  // function showConfirm() {
+  //   for (let i = 0; i < 1; i += 1) {
+
+  //     setTimeout(() => {
+  //       confirm({
+  //         title: 'Do you want to delete these items?',
+  //         content: 'When clicked the OK button, this dialog will be closed after 1 second',
+  //         onOk() {
+
+  //         },
+  //         onCancel() {},
+
+  //       });
+  //     }, i * 500);
+  //   };
+  // }
 
   const fakeAdd = (id) => {
     props.dispatch({
@@ -213,6 +234,24 @@ const ListLead = connect(({ lead, loading }) => ({
                               </Button>
                             );
                           })}
+                          {/* <div className={styles.cardFather}>
+                            <p className={styles.titleTwo}>{touchpointItem.duration}</p>
+                            <h2>{touchpointItem.meetingDate}</h2>
+                            <TouchpointCreateForm
+                              touchpointId={touchpointItem.id}
+                              listTask={props.task.listTask}
+                              dispatch={props.dispatch}
+                              rank={item.rank}
+                              leadId={item.id}
+                            />
+                            {touchpointItem.task.map((taskItem) => {
+                              return (
+                                <Button className={styles.btnOne}>
+                                  {taskItem.type}|{taskItem.userName}
+                                </Button>
+                              );
+                            })}
+                          </div> */}
                         </Card>
                       </div>
                     );

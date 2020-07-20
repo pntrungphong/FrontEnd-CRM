@@ -34,6 +34,8 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
+// if function
+const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 class Create extends React.Component {
   constructor(props) {
     super(props);
@@ -103,13 +105,13 @@ class Create extends React.Component {
     const value = await this.props.dispatch({
       type: 'contact/quickCreateContact',
       payload: {
-        'name': this.newReferralName
+        name: this.newReferralName,
       },
     });
     let listValue = this.formRef.current.getFieldValue('referral');
     if (!listValue) listValue = [];
     listValue.push(value);
-    this.formRef.current.setFieldsValue({ 'referral': [...listValue] });
+    this.formRef.current.setFieldsValue({ referral: [...listValue] });
     this.newReferralName = '';
   };
 
@@ -117,13 +119,13 @@ class Create extends React.Component {
     const value = await this.props.dispatch({
       type: 'company/quickCreateCompany',
       payload: {
-        'name': this.newCompanyName
+        name: this.newCompanyName,
       },
     });
     let listValue = this.formRef.current.getFieldValue('company');
     if (!listValue) listValue = [];
     listValue.push(value);
-    this.formRef.current.setFieldsValue({ 'company': [...listValue] });
+    this.formRef.current.setFieldsValue({ company: [...listValue] });
     this.newCompanyName = '';
   };
 
@@ -132,7 +134,6 @@ class Create extends React.Component {
       type: 'contact/handleSearchChange',
       payload: { value, listCompany: [] },
     });
-
   };
 
   handleChangeContactReferral = (value) => {
@@ -164,34 +165,35 @@ class Create extends React.Component {
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item name='name' label="Name" rules={[{ required: true }]}>
+          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
             <Input />
           </Form.Item>
 
-          <Form.Item name='title' label="Title">
+          <Form.Item name="title" label="Title">
             <Input />
           </Form.Item>
 
-          <Form.Item name='company' label="Company">
+          <Form.Item name="company" label="Company">
             <Select
               mode="multiple"
               labelInValue
               autoClearSearchValue
               value={searchValue}
-              notFoundContent={
-                this.props.fetchingCompany ? (
-                  <Spin size="small" />
-                ) : this.newCompanyName !== '' ?
-                    (
-                      <>
-                        <div className={styles.resultNotFound}>No results found</div>
-                        <Divider className={styles.customDevider} />
-                        <h3 onClick={this.quickCreateCompany} className={styles.createNewContact}>
-                          Create "{this.newCompanyName}" as company
-                      </h3>
-                      </>
-                    ) : ('')
-              }
+              notFoundContent={iff(
+                this.props.fetchingCompany,
+                <Spin size="small" />,
+                this.newCompanyName !== '' ? (
+                  <>
+                    <div className={styles.resultNotFound}>No results found</div>
+                    <Divider className={styles.customDevider} />
+                    <h3 onClick={this.quickCreateCompany} className={styles.createNewContact}>
+                      Create "{this.newCompanyName}" as company
+                    </h3>
+                  </>
+                ) : (
+                  ''
+                ),
+              )}
               filterOption={false}
               onSearch={this.fetchCompany}
               onChange={this.handleChange}
@@ -201,26 +203,27 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name='referral' label="Referral">
+          <Form.Item name="referral" label="Referral">
             <Select
               labelInValue
               autoClearSearchValue
               value={searchValueContactReferral}
               mode="multiple"
-              notFoundContent={
-                this.props.fetchingContact ? (
-                  <Spin size="small" />
-                ) : this.newReferralName !== '' ?
-                    (
-                      <>
-                        <div className={styles.resultNotFound}>No results found</div>
-                        <Divider className={styles.customDevider} />
-                        <h3 onClick={this.quickCreateReferral} className={styles.createNewContact}>
-                          Create "{this.newReferralName}" as contact
-                      </h3>
-                      </>
-                    ) : ('')
-              }
+              notFoundContent={iff(
+                this.props.fetchingContact,
+                <Spin size="small" />,
+                this.newReferralName !== '' ? (
+                  <>
+                    <div className={styles.resultNotFound}>No results found</div>
+                    <Divider className={styles.customDevider} />
+                    <h3 onClick={this.quickCreateReferral} className={styles.createNewContact}>
+                      Create "{this.newReferralName}" as contact
+                    </h3>
+                  </>
+                ) : (
+                  ''
+                ),
+              )}
               filterOption={false}
               onSearch={this.fetchContact}
               onChange={this.handleChangeContactReferral}
@@ -230,7 +233,7 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name='tag' label="Tag">
+          <Form.Item name="tag" label="Tag">
             <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
@@ -238,7 +241,7 @@ class Create extends React.Component {
             </Select>
           </Form.Item>
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name='phone' label="Phone">
+            <Form.List name="phone" label="Phone">
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -272,7 +275,7 @@ class Create extends React.Component {
                           </Form.Item>
                         </Col>
                         <MinusCircleOutlined
-                          className={"dynamic-delete-button", styles.customDeleteButton}
+                          className={['dynamic-delete-button', styles.customDeleteButton]}
                           onClick={() => remove(field.name)}
                         />
                       </Row>
@@ -281,10 +284,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                       label="Phone"
                     >
-                      <Button
-                        className={styles.customButtomAdd}
-                        onClick={() => add()}
-                      >
+                      <Button className={styles.customButtomAdd} onClick={() => add()}>
                         <PlusOutlined /> Add Phone
                       </Button>
                     </Form.Item>
@@ -295,7 +295,7 @@ class Create extends React.Component {
           </div>
 
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name='email'>
+            <Form.List name="email">
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -340,7 +340,7 @@ class Create extends React.Component {
                         </Col>
                         <Col flex="none">
                           <MinusCircleOutlined
-                            className={"dynamic-delete-button", styles.customDeleteButton}
+                            className={['dynamic-delete-button', styles.customDeleteButton]}
                             onClick={() => remove(field.name)}
                           />
                         </Col>
@@ -350,10 +350,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                       label="Email"
                     >
-                      <Button
-                        className={styles.customButtomAdd}
-                        onClick={() => add()}
-                      >
+                      <Button className={styles.customButtomAdd} onClick={() => add()}>
                         <PlusOutlined /> Add Emails
                       </Button>
                     </Form.Item>
@@ -364,7 +361,7 @@ class Create extends React.Component {
           </div>
 
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name='website'>
+            <Form.List name="website">
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -402,7 +399,7 @@ class Create extends React.Component {
                         </Col>
                         <Col flex="none">
                           <MinusCircleOutlined
-                            className={"dynamic-delete-button", styles.customDeleteButton}
+                            className={['dynamic-delete-button', styles.customDeleteButton]}
                             onClick={() => remove(field.name)}
                           />
                         </Col>
@@ -412,9 +409,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                       label="Website"
                     >
-                      <Button
-                        className={styles.customButtomAdd}
-                        onClick={() => add()}>
+                      <Button className={styles.customButtomAdd} onClick={() => add()}>
                         <PlusOutlined /> Add Website
                       </Button>
                     </Form.Item>
@@ -425,7 +420,7 @@ class Create extends React.Component {
           </div>
 
           <div {...formItemLayoutWithOutLabel}>
-            <Form.List name='address'>
+            <Form.List name="address">
               {(fields, { add, remove }) => {
                 return (
                   <div>
@@ -453,7 +448,7 @@ class Create extends React.Component {
                           <Input placeholder="Address" style={{ width: '90%' }} />
                         </Form.Item>
                         <MinusCircleOutlined
-                          className={"dynamic-delete-button", styles.customDeleteAddressButton}
+                          className={['dynamic-delete-button', styles.customDeleteAddressButton]}
                           onClick={() => remove(field.name)}
                         />
                       </Form.Item>
@@ -462,9 +457,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                       label="Address"
                     >
-                      <Button
-                        className={styles.customButtomAdd}
-                        onClick={() => add()}>
+                      <Button className={styles.customButtomAdd} onClick={() => add()}>
                         <PlusOutlined /> Add Address
                       </Button>
                     </Form.Item>
