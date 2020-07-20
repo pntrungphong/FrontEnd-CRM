@@ -14,6 +14,7 @@ const Model = {
     itemCount: undefined,
     listCompany: [],
     searchValue: '',
+    touchpointList: [],
     listFile: [],
     listContact: [],
     listTouchpoint: [],
@@ -160,6 +161,7 @@ const Model = {
         ...state,
         leadInfo: payload.data,
         itemCount: payload.itemCount,
+        touchpointList: payload.touchpointList,
       };
     },
     saveListFile(state, { payload }) {

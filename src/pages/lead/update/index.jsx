@@ -25,7 +25,7 @@ const Update = connect(({ lead, tag, loading }) => ({
   querying: loading.effects['lead/loading'],
   fetchingCompany: loading.effects['lead/searchCompanyByName'],
   fetchingContact: loading.effects['lead/searchContactByName'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'lead/loading',

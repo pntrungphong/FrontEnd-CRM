@@ -14,31 +14,24 @@ import Rankmodal from './rankmodal';
 const { TextArea } = Input;
 const { Option } = Select;
 
-class CustomHeader extends React.Component {
-  constructor(props) {
-    console.table(props);
-    super(props);
-  }
-
-  render() {
-    return (
-      <div>
-        <Row>
-          <Col flex={6}>{this.props.name}</Col>
-          <Col flex={1}>
-            <MarkDoneModal
-              form={this.props.form}
-              dispatch={this.props.dispatch}
-              status={this.props.status}
-              leadId={this.props.leadId}
-              touchpointId={this.props.touchpointId}
-            />
-          </Col>
-        </Row>
-      </div>
-    );
-  }
-}
+const CustomHeader = (props) => {
+  return (
+    <div>
+      <Row>
+        <Col flex={6}>{props.name}</Col>
+        <Col flex={1}>
+          <MarkDoneModal
+            form={props.form}
+            dispatch={props.dispatch}
+            status={props.status}
+            leadId={props.leadId}
+            touchpointId={props.touchpointId}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 const Update = connect(({ lead, tag, loading }) => ({
   lead,
@@ -47,7 +40,7 @@ const Update = connect(({ lead, tag, loading }) => ({
   querying: loading.effects['lead/loading'],
   fetchingCompany: loading.effects['lead/searchCompanyByName'],
   fetchingContact: loading.effects['lead/searchContactByName'],
-}))(function (props) {
+}))((props) => {
   useUnmount(() => {
     props.dispatch({
       type: 'tag/getTag',
@@ -141,10 +134,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingCompany ? (
               <Spin size="small" />
             ) : (
-                <p>
-                  <Button type="text">Create Company</Button>
-                </p>
-              )
+              <p>
+                <Button type="text">Create Company</Button>
+              </p>
+            )
           }
           filterOption={false}
           onSearch={fetchCompany}
@@ -174,10 +167,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingContact ? (
               <Spin size="small" />
             ) : (
-                <p>
-                  <Button type="text">New</Button>
-                </p>
-              )
+              <p>
+                <Button type="text">New</Button>
+              </p>
+            )
           }
           filterOption={false}
           onSearch={fetchContact}
@@ -206,10 +199,10 @@ const Update = connect(({ lead, tag, loading }) => ({
             props.fetchingContact ? (
               <Spin size="small" />
             ) : (
-                <p>
-                  <Button type="text">New</Button>
-                </p>
-              )
+              <p>
+                <Button type="text">New</Button>
+              </p>
+            )
           }
           filterOption={false}
           onSearch={fetchContact}
@@ -248,7 +241,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
   task,
   touchpoint,
   lead,
-}))(function (props) {
+}))((props) => {
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
 
@@ -264,7 +257,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     });
   };
 
-  const cleanData = () => { };
+  const cleanData = () => {};
 
   const onPlaning = (values) => {
     const returnValue = values;
@@ -422,8 +415,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             </Form.Item>
           </Form>
         ) : (
-            <Spin />
-          )}
+          <Spin />
+        )}
       </Modal>
     </div>
   );

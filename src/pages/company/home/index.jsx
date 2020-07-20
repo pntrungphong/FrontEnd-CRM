@@ -165,7 +165,7 @@ class App extends React.Component {
 const ListCompany = connect(({ company, loading }) => ({
   company,
   loading: loading.effects['company/loadListCompany'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'company/loadListCompany',

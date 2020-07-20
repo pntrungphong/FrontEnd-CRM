@@ -178,7 +178,7 @@ class App extends React.Component {
 const ListArchives = connect(({ archives, loading }) => ({
   archives,
   loading: loading.effects['archives/loadListArchives'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'archives/loadListArchives',
@@ -212,7 +212,7 @@ const ListArchives = connect(({ archives, loading }) => ({
 
 const Create = connect(({ archives }) => ({
   archives,
-}))(function () {
+}))(() => {
   const createDetail = () => {
     history.push({
       pathname: '/archives/create',
