@@ -40,7 +40,7 @@ const Update = connect(({ contact, tag, loading }) => ({
   querying: loading.effects['contact/loading'],
   fetchingCompany: loading.effects['contact/searchCompanyByName'],
   fetchingContact: loading.effects['contact/searchContactReferralByName'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'contact/loading',
