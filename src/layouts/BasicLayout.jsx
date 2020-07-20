@@ -144,9 +144,9 @@ const BasicLayout = (props) => {
         //     );
         // }}
         // menuDataRender={menuDataRender}
-        rightContentRender={() => <RightContent />}
-        breakpoint="sm"
-        collapsedButtonRender={() => <MenuOutlined />}
+        // rightContentRender={() => <RightContent />}
+        // breakpoint="sm"
+        // collapsedButtonRender={() => <MenuOutlined />}
         {...props}
         {...settings}
       >
