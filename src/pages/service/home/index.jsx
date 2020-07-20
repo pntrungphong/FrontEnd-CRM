@@ -178,7 +178,7 @@ class App extends React.Component {
 const ListService = connect(({ service, loading }) => ({
   service,
   loading: loading.effects['service/loadListService'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'service/loadListService',
@@ -212,7 +212,7 @@ const ListService = connect(({ service, loading }) => ({
 
 const Create = connect(({ service }) => ({
   service,
-}))(function () {
+}))(() => {
   const createDetail = () => {
     history.push({
       pathname: '/service/create',

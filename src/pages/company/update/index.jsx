@@ -41,7 +41,7 @@ const Update = connect(({ tag, company, loading }) => ({
   submitting: loading.effects['company/update'],
   querying: loading.effects['company/loading'],
   fetchingContact: loading.effects['company/searchContactByName'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'company/loading',
@@ -387,7 +387,7 @@ const Update = connect(({ tag, company, loading }) => ({
                           {
                             required: true,
                             whitespace: true,
-                            message: "Please input address or delete this field.",
+                            message: 'Please input address or delete this field.',
                           },
                         ]}
                         noStyle
@@ -418,12 +418,12 @@ const Update = connect(({ tag, company, loading }) => ({
               props.fetchingContact ? (
                 <Spin size="small" />
               ) : (
-                  <p>
-                    <Button type="text" onClick={createContact}>
-                      Create contact
+                <p>
+                  <Button type="text" onClick={createContact}>
+                    Create contact
                   </Button>
-                  </p>
-                )
+                </p>
+              )
             }
             filterOption={false}
             onSearch={fetchContact}

@@ -25,6 +25,13 @@ export const setPagination = (data) => {
 };
 export const formatedListLeadData = (response) => {
   try {
+    const touchPointLength = response.data.map((element) => {
+      return element.touchpoint.length;
+    });
+    const touchpointList = [];
+    for (let i = 0; i < Math.max(...touchPointLength); i += 1) {
+      touchpointList.push(i);
+    }
     const formatedData = [];
     response.data.forEach((element) => {
       const touchPoint = element.touchpoint
@@ -63,14 +70,16 @@ export const formatedListLeadData = (response) => {
       };
       formatedData.push(data);
     });
+
     const returnData = {
       data: formatedData,
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
+      touchpointList,
     };
     return returnData;
   } catch (error) {
-    throw new Error('Missing data');
+    throw new Error(error);
   }
 };
 

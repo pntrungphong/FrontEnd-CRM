@@ -56,7 +56,7 @@ class App extends React.Component {
 
 const Create = connect(({ lead }) => ({
   lead,
-}))(function () {
+}))(() => {
   const createDetail = () => {
     history.push({
       pathname: '/lead/create',
@@ -65,7 +65,7 @@ const Create = connect(({ lead }) => ({
   return (
     <FontAwesomeIcon
       icon={faPlus}
-      size="md"
+      size="1x"
       onClick={createDetail}
       className={styles.customCreateBtn}
     />
@@ -83,12 +83,12 @@ const menu = (
   <Menu>
     <Menu.Item>
       <a target="_blank">
-        <FontAwesomeIcon icon={faCheckCircle} size="md" /> Win
+        <FontAwesomeIcon icon={faCheckCircle} size="1x" /> Win
       </a>
     </Menu.Item>
     <Menu.Item>
       <a target="_blank">
-        <FontAwesomeIcon icon={faTimesCircle} size="md" /> Archive
+        <FontAwesomeIcon icon={faTimesCircle} size="1x" /> Archive
       </a>
     </Menu.Item>
   </Menu>
@@ -115,7 +115,7 @@ const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
   loadingCreate: loading.effects['lead/createTouchpoint'],
-}))(function (props) {
+}))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'lead/loadListLead',
@@ -190,7 +190,7 @@ const ListLead = connect(({ lead, loading }) => ({
                 <Space key={item.id} align="center" direction="horizontal">
                   {item.touchPoint.map((touchpointItem, touchpointIndex) => {
                     return (
-                      <div>
+                      <div key={touchpointIndex}>
                         {index === 0 ? (
                           <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
                         ) : null}
@@ -202,14 +202,14 @@ const ListLead = connect(({ lead, loading }) => ({
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
+                              rank={item.rank}
                               name={item.name}
                               status={touchpointItem.status}
-                              rank={item.rank}
                               leadId={item.id}
                             />
                             {touchpointItem.task.map((taskItem) => {
                               return (
-                                <span className={styles.btnOne}>
+                                <span key={taskItem.type} className={styles.btnOne}>
                                   {taskItem.type} <br />
                                 </span>
                               );
@@ -224,7 +224,7 @@ const ListLead = connect(({ lead, loading }) => ({
                           <div className={styles.spanTwo}>
                             {touchpointItem.task.map((taskItem) => {
                               return (
-                                <div className={styles.spaceTask}>
+                                <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
                                     {taskItem.taskname}
                                     <br />
@@ -256,6 +256,24 @@ const ListLead = connect(({ lead, loading }) => ({
                       </Button>
                     </Card>
                   </div>
+                  {props.lead.touchpointList.map((_, secondIndex) => {
+                    const key = secondIndex;
+                    if (
+                      secondIndex >=
+                      props.lead.touchpointList.length - props.lead.leadInfo[0].touchPoint.length
+                    )
+                      return null;
+                    return (
+                      <div key={`additioncolum-${item.id} ${key}`}>
+                        {index === 0 ? (
+                          <h3 className={styles.titleOne}>
+                            Touchpoint {item.touchPoint.length + secondIndex + 2}
+                          </h3>
+                        ) : null}
+                        <Card className={styles.emptyCard} />
+                      </div>
+                    );
+                  })}
                 </Space>
               );
             })}
