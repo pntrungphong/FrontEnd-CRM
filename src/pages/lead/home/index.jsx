@@ -3,18 +3,12 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faPlus,
-  faEllipsisH,
-  faCheckCircle,
-  faTimesCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
-
-// import { TRUE } from 'node-sass';
+import CreateLead from '../create/createlead';
 
 const { Search } = Input;
 
@@ -47,29 +41,16 @@ class App extends React.Component {
   }
 }
 
-const Create = connect(({ lead }) => ({
-  lead,
-}))(() => {
-  const createDetail = () => {
-    history.push({
-      pathname: '/lead/create',
-    });
-  };
-  return (
-    <FontAwesomeIcon
-      icon={faPlus}
-      size="1x"
-      onClick={createDetail}
-      className={styles.customCreateBtn}
-    />
-  );
-});
-
 const rankStore = {
   '0': 'A',
   '1': 'B',
   '2': 'C',
   '3': 'D',
+};
+const taskColorStore = {
+  'Proposal Handling': '#B5F5EC',
+  'Lead Management': '#D3ADF7',
+  'Product Consulting': '#1890FF',
 };
 
 const menu = (
@@ -132,7 +113,14 @@ const ListLead = connect(({ lead, loading }) => ({
             <span>Name</span>
             <span>Rank</span>
             <span>
-              <Create />
+              {/* <Create /> */}
+              <CreateLead
+                reloadDashboard={() =>
+                  this.props.dispatch({
+                    type: 'lead/loadListLead',
+                  })
+                }
+              />
             </span>
           </div>
           <div className={styles.spcing}>
@@ -199,18 +187,20 @@ const ListLead = connect(({ lead, loading }) => ({
                             />
                             {touchpointItem.task.map((taskItem) => {
                               return (
-                                <Tag key={taskItem.type} className={styles.btnOne}>
+                                <Tag
+                                  key={taskItem.type}
+                                  className={styles.customTaskTag}
+                                  style={{ background: taskColorStore[taskItem.type] }}
+                                >
                                   {taskItem.type} <br />
                                 </Tag>
                               );
                             })}
                             <h3 className={styles.phaseCardOne}>
-                              {touchpointItem.meetingDate
-                                ? `${moment(touchpointItem.meetingDate).fromNow()}`
-                                : ''}
+                              {moment(touchpointItem.meetingDate).format('HH:mm DD-MM-YYYY')}
                             </h3>
                           </div>
-                          <Divider className={styles.spanOne} />
+                          <Divider className={styles.customDivider} />
                           <div className={styles.spanTwo}>
                             {touchpointItem.task.map((taskItem) => {
                               return (
@@ -218,7 +208,7 @@ const ListLead = connect(({ lead, loading }) => ({
                                   <span className={styles.textTouchpoint}>
                                     {taskItem.taskname}
                                     <br />
-                                    {moment(taskItem.dueDate).format('mm:HH DD-MM-YYYY')}
+                                    {moment(taskItem.dueDate).format('HH:mm DD-MM-YYYY')}
                                   </span>
                                   <span className={styles.textTouchpoint}>{taskItem.userName}</span>
                                 </div>
