@@ -165,11 +165,11 @@ class Create extends React.Component {
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item name="name" label="Name" rules={[{ required: true }]}>
+          <Form.Item name="name" label="Name" rules={[{ required: true, min: 5 }]}>
             <Input />
           </Form.Item>
 
-          <Form.Item name="title" label="Title">
+          <Form.Item name="title" label="Title" rules={[{ required: true, min: 3 }]}>
             <Input />
           </Form.Item>
 
@@ -233,8 +233,8 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="tag" label="Tag">
-            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+          <Form.Item name="tag" label="Tag" rules={[{ min: 4 }]}>
+            <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
               })}
@@ -445,7 +445,7 @@ class Create extends React.Component {
                           ]}
                           noStyle
                         >
-                          <Input placeholder="Address" style={{ width: '90%' }} />
+                          <Input placeholder="Address" className={styles.address} />
                         </Form.Item>
                         <MinusCircleOutlined
                           className={['dynamic-delete-button', styles.customDeleteAddressButton]}

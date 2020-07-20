@@ -122,6 +122,7 @@ class Create extends React.Component {
             rules={[
               {
                 required: true,
+                min: 5,
               },
             ]}
           >
@@ -131,7 +132,7 @@ class Create extends React.Component {
             <Input />
           </Form.Item>
           <Form.Item name="tag" label="Tag">
-            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+            <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
               })}
@@ -351,7 +352,7 @@ class Create extends React.Component {
                           ]}
                           noStyle
                         >
-                          <Input placeholder="Address" style={{ width: '90%' }} />
+                          <Input placeholder="Address" className={styles.address} />
                         </Form.Item>
                         <MinusCircleOutlined
                           className={['dynamic-delete-button', styles.customDeleteAddressButton]}

@@ -168,7 +168,7 @@ class Create extends React.Component {
           onFinish={this.onFinish}
           validateMessages={validateMessages}
         >
-          <Form.Item name="name" label="Lead Name" rules={[{ required: true }]}>
+          <Form.Item name="name" label="Lead Name" rules={[{ required: true, min: 4 }]}>
             <Input />
           </Form.Item>
 
@@ -267,7 +267,7 @@ class Create extends React.Component {
           </Form.Item>
 
           <Form.Item name="tag" label="Tag">
-            <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+            <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               <Option key="Coffee shop">Coffee shop</Option>
               <Option key="Loyalty">Loyalty</Option>
               <Option key="Technical">Technical</Option>
@@ -285,14 +285,14 @@ class Create extends React.Component {
               <Radio value="3">D</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="reason" label="Explanation" rules={[{ required: true }]}>
+          <Form.Item name="reason" label="Explanation" rules={[{ required: true, min: 10 }]}>
             <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
           </Form.Item>
 
-          <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+          <Form.Item name="description" label="Description" rules={[{ required: true, min: 10 }]}>
             <TextArea rows={4} />
           </Form.Item>
-          <Form.Item name="note" label="Note" rules={[{ required: true }]}>
+          <Form.Item name="note" label="Note" rules={[{ required: true, min: 10 }]}>
             <TextArea rows={4} />
           </Form.Item>
 

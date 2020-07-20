@@ -25,7 +25,7 @@ const Model = {
     *fullCreate({ payload }, { call }) {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
-        message.success('Successfull');
+        message.success('Successfully');
         history.push({
           pathname: `/lead/detail/${response.id}`,
         });
