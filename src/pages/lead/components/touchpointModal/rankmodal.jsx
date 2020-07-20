@@ -52,7 +52,7 @@ class Rankmodal extends React.Component {
       <div>
         <Input readOnly value={rankStore[this.state.rank]} />
         <Modal
-          title="Do you Want to update rank?"
+          title="Do you want to update rank?"
           visible={this.state.visible}
           footer={false}
           onCancel={this.onCancel}

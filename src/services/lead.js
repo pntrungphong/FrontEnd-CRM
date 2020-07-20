@@ -155,11 +155,11 @@ export async function updateLead(params) {
 
   const note = params.rank.rank
     ? [
-        {
-          title: 'Change rank',
-          content: params.rank.reason,
-        },
-      ]
+      {
+        title: 'Change rank',
+        content: params.rank.reason,
+      },
+    ]
     : [];
 
   const body = {
@@ -167,6 +167,8 @@ export async function updateLead(params) {
     idCompany: params.company !== undefined ? params.company.key.toString() : '',
     linkContact: contact,
     relatedTo: relation,
+    rankRevision: [],
+    review: '',
     tag,
     rank,
     file,
