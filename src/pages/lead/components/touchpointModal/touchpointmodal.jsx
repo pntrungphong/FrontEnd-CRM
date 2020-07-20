@@ -226,7 +226,7 @@ const Update = connect(({ lead, tag, loading }) => ({
       >
         <TextArea rows={4} />
       </Form.Item>
-      <Form.Item name={['lead', 'tag']} label="Tag" rules={[{ min: 4 }]}>
+      <Form.Item name={['lead', 'tag']} label="Tag">
         <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
           {/* <Option key="1">String</Option>
             <Option key="6">tesst</Option> */}

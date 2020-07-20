@@ -233,7 +233,7 @@ class Create extends React.Component {
               ))}
             </Select>
           </Form.Item>
-          <Form.Item name="tag" label="Tag" rules={[{ min: 4 }]}>
+          <Form.Item name="tag" label="Tag">
             <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
