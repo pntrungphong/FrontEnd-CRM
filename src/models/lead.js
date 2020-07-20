@@ -22,11 +22,13 @@ const Model = {
   },
   effects: {
     *fullCreate({ payload }, { call }) {
-      yield call(fullCreateLead, payload);
-      message.success('Tạo Lead thành công');
-      history.push({
-        pathname: '/lead/',
-      });
+      const response = yield call(fullCreateLead, payload);
+      if (response && response.id) {
+        message.success('Successfull');
+        history.push({
+          pathname: `/lead/detail/${response.id}`,
+        });
+      }
     },
     *createTouchpoint({ payload }, { call, put }) {
       const createTouchpointResponse = yield call(createTouchpoint, payload);

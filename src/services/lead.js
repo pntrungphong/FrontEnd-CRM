@@ -49,19 +49,43 @@ export async function fullCreateLead(params) {
     });
   }
 
+  const review = '';
+  const status = '';
+  let rank = '';
+  if (params.rank) rank = params.rank.toString();
+
+  const note = [];
+  if (params.note !== undefined) {
+    note.push({
+      title: 'title',
+      content: params.note,
+    });
+  }
+
+  const rankRevision = [];
+  if (params.reason !== undefined) {
+    rankRevision.push({
+      rank,
+      touchpoint: 0,
+      reason: params.reason,
+    });
+  }
+
   const body = {
     name: `${params.name}`,
     createdBy: 'string',
     updatedBy: 'string',
-    rank: `${params.rank}`,
     idCompany: companyId,
     linkContact: contact,
     relatedTo: relation,
+    rank,
+    rankRevision,
     tag,
     file,
     description: `${params.description}`,
-    note: [],
-    status: '',
+    review,
+    status,
+    note,
   };
   return request('/lead', {
     method: 'POST',

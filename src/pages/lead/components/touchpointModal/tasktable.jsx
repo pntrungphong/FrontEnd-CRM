@@ -132,14 +132,14 @@ const EditableCell = ({
   } else if (datetime) {
     const fakeChildren = [
       children[0],
-      children[1] === '' ? children[1] : record.duedate.format('YYYY-MM-DD HH:mm'),
+      children[1] === '' ? children[1] : record.duedate.format('mm:HH DD-MM-YYYY'),
     ];
 
     childNode = editing ? (
       <Form.Item name={dataIndex}>
         <DatePicker
           ref={inputRef}
-          format="YYYY-MM-DD HH:mm"
+          format="mm:HH DD-MM-YYYY"
           showTime
           onBlur={toggleEdit}
           onChange={onChangeTime}
