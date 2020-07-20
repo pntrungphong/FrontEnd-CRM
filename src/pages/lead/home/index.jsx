@@ -1,8 +1,7 @@
-import { Input, Button, Space, Card, Pagination, Spin, Dropdown, Menu } from 'antd';
+import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import { PlusOutlined } from '@ant-design/icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlus,
@@ -13,19 +12,13 @@ import {
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
+import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
+
 // import { TRUE } from 'node-sass';
 
 const { Search } = Input;
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-
-    this.state = {
-      // props,
-    };
-  }
-
   onSearch = (value) => {
     this.props.dispatch({
       type: 'lead/searchLeadByName',
@@ -130,12 +123,6 @@ const ListLead = connect(({ lead, loading }) => ({
       },
     });
   };
-  const fakeAdd = (id) => {
-    props.dispatch({
-      type: 'lead/createTouchpoint',
-      payload: id,
-    });
-  };
 
   return (
     <Spin spinning={props.loading}>
@@ -197,6 +184,9 @@ const ListLead = connect(({ lead, loading }) => ({
                         <Card className={styles.phaseCard}>
                           <div className={styles.spaceTouchpoint}>
                             <p className={styles.titleTwo}>{touchpointItem.duration}</p>
+                            <Tag color={touchpointItem.status === 'Done' ? 'gold' : 'cyan'}>
+                              {touchpointItem.status}
+                            </Tag>
 
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
@@ -209,9 +199,9 @@ const ListLead = connect(({ lead, loading }) => ({
                             />
                             {touchpointItem.task.map((taskItem) => {
                               return (
-                                <span key={taskItem.type} className={styles.btnOne}>
+                                <Tag key={taskItem.type} className={styles.btnOne}>
                                   {taskItem.type} <br />
-                                </span>
+                                </Tag>
                               );
                             })}
                             <h3 className={styles.phaseCardOne}>
@@ -220,7 +210,7 @@ const ListLead = connect(({ lead, loading }) => ({
                                 : ''}
                             </h3>
                           </div>
-                          <div className={styles.spanOne}> </div>
+                          <Divider className={styles.spanOne} />
                           <div className={styles.spanTwo}>
                             {touchpointItem.task.map((taskItem) => {
                               return (
@@ -234,7 +224,6 @@ const ListLead = connect(({ lead, loading }) => ({
                                 </div>
                               );
                             })}
-                            {/* <p>{taskItem.dueDate}</p> */}
                           </div>
                         </Card>
                       </div>
@@ -245,15 +234,7 @@ const ListLead = connect(({ lead, loading }) => ({
                       <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
                     ) : null}
                     <Card className={styles.emptyCard}>
-                      <Button
-                        type="dashed"
-                        onClick={() => {
-                          fakeAdd(item.id);
-                        }}
-                        className={styles.btnCreate}
-                      >
-                        <PlusOutlined /> Add Touchpoint
-                      </Button>
+                      <AddTouchpointButton key={item.id} id={item.id} />
                     </Card>
                   </div>
                   {props.lead.touchpointList.map((_, secondIndex) => {
