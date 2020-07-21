@@ -269,7 +269,7 @@ const Update = connect(({ lead, tag, loading }) => ({
           </Select>
         </Form.Item>
         <Form.Item name={['lead', 'tag']} label="Tag">
-          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+          <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
             <Option key="1">String</Option>
             <Option key="6">tesst</Option>
           </Select>

@@ -23,7 +23,7 @@ const Model = {
     *fullCreate({ payload }, { call, put }) {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
-        message.success('Successfull');
+        message.success('Successfully');
         const loadListResponse = yield call(getLead, {
           page: 1,
           searchValue: '',

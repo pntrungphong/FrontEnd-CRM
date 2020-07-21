@@ -90,6 +90,7 @@ const Update = connect(({ lead, tag, loading }) => ({
         rules={[
           {
             required: true,
+            min: 4,
           },
         ]}
       >
@@ -199,13 +200,14 @@ const Update = connect(({ lead, tag, loading }) => ({
         rules={[
           {
             required: true,
+            min: 10,
           },
         ]}
       >
         <TextArea rows={4} />
       </Form.Item>
       <Form.Item name={['lead', 'tag']} label="Tag">
-        <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+        <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
           {/* <Option key="1">String</Option>
             <Option key="6">tesst</Option> */}
         </Select>
@@ -346,6 +348,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
                 {
                   required: true,
                   message: 'Please input Goal',
+                  min: 10,
                 },
               ]}
             >
@@ -362,7 +365,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             <Form.Item name="meetingdate" label="Meeting Date">
               <DatePicker format="YYYY-MM-DD HH:mm" showTime />
             </Form.Item>
-            <Form.Item name="note" label="Note">
+            <Form.Item name="note" label="Note" rules={[{ min: 10 }]}>
               <TextArea rows={4} />
             </Form.Item>
             <Form.Item name="rank" label="Rank">

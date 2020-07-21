@@ -26,7 +26,7 @@ const Model = {
 
   reducers: {
     changeLoginStatus(state, { payload }) {
-      message.success('Đăng nhập thành công');
+      message.success('Login Successfully');
       setToken(payload.token.accessToken);
       setAuthority(payload.user.role.toLowerCase());
       return { ...state, status: 'ok' };
