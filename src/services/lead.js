@@ -50,7 +50,7 @@ export async function fullCreateLead(params) {
   }
 
   const review = '';
-  const status = '';
+  const status = 'In-progress';
   let rank = '';
   if (params.rank) rank = params.rank.toString();
 
@@ -164,19 +164,19 @@ export async function updateLead(params) {
 
   const rankRevision = params.rank.rank
     ? [
-        {
-          rank,
-          touchpoint: 0,
-          reason: params.rank.reason,
-        },
-      ]
+      {
+        rank,
+        touchpoint: 0,
+        reason: params.rank.reason,
+      },
+    ]
     : [
-        {
-          rank: 0,
-          touchpoint: 0,
-          reason: 'Not update',
-        },
-      ];
+      {
+        rank: 0,
+        touchpoint: 0,
+        reason: 'Not update',
+      },
+    ];
 
   const note = [];
 
