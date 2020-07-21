@@ -11,12 +11,12 @@ class CreateLead extends React.Component {
     showModal: false,
   };
 
-  showModal(showModal) {
-    this.setState({ showModal });
-  }
-
   onCancel() {
     this.setState({ showModal: false });
+  }
+
+  showModal(showModal) {
+    this.setState({ showModal });
   }
 
   render() {

@@ -9,6 +9,7 @@ import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal'
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
+import MarkDoneModal from '../components/touchpointModal/markdonetouchpoint';
 
 const { Search } = Input;
 
@@ -166,10 +167,13 @@ const ListLead = connect(({ lead, loading }) => ({
                         <Card className={styles.phaseCard}>
                           <div className={styles.spaceTouchpoint}>
                             <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                            <Tag color={touchpointItem.status === 'Done' ? 'gold' : 'cyan'}>
-                              {touchpointItem.status}
-                            </Tag>
-
+                            <MarkDoneModal
+                              dispatch={props.dispatch}
+                              status={touchpointItem.status}
+                              leadId={item.id}
+                              rank={item.rank}
+                              touchpointId={touchpointItem.id}
+                            />
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
