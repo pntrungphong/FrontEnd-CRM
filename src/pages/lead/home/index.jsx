@@ -200,7 +200,7 @@ const ListLead = connect(({ lead, loading }) => ({
                           </div>
                           <Divider className={styles.customDivider} />
                           <div className={styles.spanTwo}>
-                            {touchpointItem.task.map((taskItem) => {
+                            {touchpointItem.task.slice(0, 3).map((taskItem) => {
                               return (
                                 <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
@@ -212,6 +212,9 @@ const ListLead = connect(({ lead, loading }) => ({
                                 </div>
                               );
                             })}
+                            <div className={styles.viewmore}>
+                              {touchpointItem.task.length > 2 ? <a href="#">View More</a> : null}
+                            </div>
                           </div>
                         </Card>
                       </div>

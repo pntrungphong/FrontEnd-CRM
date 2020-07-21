@@ -7,12 +7,11 @@ import styles from './style.less';
 import CreateForm from './formcreate';
 
 class CreateLead extends React.Component {
-  state = {
-    showModal: false,
-  };
-
-  onCancel() {
-    this.setState({ showModal: false });
+  constructor(props) {
+    super(props);
+    this.state = {
+      showModal: false,
+    };
   }
 
   showModal(showModal) {
