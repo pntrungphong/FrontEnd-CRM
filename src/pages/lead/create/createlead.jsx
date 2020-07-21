@@ -16,7 +16,7 @@ class CreateLead extends React.Component {
   }
 
   onCancel() {
-    this.props.reloadDashboard();
+    this.setState({ showModal: false });
   }
 
   render() {
@@ -35,7 +35,7 @@ class CreateLead extends React.Component {
           width={800}
           visible={this.state.showModal}
           onOk={() => this.showModal(false)}
-          onCancel={this.onCancel}
+          onCancel={() => this.showModal(false)}
           footer={[
             <Button form="createLeadForm" key="submit" htmlType="submit">
               Submit
