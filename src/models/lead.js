@@ -34,10 +34,6 @@ const Model = {
             payload: formatedListLeadData(response),
           });
         }
-
-        // history.push({
-        //   pathname: `/lead/detail/${response.id}`,
-        // });
       }
     },
     *createTouchpoint({ payload }, { call, put }) {
@@ -131,21 +127,6 @@ const Model = {
     },
     *update({ payload }, { call }) {
       yield call(updateLead, payload);
-      // const response = yield call(getLead, {
-      //     page: 1,
-      //     searchValue: '',
-      // });
-      // if (response != null) {
-      //     yield put({
-      //         type: 'saveLeadInfo',
-      //         payload: formatedListLeadData(response),
-      //     });
-      // }
-      // console.table(response);
-      // history.push({
-      //   pathname: '/lead',
-      // });
-      // message.success('Cập nhật Lead thành công');
     },
   },
 
