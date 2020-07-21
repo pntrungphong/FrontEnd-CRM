@@ -1,5 +1,4 @@
 import { message } from 'antd';
-import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
 import { createTouchpoint } from '../services/touchpoint';
@@ -13,12 +12,11 @@ const Model = {
     data: undefined,
     itemCount: undefined,
     listCompany: [],
-    searchValue: '',
+    listContact: [],
+    searchValue: [],
     touchpointList: [],
     listFile: [],
-    listContact: [],
     listTouchpoint: [],
-    searchContactValue: [],
     viewable: false,
   },
   effects: {
@@ -26,9 +24,9 @@ const Model = {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
         message.success('Successfull');
-        history.push({
-          pathname: `/lead/detail/${response.id}`,
-        });
+        // history.push({
+        //   pathname: `/lead/detail/${response.id}`,
+        // });
       }
     },
     *createTouchpoint({ payload }, { call, put }) {
@@ -174,13 +172,13 @@ const Model = {
       return { ...state, listCompany: payload };
     },
     handleSearchChange(state, { payload }) {
-      return { ...state, searchValue: payload.value, listLead: payload };
+      return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
     },
     saveListContact(state, { payload }) {
       return { ...state, listContact: payload };
     },
     handleSearchContactChange(state, { payload }) {
-      return { ...state, searchContactValue: payload.value, listContact: payload.listContact };
+      return { ...state, searchValue: payload.value, listContact: payload.listContact };
     },
     handleCompleteTouchpoint(state, { payload }) {
       return { ...state, viewable: payload.viewable };

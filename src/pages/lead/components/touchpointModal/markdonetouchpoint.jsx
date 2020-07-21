@@ -23,11 +23,13 @@ class MarkDoneModal extends React.Component {
     const returnData = {
       touchPointId: this.props.touchpointId,
       review: values.review,
-      rank: {
-        rank: values.rank.rank,
-        reason: values.rank.reason,
-        id: this.props.leadId,
-      },
+      rank: values.rank
+        ? {
+            rank: values.rank.rank,
+            reason: values.rank.reason,
+            id: this.props.leadId,
+          }
+        : {},
     };
 
     this.setState({
@@ -39,13 +41,15 @@ class MarkDoneModal extends React.Component {
     });
 
     this.props.dispatch({
-      type: 'lead/changerank',
-      payload: returnData.rank,
-    });
-
-    this.props.dispatch({
       type: 'lead/loadListLead',
     });
+
+    if (values.rank) {
+      this.props.dispatch({
+        type: 'lead/changerank',
+        payload: returnData.rank,
+      });
+    }
 
     this.setState({
       visible: false,
