@@ -1,6 +1,7 @@
 import React from 'react';
-import { Modal, Form, Button, Tag, Input } from 'antd';
+import { Modal, Form, Button, Tag, Input, Radio } from 'antd';
 import Rankmodal from './rankmodal';
+import styles from './style.less';
 
 const { TextArea } = Input;
 
@@ -20,33 +21,48 @@ class MarkDoneModal extends React.Component {
   };
 
   onMarkDone = (values) => {
-    const returnData = {
+    const markDoneData = {
       touchPointId: this.props.touchpointId,
       review: values.review,
-      rank: {
+    };
+
+    let rankData;
+    if (values.rank) {
+      rankData = {
         rank: values.rank.rank,
         reason: values.rank.reason,
         id: this.props.leadId,
-      },
+      };
+    }
+
+    let statusData;
+    if (values.status && values.status !== 'In-progess') {
+      statusData = {
+        status: values.status,
+        id: this.props.leadId,
+      };
+    }
+    const payload = {
+      markDoneData,
+      statusData: statusData || undefined,
+      rankData: rankData || undefined,
     };
 
-    this.setState({
-      status: 'Done',
-    });
-    this.props.dispatch({
-      type: 'touchpoint/markDone',
-      payload: returnData,
-    });
-
-    this.props.dispatch({
-      type: 'lead/changerank',
-      payload: returnData.rank,
-    });
-
-    this.props.dispatch({
-      type: 'lead/loadListLead',
-    });
-
+    this.props
+      .dispatch({
+        type: 'touchpoint/markDone',
+        payload,
+      })
+      .then((value) => {
+        if (value) {
+          this.setState({
+            status: 'Done',
+          });
+          this.props.dispatch({
+            type: 'lead/loadListLead',
+          });
+        }
+      });
     this.setState({
       visible: false,
     });
@@ -72,9 +88,22 @@ class MarkDoneModal extends React.Component {
           footer={false}
           onCancel={this.onCancel}
         >
-          <Form onFinish={this.onOk}>
+          <Form
+            onFinish={this.onOk}
+            initialValues={{
+              status: 'In-progess',
+              rank: this.props.rank,
+            }}
+          >
             <Form.Item label="Final Rank" name="rank">
               <Rankmodal />
+            </Form.Item>
+            <Form.Item name="status" label="Lead Status">
+              <Radio.Group className={styles.customRadioRank}>
+                <Radio value="In-progess">In-progess</Radio>
+                <Radio value="Win">Win</Radio>
+                <Radio value="Lose">Lose</Radio>
+              </Radio.Group>
             </Form.Item>
             <Form.Item
               label="Review"
@@ -86,7 +115,7 @@ class MarkDoneModal extends React.Component {
                 },
               ]}
             >
-              <TextArea value={this.state.reason} />
+              <TextArea className={styles.customField} value={this.state.reason} />
             </Form.Item>
             <Form.Item>
               <Button type="primary" htmlType="submit">
@@ -96,11 +125,11 @@ class MarkDoneModal extends React.Component {
           </Form>
         </Modal>
         {this.state.status === 'In-progress' ? (
-          <Button size="small" onClick={this.showModal}>
-            Complete Touchpoint
+          <Button color="cyan" size="small" onClick={this.showModal}>
+            {this.state.status}
           </Button>
         ) : (
-          <Tag color="gold">Done</Tag>
+          <Tag color="gold">{this.state.status}</Tag>
         )}
       </div>
     );

@@ -109,6 +109,15 @@ export async function changeRank(params) {
   });
 }
 
+export async function changeStatus(params) {
+  const body = {
+    status: params.status,
+  };
+  return request(`/lead/${params.id}/status`, {
+    method: 'PUT',
+    data: body,
+  });
+}
 export async function updateLead(params) {
   const contact = [];
   if (params.contact !== undefined) {

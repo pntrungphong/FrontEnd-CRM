@@ -1,9 +1,8 @@
 import { message } from 'antd';
-import { history } from 'umi';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
 import { createTouchpoint } from '../services/touchpoint';
-import { fullCreateLead, changeRank, getLead, getLeadById, updateLead } from '../services/lead';
+import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
 const Model = {
@@ -13,22 +12,32 @@ const Model = {
     data: undefined,
     itemCount: undefined,
     listCompany: [],
-    searchValue: '',
+    listContact: [],
+    searchValue: [],
     touchpointList: [],
     listFile: [],
-    listContact: [],
     listTouchpoint: [],
-    searchContactValue: [],
     viewable: false,
   },
   effects: {
-    *fullCreate({ payload }, { call }) {
+    *fullCreate({ payload }, { call, put }) {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
         message.success('Successfully');
-        history.push({
-          pathname: `/lead/detail/${response.id}`,
+        const loadListResponse = yield call(getLead, {
+          page: 1,
+          searchValue: '',
         });
+        if (loadListResponse != null) {
+          yield put({
+            type: 'saveLeadInfo',
+            payload: formatedListLeadData(response),
+          });
+        }
+
+        // history.push({
+        //   pathname: `/lead/detail/${response.id}`,
+        // });
       }
     },
     *createTouchpoint({ payload }, { call, put }) {
@@ -138,9 +147,6 @@ const Model = {
       // });
       // message.success('Cập nhật Lead thành công');
     },
-    *changerank({ payload }, { call }) {
-      yield call(changeRank, payload);
-    },
   },
 
   reducers: {
@@ -174,13 +180,13 @@ const Model = {
       return { ...state, listCompany: payload };
     },
     handleSearchChange(state, { payload }) {
-      return { ...state, searchValue: payload.value, listLead: payload };
+      return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
     },
     saveListContact(state, { payload }) {
       return { ...state, listContact: payload };
     },
     handleSearchContactChange(state, { payload }) {
-      return { ...state, searchContactValue: payload.value, listContact: payload.listContact };
+      return { ...state, searchValue: payload.value, listContact: payload.listContact };
     },
     handleCompleteTouchpoint(state, { payload }) {
       return { ...state, viewable: payload.viewable };

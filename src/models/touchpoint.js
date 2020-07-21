@@ -5,6 +5,7 @@ import {
   markDoneTouchpoint,
   getTouchpoint,
 } from '../services/touchpoint';
+import { changeRank, changeStatus } from '../services/lead';
 import { formatedDetailTouchpointData } from './utils';
 
 const Model = {
@@ -33,8 +34,19 @@ const Model = {
       }
     },
     *markDone({ payload }, { call }) {
-      const response = yield call(markDoneTouchpoint, payload);
-      if (response) message.success('Mark done Successfully');
+      console.table(payload);
+      let changeRankresponse = payload.rankData ? yield call(changeRank, payload.rankData) : true;
+      let changeStatusresponse = payload.statusData
+        ? yield call(changeStatus, payload.statusData)
+        : true;
+      if (changeStatusresponse === '') changeStatusresponse = true;
+      if (changeRankresponse === '') changeRankresponse = true;
+      const response = yield call(markDoneTouchpoint, payload.markDoneData);
+      if (response.id && changeStatusresponse && changeRankresponse) {
+        message.success('Mark done Successfully');
+        return true;
+      }
+      return false;
     },
   },
 

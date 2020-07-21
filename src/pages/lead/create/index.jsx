@@ -24,9 +24,7 @@ class Create extends React.Component {
     this.fetchCompany = debounce(this.fetchCompany, 1000);
     this.fetchContact = debounce(this.fetchContact, 1000);
 
-    this.newCompanyName = '';
-    this.newContactName = '';
-    this.newRelationName = '';
+    this.inputValue = '';
     this.formRef = React.createRef();
   }
 
@@ -68,13 +66,13 @@ class Create extends React.Component {
       type: 'lead/searchCompanyByName',
       payload: { value },
     });
-    this.newCompanyName = value;
+    this.inputValue = value;
   };
 
   fetchContact = (value) => {
     this.props.dispatch({
       type: 'lead/handleSearchContactChange',
-      payload: { value: this.props.lead.searchContactValue, listContact: [] },
+      payload: { value: this.props.lead.searchValue, listContact: [] },
     });
 
     this.props.dispatch({
@@ -82,54 +80,40 @@ class Create extends React.Component {
       payload: { value },
     });
 
-    this.newContactName = value;
-    this.newRelationName = value;
+    this.inputValue = value;
   };
 
-  createCompany = async () => {
-    const value = await this.props.dispatch({
-      type: 'company/quickCreateCompany',
-      payload: {
-        name: this.newCompanyName,
-      },
-    });
-    let listValue = this.formRef.current.getFieldValue('company');
-    if (!listValue) listValue = [];
-    listValue.push(value);
-    this.formRef.current.setFieldsValue({ company: [...listValue] });
-    this.newCompanyName = '';
+  dispatchType = {
+    contact: 'contact/quickCreateContact',
+    relation: 'contact/quickCreateContact',
+    company: 'company/quickCreateCompany',
   };
 
-  createContact = async () => {
-    const value = await this.props.dispatch({
-      type: 'contact/quickCreateContact',
-      payload: {
-        name: this.newContactName,
-      },
-    });
-    let listValue = this.formRef.current.getFieldValue('contact');
-    if (!listValue) listValue = [];
-    listValue.push(value);
-    this.formRef.current.setFieldsValue({ contact: [...listValue] });
-    this.newContactName = '';
+  formatFieldValue = (field, listValue) => {
+    if (field === 'contact') return { contact: [...listValue] };
+    if (field === 'relation') return { relation: [...listValue] };
+    if (field === 'company') return { company: [...listValue] };
+    return { bug: [...listValue] };
   };
 
-  createRelation = async () => {
+  quickCreate = async (field) => {
+    const searchValue = this.inputValue;
+    this.inputValue = '';
     const value = await this.props.dispatch({
-      type: 'contact/quickCreateContact',
+      type: this.dispatchType[field],
       payload: {
-        name: this.newRelationName,
+        name: searchValue,
       },
     });
-    let listValue = this.formRef.current.getFieldValue('relation');
+    let listValue = this.formRef.current.getFieldValue(field);
     if (!listValue) listValue = [];
     listValue.push(value);
-    this.formRef.current.setFieldsValue({ relation: [...listValue] });
-    this.newRelationName = '';
+    const updateValue = this.formatFieldValue(field, listValue);
+    this.formRef.current.setFieldsValue(updateValue);
   };
 
   handleChange = (value) => {
-    this.newCompanyName = '';
+    this.inputValue = '';
     this.props.dispatch({
       type: 'lead/handleSearchChange',
       payload: { value, listCompany: [] },
@@ -137,15 +121,7 @@ class Create extends React.Component {
   };
 
   handleContactChange = (value) => {
-    this.newContactName = '';
-    this.props.dispatch({
-      type: 'lead/handleSearchContactChange',
-      payload: { value, listContact: [] },
-    });
-  };
-
-  handleRelationChange = (value) => {
-    this.newRelationName = '';
+    this.inputValue = '';
     this.props.dispatch({
       type: 'lead/handleSearchContactChange',
       payload: { value, listContact: [] },
@@ -153,7 +129,7 @@ class Create extends React.Component {
   };
 
   render() {
-    const { searchValue, listCompany, searchContactValue, listContact } = this.props.lead;
+    const { searchValue, listCompany, listContact } = this.props.lead;
 
     return (
       <div className={styles.main}>
@@ -176,18 +152,20 @@ class Create extends React.Component {
             <Select
               labelInValue
               autoClearSearchValue
-              maxTagCount={1}
               mode="multiple"
               value={searchValue}
               notFoundContent={iff(
                 this.props.fetchingCompany,
                 <Spin size="small" />,
-                this.newCompanyName !== '' ? (
+                this.inputValue !== '' ? (
                   <>
                     <div className={styles.resultNotFound}>No results found</div>
                     <Divider className={styles.customDevider} />
-                    <h3 onClick={this.createCompany} className={styles.createNewContact}>
-                      Create "{this.newCompanyName}" as company
+                    <h3
+                      onClick={() => this.quickCreate('company')}
+                      className={styles.createNewContact}
+                    >
+                      Create "{this.inputValue}" as company
                     </h3>
                   </>
                 ) : (
@@ -209,16 +187,19 @@ class Create extends React.Component {
               labelInValue
               autoClearSearchValue
               mode="multiple"
-              value={searchContactValue}
+              value={searchValue}
               notFoundContent={iff(
                 this.props.fetchingContact,
                 <Spin size="small" />,
-                this.newContactName !== '' ? (
+                this.inputValue !== '' ? (
                   <>
                     <div className={styles.resultNotFound}>No results found</div>
                     <Divider className={styles.customDevider} />
-                    <h3 onClick={this.createContact} className={styles.createNewContact}>
-                      Create "{this.newContactName}" as contact
+                    <h3
+                      onClick={() => this.quickCreate('contact')}
+                      className={styles.createNewContact}
+                    >
+                      Create "{this.inputValue}" as contact
                     </h3>
                   </>
                 ) : (
@@ -240,16 +221,19 @@ class Create extends React.Component {
               mode="multiple"
               autoClearSearchValue
               labelInValue
-              value={searchContactValue}
+              value={searchValue}
               notFoundContent={iff(
                 this.props.fetchingContact,
                 <Spin size="small" />,
-                this.newRelationName !== '' ? (
+                this.inputValue !== '' ? (
                   <>
                     <div className={styles.resultNotFound}>No results found</div>
                     <Divider className={styles.customDevider} />
-                    <h3 onClick={this.createRelation} className={styles.createNewContact}>
-                      Create "{this.newRelationName}" as contact
+                    <h3
+                      onClick={() => this.quickCreate('relation')}
+                      className={styles.createNewContact}
+                    >
+                      Create "{this.inputValue}" as contact
                     </h3>
                   </>
                 ) : (
@@ -258,7 +242,7 @@ class Create extends React.Component {
               )}
               filterOption={false}
               onSearch={this.fetchContact}
-              onChange={this.handleRelationChange}
+              onChange={this.handleContactChange}
             >
               {listContact.map((d) => (
                 <Option key={d.key}>{d.label}</Option>
@@ -285,7 +269,7 @@ class Create extends React.Component {
               <Radio value="3">D</Radio>
             </Radio.Group>
           </Form.Item>
-          <Form.Item name="reason" label="Explanation" rules={[{ required: true, min: 10 }]}>
+          <Form.Item name="reason" label="Rank Explanation" rules={[{ required: true, min: 10 }]}>
             <TextArea autoSize={{ minRows: 2, maxRows: 6 }} />
           </Form.Item>
 

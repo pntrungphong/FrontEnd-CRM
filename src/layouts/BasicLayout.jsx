@@ -7,12 +7,10 @@ import ProLayout, { PageLoading } from '@ant-design/pro-layout';
 import React from 'react';
 import { connect, history, Link, useIntl } from 'umi';
 import { Button, Result } from 'antd';
-import { MenuOutlined } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import Authorized from '@/utils/Authorized';
 import { getAuthority, getToken } from '@/utils/authority';
 import { getAuthorityFromRouter } from '@/utils/utils';
-import RightContent from '@/components/GlobalHeader/RightContent';
 // import { stringify } from 'querystring';
 import styles from './BasicLayout.less';
 
