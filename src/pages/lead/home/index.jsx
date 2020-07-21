@@ -198,12 +198,12 @@ const ListLead = connect(({ lead, loading }) => ({
                               );
                             })}
                             <h3 className={styles.phaseCardOne}>
+                              {moment(touchpointItem.meetingDate).format('HH:mm DD-MM-YYYY')}
+                            </h3>
+                            <h3 className={styles.phaseCardOne}>
                               {touchpointItem.status === 'Done'
                                 ? touchpointItem.review
                                 : touchpointItem.goal}
-                            </h3>
-                            <h3 className={styles.phaseCardOne}>
-                              {moment(touchpointItem.meetingDate).format('HH:mm DD-MM-YYYY')}
                             </h3>
                           </div>
                           <Divider className={styles.customDivider} />
