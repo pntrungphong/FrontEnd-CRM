@@ -31,7 +31,7 @@ class AddTouchpointButton extends React.Component {
         onClick={this.fakeAdd}
         className={styles.btnCreate}
       >
-        <PlusOutlined /> Add Touchpoint
+        {this.props.submitting && this.adding ? null : <PlusOutlined />}Add Touchpoint
       </Button>
     );
   }
