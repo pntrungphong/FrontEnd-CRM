@@ -200,7 +200,7 @@ const ListCompany = connect(({ company, loading }) => ({
 
 const Create = connect(({ company }) => ({
   company,
-}))(function () {
+}))(() => {
   const createDetail = () => {
     history.push({
       pathname: '/company/create',

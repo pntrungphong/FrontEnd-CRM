@@ -131,6 +131,7 @@ const Update = connect(({ tag, company, loading }) => ({
           rules={[
             {
               required: true,
+              min: 5,
             },
           ]}
         >
@@ -140,7 +141,7 @@ const Update = connect(({ tag, company, loading }) => ({
           <Input />
         </Form.Item>
         <Form.Item name={['company', 'tag']} label="Tag">
-          <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+          <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
             {props.tag.tag.map((item) => {
               return <Option key={item.key}>{item.label}</Option>;
             })}
@@ -392,7 +393,7 @@ const Update = connect(({ tag, company, loading }) => ({
                         ]}
                         noStyle
                       >
-                        <Input placeholder="Address" style={{ width: '90%' }} />
+                        <Input placeholder="Address" className={styles.address} />
                       </Form.Item>
                       <MinusCircleOutlined
                         className={styles.sltTwo}

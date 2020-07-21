@@ -13,8 +13,9 @@ const { TextArea } = Input;
 class Rankmodal extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
-      rank: this.props.rank,
+      rank: this.props.value,
       visible: false,
     };
   }
@@ -26,7 +27,6 @@ class Rankmodal extends React.Component {
   };
 
   onOk = (value) => {
-    console.table(value);
     this.setState({
       visible: false,
     });
@@ -57,9 +57,14 @@ class Rankmodal extends React.Component {
           footer={false}
           onCancel={this.onCancel}
         >
-          <Form onFinish={this.onOk}>
+          <Form
+            onFinish={this.onOk}
+            initialValues={{
+              rank: this.props.value,
+            }}
+          >
             <Form.Item name="rank">
-              <Radio.Group value={this.props.rank}>
+              <Radio.Group>
                 <Radio value={0}>A</Radio>
                 <Radio value={1}>B</Radio>
                 <Radio value={2}>C</Radio>

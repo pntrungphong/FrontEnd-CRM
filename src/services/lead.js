@@ -109,6 +109,15 @@ export async function changeRank(params) {
   });
 }
 
+export async function changeStatus(params) {
+  const body = {
+    status: params.status,
+  };
+  return request(`/lead/${params.id}/status`, {
+    method: 'PUT',
+    data: body,
+  });
+}
 export async function updateLead(params) {
   const contact = [];
   if (params.contact !== undefined) {
@@ -161,7 +170,13 @@ export async function updateLead(params) {
           reason: params.rank.reason,
         },
       ]
-    : [];
+    : [
+        {
+          rank: 0,
+          touchpoint: 0,
+          reason: 'Not update',
+        },
+      ];
 
   const note = [];
 
@@ -177,7 +192,7 @@ export async function updateLead(params) {
     file,
     description: `${params.description}`,
     note,
-    status: 'string',
+    status: 'In-progress',
   };
 
   return request(`/lead/${params.id}`, {
