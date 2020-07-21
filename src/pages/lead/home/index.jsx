@@ -114,13 +114,7 @@ const ListLead = connect(({ lead, loading }) => ({
             <span>Rank</span>
             <span>
               {/* <Create /> */}
-              <CreateLead
-                reloadDashboard={() =>
-                  this.props.dispatch({
-                    type: 'lead/loadListLead',
-                  })
-                }
-              />
+              <CreateLead />
             </span>
           </div>
           <div className={styles.spcing}>

@@ -20,10 +20,21 @@ const Model = {
     viewable: false,
   },
   effects: {
-    *fullCreate({ payload }, { call }) {
+    *fullCreate({ payload }, { call, put }) {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
         message.success('Successfull');
+        const loadListResponse = yield call(getLead, {
+          page: 1,
+          searchValue: '',
+        });
+        if (loadListResponse != null) {
+          yield put({
+            type: 'saveLeadInfo',
+            payload: formatedListLeadData(response),
+          });
+        }
+
         // history.push({
         //   pathname: `/lead/detail/${response.id}`,
         // });
