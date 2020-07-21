@@ -159,6 +159,7 @@ const ListLead = connect(({ lead, loading }) => ({
               return (
                 <Space key={item.id} align="center" direction="horizontal">
                   {item.touchPoint.map((touchpointItem, touchpointIndex) => {
+                    const listType = [];
                     return (
                       <div key={touchpointIndex}>
                         {index === 0 ? (
@@ -184,6 +185,8 @@ const ListLead = connect(({ lead, loading }) => ({
                               leadId={item.id}
                             />
                             {touchpointItem.task.map((taskItem) => {
+                              if (listType.includes(taskItem.type)) return null;
+                              listType.push(taskItem.type);
                               return (
                                 <Tag
                                   key={taskItem.type}
