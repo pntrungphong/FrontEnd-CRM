@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, DatePicker, Col, Row, Spin, Select, Divider } from 'antd';
+import { Modal, Form, Input, DatePicker, Spin, Select, Divider } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useUnmount } from 'ahooks';
@@ -8,7 +8,6 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import EditableTable from './tasktable';
-import MarkDoneModal from './markdonetouchpoint';
 import Rankmodal from './rankmodal';
 
 const { TextArea } = Input;
@@ -16,25 +15,6 @@ const { Option } = Select;
 
 // if function
 const iff = (condition, then, otherwise) => (condition ? then : otherwise);
-const CustomHeader = (props) => {
-  return (
-    <div>
-      <Row>
-        <Col flex={6}>{props.name}</Col>
-        <Col flex={1}>
-          <MarkDoneModal
-            form={props.form}
-            dispatch={props.dispatch}
-            status={props.status}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-          />
-        </Col>
-      </Row>
-    </div>
-  );
-};
-
 const Update = connect(({ lead, tag, loading }) => ({
   lead,
   tag,
@@ -118,7 +98,7 @@ const Update = connect(({ lead, tag, loading }) => ({
         <p className={styles.title}>Lead Information</p>
       </div>
 
-      <Form.Item name={['lead', 'name']} label="Name" rules={[{ required: true }]}>
+      <Form.Item name={['lead', 'name']} label="Name" rules={[{ required: true, min: 4 }]}>
         <Input />
       </Form.Item>
       <Form.Item name={['lead', 'company']} label="Company">
@@ -178,13 +158,14 @@ const Update = connect(({ lead, tag, loading }) => ({
         rules={[
           {
             required: true,
+            min: 10,
           },
         ]}
       >
         <TextArea rows={4} />
       </Form.Item>
       <Form.Item name={['lead', 'tag']} label="Tag">
-        <Select mode="tags" style={{ width: '100%' }} labelInValue tokenSeparators={[',']}>
+        <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
           {/* <Option key="1">String</Option>
             <Option key="6">tesst</Option> */}
         </Select>
@@ -270,16 +251,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         <FontAwesomeIcon icon={faEllipsisH} size="lg" />
       </a>
       <Modal
-        title={
-          <CustomHeader
-            status={props.status}
-            form={form}
-            name={props.name}
-            dispatch={props.dispatch}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-          />
-        }
+        title={props.name}
         visible={visible}
         destroyOnClose
         afterClose={cleanData}
@@ -336,6 +308,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
                 {
                   required: true,
                   message: 'Please input Goal',
+                  min: 10,
                 },
               ]}
             >
@@ -361,7 +334,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             >
               <DatePicker format="YYYY-MM-DD HH:mm" showTime />
             </Form.Item>
-            <Form.Item name="note" label="Note">
+            <Form.Item name="note" label="Note" rules={[{ min: 10 }]}>
               <TextArea rows={4} />
             </Form.Item>
             <Form.Item name="rank" label="Rank">

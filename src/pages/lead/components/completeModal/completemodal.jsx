@@ -1,28 +1,7 @@
 import React from 'react';
 import { Modal, Form, Input, Radio } from 'antd';
-// import { connect } from 'umi';
-
-// import Styles from './style.less';
 
 const { TextArea } = Input;
-
-// const { Option } = Select;
-
-// const layout = {
-//   labelCol: { span: 8 },
-//   wrappercol: { span: 16 },
-// };
-
-// const validateMessages = (label) => ({
-//   required: `${label} is required!`,
-// });
-
-// const rankStore = {
-//   '0': 'A',
-//   '1': 'B',
-//   '2': 'C',
-//   '3': 'D',
-// };
 
 const TouchpointCompleteForm = ({ visible, onCreate, onCancel }) => {
   const [form] = Form.useForm();
