@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Input, DatePicker, Col, Row, Button, Spin, Select } from 'antd';
+import { Modal, Form, Input, DatePicker, Button, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import { useUnmount } from 'ahooks';
@@ -8,30 +8,10 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import EditableTable from './tasktable';
-import MarkDoneModal from './markdonetouchpoint';
 import Rankmodal from './rankmodal';
 
 const { TextArea } = Input;
 const { Option } = Select;
-
-const CustomHeader = (props) => {
-  return (
-    <div>
-      <Row>
-        <Col flex={6}>{props.name}</Col>
-        <Col flex={1}>
-          <MarkDoneModal
-            form={props.form}
-            dispatch={props.dispatch}
-            status={props.status}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-          />
-        </Col>
-      </Row>
-    </div>
-  );
-};
 
 const Update = connect(({ lead, tag, loading }) => ({
   lead,
@@ -310,16 +290,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         <FontAwesomeIcon icon={faEllipsisH} size="lg" />
       </a>
       <Modal
-        title={
-          <CustomHeader
-            status={props.status}
-            form={form}
-            name={props.name}
-            dispatch={props.dispatch}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-          />
-        }
+        title={props.name}
         visible={visible}
         destroyOnClose
         afterClose={cleanData}

@@ -2,7 +2,7 @@ import { message } from 'antd';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
 import { createTouchpoint } from '../services/touchpoint';
-import { fullCreateLead, changeRank, getLead, getLeadById, updateLead } from '../services/lead';
+import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
 const Model = {
@@ -146,9 +146,6 @@ const Model = {
       //   pathname: '/lead',
       // });
       // message.success('Cập nhật Lead thành công');
-    },
-    *changerank({ payload }, { call }) {
-      yield call(changeRank, payload);
     },
   },
 
