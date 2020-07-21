@@ -195,12 +195,17 @@ const ListLead = connect(({ lead, loading }) => ({
                               );
                             })}
                             <h3 className={styles.phaseCardOne}>
+                              {touchpointItem.status === 'Done'
+                                ? touchpointItem.review
+                                : touchpointItem.goal}
+                            </h3>
+                            <h3 className={styles.phaseCardOne}>
                               {moment(touchpointItem.meetingDate).format('HH:mm DD-MM-YYYY')}
                             </h3>
                           </div>
                           <Divider className={styles.customDivider} />
                           <div className={styles.spanTwo}>
-                            {touchpointItem.task.slice(0, 3).map((taskItem) => {
+                            {touchpointItem.task.slice(0, 2).map((taskItem) => {
                               return (
                                 <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
