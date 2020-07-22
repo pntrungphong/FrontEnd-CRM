@@ -1,16 +1,15 @@
 import React, { useState } from 'react';
-import { Modal, Form, Spin, Button, Tabs, Col, Row } from 'antd';
+import { Modal, Form, Spin, Button, Col, Row, Menu } from 'antd';
 import { connect } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
 import Rankmodal from './rankmodal';
-// import UpdateLeadInformationForm from './updateleadform';
+import LeadInfomation from './leadInfomation';
 import UpdateGeneralInformation from './updategeneralform';
 import MarkDoneModal from './markdonetouchpoint';
 
-const { TabPane } = Tabs;
 const CustomHeader = (props) => {
   return (
     <div>
@@ -27,19 +26,51 @@ const CustomHeader = (props) => {
           />
         </Col>
       </Row>
+
+      <Row>
+        <Menu mode="horizontal">
+          <Menu.Item key="general">
+            <a href="#general">General</a>
+          </Menu.Item>
+          <Menu.Item key="lead-information" >
+            <a href="#lead-information">Lead Information</a>
+          </Menu.Item>
+          <Menu.Item key="estimation">
+            <a href="#estimation">Estimation</a>
+          </Menu.Item>
+          <Menu.Item key="scope" >
+            <a href="#scope">Scope</a>
+          </Menu.Item>
+          <Menu.Item key="pricing" >
+            <a href="#pricing">Pricing</a>
+          </Menu.Item>
+          <Menu.Item key="proposal">
+            <a href="#proposal">Proposal</a>
+          </Menu.Item>
+          <Menu.Item key="quotation" >
+            <a href="#quotation">Quotation</a>
+          </Menu.Item>
+          <Menu.Item key="sla">
+            <a href="#sla">SLA</a>
+          </Menu.Item>
+        </Menu>
+      </Row>
+
     </div>
   );
 };
 
-const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
+const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   task,
   touchpoint,
   lead,
+  loading: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
   // const formRef = React.createRef();
 
   const onShow = () => {
+
     setVisible(true);
     props.dispatch({
       type: 'touchpoint/get',
@@ -51,7 +82,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     });
   };
 
-  const cleanData = () => {};
+  const cleanData = () => { };
 
   const onPlaning = (values) => {
     console.table(values);
@@ -101,6 +132,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             status={props.status}
             rank={props.rank}
             name={props.name}
+            touchpoint={props.touchpoint.data}
+            lead={props.lead.data}
             dispatch={props.dispatch}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
@@ -109,20 +142,24 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         visible={visible}
         destroyOnClose
         width={800}
-        style={{ top: 0 }}
+        style={{ top: 10, background: 'white' }}
+        bodyStyle={{ height: '75vh', overflowY: 'scroll', paddingTop: 20 }}
         afterClose={cleanData}
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
+
           <Button key="cancel" onClick={onCancel}>
             Cancel
-          </Button>,
-          <Button key="submit" type="primary" form={props.touchpointId} htmlType="submit">
+        </Button>,
+          <Button key="submit" type="primary" htmlType="submit">
             Submit
-          </Button>,
+        </Button>
+
         ]}
       >
         {props.touchpoint.data && props.lead.data ? (
+
           <Form
             onFinish={onPlaning}
             id={props.touchpointId}
@@ -151,55 +188,53 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
               },
             }}
           >
-            <Tabs defaultActiveKey="1" centered="true">
-              <TabPane tab="General" key="1">
-                <UpdateGeneralInformation
-                  dispatch={props.dispatch}
-                  touchpointId={props.touchpointId}
-                  listTask={props.touchpoint.data.task}
-                />
-              </TabPane>
-              <TabPane forceRender tab="Lead Information" key="2">
-                <Form.Item name="rank" label="Rank">
-                  <Rankmodal rank={props.rank} />
-                </Form.Item>
-                {/* <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} /> */}
-              </TabPane>
-              <TabPane forceRender tab="Scope" key="3">
-                <Form.Item name="scope" label="Scope">
-                  <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
-                </Form.Item>
-              </TabPane>
-              <TabPane forceRender tab="Estimation" key="4">
-                <Form.Item name="estimation" label="Estimation">
-                  <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
-                </Form.Item>
-              </TabPane>
-              <TabPane forceRender tab="Pricing" key="5">
-                <Form.Item name="pricing" label="Pricing">
-                  <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
-                </Form.Item>
-              </TabPane>
-              <TabPane forceRender tab="Proposal" key="6">
-                <Form.Item name="proposal" label="Proposal">
-                  <CustomUploadFile dataIndex="proposal" order={props.touchpoint.data.order} />
-                </Form.Item>
-              </TabPane>
-              <TabPane forceRender tab="Quotation" key="7">
-                <Form.Item name="quotation" label="Quotation">
-                  <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
-                </Form.Item>
-              </TabPane>
-              <TabPane forceRender tab="SLA" key="8">
-                <Form.Item name="sla" label="SLA">
-                  <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
-                </Form.Item>
-              </TabPane>
-            </Tabs>
+            <div id="general">
+              <UpdateGeneralInformation
+                dispatch={props.dispatch}
+                touchpointId={props.touchpointId}
+                listTask={props.touchpoint.data.task}
+              />
+            </div>
+            <div id="lead-information">
+              <Form.Item name="rank" label="Rank">
+                <Rankmodal rank={props.rank} />
+              </Form.Item>
+              <LeadInfomation lead={props.lead.data} />
+            </div>
+            <div id="estimation">
+              <Form.Item name="scope" label="Scope">
+                <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
+              </Form.Item>
+            </div>
+            <div id="scope">
+              <Form.Item name="estimation" label="Estimation">
+                <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
+              </Form.Item>
+            </div>
+            <div id="pricing">
+              <Form.Item name="pricing" label="Pricing">
+                <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
+              </Form.Item>
+            </div>
+            <div id="proposal">
+              <Form.Item name="proposal" label="Proposal">
+                <CustomUploadFile dataIndex="proposal" order={props.touchpoint.data.order} />
+              </Form.Item>
+            </div>
+            <div id="quotation">
+              <Form.Item name="quotation" label="Quotation">
+                <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
+              </Form.Item>
+            </div>
+            <div id="sla">
+              <Form.Item name="sla" label="SLA">
+                <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
+              </Form.Item>
+            </div>
           </Form>
         ) : (
-          <Spin />
-        )}
+            <Spin className={styles.customSpin} />
+          )}
       </Modal>
     </div>
   );
