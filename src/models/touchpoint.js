@@ -5,7 +5,7 @@ import {
   markDoneTouchpoint,
   getTouchpoint,
 } from '../services/touchpoint';
-import { changeRank, changeStatus } from '../services/lead';
+import { changeRank, changeStatus, getAllFile } from '../services/lead';
 import { formatedDetailTouchpointData } from './utils';
 
 const Model = {
@@ -26,15 +26,15 @@ const Model = {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getTouchpoint, payload);
-      if (response) {
+      const fileResponse = yield call(getAllFile, payload);
+      if (response && fileResponse) {
         yield put({
           type: 'saveInfo',
-          payload: formatedDetailTouchpointData(response),
+          payload: formatedDetailTouchpointData(response, fileResponse),
         });
       }
     },
     *markDone({ payload }, { call }) {
-      console.table(payload);
       let changeRankresponse = payload.rankData ? yield call(changeRank, payload.rankData) : true;
       let changeStatusresponse = payload.statusData
         ? yield call(changeStatus, payload.statusData)

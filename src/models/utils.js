@@ -55,6 +55,7 @@ export const formatedListLeadData = (response) => {
               id: touchpoint.id,
               goal: touchpoint.goal ? touchpoint.goal : '',
               meetingDate: touchpoint.meetingDate ? touchpoint.meetingDate : '',
+              createdAt: touchpoint.createdAt,
               task: tasks,
             };
           })
@@ -334,18 +335,20 @@ export const formatedListCompanyData = (response) => {
   }
 };
 
-export const formatedDetailTouchpointData = (response) => {
+export const formatedDetailTouchpointData = (response, fileResponse) => {
   try {
     const sla = [];
     const scope = [];
     const estimation = [];
     const pricing = [];
     const quotation = [];
-    response.fileTouchPoint.forEach((file) => {
+    fileResponse.forEach((file) => {
       const newData = {
         id: file.fileId,
         originalname: file.file.originalname,
         note: file.note,
+        createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
+        order: file.touchpoint.order,
         touchPointId: file.touchPointId,
       };
       switch (file.type) {
@@ -385,7 +388,8 @@ export const formatedDetailTouchpointData = (response) => {
       goal: response.goal,
       note: response.note ? response.note : '',
       review: response.review ? response.review : '',
-      meetingdate: moment(response.meetingDate),
+      order: response.order ? response.order : '',
+      meetingdate: response.meetingdate ? moment(response.meetingDate) : moment(),
       sla,
       task: tasks,
       estimation,
@@ -393,7 +397,6 @@ export const formatedDetailTouchpointData = (response) => {
       quotation,
       scope,
     };
-
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
