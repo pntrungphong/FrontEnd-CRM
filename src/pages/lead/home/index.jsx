@@ -94,6 +94,7 @@ const ListLead = connect(({ lead, loading }) => ({
     props.dispatch({
       type: 'lead/loadListLead',
     });
+    console.log('show');
   });
   const onPaginitionChange = (page) => {
     props.dispatch({
@@ -170,8 +171,8 @@ const ListLead = connect(({ lead, loading }) => ({
                             {touchpointItem.status === 'In-progress' ? (
                               <Tag color="cyan">{touchpointItem.status}</Tag>
                             ) : (
-                              <Tag color="gold">{touchpointItem.status}</Tag>
-                            )}
+                                <Tag color="gold">{touchpointItem.status}</Tag>
+                              )}
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
