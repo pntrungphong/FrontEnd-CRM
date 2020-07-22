@@ -56,9 +56,9 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
 
   const onPlaning = (values) => {
     const returnValue = values;
+    console.table(values);
     returnValue.leadId = props.leadId;
     returnValue.touchpointId = props.touchpointId;
-    returnValue.lead.id = props.leadId;
     returnValue.order = props.touchpoint.data.order;
     if (values.rank.rank) {
       if (values.rank.rank === props.rank) returnValue.lead.rank = props.rank;
@@ -78,14 +78,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         props.dispatch({
           type: 'lead/loadListLead',
         });
+        setVisible(false);
       });
-
-    props.dispatch({
-      type: 'lead/update',
-      payload: { ...returnValue.lead },
-    });
-
-    setVisible(false);
   };
   const onCancel = () => {
     setVisible(false);
@@ -125,24 +119,25 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         cancelText="Cancel"
         okButtonProps="default"
         cancelButtonProps="primary"
-        forceRender
-        onCancel={onCancel}
-        onOk={() => {
-          form
-            .validateFields()
-            .then((values) => {
-              onPlaning(values);
-              // setVisible(false);
-            })
-            .catch((info) => {
-              console.log('Validate Failed:', info);
-            });
-        }}
         footer={[
           <Button key="cancel" onClick={onCancel}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary" onClick={null}>
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => {
+              form
+                .validateFields()
+                .then((values) => {
+                  onPlaning(values);
+                  // setVisible(false);
+                })
+                .catch((info) => {
+                  console.log('Validate Failed:', info);
+                });
+            }}
+          >
             Submit
           </Button>,
         ]}
@@ -191,32 +186,32 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
               </TabPane>
               <TabPane tab="Scope" key="3">
                 <Form.Item name="scope" label="Scope">
-                  <CustomUploadFile dataIndex="scope" />
+                  <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
                 </Form.Item>
               </TabPane>
               <TabPane tab="Estimation" key="4">
                 <Form.Item name="estimation" label="Estimation">
-                  <CustomUploadFile dataIndex="estimation" />
+                  <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
                 </Form.Item>
               </TabPane>
               <TabPane tab="Pricing" key="5">
                 <Form.Item name="pricing" label="Pricing">
-                  <CustomUploadFile dataIndex="pricing" />
+                  <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
                 </Form.Item>
               </TabPane>
               <TabPane tab="Proposal" key="6">
                 <Form.Item name="quotation" label="Quotation">
-                  <CustomUploadFile dataIndex="quotation" />
+                  <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
                 </Form.Item>
               </TabPane>
               <TabPane tab="Quotation" key="7">
                 <Form.Item name="quotation" label="Quotation">
-                  <CustomUploadFile dataIndex="quotation" />
+                  <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
                 </Form.Item>
               </TabPane>
               <TabPane tab="SLA" key="8">
                 <Form.Item name="sla" label="SLA">
-                  <CustomUploadFile dataIndex="sla" />
+                  <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
                 </Form.Item>
               </TabPane>
             </Tabs>
