@@ -93,7 +93,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
     if (values.rank.rank && values.rank.rank === props.rank) {
       returnValue.rank = props.rank;
     }
-
     props
       .dispatch({
         type: 'touchpoint/update',

@@ -22,7 +22,21 @@ const Model = {
     },
     *update({ payload }, { call }) {
       const response = yield call(updateTouchpoint, payload);
-      if (response) message.success('Successfully');
+      let changeRankresponse =
+        payload.rank.rank !== undefined
+          ? yield call(changeRank, {
+              rank: payload.rank.rank,
+              reason: payload.rank.reason,
+              id: payload.leadId,
+            })
+          : true;
+
+      if (changeRankresponse === '') changeRankresponse = true;
+      if (response.id && changeRankresponse) {
+        message.success('Mark done Successfully');
+        return true;
+      }
+      return false;
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getTouchpoint, payload);
@@ -35,10 +49,10 @@ const Model = {
       }
     },
     *markDone({ payload }, { call }) {
-      let changeRankresponse = payload.rankData ? yield call(changeRank, payload.rankData) : true;
-      let changeStatusresponse = payload.statusData
-        ? yield call(changeStatus, payload.statusData)
-        : true;
+      let changeRankresponse =
+        payload.rankData !== undefined ? yield call(changeRank, payload.rankData) : true;
+      let changeStatusresponse =
+        payload.statusData !== undefined ? yield call(changeStatus, payload.statusData) : true;
       if (changeStatusresponse === '') changeStatusresponse = true;
       if (changeRankresponse === '') changeRankresponse = true;
       const response = yield call(markDoneTouchpoint, payload.markDoneData);
