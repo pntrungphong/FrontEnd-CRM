@@ -56,9 +56,9 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
 
   const onPlaning = (values) => {
     const returnValue = values;
+    console.table(values);
     returnValue.leadId = props.leadId;
     returnValue.touchpointId = props.touchpointId;
-    returnValue.lead.id = props.leadId;
     returnValue.order = props.touchpoint.data.order;
     if (values.rank.rank) {
       if (values.rank.rank === props.rank) returnValue.lead.rank = props.rank;
@@ -78,14 +78,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         props.dispatch({
           type: 'lead/loadListLead',
         });
+        setVisible(false);
       });
-
-    props.dispatch({
-      type: 'lead/update',
-      payload: { ...returnValue.lead },
-    });
-
-    setVisible(false);
   };
   const onCancel = () => {
     setVisible(false);
@@ -125,24 +119,25 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         cancelText="Cancel"
         okButtonProps="default"
         cancelButtonProps="primary"
-        forceRender
-        onCancel={onCancel}
-        onOk={() => {
-          form
-            .validateFields()
-            .then((values) => {
-              onPlaning(values);
-              // setVisible(false);
-            })
-            .catch((info) => {
-              console.log('Validate Failed:', info);
-            });
-        }}
         footer={[
           <Button key="cancel" onClick={onCancel}>
             Cancel
           </Button>,
-          <Button key="submit" type="primary" onClick={null}>
+          <Button
+            key="submit"
+            type="primary"
+            onClick={() => {
+              form
+                .validateFields()
+                .then((values) => {
+                  onPlaning(values);
+                  // setVisible(false);
+                })
+                .catch((info) => {
+                  console.log('Validate Failed:', info);
+                });
+            }}
+          >
             Submit
           </Button>,
         ]}
@@ -177,54 +172,49 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
           >
             <Tabs defaultActiveKey="1" centered>
               <TabPane tab="General" key="1">
-                Content of Tab Pane 1
+                <UpdateGeneralInformation
+                  dispatch={props.dispatch}
+                  touchpointId={props.touchpointId}
+                  listTask={props.touchpoint.data.task}
+                />
               </TabPane>
               <TabPane tab="Lead Information" key="2">
-                Content of Tab Pane 2
+                <Form.Item name="rank" label="Rank">
+                  <Rankmodal rank={props.rank} />
+                </Form.Item>
+                <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} />
               </TabPane>
               <TabPane tab="Scope" key="3">
-                Content of Tab Pane 3
+                <Form.Item name="scope" label="Scope">
+                  <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Estimation" key="4">
-                Content of Tab Pane 4
+                <Form.Item name="estimation" label="Estimation">
+                  <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Pricing" key="5">
-                Content of Tab Pane 5
+                <Form.Item name="pricing" label="Pricing">
+                  <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Proposal" key="6">
-                Content of Tab Pane 6
+                <Form.Item name="quotation" label="Quotation">
+                  <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Quotation" key="7">
-                Content of Tab Pane 7
+                <Form.Item name="quotation" label="Quotation">
+                  <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
+                </Form.Item>
               </TabPane>
               <TabPane tab="SLA" key="8">
-                Content of Tab Pane 8
+                <Form.Item name="sla" label="SLA">
+                  <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
+                </Form.Item>
               </TabPane>
             </Tabs>
-            <UpdateGeneralInformation
-              dispatch={props.dispatch}
-              touchpointId={props.touchpointId}
-              listTask={props.touchpoint.data.task}
-            />
-            <Form.Item name="rank" label="Rank">
-              <Rankmodal rank={props.rank} />
-            </Form.Item>
-            <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} />
-            <Form.Item name="scope" label="Scope">
-              <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
-            </Form.Item>
-            <Form.Item name="sla" label="SLA">
-              <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
-            </Form.Item>
-            <Form.Item name="pricing" label="Pricing">
-              <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
-            </Form.Item>
-            <Form.Item name="estimation" label="Estimation">
-              <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
-            </Form.Item>
-            <Form.Item name="quotation" label="Quotation">
-              <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
-            </Form.Item>
           </Form>
         ) : (
           <Spin />
