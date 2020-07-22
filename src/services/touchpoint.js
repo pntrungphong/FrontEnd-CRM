@@ -95,12 +95,23 @@ export async function updateTouchpoint(params) {
         };
       })
     : [];
+  const proposal = params.proposal
+    ? params.proposal.map((file) => {
+        return {
+          fileId: file.id,
+          note: file.note ? file.note : '',
+          type: 'proposal',
+          order: file.order,
+        };
+      })
+    : [];
 
   const file = scope
     .concat(sla)
     .concat(estimation)
     .concat(pricing)
     .concat(quotation)
+    .concat(proposal)
     .filter((it) => it.order === params.order);
   const body = {
     leadId: params.leadId ? params.leadId : '',

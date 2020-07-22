@@ -342,6 +342,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
     const estimation = [];
     const pricing = [];
     const quotation = [];
+    const proposal = [];
     fileResponse.forEach((file) => {
       const newData = {
         id: file.fileId,
@@ -366,6 +367,9 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
           break;
         case 'quotation':
           quotation.push(newData);
+          break;
+        case 'proposal':
+          proposal.push(newData);
           break;
         default:
           break;
@@ -395,6 +399,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       estimation,
       pricing,
       quotation,
+      proposal,
       scope,
     };
     return returnData;

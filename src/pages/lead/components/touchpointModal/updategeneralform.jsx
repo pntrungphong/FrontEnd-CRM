@@ -1,7 +1,6 @@
 import React from 'react';
 import { Form, Input, DatePicker } from 'antd';
 import { connect } from 'umi';
-import { useUnmount } from 'ahooks';
 import styles from './style.less';
 import EditableTable from './tasktable';
 
@@ -11,13 +10,6 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
   task,
   touchpoint,
 }))((props) => {
-  useUnmount(() => {
-    props.dispatch({
-      type: 'touchpoint/get',
-      payload: { id: props.touchpointId },
-    });
-  });
-
   return (
     <>
       <div className={styles.header}>
