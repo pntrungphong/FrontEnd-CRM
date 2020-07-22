@@ -90,7 +90,7 @@ class Rankmodal extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Button onClick={this.showModal}>Change</Button>
+        <Button onClick={this.showModal}>Update</Button>
       </div>
     );
   }

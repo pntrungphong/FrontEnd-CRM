@@ -80,8 +80,8 @@ class CompanyDetail extends Component {
                 return (
                   <>
                     <Row>
-                      <Tag key={item.type} className={styles.customField}>
-                        {item.number} ({item.type})
+                      <Tag key={item.number} className={styles.customField}>
+                        {item.number}
                       </Tag>
                     </Row>
                   </>

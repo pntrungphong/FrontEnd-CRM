@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
-import Rankmodal from './rankmodal';
 // import UpdateLeadInformationForm from './updateleadform';
 import UpdateGeneralInformation from './updategeneralform';
 import MarkDoneModal from './markdonetouchpoint';
@@ -62,7 +61,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     if (values.rank.rank && values.rank.rank === props.rank) {
       returnValue.rank = props.rank;
     }
-
     props
       .dispatch({
         type: 'touchpoint/update',
@@ -160,9 +158,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
                 />
               </TabPane>
               <TabPane forceRender tab="Lead Information" key="2">
-                <Form.Item name="rank" label="Rank">
-                  <Rankmodal rank={props.rank} />
-                </Form.Item>
                 {/* <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} /> */}
               </TabPane>
               <TabPane forceRender tab="Scope" key="3">

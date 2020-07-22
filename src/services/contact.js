@@ -31,7 +31,7 @@ export async function updateContact(params) {
   if (params.contact.phone !== undefined) {
     params.contact.phone.forEach((element) => {
       phone.push({
-        type: element.type,
+        type: '',
         number: element.number,
       });
     });
@@ -128,7 +128,7 @@ export async function fullCreateContact(params) {
   if (params.phone !== undefined) {
     params.phone.forEach((element) => {
       phone.push({
-        type: element.type,
+        type: '',
         number: element.number,
       });
     });
