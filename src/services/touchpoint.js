@@ -51,6 +51,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'scope',
+          order: file.order,
         };
       })
     : [];
@@ -60,6 +61,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'sla',
+          order: file.order,
         };
       })
     : [];
@@ -69,6 +71,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'estimation',
+          order: file.order,
         };
       })
     : [];
@@ -78,6 +81,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'pricing',
+          order: file.order,
         };
       })
     : [];
@@ -87,17 +91,23 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'quotation',
+          order: file.order,
         };
       })
     : [];
 
-  const file = scope.concat(sla).concat(estimation).concat(pricing).concat(quotation);
+  const file = scope
+    .concat(sla)
+    .concat(estimation)
+    .concat(pricing)
+    .concat(quotation)
+    .filter((it) => it.order === params.order);
   const body = {
     leadId: params.leadId ? params.leadId : '',
     goal: params.goal,
     note: params.leadId ? params.note : '',
     review: params.review,
-    meetingDate: params.meetingdate.format('YYYY-MM-DD HH:mm'),
+    meetingDate: params.meetingdate.format('YYYY-MM-DD'),
     file,
   };
 
