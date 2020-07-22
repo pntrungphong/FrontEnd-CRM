@@ -25,6 +25,7 @@ export const setPagination = (data) => {
 };
 export const formatedListLeadData = (response) => {
   try {
+    console.log(response);
     const touchPointLength = response.data.map((element) => {
       return element.touchpoint.length;
     });
@@ -68,6 +69,7 @@ export const formatedListLeadData = (response) => {
         id: element.id,
         company: element.company,
       };
+      console.log(data);
       formatedData.push(data);
     });
 

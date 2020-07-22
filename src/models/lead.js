@@ -1,9 +1,9 @@
 import { message } from 'antd';
 import { formatedListLeadData, formatedDetailLeadData } from './utils';
-import { getContact } from '../services/contact';
+// import { getContact } from '../services/contact';
 import { createTouchpoint } from '../services/touchpoint';
 import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
-import { getCompany } from '../services/company';
+// import { getCompany } from '../services/company';
 
 const Model = {
   namespace: 'lead',
@@ -71,30 +71,30 @@ const Model = {
         });
       }
     },
-    *searchCompanyByName({ payload }, { call, put }) {
-      if (payload.value === '') return;
-      const response = yield call(getCompany, {
-        page: 1,
-        searchValue: payload.value,
-      });
+    // *searchCompanyByName({ payload }, { call, put }) {
+    //   if (payload.value === '') return;
+    //   const response = yield call(getCompany, {
+    //     page: 1,
+    //     searchValue: payload.value,
+    //   });
 
-      const formatedData = [];
+    //   const formatedData = [];
 
-      response.data.forEach((element) => {
-        const data = {
-          key: element.id,
-          label: element.name,
-          value: element.id,
-        };
-        formatedData.push(data);
-      });
-      if (response != null) {
-        yield put({
-          type: 'saveListCompany',
-          payload: formatedData,
-        });
-      }
-    },
+    //   response.data.forEach((element) => {
+    //     const data = {
+    //       key: element.id,
+    //       label: element.name,
+    //       value: element.id,
+    //     };
+    //     formatedData.push(data);
+    //   });
+    //   if (response != null) {
+    //     yield put({
+    //       type: 'saveListCompany',
+    //       payload: formatedData,
+    //     });
+    //   }
+    // },
     *loading({ payload }, { call, put }) {
       const response = yield call(getLeadById, payload);
       yield put({
@@ -102,26 +102,48 @@ const Model = {
         payload: formatedDetailLeadData(response),
       });
     },
-    *searchContactByName({ payload }, { call, put }) {
-      if (payload.value === '') return;
-      const response = yield call(getContact, {
-        page: 1,
-        searchValue: payload.value,
-      });
-      const formatedData = [];
+    // *searchContactByName({ payload }, { call, put }) {
+    //   if (payload.value === '') return;
+    //   const response = yield call(getContact, {
+    //     page: 1,
+    //     searchValue: payload.value,
+    //   });
+    //   const formatedData = [];
 
-      response.data.forEach((element) => {
-        const data = {
-          key: element.id,
-          label: element.name,
-          value: element.id,
-        };
-        formatedData.push(data);
+    //   response.data.forEach((element) => {
+    //     const data = {
+    //       key: element.id,
+    //       label: element.name,
+    //       value: element.id,
+    //     };
+    //     formatedData.push(data);
+    //   });
+    //   if (response != null) {
+    //     yield put({
+    //       type: 'saveListContact',
+    //       payload: formatedData,
+    //     });
+    //   }
+    // },
+    *searchLeadByName(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
+      yield put({
+        type: 'saveLeadSearchValue',
+        payload: payload.searchValue,
       });
+      const response = yield call(getLead, payload);
+
       if (response != null) {
         yield put({
-          type: 'saveListContact',
-          payload: formatedData,
+          type: 'saveLeadInfo',
+          payload: formatedListLeadData(response),
         });
       }
     },
@@ -130,6 +152,23 @@ const Model = {
     },
   },
 
+  *loadListContact(
+    {
+      payload = {
+        page: 1,
+        searchValue: '',
+      },
+    },
+    { call, put },
+  ) {
+    const response = yield call(getLead, payload);
+    if (response != null) {
+      yield put({
+        type: 'saveContactInfo',
+        payload: formatedListLeadData(response),
+      });
+    }
+  },
   reducers: {
     cleanData(state) {
       return { ...state, leadInfo: [], data: undefined };
@@ -163,9 +202,9 @@ const Model = {
     handleSearchChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
     },
-    saveListContact(state, { payload }) {
-      return { ...state, listContact: payload };
-    },
+    // saveListContact(state, { payload }) {
+    //   return { ...state, listContact: payload };
+    // },
     handleSearchContactChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listContact: payload.listContact };
     },
