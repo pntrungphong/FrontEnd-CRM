@@ -146,54 +146,49 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
           >
             <Tabs defaultActiveKey="1" centered>
               <TabPane tab="General" key="1">
-                Content of Tab Pane 1
+                <UpdateGeneralInformation
+                  dispatch={props.dispatch}
+                  touchpointId={props.touchpointId}
+                  listTask={props.touchpoint.data.task}
+                />
               </TabPane>
               <TabPane tab="Lead Information" key="2">
-                Content of Tab Pane 2
+                <Form.Item name="rank" label="Rank">
+                  <Rankmodal rank={props.rank} />
+                </Form.Item>
+                <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} />
               </TabPane>
               <TabPane tab="Scope" key="3">
-                Content of Tab Pane 3
+                <Form.Item name="scope" label="Scope">
+                  <CustomUploadFile dataIndex="scope" />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Estimation" key="4">
-                Content of Tab Pane 4
+                <Form.Item name="estimation" label="Estimation">
+                  <CustomUploadFile dataIndex="estimation" />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Pricing" key="5">
-                Content of Tab Pane 5
+                <Form.Item name="pricing" label="Pricing">
+                  <CustomUploadFile dataIndex="pricing" />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Proposal" key="6">
-                Content of Tab Pane 6
+                <Form.Item name="quotation" label="Quotation">
+                  <CustomUploadFile dataIndex="quotation" />
+                </Form.Item>
               </TabPane>
               <TabPane tab="Quotation" key="7">
-                Content of Tab Pane 7
+                <Form.Item name="quotation" label="Quotation">
+                  <CustomUploadFile dataIndex="quotation" />
+                </Form.Item>
               </TabPane>
               <TabPane tab="SLA" key="8">
-                Content of Tab Pane 8
+                <Form.Item name="sla" label="SLA">
+                  <CustomUploadFile dataIndex="sla" />
+                </Form.Item>
               </TabPane>
             </Tabs>
-            <UpdateGeneralInformation
-              dispatch={props.dispatch}
-              touchpointId={props.touchpointId}
-              listTask={props.touchpoint.data.task}
-            />
-            <Form.Item name="rank" label="Rank">
-              <Rankmodal rank={props.rank} />
-            </Form.Item>
-            <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} />
-            <Form.Item name="scope" label="Scope">
-              <CustomUploadFile dataIndex="scope" />
-            </Form.Item>
-            <Form.Item name="sla" label="SLA">
-              <CustomUploadFile dataIndex="sla" />
-            </Form.Item>
-            <Form.Item name="pricing" label="Pricing">
-              <CustomUploadFile dataIndex="pricing" />
-            </Form.Item>
-            <Form.Item name="estimation" label="Estimation">
-              <CustomUploadFile dataIndex="estimation" />
-            </Form.Item>
-            <Form.Item name="quotation" label="Quotation">
-              <CustomUploadFile dataIndex="quotation" />
-            </Form.Item>
           </Form>
         ) : (
           <Spin />
