@@ -217,7 +217,6 @@ export const formatedDetailCompanyData = (response) => {
     const phone = response.phone
       ? response.phone.map((element) => {
           return {
-            type: element.type,
             number: element.number,
           };
         })

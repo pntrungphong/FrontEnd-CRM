@@ -2,6 +2,7 @@ import React from 'react';
 import { Form, Input, DatePicker } from 'antd';
 import { connect } from 'umi';
 import styles from './style.less';
+import Rankmodal from './rankmodal';
 import EditableTable from './tasktable';
 
 const { TextArea } = Input;
@@ -27,6 +28,9 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
         ]}
       >
         <TextArea rows={4} />
+      </Form.Item>
+      <Form.Item name="rank" label="Rank">
+        <Rankmodal rank={props.rank} />
       </Form.Item>
       <Form.Item name="task">
         <EditableTable
