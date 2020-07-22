@@ -181,25 +181,6 @@ const Update = connect(({ tag, company, loading }) => ({
                               <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                             </Form.Item>
                           </Col>
-                          <Col flex="2">
-                            <Form.Item
-                              {...field}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
-                              name={[field.name, 'type']}
-                              fieldKey={[field.fieldKey, 'type']}
-                            >
-                              <Select placeholder="Select Phone">
-                                <Option value="Primary">Primary</Option>
-                                <Option value="Mobile">Mobile</Option>
-                                <Option value="Home">Home</Option>
-                                <Option value="Company">Company</Option>
-                              </Select>
-                            </Form.Item>
-                          </Col>
                           <Col flex="none">
                             <MinusCircleOutlined
                               className={styles.sltOne}

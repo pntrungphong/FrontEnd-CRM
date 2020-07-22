@@ -46,15 +46,14 @@ const columns = [
     key: 'phone',
     size: 'small',
     width: '20%',
-
     render: (phone) => (
       <>
         {phone.map((item) => {
-          return item.type && item.number ? (
+          return item.number ? (
             <div>
               <Row>
-                <Tag key={item.type} className={styles.customField}>
-                  {item.type}: {item.number}
+                <Tag key={item.number} className={styles.customField}>
+                  {item.number}
                 </Tag>
               </Row>
             </div>
