@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Form, Spin, Button, Tabs } from 'antd';
+import { Modal, Form, Spin, Button, Tabs, Col, Row } from 'antd';
 import { connect } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
@@ -8,8 +8,28 @@ import CustomUploadFile from './customuploadfile';
 import Rankmodal from './rankmodal';
 import UpdateLeadInformationForm from './updateleadform';
 import UpdateGeneralInformation from './updategeneralform';
+import MarkDoneModal from './markdonetouchpoint';
 
 const { TabPane } = Tabs;
+const CustomHeader = (props) => {
+  return (
+    <div>
+      <Row>
+        <Col flex={6}>{props.name}</Col>
+        <Col flex={1}>
+          <MarkDoneModal
+            form={props.form}
+            dispatch={props.dispatch}
+            status={props.status}
+            rank={props.rank}
+            leadId={props.leadId}
+            touchpointId={props.touchpointId}
+          />
+        </Col>
+      </Row>
+    </div>
+  );
+};
 
 const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
   task,
@@ -19,11 +39,12 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
   const [form] = Form.useForm();
   const [visible, setVisible] = useState(false);
   const formRef = React.createRef();
+
   const onShow = () => {
     setVisible(true);
     props.dispatch({
       type: 'touchpoint/get',
-      payload: { id: props.touchpointId },
+      payload: { id: props.touchpointId, leadId: props.leadId },
     });
     props.dispatch({
       type: 'lead/loading',
@@ -38,31 +59,30 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
     returnValue.leadId = props.leadId;
     returnValue.touchpointId = props.touchpointId;
     returnValue.lead.id = props.leadId;
+    returnValue.order = props.touchpoint.data.order;
     if (values.rank.rank) {
       if (values.rank.rank === props.rank) returnValue.lead.rank = props.rank;
       else returnValue.lead.rank = values.rank;
     } else returnValue.lead.rank = values.rank;
 
-    props.dispatch({
-      type: 'touchpoint/cleanData',
-    });
+    props
+      .dispatch({
+        type: 'touchpoint/update',
+        payload: { ...returnValue },
+      })
+      .then(() => {
+        props.dispatch({
+          type: 'touchpoint/cleanData',
+        });
 
-    props.dispatch({
-      type: 'touchpoint/update',
-      payload: { ...returnValue },
-    });
+        props.dispatch({
+          type: 'lead/loadListLead',
+        });
+      });
 
     props.dispatch({
       type: 'lead/update',
       payload: { ...returnValue.lead },
-    });
-
-    props.dispatch({
-      type: 'touchpoint/cleanData',
-    });
-
-    props.dispatch({
-      type: 'lead/loadListLead',
     });
 
     setVisible(false);
@@ -84,7 +104,17 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         <FontAwesomeIcon icon={faEllipsisH} size="lg" />
       </a>
       <Modal
-        title={props.name}
+        title={
+          <CustomHeader
+            status={props.status}
+            form={form}
+            rank={props.rank}
+            name={props.name}
+            dispatch={props.dispatch}
+            leadId={props.leadId}
+            touchpointId={props.touchpointId}
+          />
+        }
         visible={visible}
         destroyOnClose
         width={800}
@@ -95,6 +125,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
         cancelText="Cancel"
         okButtonProps="default"
         cancelButtonProps="primary"
+        forceRender
         onCancel={onCancel}
         onOk={() => {
           form
@@ -180,19 +211,19 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint }) => ({
             </Form.Item>
             <UpdateLeadInformationForm leadId={props.leadId} formRef={formRef} form={form} />
             <Form.Item name="scope" label="Scope">
-              <CustomUploadFile dataIndex="scope" />
+              <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
             </Form.Item>
             <Form.Item name="sla" label="SLA">
-              <CustomUploadFile dataIndex="sla" />
+              <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
             </Form.Item>
             <Form.Item name="pricing" label="Pricing">
-              <CustomUploadFile dataIndex="pricing" />
+              <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
             </Form.Item>
             <Form.Item name="estimation" label="Estimation">
-              <CustomUploadFile dataIndex="estimation" />
+              <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
             </Form.Item>
             <Form.Item name="quotation" label="Quotation">
-              <CustomUploadFile dataIndex="quotation" />
+              <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
             </Form.Item>
           </Form>
         ) : (
