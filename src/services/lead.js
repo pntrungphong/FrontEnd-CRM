@@ -5,6 +5,13 @@ export async function getLeadById(params) {
     method: 'GET',
   });
 }
+
+export async function getAllFile(params) {
+  return request(`/lead/${params.leadId}/file`, {
+    method: 'GET',
+  });
+}
+
 export async function fullCreateLead(params) {
   let companyId = '';
   if (params.company !== undefined && params.company.length) {
