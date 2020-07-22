@@ -13,6 +13,11 @@ const User = {
   '39d088f6-cc81-4263-ac27-b920983a4eb0': 'nhan.lh',
 };
 
+const layout = {
+  labelCol: { span: 5 },
+  wrapperCol: { span: 18 },
+};
+
 const EditableRow = ({ index, ...props }) => {
   const [form] = Form.useForm();
   return (
@@ -132,15 +137,14 @@ const EditableCell = ({
   } else if (datetime) {
     const fakeChildren = [
       children[0],
-      children[1] === '' ? children[1] : record.duedate.format('mm:HH DD-MM-YYYY'),
+      children[1] === '' ? children[1] : record.duedate.format('DD-MM-YYYY'),
     ];
 
     childNode = editing ? (
       <Form.Item name={dataIndex}>
         <DatePicker
           ref={inputRef}
-          format="mm:HH DD-MM-YYYY"
-          showTime
+          format="DD-MM-YYYY"
           onBlur={toggleEdit}
           onChange={onChangeTime}
         />
@@ -245,7 +249,7 @@ class EditableTable extends React.Component {
       taskname: values.taskname,
       type: values.type ? values.type : '',
       pic: values.pic ? values.pic[1] : '',
-      duedate: values.duedate ? values.duedate.format('YYYY-MM-DD HH:mm') : '',
+      duedate: values.duedate ? values.duedate.format('YYYY-MM-DD') : '',
     };
     this.props.dispatch({
       type: 'task/create',
@@ -358,10 +362,14 @@ class EditableTable extends React.Component {
           title="Add Task"
           visible={this.state.visible}
           destroyOnClose
-          footer={false}
           onCancel={this.onCancel}
+          footer={[
+            <Button form="addTaskForm" key="submit" htmlType="submit" type="primary">
+              Add
+            </Button>,
+          ]}
         >
-          <Form onFinish={this.handleAdd}>
+          <Form {...layout} onFinish={this.handleAdd} id="addTaskForm">
             <Form.Item name="taskname" label="Task name" required>
               <Input />
             </Form.Item>
@@ -370,7 +378,6 @@ class EditableTable extends React.Component {
                 <Option value="Product Consulting">Product Consulting</Option>
                 <Option value="Lead Management">Lead Management</Option>
                 <Option value="Proposal Handling">Proposal Handling</Option>
-                <Option value="Lead Generation">Lead Generation</Option>
               </Select>
             </Form.Item>
             <Form.Item name="pic" label="PIC">
@@ -382,12 +389,7 @@ class EditableTable extends React.Component {
               </Select>
             </Form.Item>
             <Form.Item name="duedate" label="Due Date">
-              <DatePicker format="YYYY-MM-DD HH:mm" showTime />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Add
-              </Button>
+              <DatePicker format="YYYY-MM-DD" />
             </Form.Item>
           </Form>
         </Modal>
@@ -395,7 +397,7 @@ class EditableTable extends React.Component {
           onClick={this.onShow}
           type="primary"
           style={{
-            marginBottom: 16,
+            marginBottom: 10,
           }}
         >
           Add task
