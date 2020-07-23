@@ -29,14 +29,14 @@ const FileSpan = ({ fileinfo }) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = fileinfo.originalname;
+        a.download = fileinfo.originalName;
         a.click();
       });
     });
   };
   return (
     <div className={styles.fileSpan}>
-      <h4>{fileinfo.originalname}</h4>
+      <h4>{fileinfo.originalName}</h4>
       <div className={styles.fileSpanHover}>
         <FontAwesomeIcon
           icon={faFileDownload}
