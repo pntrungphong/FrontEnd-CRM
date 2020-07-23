@@ -337,7 +337,6 @@ export const formatedListCompanyData = (response) => {
 };
 
 export const formatedDetailTouchpointData = (response, fileResponse) => {
-  console.table(fileResponse);
   try {
     const sla = [];
     const scope = [];
@@ -348,7 +347,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
     fileResponse.forEach((file) => {
       const newData = {
         id: file.fileId,
-        originalname: file.file.originalName,
+        originalname: file.file.originalname,
         note: file.note,
         createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
         order: file.touchPoint.order,

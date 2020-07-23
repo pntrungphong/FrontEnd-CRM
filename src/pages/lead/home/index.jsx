@@ -3,7 +3,12 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisH,
+  faCheckCircle,
+  faTimesCircle,
+  faDotCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
@@ -234,6 +239,14 @@ const ListLead = connect(({ lead, loading }) => ({
                               return (
                                 <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
+                                    <FontAwesomeIcon
+                                      icon={faDotCircle}
+                                      size="xs"
+                                      style={{
+                                        marginRight: '5px',
+                                        color: taskColorStore[taskItem.type],
+                                      }}
+                                    />
                                     {taskItem.taskname}
                                     <br />
                                     {moment(taskItem.dueDate).format('DD-MM-YYYY')}
