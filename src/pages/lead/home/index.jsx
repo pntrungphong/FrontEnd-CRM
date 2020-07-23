@@ -247,21 +247,24 @@ const ListLead = connect(({ lead, loading }) => ({
                                       style={{
                                         marginRight: '5px',
                                         color: taskColorStore[taskItem.type],
+                                        background: taskColorStore[taskItem.type],
+                                        borderRadius: '50%',
                                       }}
                                     />
                                     {taskItem.taskname}
                                     <br />
-                                    {moment(taskItem.dueDate).format('DD-MM-YYYY')}
+                                    <span className={styles.taskDueDate}>
+                                      {moment(taskItem.dueDate).format('DD-MM-YYYY')}
+                                    </span>
                                   </span>
-                                  <span className={styles.textTouchpoint}>
-                                    {taskItem.userName}
-                                    <br /> <Avatar icon={<UserOutlined />} />
+                                  <span className={styles.avatarPIC}>
+                                    <Avatar icon={<UserOutlined size="small" />} />
                                   </span>
                                 </div>
                               );
                             })}
                             <div className={styles.viewmore}>
-                              {touchpointItem.task.length > 2 ? (
+                              {touchpointItem.task.length > 3 ? (
                                 <ViewTaskTable
                                   touchpointId={touchpointItem.id}
                                   listTask={touchpointItem.task}
