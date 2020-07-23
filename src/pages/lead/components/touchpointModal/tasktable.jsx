@@ -394,8 +394,8 @@ class EditableTable extends React.Component {
           </Form>
         </Modal>
         <Button
+          type="text"
           onClick={this.onShow}
-          type="primary"
           style={{
             marginBottom: 10,
           }}

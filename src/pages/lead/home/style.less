@@ -24,10 +24,12 @@
   width: 310px;
   margin: 2px 5px;
   border-radius: 2px;
+
   .spanTitle {
     display: flex;
     justify-content: space-around;
     height: 40px;
+    margin-bottom: 2px;
     padding: 4px;
     font-weight: 500;
     font-size: 20px;
@@ -37,7 +39,7 @@
     flex-basis: 0 0 1;
     flex-grow: 1;
     font-weight: 500;
-    text-align: center;
+    text-align: left;
   }
 }
 .customCreateBtn {
@@ -78,14 +80,14 @@
 }
 
 .cardOne {
-  justify-content: space-between;
+  justify-content: space-around;
   width: 300px;
   height: 340px;
   font-weight: 500;
   background-color: #f4f5f7;
 }
 .textOne {
-  text-align: inherit;
+  text-align: left;
 }
 
 .horScroll {
@@ -96,9 +98,8 @@
   overflow-x: auto;
   overflow-y: hidden;
   .titleOne {
-    position: relative;
-    top: -4px;
-    padding: 8px;
+    height: 40px;
+    margin-top: -4px;
     font-weight: 600;
     font-size: 16px;
     text-align: center;
@@ -108,6 +109,7 @@
 }
 .spaceAll {
   display: flex;
+  // background-color: ;
 }
 
 .touchPointCol {
@@ -205,9 +207,7 @@
   font-weight: 600;
   font-size: 14px;
 }
-.cardFather {
-  margin-top: 16px;
-}
+
 .customDivider {
   margin: 5px 0;
   background-color: rgba(217, 217, 217, 0.5);
@@ -239,4 +239,7 @@
 .textTwo {
   padding-right: 40px;
   font-weight: 600;
+}
+.spcing {
+  margin-top: -8px;
 }

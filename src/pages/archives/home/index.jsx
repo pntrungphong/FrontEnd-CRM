@@ -114,7 +114,6 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   });
 
-  onchange(() => {});
   const onPaginitionChange = (page) => {
     props.dispatch({
       type: 'lead/loadListLead',

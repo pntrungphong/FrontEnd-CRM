@@ -119,7 +119,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   return (
     <div>
       <a onClick={onShow} className={styles.updateTouchPointButton}>
-        <FontAwesomeIcon icon={faEllipsisH} size="md" />
+        <FontAwesomeIcon icon={faEllipsisH} size="sm" />
       </a>
       <Modal
         title={

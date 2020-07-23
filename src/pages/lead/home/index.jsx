@@ -99,7 +99,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
         <div id="components-dropdown-demo-dropdown-button">
           <Dropdown overlay={menu}>
             <div className={styles.iconOne}>
-              <FontAwesomeIcon icon={faEllipsisH} size="md" />
+              <FontAwesomeIcon icon={faEllipsisH} size="sm" />
             </div>
           </Dropdown>
         </div>
