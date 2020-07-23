@@ -131,7 +131,7 @@ const Update = connect(({ tag, company, loading }) => ({
           rules={[
             {
               required: true,
-              min: 5,
+              message: 'Please input name',
             },
           ]}
         >
@@ -159,7 +159,7 @@ const Update = connect(({ tag, company, loading }) => ({
                         add();
                       }}
                     >
-                      <PlusOutlined /> Add Phone
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -174,6 +174,7 @@ const Update = connect(({ tag, company, loading }) => ({
                               rules={[
                                 {
                                   required: true,
+                                  message: 'Please input phone',
                                 },
                               ]}
                               fieldKey={[field.fieldKey, 'number']}
@@ -210,7 +211,7 @@ const Update = connect(({ tag, company, loading }) => ({
                         add();
                       }}
                     >
-                      <PlusOutlined /> Add Email
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -224,7 +225,6 @@ const Update = connect(({ tag, company, loading }) => ({
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
                               rules={[
-                                { type: 'email', message: 'The input is wrong' },
                                 {
                                   required: true,
                                   messages: 'Please input your email',
@@ -239,11 +239,7 @@ const Update = connect(({ tag, company, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Select type' }]}
                             >
                               <Select placeholder="Select Email">
                                 <Option value="Gmail">Gmail</Option>
@@ -284,7 +280,7 @@ const Update = connect(({ tag, company, loading }) => ({
                         add();
                       }}
                     >
-                      <PlusOutlined /> Add Website
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -297,11 +293,7 @@ const Update = connect(({ tag, company, loading }) => ({
                               {...field}
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Please input' }]}
                             >
                               <Input placeholder="URL Website" />
                             </Form.Item>
@@ -311,11 +303,8 @@ const Update = connect(({ tag, company, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Select type' }]}
+                              type
                             >
                               <Select placeholder="Select website">
                                 <Option value="Facebook">Facebook</Option>
@@ -357,7 +346,7 @@ const Update = connect(({ tag, company, loading }) => ({
                         add();
                       }}
                     >
-                      <PlusOutlined /> Add Address
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -369,7 +358,7 @@ const Update = connect(({ tag, company, loading }) => ({
                           {
                             required: true,
                             whitespace: true,
-                            message: 'Please input address or delete this field.',
+                            message: 'Please input address',
                           },
                         ]}
                         noStyle
@@ -390,7 +379,11 @@ const Update = connect(({ tag, company, loading }) => ({
           </Form.List>
         </div>
 
-        <Form.Item name={['company', 'contact']} label="Contact">
+        <Form.Item
+          name={['company', 'contact']}
+          label="Contact"
+          rules={[{ required: true, message: 'Please input contact' }]}
+        >
           <Select
             mode="multiple"
             labelInValue

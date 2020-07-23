@@ -29,14 +29,14 @@ const FileSpan = ({ fileinfo }) => {
         const url = window.URL.createObjectURL(blob);
         const a = document.createElement('a');
         a.href = url;
-        a.download = fileinfo.originalName;
+        a.download = fileinfo.originalname;
         a.click();
       });
     });
   };
   return (
     <div className={styles.fileSpan}>
-      <h4>{fileinfo.originalName}</h4>
+      <h4>{fileinfo.originalname}</h4>
       <div className={styles.fileSpanHover}>
         <FontAwesomeIcon
           icon={faFileDownload}
@@ -218,7 +218,6 @@ class LeadDetail extends Component {
               <h3 className={styles.customTitle}>File</h3>
             </Col>
             <Col flex="auto">
-              {' '}
               {lead.data.file.map((item) => {
                 return (
                   <>

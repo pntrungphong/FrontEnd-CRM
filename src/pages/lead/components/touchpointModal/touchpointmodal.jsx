@@ -76,6 +76,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   touchpoint,
   lead,
   loading: loading.effects['lead/createTouchpoint'],
+  updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
   // const formRef = React.createRef();
@@ -162,10 +163,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
-          <Button key="cancel" onClick={onCancel}>
-            Cancel
-          </Button>,
           <Button
+            loading={props.updateLoading}
             disabled={props.status === 'Done'}
             form={props.touchpointId}
             key="submit"
@@ -176,7 +175,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           </Button>,
         ]}
       >
-        {props.touchpoint.data && props.lead.data ? (
+        {(props.touchpoint.data && props.lead.data) || props.updateLoading ? (
           <Form
             onFinish={onPlaning}
             id={props.touchpointId}
@@ -214,6 +213,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
                 listTask={props.touchpoint.data.task}
               />
             </div>
+
             <div id="lead-information">
               <LeadInfomation lead={props.lead.data} />
             </div>

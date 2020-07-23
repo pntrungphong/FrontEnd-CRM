@@ -122,7 +122,7 @@ class Create extends React.Component {
             rules={[
               {
                 required: true,
-                min: 5,
+                message: 'Please input name',
               },
             ]}
           >
@@ -155,7 +155,7 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'number']}
                                 fieldKey={[field.fieldKey, 'number']}
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: 'Please input phone' }]}
                               >
                                 <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                               </Form.Item>
@@ -173,7 +173,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                     >
                       <Button className={styles.customButtomAdd} onClick={() => add()}>
-                        <PlusOutlined /> Add Phone
+                        <PlusOutlined /> Add
                       </Button>
                     </Form.Item>
                   </div>
@@ -199,10 +199,9 @@ class Create extends React.Component {
                                 fieldKey={[field.fieldKey, 'url']}
                                 placeholder="Your Email"
                                 rules={[
-                                  { type: 'email', message: 'The input is wrong' },
                                   {
                                     required: true,
-                                    messages: 'Please input your email',
+                                    message: 'Please input your email',
                                   },
                                 ]}
                               >
@@ -215,7 +214,7 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: 'Select type' }]}
                               >
                                 <Select placeholder="Select Email">
                                   <Option value="Primary">Primary</Option>
@@ -239,7 +238,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                     >
                       <Button className={styles.customButtomAdd} onClick={() => add()}>
-                        <PlusOutlined /> Add Emails
+                        <PlusOutlined /> Add
                       </Button>
                     </Form.Item>
                   </div>
@@ -264,7 +263,7 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: 'Please input' }]}
                               >
                                 <Input placeholder="Social Link" />
                               </Form.Item>
@@ -275,7 +274,8 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
-                                rules={[{ required: true }]}
+                                rules={[{ required: true, message: 'Select type' }]}
+                                type
                               >
                                 <Select placeholder="Social network">
                                   <Option value="Facebook">Facebook</Option>
@@ -302,7 +302,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                     >
                       <Button className={styles.customButtomAdd} onClick={() => add()}>
-                        <PlusOutlined /> Add Social Link
+                        <PlusOutlined /> Add
                       </Button>
                     </Form.Item>
                   </div>
@@ -332,7 +332,7 @@ class Create extends React.Component {
                             {
                               required: true,
                               whitespace: true,
-                              message: 'Please input address or delete this field.',
+                              message: 'Please input address',
                             },
                           ]}
                           noStyle
@@ -352,7 +352,7 @@ class Create extends React.Component {
                       className={fields.length === 0 ? '' : styles.customRow}
                     >
                       <Button className={styles.customButtomAdd} onClick={() => add()}>
-                        <PlusOutlined /> Add Address
+                        <PlusOutlined /> Add
                       </Button>
                     </Form.Item>
                   </div>
@@ -360,7 +360,11 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-          <Form.Item name="contact" label="Contact">
+          <Form.Item
+            name="contact"
+            label="Contact"
+            rules={[{ required: true, message: 'Please input contact' }]}
+          >
             <Select
               labelInValue
               autoClearSearchValue

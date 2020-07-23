@@ -26,6 +26,7 @@ class CustomUploadFile extends React.Component {
         createdAt: file.createdAt,
         createdBy: file.createdBy,
         note: file.note,
+        old: true,
       };
     });
     this.state = {
@@ -54,7 +55,8 @@ class CustomUploadFile extends React.Component {
           id: info.file.response.id,
           createdAt: moment(info.file.createdAt).format('DD-MM-YYYY'),
           createdBy: info.file.response.createdBy,
-          note: undefined,
+          note: '',
+          old: false,
         };
         const newSource = [...dataSource, fileData];
         this.state.setState({
@@ -84,19 +86,28 @@ class CustomUploadFile extends React.Component {
     const fileData = [...dataSource];
     const index = fileData.findIndex((item) => key === item.key);
     fileData.splice(index, 1);
+    const newfileData = fileData.map((file, newIndex) => {
+      return {
+        key: newIndex,
+        order: file.order,
+        id: file.id,
+        originalname: file.originalname,
+        createdAt: file.createdAt,
+        createdBy: file.createdBy,
+        note: file.note,
+        old: false,
+      };
+    });
 
     this.setState({
-      dataSource: fileData,
+      dataSource: newfileData,
       count: count - 1,
+      currentFile: 0,
     });
     if (fileData.length !== 0) {
-      this.props.onChange({
-        fileData,
-      });
+      this.props.onChange([...fileData]);
     } else {
-      this.props.onChange({
-        fileData: undefined,
-      });
+      this.props.onChange([]);
     }
   };
 
@@ -114,6 +125,7 @@ class CustomUploadFile extends React.Component {
       visible: false,
       dataSource: fileData,
     });
+
     this.props.onChange([...fileData]);
   };
 
@@ -189,6 +201,16 @@ class CustomUploadFile extends React.Component {
                           ? 'View Note'
                           : 'Add Note'}
                       </Button>,
+
+                      !this.state.dataSource[item.key].old ? (
+                        <Button
+                          onClick={() => {
+                            this.removeFile(item.key);
+                          }}
+                        >
+                          Remove
+                        </Button>
+                      ) : null,
                     ]
                   : []
               }

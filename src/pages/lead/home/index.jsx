@@ -1,5 +1,5 @@
 import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu, Avatar } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -12,6 +12,7 @@ import {
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
@@ -35,7 +36,7 @@ class App extends React.Component {
         <div className={styles.top}>
           <Search
             className={styles.search}
-            placeholder="Search lead"
+            placeholder="Search lead by name"
             enterButton="Search"
             size="large"
             onSearch={this.onSearch}
@@ -116,6 +117,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingSearch: loading.effects['lead/searchLeadByName'],
   loadingCreate: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   useMount(() => {
@@ -123,6 +125,9 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/loadListLead',
     });
   });
+
+  const [currentPage, setcurrentPage] = useState(1);
+
   const onPaginitionChange = (page) => {
     props.dispatch({
       type: 'lead/loadListLead',
@@ -131,10 +136,11 @@ const ListLead = connect(({ lead, loading }) => ({
         searchValue: props.lead.searchValue,
       },
     });
+    setcurrentPage(page);
   };
 
   return (
-    <Spin spinning={props.loading}>
+    <Spin spinning={props.loading === true || props.loadingSearch === true}>
       <div className={styles.spaceAll}>
         <div className={styles.spaceOne}>
           <div className={styles.spanTitle}>
@@ -178,7 +184,13 @@ const ListLead = connect(({ lead, loading }) => ({
               })}
             </Space>
 
-            <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+            {props.lead.itemCount / 10 >= 1 ? (
+              <Pagination
+                total={props.lead.itemCount}
+                current={currentPage}
+                onChange={onPaginitionChange}
+              />
+            ) : null}
           </div>
         </div>
         <div className={styles.horScroll}>
@@ -236,7 +248,7 @@ const ListLead = connect(({ lead, loading }) => ({
                           </div>
                           <Divider className={styles.customDivider} />
                           <div className={styles.spanTwo}>
-                            {touchpointItem.task.slice(0, 2).map((taskItem) => {
+                            {touchpointItem.task.slice(0, 3).map((taskItem) => {
                               return (
                                 <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
@@ -246,21 +258,34 @@ const ListLead = connect(({ lead, loading }) => ({
                                       style={{
                                         marginRight: '5px',
                                         color: taskColorStore[taskItem.type],
+                                        background: taskColorStore[taskItem.type],
+                                        borderRadius: '50%',
                                       }}
                                     />
                                     {taskItem.taskname}
                                     <br />
-                                    {moment(taskItem.dueDate).format('DD-MM-YYYY')}
+                                    <span className={styles.taskDueDate}>
+                                      {moment(taskItem.dueDate).format('DD-MM-YYYY')}
+                                    </span>
                                   </span>
-                                  <span className={styles.textTouchpoint}>
-                                    {taskItem.userName}
-                                    <br /> <Avatar icon={<UserOutlined />} />
+                                  <span className={styles.avatarPIC}>
+                                    <Avatar icon={<UserOutlined size="small" />} />
                                   </span>
                                 </div>
                               );
                             })}
                             <div className={styles.viewmore}>
-                              {touchpointItem.task.length > 2 ? <a href="#">View More</a> : null}
+                              {touchpointItem.task.length > 3 ? (
+                                <ViewTaskTable
+                                  touchpointId={touchpointItem.id}
+                                  listTask={touchpointItem.task}
+                                  dispatch={props.dispatch}
+                                  rank={item.rank}
+                                  name={item.name}
+                                  status={touchpointItem.status}
+                                  leadId={item.id}
+                                />
+                              ) : null}
                             </div>
                           </div>
                         </Card>

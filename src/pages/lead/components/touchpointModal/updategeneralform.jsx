@@ -27,8 +27,7 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
         rules={[
           {
             required: true,
-            message: 'Please input Goal',
-            min: 10,
+            message: 'Please input goal',
           },
         ]}
       >
