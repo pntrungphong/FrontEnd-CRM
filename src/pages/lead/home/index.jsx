@@ -53,6 +53,23 @@ const taskColorStore = {
   'Product Consulting': '#1890FF',
 };
 
+const statusPhaseBoderStore = {
+  Done: styles.donePhase,
+  'In-progress': styles.inprogessPhase,
+  Draft: styles.daftPhase,
+};
+
+const tagBackgoundStore = {
+  Done: styles.doneStatusTag,
+  'In-progress': styles.inprogessStatusTag,
+  Draft: styles.daftStatusTag,
+};
+
+const StatusTag = (statusProps) => {
+  const tagBackgound = tagBackgoundStore[statusProps.status];
+  return <div className={[styles.statusTag, tagBackgound].join(' ')}>{statusProps.status}</div>;
+};
+
 const menu = (
   <Menu>
     <Menu.Item>
@@ -163,14 +180,15 @@ const ListLead = connect(({ lead, loading }) => ({
                         {index === 0 ? (
                           <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
                         ) : null}
-                        <Card className={styles.phaseCard}>
+                        <Card
+                          className={[
+                            styles.phaseCard,
+                            statusPhaseBoderStore[touchpointItem.status],
+                          ]}
+                        >
                           <div className={styles.spaceTouchpoint}>
                             <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                            {touchpointItem.status === 'In-progress' ? (
-                              <Tag color="cyan">{touchpointItem.status}</Tag>
-                            ) : (
-                              <Tag color="gold">{touchpointItem.status}</Tag>
-                            )}
+                            <StatusTag status={touchpointItem.status} />
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
@@ -210,7 +228,7 @@ const ListLead = connect(({ lead, loading }) => ({
                                   <span className={styles.textTouchpoint}>
                                     {taskItem.taskname}
                                     <br />
-                                    {moment(taskItem.dueDate).format('HH:mm DD-MM-YYYY')}
+                                    {moment(taskItem.dueDate).format('DD-MM-YYYY')}
                                   </span>
                                   <span className={styles.textTouchpoint}>{taskItem.userName}</span>
                                 </div>
