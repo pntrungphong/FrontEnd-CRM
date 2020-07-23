@@ -139,7 +139,12 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         destroyOnClose
         width={800}
         style={{ top: 10, background: 'white' }}
-        bodyStyle={{ height: '75vh', overflowY: 'scroll', paddingTop: 20 }}
+        bodyStyle={{
+          height: '75vh',
+          overflowY: 'scroll',
+          paddingTop: 20,
+          scrollBehavior: 'smooth',
+        }}
         afterClose={cleanData}
         className={styles.customModal}
         onCancel={onCancel}

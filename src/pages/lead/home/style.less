@@ -134,14 +134,14 @@
   margin: auto;
   text-align: center;
 }
+
 .phaseCard {
   width: 300px;
   height: 340px;
   margin: 8px 0 0 0;
   background-color: #fff;
-  border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
   .cardTwoOne {
     position: relative;
     top: -12px;
@@ -160,6 +160,34 @@
     font-size: 15px;
     border-radius: 10px;
   }
+}
+.statusTag {
+  position: absolute;
+  top: -4px;
+  left: 12px;
+  display: inline;
+  padding: 2px 12px;
+  color: white;
+  font-weight: 600;
+  border-radius: 0 0 6px 6px;
+}
+.donePhase {
+  border-top: 5px solid #7cb305;
+}
+.doneStatusTag {
+  background: #7cb305;
+}
+.inprogessPhase {
+  border-top: 5px solid #1890ff;
+}
+.inprogessStatusTag {
+  background: #1890ff;
+}
+.daftPhase {
+  border-top: 5px solid #bfbfbf;
+}
+.daftStatusTag {
+  background: #bfbfbf;
 }
 
 .titleTwo {
