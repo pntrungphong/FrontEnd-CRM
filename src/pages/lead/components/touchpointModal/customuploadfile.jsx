@@ -2,6 +2,7 @@ import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
 import moment from 'moment';
 import { getToken } from '../../../../utils/authority';
+import { downloadFile } from '../../../../utils/downloadfile';
 
 const { TextArea } = Input;
 
@@ -215,7 +216,13 @@ class CustomUploadFile extends React.Component {
                   : []
               }
             >
-              <a>{item.originalname}</a>
+              <a
+                onClick={() => {
+                  downloadFile(item);
+                }}
+              >
+                {item.originalname}
+              </a>
               <a>{item.createdAt}</a>
 
               {item.order !== this.props.order ? (

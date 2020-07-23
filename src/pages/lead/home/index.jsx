@@ -275,6 +275,7 @@ const ListLead = connect(({ lead, loading }) => ({
                               <Row>
                                 <Col flex="2">
                                   <h3 className={styles.phaseCardOne}>
+                                    Meeting date:{' '}
                                     {moment(touchpointItem.meetingDate).format('DD-MM')}
                                   </h3>
                                 </Col>
@@ -288,52 +289,58 @@ const ListLead = connect(({ lead, loading }) => ({
 
                             <h3 className={styles.goalText}>
                               {touchpointItem.status === 'Done'
-                                ? touchpointItem.review
-                                : touchpointItem.goal}
+                                ? `Review: ${touchpointItem.review}`
+                                : `Goal: ${touchpointItem.goal}`}
                             </h3>
                           </div>
-                          <Divider className={styles.customDivider} />
-                          <div className={styles.spanTwo}>
-                            {touchpointItem.task.slice(0, 3).map((taskItem) => {
-                              return (
-                                <div key={taskItem.id} className={styles.spaceTask}>
-                                  <span className={styles.textTouchpoint}>
-                                    <FontAwesomeIcon
-                                      icon={faDotCircle}
-                                      size="xs"
-                                      style={{
-                                        marginRight: '5px',
-                                        color: taskColorStore[taskItem.type],
-                                        background: taskColorStore[taskItem.type],
-                                        borderRadius: '50%',
-                                      }}
+                          {touchpointItem.status !== 'Done' ? (
+                            <>
+                              <Divider className={styles.customDivider} />
+                              <div className={styles.spanTwo}>
+                                {touchpointItem.task.slice(0, 3).map((taskItem) => {
+                                  return (
+                                    <div key={taskItem.id} className={styles.spaceTask}>
+                                      <span className={styles.textTouchpoint}>
+                                        <FontAwesomeIcon
+                                          icon={faDotCircle}
+                                          size="xs"
+                                          style={{
+                                            marginRight: '5px',
+                                            color: taskColorStore[taskItem.type],
+                                            background: taskColorStore[taskItem.type],
+                                            borderRadius: '50%',
+                                          }}
+                                        />
+                                        {taskItem.taskname}
+                                        <br />
+                                        <span className={styles.taskDueDate}>
+                                          {moment(taskItem.dueDate).format('DD-MM-YYYY')}
+                                        </span>
+                                      </span>
+                                      <span className={styles.avatarPIC}>
+                                        <Avatar icon={<UserOutlined size="small" />} />
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                                <div className={styles.viewmore}>
+                                  {touchpointItem.task.length > 3 ? (
+                                    <ViewTaskTable
+                                      touchpointId={touchpointItem.id}
+                                      listTask={touchpointItem.task}
+                                      dispatch={props.dispatch}
+                                      rank={item.rank}
+                                      name={item.name}
+                                      status={touchpointItem.status}
+                                      leadId={item.id}
                                     />
-                                    {taskItem.taskname}
-                                    <br />
-                                    <span className={styles.taskDueDate}>
-                                      {moment(taskItem.dueDate).format('DD-MM-YYYY')}
-                                    </span>
-                                  </span>
-                                  <span className={styles.avatarPIC}>
-                                    <Avatar icon={<UserOutlined size="small" />} />
-                                  </span>
+                                  ) : null}
                                 </div>
-                              );
-                            })}
-                            <div className={styles.viewmore}>
-                              {touchpointItem.task.length > 3 ? (
-                                <ViewTaskTable
-                                  touchpointId={touchpointItem.id}
-                                  listTask={touchpointItem.task}
-                                  dispatch={props.dispatch}
-                                  rank={item.rank}
-                                  name={item.name}
-                                  status={touchpointItem.status}
-                                  leadId={item.id}
-                                />
-                              ) : null}
-                            </div>
-                          </div>
+                              </div>
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </Card>
                       </div>
                     );
