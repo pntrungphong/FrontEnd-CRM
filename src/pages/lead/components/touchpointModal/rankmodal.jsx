@@ -50,7 +50,11 @@ class Rankmodal extends React.Component {
   render() {
     return (
       <div>
-        <Input readOnly value={rankStore[this.state.rank]} />
+        <Input
+          disabled={this.props.status === 'Done'}
+          readOnly
+          value={rankStore[this.state.rank]}
+        />
         <Modal
           title="Do you want to update rank?"
           visible={this.state.visible}
@@ -63,7 +67,7 @@ class Rankmodal extends React.Component {
               rank: this.props.value,
             }}
           >
-            <Form.Item name="rank">
+            <Form.Item label="Rank" name="rank">
               <Radio.Group>
                 <Radio value={0}>A</Radio>
                 <Radio value={1}>B</Radio>
@@ -72,7 +76,7 @@ class Rankmodal extends React.Component {
               </Radio.Group>
             </Form.Item>
             <Form.Item
-              label="Reason"
+              label="Updating Reason"
               name="reason"
               rules={[
                 {
@@ -90,7 +94,9 @@ class Rankmodal extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Button onClick={this.showModal}>Update</Button>
+        <Button hidden={this.props.status === 'Done'} onClick={this.showModal}>
+          Update
+        </Button>
       </div>
     );
   }
