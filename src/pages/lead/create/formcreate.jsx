@@ -18,7 +18,14 @@ const validateMessages = (label) => ({
 
 // if function
 const iff = (condition, then, otherwise) => (condition ? then : otherwise);
+
 class CreateForm extends React.Component {
+  dispatchType = {
+    contact: 'contact/quickCreateContact',
+    relation: 'contact/quickCreateContact',
+    company: 'company/quickCreateCompany',
+  };
+
   constructor(props) {
     super(props);
     this.fetchCompany = debounce(this.fetchCompany, 1000);
@@ -84,12 +91,6 @@ class CreateForm extends React.Component {
     this.inputValue = value;
   };
 
-  dispatchType = {
-    contact: 'contact/quickCreateContact',
-    relation: 'contact/quickCreateContact',
-    company: 'company/quickCreateCompany',
-  };
-
   formatFieldValue = (field, listValue) => {
     if (field === 'contact') return { contact: [...listValue] };
     if (field === 'relation') return { relation: [...listValue] };
@@ -142,7 +143,11 @@ class CreateForm extends React.Component {
         onFinish={this.onFinish}
         validateMessages={validateMessages}
       >
-        <Form.Item name="name" label="Lead Name" rules={[{ required: true }]}>
+        <Form.Item
+          name="name"
+          label="Lead Name"
+          rules={[{ required: true, message: 'Please input lead name' }]}
+        >
           <Input placeholder="Enter lead name" />
         </Form.Item>
 
@@ -268,7 +273,7 @@ class CreateForm extends React.Component {
           </Select>
         </Form.Item>
 
-        <Form.Item name="rank" label="Rank" rules={[{ required: true }]}>
+        <Form.Item name="rank" label="Rank" rules={[{ required: true, message: 'Choose rank' }]}>
           <Radio.Group className={styles.customRadioRank}>
             <Radio value="0">A</Radio>
             <Radio value="1">B</Radio>
@@ -276,17 +281,21 @@ class CreateForm extends React.Component {
             <Radio value="3">D</Radio>
           </Radio.Group>
         </Form.Item>
-        <Form.Item name="reason" label="Rank Explanation" rules={[{ required: true }]}>
+        <Form.Item
+          name="reason"
+          label="Rank Explanation"
+          rules={[{ required: true, message: 'Explanation for this rank' }]}
+        >
           <TextArea
             autoSize={{ minRows: 2, maxRows: 6 }}
             placeholder="Add reason for the ranking"
           />
         </Form.Item>
 
-        <Form.Item name="description" label="Description" rules={[{ required: true }]}>
+        <Form.Item name="description" label="Description">
           <TextArea rows={4} placeholder="Add lead description here" />
         </Form.Item>
-        <Form.Item name="note" label="Note" rules={[{ required: true }]}>
+        <Form.Item name="note" label="Note">
           <TextArea rows={4} placeholder="Add a note here" />
         </Form.Item>
 

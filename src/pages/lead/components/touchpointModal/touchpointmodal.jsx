@@ -214,6 +214,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
                 listTask={props.touchpoint.data.task}
               />
             </div>
+
             <div id="lead-information">
               <LeadInfomation lead={props.lead.data} />
             </div>

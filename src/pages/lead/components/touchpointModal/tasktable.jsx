@@ -175,7 +175,7 @@ class EditableTable extends React.Component {
         title: 'Type',
         dataIndex: 'type',
         width: '25%',
-        selectData: ['Product Consulting', 'Lead Management', 'Proposal Handling'],
+        selectData: ['Lead Management', 'Product Consulting', 'Proposal Handling'],
         select: true,
       },
       {
@@ -380,8 +380,8 @@ class EditableTable extends React.Component {
             </Form.Item>
             <Form.Item name="type" label="Type">
               <Select>
-                <Option value="Product Consulting">Product Consulting</Option>
                 <Option value="Lead Management">Lead Management</Option>
+                <Option value="Product Consulting">Product Consulting</Option>
                 <Option value="Proposal Handling">Proposal Handling</Option>
               </Select>
             </Form.Item>
