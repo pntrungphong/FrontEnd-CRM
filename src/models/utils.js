@@ -335,7 +335,6 @@ export const formatedListCompanyData = (response) => {
 };
 
 export const formatedDetailTouchpointData = (response, fileResponse) => {
-  console.table(fileResponse);
   try {
     const sla = [];
     const scope = [];

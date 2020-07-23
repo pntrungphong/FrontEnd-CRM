@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
-import { FileAddOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getToken } from '../../../../utils/authority';
 
@@ -131,7 +130,15 @@ class CustomUploadFile extends React.Component {
           footer={false}
           onCancel={this.handleCancel}
         >
-          <Form onFinish={this.onFinish}>
+          <Form
+            onFinish={this.onFinish}
+            initialValues={{
+              note:
+                this.state.dataSource.length > 0
+                  ? this.state.dataSource[this.state.currentFile].note
+                  : '',
+            }}
+          >
             <Form.Item name="note">
               <TextArea rows={4} />
             </Form.Item>
@@ -156,24 +163,20 @@ class CustomUploadFile extends React.Component {
               actions={
                 this.props.dataIndex !== 'brief'
                   ? [
-                      <FileAddOutlined
-                        onClick={() => {
-                          this.addNote(item.key);
-                        }}
-                      />,
                       <Button
                         onClick={() => {
-                          showNote(this.state.dataSource[item.key].note);
+                          if (item.order !== this.props.order) {
+                            showNote(this.state.dataSource[item.key].note);
+                          } else this.addNote(item.key);
                         }}
                         type="text"
                       >
-                        View Note
+                        {(this.state.dataSource[item.key].note &&
+                          this.state.dataSource[item.key].note !== '') ||
+                        item.order !== this.props.order
+                          ? 'View Note'
+                          : 'Add Note'}
                       </Button>,
-                      // <DeleteOutlined
-                      //   onClick={() => {
-                      //     this.removeFile(item.key);
-                      //   }}
-                      // />,
                     ]
                   : []
               }
