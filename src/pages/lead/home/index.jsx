@@ -204,6 +204,7 @@ const ListLead = connect(({ lead, loading }) => ({
                             <StatusTag status={touchpointItem.status} />
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
+                              company={item.company}
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
                               rank={item.rank}
