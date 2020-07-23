@@ -1,6 +1,7 @@
 import React from 'react';
-import { Button, message, Form, Upload, Modal, Input, List } from 'antd';
+import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
 import { FileAddOutlined } from '@ant-design/icons';
+import moment from 'moment';
 import { getToken } from '../../../../utils/authority';
 
 const { TextArea } = Input;
@@ -19,8 +20,10 @@ class CustomUploadFile extends React.Component {
     const fileData = props.value.map((file, index) => {
       return {
         key: index,
+        order: file.order,
         id: file.id,
         originalname: file.originalname,
+        createdAt: file.createdAt,
         note: file.note,
       };
     });
@@ -46,7 +49,9 @@ class CustomUploadFile extends React.Component {
         const fileData = {
           key: count,
           originalname: info.file.name,
+          order: this.props.order,
           id: info.file.response.id,
+          createdAt: moment(info.file.createdAt).format('DD-MM-YYYY'),
           note: undefined,
         };
         const newSource = [...dataSource, fileData];
@@ -174,6 +179,12 @@ class CustomUploadFile extends React.Component {
               }
             >
               <a>{item.originalname}</a>
+              <a>{item.createdAt}</a>
+              {item.order !== this.props.order ? (
+                <Tag>{`Touchpoint ${item.order}`}</Tag>
+              ) : (
+                <Tag color="red">{`Touchpoint ${item.order}`}</Tag>
+              )}
             </List.Item>
           )}
         />

@@ -27,7 +27,7 @@ export const formatedListLeadData = (response) => {
   try {
     console.log(response);
     const touchPointLength = response.data.map((element) => {
-      return element.touchpoint.length;
+      return element.touchPoint.length;
     });
     const touchpointList = [];
     for (let i = 0; i < Math.max(...touchPointLength); i += 1) {
@@ -35,13 +35,13 @@ export const formatedListLeadData = (response) => {
     }
     const formatedData = [];
     response.data.forEach((element) => {
-      const touchPoint = element.touchpoint
-        ? element.touchpoint.map((touchpoint) => {
+      const touchPoint = element.touchPoint
+        ? element.touchPoint.map((touchpoint) => {
             const tasks = touchpoint.task.map((task) => {
               return {
                 id: task.id,
                 touchpointId: touchpoint.id,
-                taskname: task.taskname,
+                taskname: task.taskName,
                 type: task.type,
                 userId: task.userId,
                 dueDate: task.dueDate,
@@ -56,6 +56,7 @@ export const formatedListLeadData = (response) => {
               id: touchpoint.id,
               goal: touchpoint.goal ? touchpoint.goal : '',
               meetingDate: touchpoint.meetingDate ? touchpoint.meetingDate : '',
+              createdAt: touchpoint.createdAt,
               task: tasks,
             };
           })
@@ -218,7 +219,6 @@ export const formatedDetailCompanyData = (response) => {
     const phone = response.phone
       ? response.phone.map((element) => {
           return {
-            type: element.type,
             number: element.number,
           };
         })
@@ -336,18 +336,22 @@ export const formatedListCompanyData = (response) => {
   }
 };
 
-export const formatedDetailTouchpointData = (response) => {
+export const formatedDetailTouchpointData = (response, fileResponse) => {
+  console.table(fileResponse);
   try {
     const sla = [];
     const scope = [];
     const estimation = [];
     const pricing = [];
     const quotation = [];
-    response.fileTouchPoint.forEach((file) => {
+    const proposal = [];
+    fileResponse.forEach((file) => {
       const newData = {
         id: file.fileId,
-        originalname: file.file.originalname,
+        originalname: file.file.originalName,
         note: file.note,
+        createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
+        order: file.touchPoint.order,
         touchPointId: file.touchPointId,
       };
       switch (file.type) {
@@ -366,6 +370,9 @@ export const formatedDetailTouchpointData = (response) => {
         case 'quotation':
           quotation.push(newData);
           break;
+        case 'proposal':
+          proposal.push(newData);
+          break;
         default:
           break;
       }
@@ -375,7 +382,7 @@ export const formatedDetailTouchpointData = (response) => {
       ? response.task.map((task) => {
           return {
             id: task.id,
-            taskname: task.taskname,
+            taskname: task.taskName,
             type: task.type,
             userId: task.userId,
             dueDate: task.dueDate,
@@ -387,15 +394,16 @@ export const formatedDetailTouchpointData = (response) => {
       goal: response.goal,
       note: response.note ? response.note : '',
       review: response.review ? response.review : '',
-      meetingdate: moment(response.meetingDate),
+      order: response.order ? response.order : '',
+      meetingdate: response.meetingdate ? moment(response.meetingDate) : moment(),
       sla,
       task: tasks,
       estimation,
       pricing,
       quotation,
+      proposal,
       scope,
     };
-
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');

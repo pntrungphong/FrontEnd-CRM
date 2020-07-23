@@ -6,7 +6,7 @@ export async function createTouchpoint(params) {
     leadId: params,
   };
 
-  return request(`/touchpoint`, {
+  return request(`/touchPoint`, {
     method: 'POST',
     data: body,
   });
@@ -14,7 +14,7 @@ export async function createTouchpoint(params) {
 
 export async function createTaskTouchpoint(params) {
   const body = {
-    taskname: params.taskname,
+    taskName: params.taskname,
     type: params.type,
     userId: params.pic,
     dueDate: params.duedate,
@@ -38,19 +38,21 @@ export async function markDoneTouchpoint(params) {
     review: params.review,
   };
 
-  return request(`/touchpoint/${params.touchPointId}/markdone`, {
+  return request(`/touchpoint/${params.touchPointId}/markDone`, {
     method: 'PUT',
     data: body,
   });
 }
 
 export async function updateTouchpoint(params) {
+  console.table(params);
   const scope = params.scope
     ? params.scope.map((file) => {
         return {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'scope',
+          order: file.order,
         };
       })
     : [];
@@ -60,6 +62,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'sla',
+          order: file.order,
         };
       })
     : [];
@@ -69,6 +72,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'estimation',
+          order: file.order,
         };
       })
     : [];
@@ -78,6 +82,7 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'pricing',
+          order: file.order,
         };
       })
     : [];
@@ -87,19 +92,38 @@ export async function updateTouchpoint(params) {
           fileId: file.id,
           note: file.note ? file.note : '',
           type: 'quotation',
+          order: file.order,
+        };
+      })
+    : [];
+  const proposal = params.proposal
+    ? params.proposal.map((file) => {
+        return {
+          fileId: file.id,
+          note: file.note ? file.note : '',
+          type: 'proposal',
+          order: file.order,
         };
       })
     : [];
 
-  const file = scope.concat(sla).concat(estimation).concat(pricing).concat(quotation);
+  const file = scope
+    .concat(sla)
+    .concat(estimation)
+    .concat(pricing)
+    .concat(quotation)
+    .concat(proposal)
+    .filter((it) => it.order === params.order);
   const body = {
     leadId: params.leadId ? params.leadId : '',
     goal: params.goal,
     note: params.leadId ? params.note : '',
     review: params.review,
-    meetingDate: params.meetingdate.format('YYYY-MM-DD HH:mm'),
+    meetingDate: params.meetingdate.format('YYYY-MM-DD'),
     file,
   };
+
+  console.table(body);
 
   return request(`/touchpoint/${params.touchpointId}`, {
     method: 'PUT',
@@ -109,7 +133,7 @@ export async function updateTouchpoint(params) {
 
 export async function updateTaskTouchpoint(params) {
   const body = {
-    taskname: params.taskname,
+    taskName: params.taskname,
     type: params.type,
     userId: params.userId,
     dueDate: params.duedate,

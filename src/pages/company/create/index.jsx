@@ -160,21 +160,6 @@ class Create extends React.Component {
                                 <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                               </Form.Item>
                             </Col>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                className={styles.childrenRow}
-                                name={[field.name, 'type']}
-                                fieldKey={[field.fieldKey, 'type']}
-                                rules={[{ required: true }]}
-                              >
-                                <Select placeholder="Select Phone">
-                                  <Option value="Primary">Primary</Option>
-                                  <Option value="Company">Company</Option>
-                                  <Option value="Personal">Personal</Option>
-                                </Select>
-                              </Form.Item>
-                            </Col>
                             <MinusCircleOutlined
                               className={['dynamic-delete-button', styles.customDeleteButton]}
                               onClick={() => remove(field.name)}

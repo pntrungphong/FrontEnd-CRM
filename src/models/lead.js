@@ -125,6 +125,7 @@ const Model = {
     //     });
     //   }
     // },
+
     *searchLeadByName(
       {
         payload = {
@@ -147,11 +148,11 @@ const Model = {
         });
       }
     },
+
     *update({ payload }, { call }) {
       yield call(updateLead, payload);
     },
   },
-
   *loadListContact(
     {
       payload = {
@@ -169,6 +170,7 @@ const Model = {
       });
     }
   },
+
   reducers: {
     cleanData(state) {
       return { ...state, leadInfo: [], data: undefined };
@@ -212,7 +214,6 @@ const Model = {
       return { ...state, viewable: payload.viewable };
     },
     showCompleteModal(state, { payload }) {
-      // nsole.log(payload)co
       return { ...state, viewable: payload.viewable };
     },
     showCompleteWinModal(state, { payload }) {

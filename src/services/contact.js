@@ -18,8 +18,8 @@ export async function createContact(params) {
 
 export async function updateContact(params) {
   const email = [];
-  if (params.email !== undefined) {
-    params.email.forEach((element) => {
+  if (params.contact.email !== undefined) {
+    params.contact.email.forEach((element) => {
       email.push({
         type: element.type,
         url: element.url,
@@ -28,25 +28,25 @@ export async function updateContact(params) {
   }
 
   const phone = [];
-  if (params.phone !== undefined) {
-    params.phone.forEach((element) => {
+  if (params.contact.phone !== undefined) {
+    params.contact.phone.forEach((element) => {
       phone.push({
-        type: element.type,
+        type: '',
         number: element.number,
       });
     });
   }
 
   const address = [];
-  if (params.address !== undefined) {
-    params.address.forEach((element) => {
+  if (params.contact.address !== undefined) {
+    params.contact.address.forEach((element) => {
       address.push(element);
     });
   }
 
   const website = [];
-  if (params.website !== undefined) {
-    params.website.forEach((element) => {
+  if (params.contact.website !== undefined) {
+    params.contact.website.forEach((element) => {
       website.push({
         type: element.type,
         url: element.url,
@@ -55,8 +55,8 @@ export async function updateContact(params) {
   }
 
   const company = [];
-  if (params.company !== undefined) {
-    params.company.forEach((element) => {
+  if (params.contact.company !== undefined) {
+    params.contact.company.forEach((element) => {
       company.push({
         idCompany: parseInt(element.key, 10),
         // title:"String"
@@ -65,18 +65,18 @@ export async function updateContact(params) {
   }
 
   const referral = [];
-  if (params.referral !== undefined) {
-    params.referral.forEach((element) => {
+  if (params.contact.referral !== undefined) {
+    params.contact.referral.forEach((element) => {
       referral.push({
         idTarget: parseInt(element.key, 10),
-        hastag: [],
+        hashtag: [],
       });
     });
   }
 
   const tag = [];
-  if (params.tag !== undefined) {
-    params.tag.forEach((element) => {
+  if (params.contact.tag !== undefined) {
+    params.contact.tag.forEach((element) => {
       if (element.value === element.label) {
         tag.push({
           tag: element.label,
@@ -91,8 +91,8 @@ export async function updateContact(params) {
   }
 
   const body = {
-    name: `${params.name}`,
-    title: params.title !== undefined ? params.title : '',
+    name: `${params.contact.name}`,
+    title: params.title !== undefined ? params.contact.title : '',
     phone,
     address,
     company,
@@ -101,7 +101,6 @@ export async function updateContact(params) {
     referral,
     tag,
   };
-
   return request(`/contact/${params.id}`, {
     method: 'PUT',
     data: body,
@@ -129,7 +128,7 @@ export async function fullCreateContact(params) {
   if (params.phone !== undefined) {
     params.phone.forEach((element) => {
       phone.push({
-        type: element.type,
+        type: '',
         number: element.number,
       });
     });
@@ -167,7 +166,7 @@ export async function fullCreateContact(params) {
     params.referral.forEach((element) => {
       referral.push({
         idTarget: parseInt(element.key, 10),
-        hastag: [''],
+        hashtag: [''],
       });
     });
   }
@@ -208,7 +207,7 @@ export async function fullCreateContact(params) {
 
 export async function quickCreateContact(params) {
   const body = {
-    name: `${params.name}`
+    name: `${params.name}`,
   };
   return request('/contact', {
     method: 'POST',
