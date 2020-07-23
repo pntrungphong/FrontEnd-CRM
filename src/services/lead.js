@@ -73,7 +73,7 @@ export async function fullCreateLead(params) {
   if (params.reason !== undefined) {
     rankRevision.push({
       rank,
-      touchpoint: 0,
+      touchPoint: 0,
       reason: params.reason,
     });
   }
@@ -106,7 +106,7 @@ export async function changeRank(params) {
     rankRevision: [
       {
         reason: params.reason,
-        touchpoint: 0,
+        touchPoint: 0,
       },
     ],
   };
@@ -173,14 +173,14 @@ export async function updateLead(params) {
     ? [
         {
           rank,
-          touchpoint: 0,
+          touchPoint: 0,
           reason: params.rank.reason,
         },
       ]
     : [
         {
           rank: 0,
-          touchpoint: 0,
+          touchPoint: 0,
           reason: 'Not update',
         },
       ];
