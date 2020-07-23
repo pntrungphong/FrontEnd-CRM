@@ -162,14 +162,7 @@ const Update = connect(({ contact, tag, loading }) => ({
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['contact', 'title']} label="Title">
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={['contact', 'company']}
-          label="Company"
-          rules={[{ required: true, message: 'Please input company' }]}
-        >
+        <Form.Item name={['contact', 'company']} label="Company">
           <Select
             mode="multiple"
             labelInValue
@@ -195,6 +188,10 @@ const Update = connect(({ contact, tag, loading }) => ({
             ))}
           </Select>
         </Form.Item>
+        <Form.Item name={['contact', 'title']} label="Title">
+          <Input />
+        </Form.Item>
+
         <Form.Item name={['contact', 'tag']} label="Tag">
           <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
             {props.tag.tag.map((item) => {
@@ -425,11 +422,7 @@ const Update = connect(({ contact, tag, loading }) => ({
             }}
           </Form.List>
         </div>
-        <Form.Item
-          name={['contact', 'referral']}
-          label="Referral"
-          rules={[{ required: true, message: 'Please input referral' }]}
-        >
+        <Form.Item name={['contact', 'referral']} label="Referral">
           <Select
             mode="multiple"
             labelInValue

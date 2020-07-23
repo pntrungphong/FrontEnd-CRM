@@ -47,11 +47,11 @@ const CustomHeader = (props) => {
           <Menu.Item key="lead-information">
             <a href="#lead-information">Lead Information</a>
           </Menu.Item>
-          <Menu.Item key="estimation">
-            <a href="#estimation">Estimation</a>
-          </Menu.Item>
           <Menu.Item key="scope">
             <a href="#scope">Scope</a>
+          </Menu.Item>
+          <Menu.Item key="estimation">
+            <a href="#estimation">Estimation</a>
           </Menu.Item>
           <Menu.Item key="pricing">
             <a href="#pricing">Pricing</a>
@@ -217,20 +217,20 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             <div id="lead-information">
               <LeadInfomation lead={props.lead.data} />
             </div>
-            <div id="estimation">
-              <Form.Item name="scope" label="Scope">
-                <CustomUploadFile
-                  status={props.status}
-                  dataIndex="scope"
-                  order={props.touchpoint.data.order}
-                />
-              </Form.Item>
-            </div>
             <div id="scope">
               <Form.Item name="estimation" label="Estimation">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="estimation"
+                  order={props.touchpoint.data.order}
+                />
+              </Form.Item>
+            </div>
+            <div id="estimation">
+              <Form.Item name="scope" label="Scope">
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="scope"
                   order={props.touchpoint.data.order}
                 />
               </Form.Item>
