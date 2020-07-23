@@ -22,8 +22,7 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
         rules={[
           {
             required: true,
-            message: 'Please input Goal',
-            min: 10,
+            message: 'Please input goal',
           },
         ]}
       >
@@ -44,7 +43,7 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
       >
         <DatePicker format="YYYY-MM-DD HH:mm" showTime />
       </Form.Item>
-      <Form.Item name="note" label="Note" rules={[{ min: 10 }]}>
+      <Form.Item name="note" label="Note">
         <TextArea rows={4} />
       </Form.Item>
       <Form.Item name="task">

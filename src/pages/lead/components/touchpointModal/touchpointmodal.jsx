@@ -13,7 +13,8 @@ const CustomHeader = (props) => {
   return (
     <div>
       <Row>
-        <Col flex={6}>{props.name}</Col>
+        {/* <Col flex={6}>{props.name}<h3>{props.lead.company.label}</h3></Col> */}
+
         <Col flex={1}>
           <MarkDoneModal
             form={props.form}
@@ -188,6 +189,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
                 listTask={props.touchpoint.data.task}
               />
             </div>
+
             <div id="lead-information">
               <LeadInfomation lead={props.lead.data} />
             </div>

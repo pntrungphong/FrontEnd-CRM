@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
@@ -204,7 +205,7 @@ const ListLead = connect(({ lead, loading }) => ({
                           </div>
                           <Divider className={styles.customDivider} />
                           <div className={styles.spanTwo}>
-                            {touchpointItem.task.slice(0, 2).map((taskItem) => {
+                            {touchpointItem.task.slice(0, 3).map((taskItem) => {
                               return (
                                 <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
@@ -217,7 +218,17 @@ const ListLead = connect(({ lead, loading }) => ({
                               );
                             })}
                             <div className={styles.viewmore}>
-                              {touchpointItem.task.length > 2 ? <a href="#">View More</a> : null}
+                              {touchpointItem.task.length > 2 ? (
+                                <ViewTaskTable
+                                  touchpointId={touchpointItem.id}
+                                  listTask={touchpointItem.task}
+                                  dispatch={props.dispatch}
+                                  rank={item.rank}
+                                  name={item.name}
+                                  status={touchpointItem.status}
+                                  leadId={item.id}
+                                />
+                              ) : null}
                             </div>
                           </div>
                         </Card>

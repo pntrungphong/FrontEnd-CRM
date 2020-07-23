@@ -94,7 +94,11 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         <p className={styles.title}>Lead Information</p>
       </div>
 
-      <Form.Item name={['lead', 'name']} label="Name" rules={[{ required: true, min: 4 }]}>
+      <Form.Item
+        name={['lead', 'name']}
+        label="Name"
+        rules={[{ required: true, message: 'Please input lead name' }]}
+      >
         <Input />
       </Form.Item>
       <Form.Item name={['lead', 'company']} label="Company">
@@ -107,7 +111,11 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           value={props.lead.searchValue}
         />
       </Form.Item>
-      <Form.Item name={['lead', 'contact']} label="Contact" rules={[{ required: true }]}>
+      <Form.Item
+        name={['lead', 'contact']}
+        label="Contact"
+        rules={[{ required: true, message: 'Please input contact' }]}
+      >
         <Select
           mode="multiple"
           autoClearSearchValue
@@ -128,7 +136,11 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           ))}
         </Select>
       </Form.Item>
-      <Form.Item name={['lead', 'relation']} label="Related To" rules={[{ required: true }]}>
+      <Form.Item
+        name={['lead', 'relation']}
+        label="Related To"
+        rules={[{ required: true, message: 'Input your data' }]}
+      >
         <Select
           mode="multiple"
           autoClearSearchValue
@@ -148,16 +160,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           ))}
         </Select>
       </Form.Item>
-      <Form.Item
-        name={['lead', 'description']}
-        label="Description"
-        rules={[
-          {
-            required: true,
-            min: 10,
-          },
-        ]}
-      >
+      <Form.Item name={['lead', 'description']} label="Description">
         <TextArea rows={4} />
       </Form.Item>
       <Form.Item name={['lead', 'tag']} label="Tag">
