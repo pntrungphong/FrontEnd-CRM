@@ -401,7 +401,6 @@ class EditableTable extends React.Component {
         <Button
           hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
           onClick={this.onShow}
-          type="primary"
           style={{
             marginBottom: 10,
           }}

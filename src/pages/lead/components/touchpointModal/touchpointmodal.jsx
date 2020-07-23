@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Form, Spin, Button, Col, Row, Menu } from 'antd';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
@@ -13,7 +13,20 @@ const CustomHeader = (props) => {
   return (
     <div>
       <Row>
-        <Col flex={6}>{props.name}</Col>
+        <Col flex={6}>
+          <Row>{props.name}</Row>
+          <Row>
+            <a
+              onClick={() => {
+                history.push({
+                  pathname: `/company/detail/${props.company.id}`,
+                });
+              }}
+            >
+              {props.company.name}
+            </a>
+          </Row>
+        </Col>
         <Col flex={1}>
           <MarkDoneModal
             form={props.form}
@@ -124,6 +137,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       <Modal
         title={
           <CustomHeader
+            company={props.company}
             status={props.status}
             rank={props.rank}
             name={props.name}
