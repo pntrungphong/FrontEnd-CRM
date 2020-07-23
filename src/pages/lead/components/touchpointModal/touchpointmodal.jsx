@@ -5,7 +5,6 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
-import Rankmodal from './rankmodal';
 import LeadInfomation from './leadInfomation';
 import UpdateGeneralInformation from './updategeneralform';
 import MarkDoneModal from './markdonetouchpoint';
@@ -32,22 +31,22 @@ const CustomHeader = (props) => {
           <Menu.Item key="general">
             <a href="#general">General</a>
           </Menu.Item>
-          <Menu.Item key="lead-information" >
+          <Menu.Item key="lead-information">
             <a href="#lead-information">Lead Information</a>
           </Menu.Item>
           <Menu.Item key="estimation">
             <a href="#estimation">Estimation</a>
           </Menu.Item>
-          <Menu.Item key="scope" >
+          <Menu.Item key="scope">
             <a href="#scope">Scope</a>
           </Menu.Item>
-          <Menu.Item key="pricing" >
+          <Menu.Item key="pricing">
             <a href="#pricing">Pricing</a>
           </Menu.Item>
           <Menu.Item key="proposal">
             <a href="#proposal">Proposal</a>
           </Menu.Item>
-          <Menu.Item key="quotation" >
+          <Menu.Item key="quotation">
             <a href="#quotation">Quotation</a>
           </Menu.Item>
           <Menu.Item key="sla">
@@ -55,7 +54,6 @@ const CustomHeader = (props) => {
           </Menu.Item>
         </Menu>
       </Row>
-
     </div>
   );
 };
@@ -70,7 +68,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   // const formRef = React.createRef();
 
   const onShow = () => {
-
     setVisible(true);
     props.dispatch({
       type: 'touchpoint/get',
@@ -82,7 +79,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
     });
   };
 
-  const cleanData = () => { };
+  const cleanData = () => {};
 
   const onPlaning = (values) => {
     console.table(values);
@@ -147,18 +144,15 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
-
           <Button key="cancel" onClick={onCancel}>
             Cancel
-        </Button>,
-          <Button key="submit" type="primary" htmlType="submit">
+          </Button>,
+          <Button form={props.touchpointId} key="submit" type="primary" htmlType="submit">
             Submit
-        </Button>
-
+          </Button>,
         ]}
       >
         {props.touchpoint.data && props.lead.data ? (
-
           <Form
             onFinish={onPlaning}
             id={props.touchpointId}
@@ -195,9 +189,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               />
             </div>
             <div id="lead-information">
-              <Form.Item name="rank" label="Rank">
-                <Rankmodal rank={props.rank} />
-              </Form.Item>
               <LeadInfomation lead={props.lead.data} />
             </div>
             <div id="estimation">
@@ -232,8 +223,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             </div>
           </Form>
         ) : (
-            <Spin className={styles.customSpin} />
-          )}
+          <Spin className={styles.customSpin} />
+        )}
       </Modal>
     </div>
   );

@@ -18,7 +18,7 @@ const Model = {
   effects: {
     *create({ payload }, { call }) {
       yield call(createTouchpoint, payload);
-      message.success('Successfully');
+      message.success('Create Successfully');
     },
     *update({ payload }, { call }) {
       const response = yield call(updateTouchpoint, payload);
@@ -33,7 +33,7 @@ const Model = {
 
       if (changeRankresponse === '') changeRankresponse = true;
       if (response.id && changeRankresponse) {
-        message.success('Mark done Successfully');
+        message.success('Update Successfully');
         return true;
       }
       return false;
