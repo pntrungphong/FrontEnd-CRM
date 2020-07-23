@@ -16,6 +16,7 @@ function showNote(note) {
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
+
     const fileData = props.value.map((file, index) => {
       return {
         key: index,
@@ -23,6 +24,7 @@ class CustomUploadFile extends React.Component {
         id: file.id,
         originalname: file.originalname,
         createdAt: file.createdAt,
+        createdBy: file.createdBy,
         note: file.note,
       };
     });
@@ -51,6 +53,7 @@ class CustomUploadFile extends React.Component {
           order: this.props.order,
           id: info.file.response.id,
           createdAt: moment(info.file.createdAt).format('DD-MM-YYYY'),
+          createdBy: info.file.response.createdBy,
           note: undefined,
         };
         const newSource = [...dataSource, fileData];
@@ -151,7 +154,10 @@ class CustomUploadFile extends React.Component {
         </Modal>
         <Form.Item name={this.props.dataIndex}>
           <Upload {...this.onUpload}>
-            <Button>Click to Upload</Button>
+            <Button hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}>
+              {' '}
+              Click to Upload
+            </Button>
           </Upload>
         </Form.Item>
         <List
@@ -165,7 +171,11 @@ class CustomUploadFile extends React.Component {
                   ? [
                       <Button
                         onClick={() => {
-                          if (item.order !== this.props.order) {
+                          if (
+                            item.order !== this.props.order ||
+                            this.props.status === 'Done' ||
+                            this.props.status === 'Draft'
+                          ) {
                             showNote(this.state.dataSource[item.key].note);
                           } else this.addNote(item.key);
                         }}
@@ -173,7 +183,9 @@ class CustomUploadFile extends React.Component {
                       >
                         {(this.state.dataSource[item.key].note &&
                           this.state.dataSource[item.key].note !== '') ||
-                        item.order !== this.props.order
+                        item.order !== this.props.order ||
+                        this.props.status === 'Done' ||
+                        this.props.status === 'Draft'
                           ? 'View Note'
                           : 'Add Note'}
                       </Button>,
@@ -183,11 +195,13 @@ class CustomUploadFile extends React.Component {
             >
               <a>{item.originalname}</a>
               <a>{item.createdAt}</a>
+
               {item.order !== this.props.order ? (
                 <Tag>{`Touchpoint ${item.order}`}</Tag>
               ) : (
                 <Tag color="red">{`Touchpoint ${item.order}`}</Tag>
               )}
+              <a>{item.createdBy}</a>
             </List.Item>
           )}
         />

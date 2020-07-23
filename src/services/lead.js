@@ -102,7 +102,7 @@ export async function fullCreateLead(params) {
 
 export async function changeRank(params) {
   const body = {
-    rank: params.rank,
+    rank: params.rank.toString(),
     rankRevision: [
       {
         reason: params.reason,
@@ -110,7 +110,7 @@ export async function changeRank(params) {
       },
     ],
   };
-  return request(`/lead/${params.id}/changerank`, {
+  return request(`/lead/${params.id}/rank`, {
     method: 'PUT',
     data: body,
   });
@@ -119,6 +119,7 @@ export async function changeRank(params) {
 export async function changeStatus(params) {
   const body = {
     status: params.status,
+    review: params.review,
   };
   return request(`/lead/${params.id}/status`, {
     method: 'PUT',
