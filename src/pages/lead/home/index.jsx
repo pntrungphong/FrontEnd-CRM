@@ -1,4 +1,4 @@
-import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu } from 'antd';
+import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu, Avatar } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -10,6 +10,7 @@ import {
   faDotCircle,
 } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
+import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
@@ -93,12 +94,17 @@ const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
       <div className={styles.leadTitle}>
-        <div onClick={() => history.push({ pathname: `/lead/detail/${id}` })}>{leadName}</div>
+        <div
+          onClick={() => history.push({ pathname: `/lead/detail/${id}` })}
+          className={styles.textTwo}
+        >
+          {leadName}
+        </div>
         <div>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
           <Dropdown overlay={menu}>
             <div className={styles.iconOne}>
-              <FontAwesomeIcon icon={faEllipsisH} size="lg" />
+              <FontAwesomeIcon icon={faEllipsisH} size="sm" />
             </div>
           </Dropdown>
         </div>
@@ -149,21 +155,23 @@ const ListLead = connect(({ lead, loading }) => ({
                       title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
                       className={styles.cardOne}
                     >
-                      <h3>
-                        <strong>Company: </strong>
-                        <a
-                          onClick={() => {
-                            history.push({
-                              pathname: `/company/detail/${item.company.id}`,
-                            });
-                          }}
-                        >
-                          {item.company.name}
-                        </a>
-                      </h3>
-                      <h3>
-                        <strong>Description: </strong> {item.description}
-                      </h3>
+                      <div className={styles.textOne}>
+                        <h3>
+                          <strong>Company: </strong>
+                          <a
+                            onClick={() => {
+                              history.push({
+                                pathname: `/company/detail/${item.company.id}`,
+                              });
+                            }}
+                          >
+                            {item.company.name}
+                          </a>
+                        </h3>
+                        <h3>
+                          <strong>Description: </strong> {item.description}
+                        </h3>
+                      </div>
                     </Card>
                   </div>
                 );
@@ -196,6 +204,7 @@ const ListLead = connect(({ lead, loading }) => ({
                             <StatusTag status={touchpointItem.status} />
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
+                              company={item.company}
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
                               rank={item.rank}
@@ -243,7 +252,10 @@ const ListLead = connect(({ lead, loading }) => ({
                                     <br />
                                     {moment(taskItem.dueDate).format('DD-MM-YYYY')}
                                   </span>
-                                  <span className={styles.textTouchpoint}>{taskItem.userName}</span>
+                                  <span className={styles.textTouchpoint}>
+                                    {taskItem.userName}
+                                    <br /> <Avatar icon={<UserOutlined />} />
+                                  </span>
                                 </div>
                               );
                             })}

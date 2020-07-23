@@ -108,7 +108,7 @@ export async function changeRank(params) {
             touchPoint: 0,
         }, ],
     };
-    return request(`/lead/${params.id}/changerank`, {
+    return request(`/lead/${params.id}/rank`, {
         method: 'PUT',
         data: body,
     });
@@ -117,6 +117,7 @@ export async function changeRank(params) {
 export async function changeStatus(params) {
     const body = {
         status: params.status,
+        review: params.review,
     };
     return request(`/lead/${params.id}/status`, {
         method: 'PUT',
@@ -167,17 +168,15 @@ export async function updateLead(params) {
 
     const rank = params.rank.rank ? params.rank.rank.toString() : params.rank.toString();
 
-    const rankRevision = params.rank.rank ?
-        [{
-            rank,
-            touchPoint: 0,
-            reason: params.rank.reason,
-        }, ] :
-        [{
-            rank: 0,
-            touchPoint: 0,
-            reason: 'Not update',
-        }, ];
+    const rankRevision = params.rank.rank ? [{
+        rank,
+        touchPoint: 0,
+        reason: params.rank.reason,
+    }, ] : [{
+        rank: 0,
+        touchPoint: 0,
+        reason: 'Not update',
+    }, ];
 
     const note = [];
 
