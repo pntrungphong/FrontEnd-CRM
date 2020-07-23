@@ -11,7 +11,7 @@ import { useMount } from 'ahooks';
 import Authorized from '@/utils/Authorized';
 import { getAuthority, getToken } from '@/utils/authority';
 import { getAuthorityFromRouter } from '@/utils/utils';
-// import { stringify } from 'querystring';
+
 import styles from './BasicLayout.less';
 
 const noMatch = (
@@ -30,11 +30,6 @@ const noMatch = (
 /**
  * use Authorized check all menu item
  */
-// const menuDataRender = (menuList) =>
-//   menuList.map((item) => {
-//     const localItem = { ...item, children: item.children ? menuDataRender(item.children) : [] };
-//     return Authorized.check(item.authority, localItem, null);
-//   });
 
 const BasicLayout = (props) => {
   const {
@@ -91,9 +86,6 @@ const BasicLayout = (props) => {
   if (!getToken()) {
     history.replace({
       pathname: '/login',
-      // search: stringify({
-      //   redirect: window.location.href,
-      // }),
     });
   }
 
@@ -124,27 +116,6 @@ const BasicLayout = (props) => {
 
           return <Link to={menuItemProps.path}>{customDom}</Link>;
         }}
-        // breadcrumbRender={(routers = []) => [
-        //   {
-        //     path: '/',
-        //     breadcrumbName: formatMessage({
-        //       id: 'menu.home',
-        //     }),
-        //   },
-        //   ...routers,
-        // ]}
-        // itemRender={(route, params, routes, paths) => {
-        //   const first = routes.indexOf(route) === 0;
-        //   return first ? (
-        //     <Link to={paths.join('/')}>{route.breadcrumbName}</Link>
-        //   ) : (
-        //       <span>{route.breadcrumbName}</span>
-        //     );
-        // }}
-        // menuDataRender={menuDataRender}
-        // rightContentRender={() => <RightContent />}
-        // breakpoint="sm"
-        // collapsedButtonRender={() => <MenuOutlined />}
         {...props}
         {...settings}
       >

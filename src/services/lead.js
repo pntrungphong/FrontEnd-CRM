@@ -73,7 +73,7 @@ export async function fullCreateLead(params) {
   if (params.reason !== undefined) {
     rankRevision.push({
       rank,
-      touchpoint: 0,
+      touchPoint: 0,
       reason: params.reason,
     });
   }
@@ -102,15 +102,15 @@ export async function fullCreateLead(params) {
 
 export async function changeRank(params) {
   const body = {
-    rank: params.rank,
+    rank: params.rank.toString(),
     rankRevision: [
       {
         reason: params.reason,
-        touchpoint: 0,
+        touchPoint: 0,
       },
     ],
   };
-  return request(`/lead/${params.id}/changerank`, {
+  return request(`/lead/${params.id}/rank`, {
     method: 'PUT',
     data: body,
   });
@@ -119,6 +119,7 @@ export async function changeRank(params) {
 export async function changeStatus(params) {
   const body = {
     status: params.status,
+    review: params.review,
   };
   return request(`/lead/${params.id}/status`, {
     method: 'PUT',
@@ -173,14 +174,14 @@ export async function updateLead(params) {
     ? [
         {
           rank,
-          touchpoint: 0,
+          touchPoint: 0,
           reason: params.rank.reason,
         },
       ]
     : [
         {
           rank: 0,
-          touchpoint: 0,
+          touchPoint: 0,
           reason: 'Not update',
         },
       ];

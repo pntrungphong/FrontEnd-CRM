@@ -31,7 +31,7 @@ const Model = {
         if (loadListResponse != null) {
           yield put({
             type: 'saveLeadInfo',
-            payload: formatedListLeadData(response),
+            payload: formatedListLeadData(loadListResponse),
           });
         }
       }
@@ -125,6 +125,7 @@ const Model = {
         });
       }
     },
+
     *searchLeadByName(
       {
         payload = {

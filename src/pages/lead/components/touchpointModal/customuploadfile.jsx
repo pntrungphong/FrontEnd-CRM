@@ -1,6 +1,5 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
-import { FileAddOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { getToken } from '../../../../utils/authority';
 
@@ -17,6 +16,7 @@ function showNote(note) {
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
+
     const fileData = props.value.map((file, index) => {
       return {
         key: index,
@@ -24,6 +24,7 @@ class CustomUploadFile extends React.Component {
         id: file.id,
         originalname: file.originalname,
         createdAt: file.createdAt,
+        createdBy: file.createdBy,
         note: file.note,
       };
     });
@@ -52,6 +53,7 @@ class CustomUploadFile extends React.Component {
           order: this.props.order,
           id: info.file.response.id,
           createdAt: moment(info.file.createdAt).format('DD-MM-YYYY'),
+          createdBy: info.file.response.createdBy,
           note: undefined,
         };
         const newSource = [...dataSource, fileData];
@@ -131,7 +133,15 @@ class CustomUploadFile extends React.Component {
           footer={false}
           onCancel={this.handleCancel}
         >
-          <Form onFinish={this.onFinish}>
+          <Form
+            onFinish={this.onFinish}
+            initialValues={{
+              note:
+                this.state.dataSource.length > 0
+                  ? this.state.dataSource[this.state.currentFile].note
+                  : '',
+            }}
+          >
             <Form.Item name="note">
               <TextArea rows={4} />
             </Form.Item>
@@ -144,7 +154,10 @@ class CustomUploadFile extends React.Component {
         </Modal>
         <Form.Item name={this.props.dataIndex}>
           <Upload {...this.onUpload}>
-            <Button>Click to Upload</Button>
+            <Button hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}>
+              {' '}
+              Click to Upload
+            </Button>
           </Upload>
         </Form.Item>
         <List
@@ -156,35 +169,39 @@ class CustomUploadFile extends React.Component {
               actions={
                 this.props.dataIndex !== 'brief'
                   ? [
-                      <FileAddOutlined
-                        onClick={() => {
-                          this.addNote(item.key);
-                        }}
-                      />,
                       <Button
                         onClick={() => {
-                          showNote(this.state.dataSource[item.key].note);
+                          if (
+                            item.order !== this.props.order ||
+                            this.props.status === 'Done' ||
+                            this.props.status === 'Draft'
+                          ) {
+                            showNote(this.state.dataSource[item.key].note);
+                          } else this.addNote(item.key);
                         }}
                         type="text"
                       >
-                        View Note
+                        {(this.state.dataSource[item.key].note &&
+                          this.state.dataSource[item.key].note !== '') ||
+                        item.order !== this.props.order ||
+                        this.props.status === 'Done' ||
+                        this.props.status === 'Draft'
+                          ? 'View Note'
+                          : 'Add Note'}
                       </Button>,
-                      // <DeleteOutlined
-                      //   onClick={() => {
-                      //     this.removeFile(item.key);
-                      //   }}
-                      // />,
                     ]
                   : []
               }
             >
               <a>{item.originalname}</a>
               <a>{item.createdAt}</a>
+
               {item.order !== this.props.order ? (
                 <Tag>{`Touchpoint ${item.order}`}</Tag>
               ) : (
                 <Tag color="red">{`Touchpoint ${item.order}`}</Tag>
               )}
+              <a>{item.createdBy}</a>
             </List.Item>
           )}
         />

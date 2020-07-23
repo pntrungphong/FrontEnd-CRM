@@ -40,7 +40,7 @@ export const formatedListLeadData = (response) => {
               return {
                 id: task.id,
                 touchpointId: touchpoint.id,
-                taskname: task.taskname,
+                taskname: task.taskName,
                 type: task.type,
                 userId: task.userId,
                 dueDate: task.dueDate,
@@ -342,11 +342,13 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
     const pricing = [];
     const quotation = [];
     const proposal = [];
+
     fileResponse.forEach((file) => {
       const newData = {
         id: file.fileId,
         originalname: file.file.originalname,
         note: file.note,
+        createdBy: file.file.createdBy,
         createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
         order: file.touchPoint.order,
         touchPointId: file.touchPointId,
@@ -379,7 +381,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       ? response.task.map((task) => {
           return {
             id: task.id,
-            taskname: task.taskname,
+            taskname: task.taskName,
             type: task.type,
             userId: task.userId,
             dueDate: task.dueDate,
@@ -401,6 +403,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       proposal,
       scope,
     };
+
     return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');

@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Modal, Form, Spin, Button, Col, Row, Menu } from 'antd';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
@@ -13,8 +13,20 @@ const CustomHeader = (props) => {
   return (
     <div>
       <Row>
-        {/* <Col flex={6}>{props.name}<h3>{props.lead.company.label}</h3></Col> */}
-
+        <Col flex={6}>
+          <Row>{props.name}</Row>
+          <Row>
+            <a
+              onClick={() => {
+                history.push({
+                  pathname: `/company/detail/${props.company.id}`,
+                });
+              }}
+            >
+              {props.company.name}
+            </a>
+          </Row>
+        </Col>
         <Col flex={1}>
           <MarkDoneModal
             form={props.form}
@@ -83,7 +95,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   const cleanData = () => {};
 
   const onPlaning = (values) => {
-    console.table(values);
     const returnValue = values;
     returnValue.leadId = props.leadId;
     returnValue.touchpointId = props.touchpointId;
@@ -126,6 +137,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       <Modal
         title={
           <CustomHeader
+            company={props.company}
             status={props.status}
             rank={props.rank}
             name={props.name}
@@ -140,7 +152,12 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         destroyOnClose
         width={800}
         style={{ top: 10, background: 'white' }}
-        bodyStyle={{ height: '75vh', overflowY: 'scroll', paddingTop: 20 }}
+        bodyStyle={{
+          height: '75vh',
+          overflowY: 'scroll',
+          paddingTop: 20,
+          scrollBehavior: 'smooth',
+        }}
         afterClose={cleanData}
         className={styles.customModal}
         onCancel={onCancel}
@@ -148,7 +165,13 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           <Button key="cancel" onClick={onCancel}>
             Cancel
           </Button>,
-          <Button form={props.touchpointId} key="submit" type="primary" htmlType="submit">
+          <Button
+            disabled={props.status === 'Done'}
+            form={props.touchpointId}
+            key="submit"
+            type="primary"
+            htmlType="submit"
+          >
             Submit
           </Button>,
         ]}
@@ -163,6 +186,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               goal: props.touchpoint.data.goal,
               meetingdate: props.touchpoint.data.meetingdate,
               note: props.touchpoint.data.note,
+              review: props.touchpoint.data.review,
               rank: props.rank,
               scope: props.touchpoint.data.scope,
               sla: props.touchpoint.data.sla,
@@ -184,6 +208,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           >
             <div id="general">
               <UpdateGeneralInformation
+                status={props.status}
                 dispatch={props.dispatch}
                 touchpointId={props.touchpointId}
                 listTask={props.touchpoint.data.task}
@@ -195,32 +220,56 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             </div>
             <div id="estimation">
               <Form.Item name="scope" label="Scope">
-                <CustomUploadFile dataIndex="scope" order={props.touchpoint.data.order} />
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="scope"
+                  order={props.touchpoint.data.order}
+                />
               </Form.Item>
             </div>
             <div id="scope">
               <Form.Item name="estimation" label="Estimation">
-                <CustomUploadFile dataIndex="estimation" order={props.touchpoint.data.order} />
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="estimation"
+                  order={props.touchpoint.data.order}
+                />
               </Form.Item>
             </div>
             <div id="pricing">
               <Form.Item name="pricing" label="Pricing">
-                <CustomUploadFile dataIndex="pricing" order={props.touchpoint.data.order} />
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="pricing"
+                  order={props.touchpoint.data.order}
+                />
               </Form.Item>
             </div>
             <div id="proposal">
               <Form.Item name="proposal" label="Proposal">
-                <CustomUploadFile dataIndex="proposal" order={props.touchpoint.data.order} />
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="proposal"
+                  order={props.touchpoint.data.order}
+                />
               </Form.Item>
             </div>
             <div id="quotation">
               <Form.Item name="quotation" label="Quotation">
-                <CustomUploadFile dataIndex="quotation" order={props.touchpoint.data.order} />
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="quotation"
+                  order={props.touchpoint.data.order}
+                />
               </Form.Item>
             </div>
             <div id="sla">
               <Form.Item name="sla" label="SLA">
-                <CustomUploadFile dataIndex="sla" order={props.touchpoint.data.order} />
+                <CustomUploadFile
+                  status={props.status}
+                  dataIndex="sla"
+                  order={props.touchpoint.data.order}
+                />
               </Form.Item>
             </div>
           </Form>

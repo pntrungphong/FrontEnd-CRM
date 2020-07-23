@@ -23,62 +23,71 @@
   position: relative;
   width: 310px;
   margin: 2px 5px;
-  padding: 4px;
-  background-color: #fafafa;
   border-radius: 2px;
+
   .spanTitle {
     display: flex;
     justify-content: space-around;
-    margin-top: 10px;
-    font-size: 17px;
-    div {
-      flex-basis: 0 0 1;
-      flex-grow: 1;
-      font-weight: bold;
-      text-align: center;
-    }
+    height: 40px;
+    margin-bottom: 2px;
+    padding: 4px;
+    font-weight: 500;
+    font-size: 20px;
+    background-color: #fafafa;
   }
-  .customCreateBtn {
-    color: black;
-    cursor: pointer;
-  }
-  .leadTitle {
-    display: flex;
-    justify-content: space-between;
-    margin: 0 10px;
-    font-size: 17px;
-    div {
-      flex-basis: 0;
-      flex-grow: 1;
-      font-weight: bold;
-      white-space: pre-wrap;
-      text-align: center;
-      cursor: pointer;
-
-      &:hover {
-        color: #269f99;
-      }
-
-      &:last-child {
-        margin-right: 10px;
-        text-align: right;
-      }
-    }
-  }
-
-  .leadTitle:nth-last-child {
-    text-align: right;
+  div {
+    flex-basis: 0 0 1;
+    flex-grow: 1;
+    font-weight: 500;
+    text-align: left;
   }
 }
+.customCreateBtn {
+  color: black;
+  cursor: pointer;
+}
+.leadTitle {
+  display: flex;
+  justify-content: space-between;
+  margin: 0 10px;
+  font-size: 17px;
+
+  div {
+    flex-basis: 0;
+    flex-grow: 1;
+    font-weight: bold;
+    white-space: pre-wrap;
+    text-align: center;
+    cursor: pointer;
+
+    &:hover {
+      color: #269f99;
+    }
+
+    &:last-child {
+      margin-right: 10px;
+      text-align: right;
+    }
+  }
+}
+
+.leadTitle:nth-last-child {
+  text-align: right;
+}
+
 .iconOne {
   font-size: 20px;
 }
 
 .cardOne {
-  justify-content: space-between;
+  justify-content: space-around;
   width: 300px;
   height: 340px;
+  font-weight: 500;
   background-color: #f4f5f7;
+}
+.textOne {
+  text-align: left;
 }
 
 .horScroll {
@@ -89,9 +98,8 @@
   overflow-x: auto;
   overflow-y: hidden;
   .titleOne {
-    position: relative;
-    top: -4px;
-    padding: 8px;
+    height: 40px;
+    margin-top: -4px;
     font-weight: 600;
     font-size: 16px;
     text-align: center;
@@ -101,6 +109,7 @@
 }
 .spaceAll {
   display: flex;
+  // background-color: ;
 }
 
 .touchPointCol {
@@ -134,14 +143,14 @@
   margin: auto;
   text-align: center;
 }
+
 .phaseCard {
   width: 300px;
   height: 340px;
   margin: 8px 0 0 0;
   background-color: #fff;
-  border: 1px solid #ccc;
   border-radius: 4px;
-  box-shadow: 0 0 4px rgba(0, 0, 0, 0.25);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.25);
   .cardTwoOne {
     position: relative;
     top: -12px;
@@ -161,6 +170,38 @@
     border-radius: 10px;
   }
 }
+.statusTag {
+  position: absolute;
+  top: -4px;
+  left: 12px;
+  display: inline;
+  padding: 2px 12px;
+  color: white;
+  font-weight: 600;
+  border-radius: 0 0 6px 6px;
+}
+.donePhase {
+  border-top: 5px solid #7cb305;
+}
+.doneStatusTag {
+  background: #7cb305;
+}
+.inprogessPhase {
+  border-top: 5px solid #1890ff;
+}
+.inprogessStatusTag {
+  background: #1890ff;
+}
+.daftPhase {
+  border-top: 5px solid #bfbfbf;
+}
+.daftStatusTag {
+  background: #bfbfbf;
+}
+
+.dotIcon {
+  color: red;
+}
 
 .titleTwo {
   position: relative;
@@ -170,9 +211,7 @@
   font-weight: 600;
   font-size: 14px;
 }
-.cardFather {
-  margin-top: 16px;
-}
+
 .customDivider {
   margin: 5px 0;
   background-color: rgba(217, 217, 217, 0.5);
@@ -199,4 +238,12 @@
 .spaceTask {
   display: flex;
   justify-content: space-between;
+}
+
+.textTwo {
+  padding-right: 40px;
+  font-weight: 600;
+}
+.spcing {
+  margin-top: -8px;
 }

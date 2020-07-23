@@ -16,6 +16,11 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
       <div className={styles.header}>
         <p className={styles.title}>General Information</p>
       </div>
+      {props.status === 'Done' ? (
+        <Form.Item name="review" label="Review">
+          <TextArea disabled rows={4} />
+        </Form.Item>
+      ) : null}
       <Form.Item
         name="goal"
         label="Goal"
@@ -26,10 +31,10 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
           },
         ]}
       >
-        <TextArea rows={4} />
+        <TextArea disabled={props.status === 'Done'} rows={4} />
       </Form.Item>
       <Form.Item name="rank" label="Rank">
-        <Rankmodal rank={props.rank} />
+        <Rankmodal status={props.status} rank={props.rank} />
       </Form.Item>
       <Form.Item
         name="meetingdate"
@@ -41,13 +46,14 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
           },
         ]}
       >
-        <DatePicker format="YYYY-MM-DD HH:mm" showTime />
+        <DatePicker disabled={props.status === 'Done'} format="YYYY-MM-DD HH:mm" showTime />
       </Form.Item>
-      <Form.Item name="note" label="Note">
-        <TextArea rows={4} />
+      <Form.Item name="note" label="Note" rules={[{ min: 10 }]}>
+        <TextArea disabled={props.status === 'Done'} rows={4} />
       </Form.Item>
       <Form.Item name="task">
         <EditableTable
+          status={props.status}
           dispatch={props.dispatch}
           touchpointId={props.touchpointId}
           listTask={props.listTask}

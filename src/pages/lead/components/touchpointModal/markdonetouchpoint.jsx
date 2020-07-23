@@ -1,6 +1,5 @@
 import React from 'react';
 import { Modal, Form, Button, Tag, Input, Radio } from 'antd';
-import Rankmodal from './rankmodal';
 import styles from './style.less';
 
 const { TextArea } = Input;
@@ -10,6 +9,8 @@ class MarkDoneModal extends React.Component {
     super(props);
     this.state = {
       visible: false,
+      rankReason: true,
+      reviewReason: true,
       status: this.props.status,
     };
   }
@@ -27,10 +28,10 @@ class MarkDoneModal extends React.Component {
     };
 
     let rankData;
-    if (values.rank) {
+    if (values.rank && values.rank !== this.props.rank) {
       rankData = {
-        rank: values.rank.rank,
-        reason: values.rank.reason,
+        rank: values.rank,
+        reason: values.rank_reason,
         id: this.props.leadId,
       };
     }
@@ -38,6 +39,7 @@ class MarkDoneModal extends React.Component {
     let statusData;
     if (values.status && values.status !== 'In-progess') {
       statusData = {
+        review: values.lead_reason,
         status: values.status,
         id: this.props.leadId,
       };
@@ -48,6 +50,7 @@ class MarkDoneModal extends React.Component {
       rankData: rankData || undefined,
     };
 
+    console.table(payload);
     this.props
       .dispatch({
         type: 'touchpoint/markDone',
@@ -70,6 +73,32 @@ class MarkDoneModal extends React.Component {
 
   onOk = (value) => {
     this.onMarkDone(value);
+  };
+
+  onRankChange = (value) => {
+    console.table(value.target.value);
+    console.table(this.props.rank);
+    if (value.target.value !== this.props.rank) {
+      this.setState({
+        rankReason: false,
+      });
+    } else {
+      this.setState({
+        rankReason: true,
+      });
+    }
+  };
+
+  onLeadChange = (value) => {
+    if (value.target.value !== 'In-progess') {
+      this.setState({
+        reviewReason: false,
+      });
+    } else {
+      this.setState({
+        reviewReason: true,
+      });
+    }
   };
 
   onCancel = () => {
@@ -95,28 +124,71 @@ class MarkDoneModal extends React.Component {
               rank: this.props.rank,
             }}
           >
-            <Form.Item label="Final Rank" name="rank">
-              <Rankmodal />
-            </Form.Item>
-            <Form.Item name="status" label="Lead Status">
-              <Radio.Group className={styles.customRadioRank}>
-                <Radio value="In-progess">In-progess</Radio>
-                <Radio value="Win">Win</Radio>
-                <Radio value="Lose">Lose</Radio>
+            <Form.Item label="Rank" name="rank">
+              <Radio.Group onChange={this.onRankChange}>
+                <Radio value={0}>A</Radio>
+                <Radio value={1}>B</Radio>
+                <Radio value={2}>C</Radio>
+                <Radio value={3}>D</Radio>
               </Radio.Group>
             </Form.Item>
+            {!this.state.rankReason ? (
+              <Form.Item
+                label="Updating Reason"
+                name="rank_reason"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input reason for updating rank',
+                  },
+                ]}
+              >
+                <TextArea
+                  placeholder="Describe reason for updating rank"
+                  value={this.state.reason}
+                />
+              </Form.Item>
+            ) : null}
             <Form.Item
               label="Review"
               name="review"
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Review',
+                  message: 'Please input mark done review',
                 },
               ]}
             >
-              <TextArea className={styles.customField} value={this.state.reason} />
+              <TextArea
+                placeholder="Review touchpoint here"
+                className={styles.customField}
+                value={this.state.reason}
+              />
             </Form.Item>
+            <Form.Item name="status" label="Lead Status">
+              <Radio.Group onChange={this.onLeadChange} className={styles.customRadioRank}>
+                <Radio value="In-progess">Continue</Radio>
+                <Radio value="Win">Win</Radio>
+                <Radio value="Lose">Lose</Radio>
+              </Radio.Group>
+            </Form.Item>
+            {!this.state.reviewReason ? (
+              <Form.Item
+                label="Reason"
+                name="lead_reason"
+                rules={[
+                  {
+                    required: true,
+                    message: 'Please input reason for mark lead as win/lose',
+                  },
+                ]}
+              >
+                <TextArea
+                  placeholder="Reason for mark lead as win/lose"
+                  value={this.state.reason}
+                />
+              </Form.Item>
+            ) : null}
             <Form.Item>
               <Button type="primary" htmlType="submit">
                 Submit
