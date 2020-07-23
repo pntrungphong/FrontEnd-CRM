@@ -1,5 +1,5 @@
 import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu, Avatar } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -35,7 +35,7 @@ class App extends React.Component {
         <div className={styles.top}>
           <Search
             className={styles.search}
-            placeholder="Search lead"
+            placeholder="Search lead by name"
             enterButton="Search"
             size="large"
             onSearch={this.onSearch}
@@ -116,6 +116,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingSearch: loading.effects['lead/searchLeadByName'],
   loadingCreate: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   useMount(() => {
@@ -123,6 +124,9 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/loadListLead',
     });
   });
+
+  const [currentPage, setcurrentPage] = useState(1);
+
   const onPaginitionChange = (page) => {
     props.dispatch({
       type: 'lead/loadListLead',
@@ -131,10 +135,11 @@ const ListLead = connect(({ lead, loading }) => ({
         searchValue: props.lead.searchValue,
       },
     });
+    setcurrentPage(page);
   };
 
   return (
-    <Spin spinning={props.loading}>
+    <Spin spinning={props.loading === true || props.loadingSearch === true}>
       <div className={styles.spaceAll}>
         <div className={styles.spaceOne}>
           <div className={styles.spanTitle}>
@@ -178,7 +183,13 @@ const ListLead = connect(({ lead, loading }) => ({
               })}
             </Space>
 
-            <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+            {props.lead.itemCount / 10 >= 1 ? (
+              <Pagination
+                total={props.lead.itemCount}
+                current={currentPage}
+                onChange={onPaginitionChange}
+              />
+            ) : null}
           </div>
         </div>
         <div className={styles.horScroll}>

@@ -19,6 +19,12 @@ const validateMessages = (label) => ({
 // if function
 const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 class Create extends React.Component {
+  dispatchType = {
+    contact: 'contact/quickCreateContact',
+    relation: 'contact/quickCreateContact',
+    company: 'company/quickCreateCompany',
+  };
+
   constructor(props) {
     super(props);
     this.fetchCompany = debounce(this.fetchCompany, 1000);
@@ -81,12 +87,6 @@ class Create extends React.Component {
     });
 
     this.inputValue = value;
-  };
-
-  dispatchType = {
-    contact: 'contact/quickCreateContact',
-    relation: 'contact/quickCreateContact',
-    company: 'company/quickCreateCompany',
   };
 
   formatFieldValue = (field, listValue) => {
