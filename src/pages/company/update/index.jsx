@@ -131,14 +131,53 @@ const Update = connect(({ tag, company, loading }) => ({
           rules={[
             {
               required: true,
-              message: 'Please input name',
+              message: 'Please enter name!',
             },
           ]}
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'url']} label="URL">
+        <Form.Item
+          name={['company', 'url']}
+          label="Website"
+          defaultField={{ type: 'url' }}
+          rules={[
+            {
+              type: 'url',
+              message: 'This field must be a valid website.',
+            },
+          ]}
+        >
           <Input />
+        </Form.Item>
+        <Form.Item
+          name={['company', 'contact']}
+          label="Contact"
+          rules={[{ required: true, message: 'Please enter contact!' }]}
+        >
+          <Select
+            mode="multiple"
+            labelInValue
+            value={props.company.searchValueContact}
+            notFoundContent={
+              props.fetchingContact ? (
+                <Spin size="small" />
+              ) : (
+                <p>
+                  <Button type="text" onClick={createContact}>
+                    Create contact
+                  </Button>
+                </p>
+              )
+            }
+            filterOption={false}
+            onSearch={fetchContact}
+            onChange={handleChange}
+          >
+            {props.company.contactInfo.map((d) => (
+              <Option key={d.key}>{d.label}</Option>
+            ))}
+          </Select>
         </Form.Item>
         <Form.Item name={['company', 'tag']} label="Tag">
           <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
@@ -171,15 +210,10 @@ const Update = connect(({ tag, company, loading }) => ({
                             <Form.Item
                               {...field}
                               name={[field.name, 'number']}
-                              rules={[
-                                {
-                                  required: true,
-                                  message: 'Please input phone',
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Please enter phone!' }]}
                               fieldKey={[field.fieldKey, 'number']}
                             >
-                              <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
+                              <Input pattern="^[0-9]{10}$" />
                             </Form.Item>
                           </Col>
                           <Col flex="none">
@@ -227,11 +261,11 @@ const Update = connect(({ tag, company, loading }) => ({
                               rules={[
                                 {
                                   required: true,
-                                  messages: 'Please input your email',
+                                  message: 'Please enter email!',
                                 },
                               ]}
                             >
-                              <Input placeholder="URL Email" />
+                              <Input />
                             </Form.Item>
                           </Col>
                           <Col flex="2">
@@ -241,7 +275,7 @@ const Update = connect(({ tag, company, loading }) => ({
                               fieldKey={[field.fieldKey, 'type']}
                               rules={[{ required: true, message: 'Select type' }]}
                             >
-                              <Select placeholder="Select Email">
+                              <Select placeholder="Type">
                                 <Option value="Gmail">Gmail</Option>
                                 <Option value="Yandex">Yandex</Option>
                                 <Option value="Yahoo">Yahoo</Option>
@@ -273,7 +307,7 @@ const Update = connect(({ tag, company, loading }) => ({
             {(fields, { add, remove }) => {
               return (
                 <div>
-                  <Form.Item label="Website">
+                  <Form.Item label="Social link">
                     <Button
                       type="dashed"
                       onClick={() => {
@@ -293,9 +327,8 @@ const Update = connect(({ tag, company, loading }) => ({
                               {...field}
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
-                              rules={[{ required: true, message: 'Please input' }]}
                             >
-                              <Input placeholder="URL Website" />
+                              <Input />
                             </Form.Item>
                           </Col>
                           <Col flex="2">
@@ -303,10 +336,9 @@ const Update = connect(({ tag, company, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
-                              rules={[{ required: true, message: 'Select type' }]}
                               type
                             >
-                              <Select placeholder="Select website">
+                              <Select placeholder="Type">
                                 <Option value="Facebook">Facebook</Option>
                                 <Option value="Skype">Skype</Option>
                                 <Option value="Zalo">Zalo</Option>
@@ -351,19 +383,8 @@ const Update = connect(({ tag, company, loading }) => ({
                   </Form.Item>
                   {fields.map((field) => (
                     <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
-                      <Form.Item
-                        {...field}
-                        validateTrigger={['onChange', 'onBlur']}
-                        rules={[
-                          {
-                            required: true,
-                            whitespace: true,
-                            message: 'Please input address',
-                          },
-                        ]}
-                        noStyle
-                      >
-                        <Input placeholder="Address" className={styles.address} />
+                      <Form.Item {...field} validateTrigger={['onChange', 'onBlur']} noStyle>
+                        <Input className={styles.address} />
                       </Form.Item>
                       <MinusCircleOutlined
                         className={styles.sltTwo}
@@ -379,39 +400,9 @@ const Update = connect(({ tag, company, loading }) => ({
           </Form.List>
         </div>
 
-        <Form.Item
-          name={['company', 'contact']}
-          label="Contact"
-          rules={[{ required: true, message: 'Please input contact' }]}
-        >
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.company.searchValueContact}
-            placeholder="Select contact"
-            notFoundContent={
-              props.fetchingContact ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create contact
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleChange}
-          >
-            {props.company.contactInfo.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
-            Submit
+            Update
           </Button>
         </Form.Item>
       </Form>

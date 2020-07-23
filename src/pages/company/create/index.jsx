@@ -122,14 +122,58 @@ class Create extends React.Component {
             rules={[
               {
                 required: true,
-                message: 'Please input name',
+                message: 'Please enter name!',
               },
             ]}
           >
             <Input />
           </Form.Item>
-          <Form.Item name="url" label="Website">
+          <Form.Item
+            name="url"
+            label="Website"
+            defaultField={{ type: 'url' }}
+            rules={[
+              {
+                type: 'url',
+                message: 'This field must be a valid website.',
+              },
+            ]}
+          >
             <Input />
+          </Form.Item>
+          <Form.Item
+            name="contact"
+            label="Contact"
+            rules={[{ required: true, message: 'Please enter contact' }]}
+          >
+            <Select
+              labelInValue
+              autoClearSearchValue
+              value={searchValueContact}
+              mode="multiple"
+              notFoundContent={iff(
+                this.props.fetchingContact,
+                <Spin size="small" />,
+                this.newContactName !== '' ? (
+                  <>
+                    <div className={styles.resultNotFound}>No results found</div>
+                    <Divider className={styles.customDevider} />
+                    <h3 onClick={this.quickCreateContact} className={styles.createNewContact}>
+                      Create "{this.newContactName}" as contact
+                    </h3>
+                  </>
+                ) : (
+                  ''
+                ),
+              )}
+              filterOption={false}
+              onSearch={this.fetchContact}
+              onChange={this.handleChange}
+            >
+              {contactInfo.map((d) => (
+                <Option key={d.key}>{d.label}</Option>
+              ))}
+            </Select>
           </Form.Item>
           <Form.Item name="tag" label="Tag">
             <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
@@ -155,9 +199,9 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'number']}
                                 fieldKey={[field.fieldKey, 'number']}
-                                rules={[{ required: true, message: 'Please input phone' }]}
+                                rules={[{ required: true, message: 'Please enter phone!' }]}
                               >
-                                <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
+                                <Input pattern="^[0-9]{10}$" />
                               </Form.Item>
                             </Col>
                             <MinusCircleOutlined
@@ -197,11 +241,10 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
-                                placeholder="Your Email"
                                 rules={[
                                   {
                                     required: true,
-                                    message: 'Please input your email',
+                                    message: 'Please enter email',
                                   },
                                 ]}
                               >
@@ -216,7 +259,7 @@ class Create extends React.Component {
                                 fieldKey={[field.fieldKey, 'type']}
                                 rules={[{ required: true, message: 'Select type' }]}
                               >
-                                <Select placeholder="Select Email">
+                                <Select placeholder="Type">
                                   <Option value="Primary">Primary</Option>
                                   <Option value="Company">Company</Option>
                                   <Option value="Personal">Personal</Option>
@@ -263,9 +306,8 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'url']}
                                 fieldKey={[field.fieldKey, 'url']}
-                                rules={[{ required: true, message: 'Please input' }]}
                               >
-                                <Input placeholder="Social Link" />
+                                <Input />
                               </Form.Item>
                             </Col>
                             <Col flex="2">
@@ -274,10 +316,9 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
-                                rules={[{ required: true, message: 'Select type' }]}
                                 type
                               >
-                                <Select placeholder="Social network">
+                                <Select placeholder="Type">
                                   <Option value="Facebook">Facebook</Option>
                                   <Option value="Skype">Skype</Option>
                                   <Option value="Zalo">Zalo</Option>
@@ -298,7 +339,7 @@ class Create extends React.Component {
                       </Row>
                     ))}
                     <Form.Item
-                      label="Social Link"
+                      label="Social link"
                       className={fields.length === 0 ? '' : styles.customRow}
                     >
                       <Button className={styles.customButtomAdd} onClick={() => add()}>
@@ -328,16 +369,9 @@ class Create extends React.Component {
                           {...field}
                           className={styles.childrenRow}
                           validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: 'Please input address',
-                            },
-                          ]}
                           noStyle
                         >
-                          <Input placeholder="Address" className={styles.address} />
+                          <Input className={styles.address} />
                         </Form.Item>
                         <MinusCircleOutlined
                           className={['dynamic-delete-button', styles.customDeleteAddressButton]}
@@ -360,44 +394,10 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-          <Form.Item
-            name="contact"
-            label="Contact"
-            rules={[{ required: true, message: 'Please input contact' }]}
-          >
-            <Select
-              labelInValue
-              autoClearSearchValue
-              value={searchValueContact}
-              mode="multiple"
-              notFoundContent={iff(
-                this.props.fetchingContact,
-                <Spin size="small" />,
-                this.newContactName !== '' ? (
-                  <>
-                    <div className={styles.resultNotFound}>No results found</div>
-                    <Divider className={styles.customDevider} />
-                    <h3 onClick={this.quickCreateContact} className={styles.createNewContact}>
-                      Create "{this.newContactName}" as contact
-                    </h3>
-                  </>
-                ) : (
-                  ''
-                ),
-              )}
-              filterOption={false}
-              onSearch={this.fetchContact}
-              onChange={this.handleChange}
-            >
-              {contactInfo.map((d) => (
-                <Option key={d.key}>{d.label}</Option>
-              ))}
-            </Select>
-          </Form.Item>
 
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Submit
+              Create
             </Button>
           </Form.Item>
         </Form>

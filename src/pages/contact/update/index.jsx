@@ -153,12 +153,7 @@ const Update = connect(({ contact, tag, loading }) => ({
         <Form.Item
           name={['contact', 'name']}
           label="Name"
-          rules={[
-            {
-              required: true,
-              message: 'Please input name',
-            },
-          ]}
+          rules={[{ required: true, message: 'Please enter name!' }]}
         >
           <Input />
         </Form.Item>
@@ -168,7 +163,7 @@ const Update = connect(({ contact, tag, loading }) => ({
         <Form.Item
           name={['contact', 'company']}
           label="Company"
-          rules={[{ required: true, message: 'Please input company' }]}
+          rules={[{ required: true, message: 'Please enter company!' }]}
         >
           <Select
             mode="multiple"
@@ -191,6 +186,36 @@ const Update = connect(({ contact, tag, loading }) => ({
             onChange={handleChange}
           >
             {props.contact.listCompany.map((d) => (
+              <Option key={d.key}>{d.label}</Option>
+            ))}
+          </Select>
+        </Form.Item>
+        <Form.Item
+          name={['contact', 'referral']}
+          label="Referral"
+          rules={[{ required: true, message: 'Please enter referral' }]}
+        >
+          <Select
+            mode="multiple"
+            labelInValue
+            value={props.contact.searchValueContactReferral}
+            placeholder="Select contact"
+            notFoundContent={
+              props.fetchingContact ? (
+                <Spin size="small" />
+              ) : (
+                <p>
+                  <Button type="text" onClick={createContact}>
+                    Create Contact
+                  </Button>
+                </p>
+              )
+            }
+            filterOption={false}
+            onSearch={fetchContact}
+            onChange={handleChangeContactReferral}
+          >
+            {props.contact.contactInfo.map((d) => (
               <Option key={d.key}>{d.label}</Option>
             ))}
           </Select>
@@ -221,9 +246,9 @@ const Update = connect(({ contact, tag, loading }) => ({
                           {...field}
                           name={[field.name, 'number']}
                           fieldKey={[field.fieldKey, 'number']}
-                          rules={[{ required: true, message: 'Please input phone' }]}
+                          rules={[{ required: true, message: 'Please enter phone!' }]}
                         >
-                          <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
+                          <Input pattern="^[0-9]{10}$" />
                         </Form.Item>
                       </Col>
                       <Col flex="2">
@@ -234,7 +259,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                           fieldKey={[field.fieldKey, 'type']}
                           rules={[{ required: true, message: 'Select type' }]}
                         >
-                          <Select placeholder="Select Phone">
+                          <Select placeholder="Type">
                             <Option value="Primary">Primary</Option>
                             <Option value="Company">Company</Option>
                             <Option value="Personal">Personal</Option>
@@ -284,11 +309,11 @@ const Update = connect(({ contact, tag, loading }) => ({
                               rules={[
                                 {
                                   required: true,
-                                  message: 'Please input your email',
+                                  message: 'Please enter email',
                                 },
                               ]}
                             >
-                              <Input placeholder="URL Email" />
+                              <Input />
                             </Form.Item>
                           </Col>
                           <Col flex="2">
@@ -298,7 +323,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                               fieldKey={[field.fieldKey, 'type']}
                               rules={[{ required: true, message: 'Select type' }]}
                             >
-                              <Select placeholder="Select Email">
+                              <Select placeholder="Type">
                                 <Option value="Primary">Primary</Option>
                                 <Option value="Company">Company</Option>
                                 <Option value="Personal">Personal</Option>
@@ -327,7 +352,7 @@ const Update = connect(({ contact, tag, loading }) => ({
             {(fields, { add, remove }) => {
               return (
                 <div>
-                  <Form.Item label="Website">
+                  <Form.Item label="Social link">
                     <Button type="dashed" onClick={() => add()}>
                       <PlusOutlined /> Add
                     </Button>
@@ -342,9 +367,8 @@ const Update = connect(({ contact, tag, loading }) => ({
                               {...field}
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
-                              rules={[{ required: true, message: 'Input your data' }]}
                             >
-                              <Input placeholder="URL Website" />
+                              <Input />
                             </Form.Item>
                           </Col>
                           <Col flex="2">
@@ -352,9 +376,8 @@ const Update = connect(({ contact, tag, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
-                              rules={[{ required: true, message: 'Select type' }]}
                             >
-                              <Select placeholder="Select website">
+                              <Select placeholder="Select Type">
                                 <Option value="Facebook">Facebook</Option>
                                 <Option value="Skype">Skype</Option>
                                 <Option value="Zalo">Zalo</Option>
@@ -398,19 +421,8 @@ const Update = connect(({ contact, tag, loading }) => ({
                   </Form.Item>
                   {fields.map((field) => (
                     <Form.Item {...formItemLayout} label={' '} required={false} key={field.key}>
-                      <Form.Item
-                        {...field}
-                        validateTrigger={['onChange', 'onBlur']}
-                        rules={[
-                          {
-                            required: true,
-                            whitespace: true,
-                            message: 'Please input address',
-                          },
-                        ]}
-                        noStyle
-                      >
-                        <Input placeholder="Address" className={styles.address} />
+                      <Form.Item {...field} validateTrigger={['onChange', 'onBlur']} noStyle>
+                        <Input className={styles.address} />
                       </Form.Item>
                       <MinusCircleOutlined
                         className={styles.sltTwo}
@@ -425,39 +437,10 @@ const Update = connect(({ contact, tag, loading }) => ({
             }}
           </Form.List>
         </div>
-        <Form.Item
-          name={['contact', 'referral']}
-          label="Referral"
-          rules={[{ required: true, message: 'Please input referral' }]}
-        >
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.contact.searchValueContactReferral}
-            placeholder="Select contact"
-            notFoundContent={
-              props.fetchingContact ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create Contact
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleChangeContactReferral}
-          >
-            {props.contact.contactInfo.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
-        </Form.Item>
+
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
-            Submit
+            Update
           </Button>
         </Form.Item>
       </Form>

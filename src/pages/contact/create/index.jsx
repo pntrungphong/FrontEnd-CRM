@@ -168,7 +168,7 @@ class Create extends React.Component {
           <Form.Item
             name="name"
             label="Name"
-            rules={[{ required: true, message: 'Please input name' }]}
+            rules={[{ required: true, message: 'Please enter name!' }]}
           >
             <Input />
           </Form.Item>
@@ -180,7 +180,7 @@ class Create extends React.Component {
           <Form.Item
             name="company"
             label="Company"
-            rules={[{ required: true, message: 'Please input company' }]}
+            rules={[{ required: true, message: 'Please enter company!' }]}
           >
             <Select
               mode="multiple"
@@ -214,7 +214,7 @@ class Create extends React.Component {
           <Form.Item
             name="referral"
             label="Referral"
-            rules={[{ required: true, message: 'Please input referral' }]}
+            rules={[{ required: true, message: 'Please enter referral!' }]}
           >
             <Select
               labelInValue
@@ -266,9 +266,9 @@ class Create extends React.Component {
                             className={styles.childrenRow}
                             name={[field.name, 'number']}
                             fieldKey={[field.fieldKey, 'number']}
-                            rules={[{ required: true, message: 'Please input phone' }]}
+                            rules={[{ required: true, message: 'Please enter phone!' }]}
                           >
-                            <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
+                            <Input pattern="^[0-9]{10}$" />
                           </Form.Item>
                         </Col>
                         <Col flex="2">
@@ -279,7 +279,7 @@ class Create extends React.Component {
                             fieldKey={[field.fieldKey, 'type']}
                             rules={[{ required: true, message: 'Select type' }]}
                           >
-                            <Select placeholder="Select Phone">
+                            <Select placeholder="Type">
                               <Option value="Personal">Personal</Option>
                               <Option value="Primary">Primary</Option>
                               <Option value="Company">Company</Option>
@@ -323,7 +323,7 @@ class Create extends React.Component {
                             rules={[
                               {
                                 required: true,
-                                message: 'Please input your email',
+                                message: 'Please enter email!',
                               },
                             ]}
                           >
@@ -338,7 +338,7 @@ class Create extends React.Component {
                             fieldKey={[field.fieldKey, 'type']}
                             rules={[{ required: true, message: 'Select type' }]}
                           >
-                            <Select placeholder="Select Email">
+                            <Select placeholder="Type">
                               <Option value="Primary">Primary</Option>
                               <Option value="Company">Company</Option>
                               <Option value="Personal">Personal</Option>
@@ -381,9 +381,8 @@ class Create extends React.Component {
                             className={styles.childrenRow}
                             name={[field.name, 'url']}
                             fieldKey={[field.fieldKey, 'url']}
-                            rules={[{ required: true, message: 'Input your data' }]}
                           >
-                            <Input placeholder="URL Website" />
+                            <Input />
                           </Form.Item>
                         </Col>
                         <Col flex="2">
@@ -392,9 +391,8 @@ class Create extends React.Component {
                             className={styles.childrenRow}
                             name={[field.name, 'type']}
                             fieldKey={[field.fieldKey, 'type']}
-                            rules={[{ required: true, message: 'Select type' }]}
                           >
-                            <Select placeholder="Website">
+                            <Select placeholder="Type">
                               <Option value="Facebook">Facebook</Option>
                               <Option value="Skype">Skype</Option>
                               <Option value="Zalo">Zalo</Option>
@@ -414,7 +412,7 @@ class Create extends React.Component {
                     ))}
                     <Form.Item
                       className={fields.length === 0 ? '' : styles.customRow}
-                      label="Website"
+                      label="Social link"
                     >
                       <Button className={styles.customButtomAdd} onClick={() => add()}>
                         <PlusOutlined /> Add
@@ -443,16 +441,9 @@ class Create extends React.Component {
                           {...field}
                           className={styles.childrenRow}
                           validateTrigger={['onChange', 'onBlur']}
-                          rules={[
-                            {
-                              required: true,
-                              whitespace: true,
-                              message: 'Input your address',
-                            },
-                          ]}
                           noStyle
                         >
-                          <Input placeholder="Address" className={styles.address} />
+                          <Input className={styles.address} />
                         </Form.Item>
                         <MinusCircleOutlined
                           className={['dynamic-delete-button', styles.customDeleteAddressButton]}
@@ -475,7 +466,7 @@ class Create extends React.Component {
           </div>
           <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Submit
+              Create
             </Button>
           </Form.Item>
         </Form>
