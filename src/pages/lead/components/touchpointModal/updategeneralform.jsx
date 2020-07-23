@@ -17,13 +17,13 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
         <p className={styles.title}>General Information</p>
       </div>
       {props.status === 'Done' ? (
-        <Form.Item name="review" label="Review">
+        <Form.Item name="review" label="Review:">
           <TextArea disabled rows={4} />
         </Form.Item>
       ) : null}
       <Form.Item
         name="goal"
-        label="Goal"
+        label="Goal:"
         rules={[
           {
             required: true,
@@ -33,12 +33,12 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
       >
         <TextArea disabled={props.status === 'Done'} rows={4} />
       </Form.Item>
-      <Form.Item name="rank" label="Rank">
+      <Form.Item name="rank" label="Rank:">
         <Rankmodal status={props.status} rank={props.rank} />
       </Form.Item>
       <Form.Item
         name="meetingdate"
-        label="Meeting Date"
+        label="Meeting Date:"
         rules={[
           {
             required: true,
@@ -48,10 +48,10 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
       >
         <DatePicker disabled={props.status === 'Done'} format="YYYY-MM-DD HH:mm" showTime />
       </Form.Item>
-      <Form.Item name="note" label="Note" rules={[{ min: 10 }]}>
+      <Form.Item name="note" label="Note:" rules={[{ min: 10 }]}>
         <TextArea disabled={props.status === 'Done'} rows={4} />
       </Form.Item>
-      <Form.Item name="task">
+      <Form.Item name="task" label="Task:">
         <EditableTable
           status={props.status}
           dispatch={props.dispatch}

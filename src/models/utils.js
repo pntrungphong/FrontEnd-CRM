@@ -56,6 +56,7 @@ export const formatedListLeadData = (response) => {
               goal: touchpoint.goal ? touchpoint.goal : '',
               meetingDate: touchpoint.meetingDate ? touchpoint.meetingDate : '',
               createdAt: touchpoint.createdAt,
+              actualDate: touchpoint.actualDate,
               task: tasks,
             };
           })

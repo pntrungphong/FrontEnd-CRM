@@ -1,4 +1,17 @@
-import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu, Avatar } from 'antd';
+import {
+  Input,
+  Space,
+  Card,
+  Pagination,
+  Tag,
+  Col,
+  Row,
+  Spin,
+  Divider,
+  Dropdown,
+  Menu,
+  Avatar,
+} from 'antd';
 import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
@@ -26,6 +39,7 @@ class App extends React.Component {
       payload: {
         page: 1,
         searchValue: value,
+        status: this.props.lead.status,
       },
     });
   };
@@ -124,6 +138,10 @@ const ListLead = connect(({ lead, loading }) => ({
     props.dispatch({
       type: 'lead/loadListLead',
     });
+    props.dispatch({
+      type: 'lead/saveStatus',
+      payload: 'In-progress',
+    });
   });
 
   const [currentPage, setcurrentPage] = useState(1);
@@ -133,7 +151,8 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/loadListLead',
       payload: {
         page,
-        searchValue: props.lead.searchValue,
+        searchValue: props.lead.leadSearchValue,
+        status: props.lead.status,
       },
     });
     setcurrentPage(page);
@@ -220,33 +239,55 @@ const ListLead = connect(({ lead, loading }) => ({
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
                               rank={item.rank}
+                              actualdate={touchpointItem.actualDate}
                               name={item.name}
+                              goal={touchpointItem.goal}
                               status={touchpointItem.status}
                               leadId={item.id}
                             />
-                            {touchpointItem.task.map((taskItem) => {
+                            {touchpointItem.task.map((taskItem, taskIndex) => {
                               if (listType.includes(taskItem.type)) return null;
                               listType.push(taskItem.type);
                               return (
-                                <Tag
-                                  key={taskItem.type}
-                                  className={styles.customTaskTag}
-                                  style={{ background: taskColorStore[taskItem.type] }}
-                                >
-                                  {taskItem.type} <br />
-                                </Tag>
+                                <div>
+                                  <Row>
+                                    <Col flex="2">
+                                      <Tag
+                                        key={taskItem.type}
+                                        className={styles.customTaskTag}
+                                        style={{ background: taskColorStore[taskItem.type] }}
+                                      >
+                                        {taskItem.type} <br />
+                                      </Tag>
+                                    </Col>
+                                    {taskIndex === 0 ? (
+                                      <div className={styles.counttime}>
+                                        <Col flex="1">
+                                          {moment(touchpointItem.createdAt).fromNow()}
+                                        </Col>
+                                      </div>
+                                    ) : null}
+                                  </Row>
+                                </div>
                               );
                             })}
-                            <h3 className={styles.phaseCardOne}>
-                              {moment(touchpointItem.createdAt).fromNow()}
-                            </h3>
-                            <h3 className={styles.phaseCardOne}>
-                              Meeting date:{' '}
-                              {touchpointItem.meetingDate === ''
-                                ? 'Not set'
-                                : moment(touchpointItem.meetingDate).format('HH:mm - DD/MM/YYYY')}
-                            </h3>
-                            <h3 className={styles.phaseCardOne}>
+                            <div>
+                              <Row>
+                                <Col flex="2">
+                                  <h3 className={styles.phaseCardOne}>
+                                    Meeting date:{' '}
+                                    {moment(touchpointItem.meetingDate).format('DD-MM')}
+                                  </h3>
+                                </Col>
+                                {touchpointItem.task.length <= 0 ? (
+                                  <div className={styles.counttime}>
+                                    <Col flex="2">{moment(touchpointItem.createdAt).fromNow()}</Col>
+                                  </div>
+                                ) : null}
+                              </Row>
+                            </div>
+
+                            <h3 className={styles.goalText}>
                               {touchpointItem.status === 'Done'
                                 ? `Review: ${touchpointItem.review}`
                                 : `Goal: ${touchpointItem.goal}`}

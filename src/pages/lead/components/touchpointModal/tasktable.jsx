@@ -166,7 +166,7 @@ class EditableTable extends React.Component {
     super(props);
     this.columns = [
       {
-        title: 'Task Name',
+        title: 'Task name',
         dataIndex: 'taskname',
         width: '25%',
         editable: true,
