@@ -6,7 +6,7 @@ export async function createTouchpoint(params) {
     leadId: params,
   };
 
-  return request(`/touchpoint`, {
+  return request(`/touchPoint`, {
     method: 'POST',
     data: body,
   });
@@ -14,7 +14,7 @@ export async function createTouchpoint(params) {
 
 export async function createTaskTouchpoint(params) {
   const body = {
-    taskname: params.taskname,
+    taskName: params.taskname,
     type: params.type,
     userId: params.pic,
     dueDate: params.duedate,
@@ -38,7 +38,7 @@ export async function markDoneTouchpoint(params) {
     review: params.review,
   };
 
-  return request(`/touchpoint/${params.touchPointId}/markdone`, {
+  return request(`/touchpoint/${params.touchPointId}/markDone`, {
     method: 'PUT',
     data: body,
   });
@@ -130,7 +130,7 @@ export async function updateTouchpoint(params) {
 
 export async function updateTaskTouchpoint(params) {
   const body = {
-    taskname: params.taskname,
+    taskName: params.taskname,
     type: params.type,
     userId: params.userId,
     dueDate: params.duedate,

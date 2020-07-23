@@ -69,7 +69,7 @@ export async function updateContact(params) {
     params.contact.referral.forEach((element) => {
       referral.push({
         idTarget: parseInt(element.key, 10),
-        hastag: [],
+        hashtag: [],
       });
     });
   }
@@ -166,7 +166,7 @@ export async function fullCreateContact(params) {
     params.referral.forEach((element) => {
       referral.push({
         idTarget: parseInt(element.key, 10),
-        hastag: [''],
+        hashtag: [''],
       });
     });
   }

@@ -26,7 +26,7 @@ export const setPagination = (data) => {
 export const formatedListLeadData = (response) => {
   try {
     const touchPointLength = response.data.map((element) => {
-      return element.touchpoint.length;
+      return element.touchPoint.length;
     });
     const touchpointList = [];
     for (let i = 0; i < Math.max(...touchPointLength); i += 1) {
@@ -34,13 +34,13 @@ export const formatedListLeadData = (response) => {
     }
     const formatedData = [];
     response.data.forEach((element) => {
-      const touchPoint = element.touchpoint
-        ? element.touchpoint.map((touchpoint) => {
+      const touchPoint = element.touchPoint
+        ? element.touchPoint.map((touchpoint) => {
             const tasks = touchpoint.task.map((task) => {
               return {
                 id: task.id,
                 touchpointId: touchpoint.id,
-                taskname: task.taskname,
+                taskname: task.taskName,
                 type: task.type,
                 userId: task.userId,
                 dueDate: task.dueDate,
@@ -348,7 +348,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
         originalname: file.file.originalname,
         note: file.note,
         createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
-        order: file.touchpoint.order,
+        order: file.touchPoint.order,
         touchPointId: file.touchPointId,
       };
       switch (file.type) {
@@ -379,7 +379,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       ? response.task.map((task) => {
           return {
             id: task.id,
-            taskname: task.taskname,
+            taskname: task.taskName,
             type: task.type,
             userId: task.userId,
             dueDate: task.dueDate,
