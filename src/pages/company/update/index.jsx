@@ -137,6 +137,33 @@ const Update = connect(({ tag, company, loading }) => ({
         >
           <Input />
         </Form.Item>
+
+        <Form.Item name={['company', 'contact']} label="Contact">
+          <Select
+            mode="multiple"
+            labelInValue
+            value={props.company.searchValueContact}
+            placeholder="Select contact"
+            notFoundContent={
+              props.fetchingContact ? (
+                <Spin size="small" />
+              ) : (
+                <p>
+                  <Button type="text" onClick={createContact}>
+                    Create contact
+                  </Button>
+                </p>
+              )
+            }
+            filterOption={false}
+            onSearch={fetchContact}
+            onChange={handleChange}
+          >
+            {props.company.contactInfo.map((d) => (
+              <Option key={d.key}>{d.label}</Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Form.Item name={['company', 'url']} label="URL">
           <Input />
         </Form.Item>
@@ -379,36 +406,6 @@ const Update = connect(({ tag, company, loading }) => ({
           </Form.List>
         </div>
 
-        <Form.Item
-          name={['company', 'contact']}
-          label="Contact"
-          rules={[{ required: true, message: 'Please input contact' }]}
-        >
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.company.searchValueContact}
-            placeholder="Select contact"
-            notFoundContent={
-              props.fetchingContact ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create contact
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleChange}
-          >
-            {props.company.contactInfo.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Submit

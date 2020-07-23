@@ -126,6 +126,7 @@ class CreateForm extends React.Component {
 
   handleContactChange = (value) => {
     this.inputValue = '';
+    this.setState({});
     this.props.dispatch({
       type: 'lead/handleSearchContactChange',
       payload: { value, listContact: [] },
