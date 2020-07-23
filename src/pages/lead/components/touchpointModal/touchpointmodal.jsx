@@ -222,19 +222,19 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               <LeadInfomation lead={props.lead.data} />
             </div>
             <div id="scope">
-              <Form.Item name="estimation" label="Estimation">
+              <Form.Item name="scope" label="Scope">
                 <CustomUploadFile
                   status={props.status}
-                  dataIndex="estimation"
+                  dataIndex="scope"
                   order={props.touchpoint.data.order}
                 />
               </Form.Item>
             </div>
             <div id="estimation">
-              <Form.Item name="scope" label="Scope">
+              <Form.Item name="estimation" label="Estimation">
                 <CustomUploadFile
                   status={props.status}
-                  dataIndex="scope"
+                  dataIndex="estimation"
                   order={props.touchpoint.data.order}
                 />
               </Form.Item>
