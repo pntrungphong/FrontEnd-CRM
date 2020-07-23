@@ -30,8 +30,10 @@ const CustomHeader = (props) => {
         <Col flex={1}>
           <MarkDoneModal
             form={props.form}
+            goal={props.goal}
             dispatch={props.dispatch}
             status={props.status}
+            actualdate={props.actualdate}
             rank={props.rank}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
@@ -142,6 +144,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             status={props.status}
             rank={props.rank}
             name={props.name}
+            goal={props.goal}
+            actualdate={props.actualdate}
             touchpoint={props.touchpoint.data}
             lead={props.lead.data}
             dispatch={props.dispatch}

@@ -17,6 +17,8 @@ const Model = {
     touchpointList: [],
     listFile: [],
     listTouchpoint: [],
+    status: '',
+    leadSearchValue: '',
     viewable: false,
   },
   effects: {
@@ -37,12 +39,13 @@ const Model = {
       }
     },
     *createTouchpoint({ payload }, { call, put }) {
-      const createTouchpointResponse = yield call(createTouchpoint, payload);
+      const createTouchpointResponse = yield call(createTouchpoint, payload.id);
       if (createTouchpointResponse) {
         message.success('Successfully');
         const response = yield call(getLead, {
           page: 1,
-          searchValue: '',
+          searchValue: payload.searchValue,
+          status: payload.status,
         });
         if (response != null) {
           yield put({
@@ -59,6 +62,7 @@ const Model = {
         payload = {
           page: 1,
           searchValue: '',
+          status: 'In-progress',
         },
       },
       { call, put },
@@ -191,6 +195,15 @@ const Model = {
         itemCount: payload.itemCount,
         touchpointList: payload.touchpointList,
       };
+    },
+    saveStatus(state, { payload }) {
+      return {
+        ...state,
+        status: payload,
+      };
+    },
+    saveLeadSearchValue(state, { payload }) {
+      return { ...state, leadSearchValue: payload };
     },
     saveListFile(state, { payload }) {
       return { ...state, listFile: payload };

@@ -36,6 +36,7 @@ export async function markDoneTouchpoint(params) {
   const body = {
     status: 'Done',
     review: params.review,
+    actualDate: params.actualDate,
   };
 
   return request(`/touchpoint/${params.touchPointId}/markDone`, {
