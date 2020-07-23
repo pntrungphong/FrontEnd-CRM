@@ -11,47 +11,50 @@ const rankStore = {
   '2': 'C',
   '3': 'D',
 };
+const colorStatusStore = {
+  'In-progress': 'blue',
+  Win: 'green',
+  Lost: 'red',
+};
 
 const columns = [
   {
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (leadName) => <div className={styles.customField}>{leadName}</div>,
-  },
-  {
-    title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-    render: (rank) => <div className={styles.customField}>{rankStore[rank]}</div>,
-  },
-  {
-    title: 'Rank',
-    dataIndex: 'rank',
-    key: 'rank',
-    render: (rank) => <div className={styles.customField}>{rankStore[rank]}</div>,
+    render: (leadName) => <h3 className={styles.customField}>{leadName}</h3>,
   },
   {
     title: 'Company',
     dataIndex: 'company',
     key: 'company',
-    size: 'small',
     render: (company) => (
       <>
-        {/* {company.name}  */}
-        <Tag key={company.id} className={styles.ta}>
-          <a
-            onClick={() => {
-              history.push({
-                pathname: `/company/detail/${company.id}`,
-              });
-            }}
-          >
-            {company.name}
-          </a>
-        </Tag>
+        <a
+          key={company.id}
+          className={styles.customCell}
+          onClick={() => {
+            history.push({
+              pathname: `/company/detail/${company.id}`,
+            });
+          }}
+        >
+          {company.name}
+        </a>
       </>
     ),
+  },
+  {
+    title: 'Status',
+    dataIndex: 'status',
+    key: 'status',
+    render: (status) => <Tag color={colorStatusStore[status]}>{status}</Tag>,
+  },
+  {
+    title: 'Rank',
+    dataIndex: 'rank',
+    key: 'rank',
+    render: (rank) => <div className={styles.customCell}>{rankStore[rank]}</div>,
   },
   {
     title: 'Action',
@@ -67,11 +70,6 @@ const columns = [
 ];
 
 class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
   onSearch = (value) => {
     this.props.dispatch({
       type: 'lead/searchLeadByName',
@@ -86,7 +84,6 @@ class App extends React.Component {
     return (
       <div className={styles.containerBox}>
         <div className={styles.top}>
-          {/* <Create /> */}
           <Search
             className={styles.search}
             placeholder="Search lead"
@@ -117,7 +114,6 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   });
 
-  onchange(() => {});
   const onPaginitionChange = (page) => {
     props.dispatch({
       type: 'lead/loadListLead',
@@ -130,12 +126,12 @@ const ListLead = connect(({ lead, loading }) => ({
 
   return (
     <div>
-      <div>
-        <h3>Filter</h3>
+      <div className={styles.filterBox}>
+        <h3>Status</h3>
         <Radio.Group buttonStyle="solid">
-          <Radio.Button value={1}>A</Radio.Button>
-          <Radio.Button value={2}>B</Radio.Button>
-          <Radio.Button value={3}>C</Radio.Button>
+          <Radio.Button value="In-progress">In-progress</Radio.Button>
+          <Radio.Button value="Win">Win</Radio.Button>
+          <Radio.Button value="Lost">Lost</Radio.Button>
         </Radio.Group>
       </div>
 
@@ -153,20 +149,6 @@ const ListLead = connect(({ lead, loading }) => ({
   );
 });
 
-// const Create = connect(({ lead }) => ({
-//   lead,
-// }))(() => {
-//   const createDetail = () => {
-//     history.push({
-//       pathname: '/lead/create',
-//     });
-//   };
-//   return (
-//     <Button htmlType="button" onClick={createDetail}>
-//       Create
-//     </Button>
-//   );
-// });
 export default connect(({ lead }) => ({
   lead,
 }))(App);
