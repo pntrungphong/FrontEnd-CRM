@@ -32,14 +32,6 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
       <Form.Item name="rank" label="Rank">
         <Rankmodal rank={props.rank} />
       </Form.Item>
-      <Form.Item name="task">
-        <EditableTable
-          dispatch={props.dispatch}
-          touchpointId={props.touchpointId}
-          listTask={props.listTask}
-        />
-      </Form.Item>
-
       <Form.Item
         name="meetingdate"
         label="Meeting Date"
@@ -54,6 +46,13 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
       </Form.Item>
       <Form.Item name="note" label="Note" rules={[{ min: 10 }]}>
         <TextArea rows={4} />
+      </Form.Item>
+      <Form.Item name="task">
+        <EditableTable
+          dispatch={props.dispatch}
+          touchpointId={props.touchpointId}
+          listTask={props.listTask}
+        />
       </Form.Item>
     </>
   );
