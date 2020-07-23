@@ -156,6 +156,7 @@ const Update = connect(({ contact, tag, loading }) => ({
           rules={[
             {
               required: true,
+              message: 'Please input name',
             },
           ]}
         >
@@ -164,7 +165,11 @@ const Update = connect(({ contact, tag, loading }) => ({
         <Form.Item name={['contact', 'title']} label="Title">
           <Input />
         </Form.Item>
-        <Form.Item name={['contact', 'company']} label="Company">
+        <Form.Item
+          name={['contact', 'company']}
+          label="Company"
+          rules={[{ required: true, message: 'Please input company' }]}
+        >
           <Select
             mode="multiple"
             labelInValue
@@ -205,7 +210,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                 <div>
                   <Form.Item label="Phone">
                     <Button type="dashed" onClick={() => add()}>
-                      <PlusOutlined /> Add Phone
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -216,7 +221,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                           {...field}
                           name={[field.name, 'number']}
                           fieldKey={[field.fieldKey, 'number']}
-                          rules={[{ required: true }]}
+                          rules={[{ required: true, message: 'Please input phone' }]}
                         >
                           <Input placeholder="Your Phone" pattern="^[0-9]{10}$" />
                         </Form.Item>
@@ -227,7 +232,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                           className={styles.slt}
                           name={[field.name, 'type']}
                           fieldKey={[field.fieldKey, 'type']}
-                          rules={[{ required: true }]}
+                          rules={[{ required: true, message: 'Select type' }]}
                         >
                           <Select placeholder="Select Phone">
                             <Option value="Primary">Primary</Option>
@@ -263,7 +268,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                         add();
                       }}
                     >
-                      <PlusOutlined /> Add Email
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -277,10 +282,9 @@ const Update = connect(({ contact, tag, loading }) => ({
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
                               rules={[
-                                { type: 'email', message: 'The input is wrong' },
                                 {
                                   required: true,
-                                  messages: 'Please input your email',
+                                  message: 'Please input your email',
                                 },
                               ]}
                             >
@@ -292,11 +296,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Select type' }]}
                             >
                               <Select placeholder="Select Email">
                                 <Option value="Primary">Primary</Option>
@@ -329,7 +329,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                 <div>
                   <Form.Item label="Website">
                     <Button type="dashed" onClick={() => add()}>
-                      <PlusOutlined /> Add Website
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -342,11 +342,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                               {...field}
                               name={[field.name, 'url']}
                               fieldKey={[field.fieldKey, 'url']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Input your data' }]}
                             >
                               <Input placeholder="URL Website" />
                             </Form.Item>
@@ -356,11 +352,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                               {...field}
                               name={[field.name, 'type']}
                               fieldKey={[field.fieldKey, 'type']}
-                              rules={[
-                                {
-                                  required: true,
-                                },
-                              ]}
+                              rules={[{ required: true, message: 'Select type' }]}
                             >
                               <Select placeholder="Select website">
                                 <Option value="Facebook">Facebook</Option>
@@ -401,7 +393,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                         add();
                       }}
                     >
-                      <PlusOutlined /> Add Address
+                      <PlusOutlined /> Add
                     </Button>
                   </Form.Item>
                   {fields.map((field) => (
@@ -413,7 +405,7 @@ const Update = connect(({ contact, tag, loading }) => ({
                           {
                             required: true,
                             whitespace: true,
-                            message: "Please input passenger's name or delete this field.",
+                            message: 'Please input address',
                           },
                         ]}
                         noStyle
@@ -433,7 +425,11 @@ const Update = connect(({ contact, tag, loading }) => ({
             }}
           </Form.List>
         </div>
-        <Form.Item name={['contact', 'referral']} label="Referral">
+        <Form.Item
+          name={['contact', 'referral']}
+          label="Referral"
+          rules={[{ required: true, message: 'Please input referral' }]}
+        >
           <Select
             mode="multiple"
             labelInValue

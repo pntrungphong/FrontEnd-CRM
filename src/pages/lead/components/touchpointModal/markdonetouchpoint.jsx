@@ -108,7 +108,7 @@ class MarkDoneModal extends React.Component {
     return (
       <div>
         <Modal
-          title="Complete touch point"
+          title="Complete Touchpoint"
           visible={this.state.visible}
           destroyOnClose
           footer={false}
@@ -195,7 +195,7 @@ class MarkDoneModal extends React.Component {
         </Modal>
         {this.state.status === 'In-progress' ? (
           <Button color="cyan" size="small" onClick={this.showModal}>
-            {this.state.status}
+            Complete Touchpoint
           </Button>
         ) : (
           <Tag color="gold">{this.state.status}</Tag>
