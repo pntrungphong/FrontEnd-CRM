@@ -45,7 +45,6 @@ export async function markDoneTouchpoint(params) {
 }
 
 export async function updateTouchpoint(params) {
-  console.table(params);
   const scope = params.scope
     ? params.scope.map((file) => {
         return {
@@ -122,8 +121,6 @@ export async function updateTouchpoint(params) {
     meetingDate: params.meetingdate.format('YYYY-MM-DD'),
     file,
   };
-
-  console.table(body);
 
   return request(`/touchpoint/${params.touchpointId}`, {
     method: 'PUT',
