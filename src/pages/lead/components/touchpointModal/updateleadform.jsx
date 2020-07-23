@@ -139,7 +139,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
       <Form.Item
         name={['lead', 'relation']}
         label="Related To"
-        rules={[{ required: true, message: 'Input your data' }]}
+        rules={[{ required: true, message: 'Input relation to this lead' }]}
       >
         <Select
           mode="multiple"

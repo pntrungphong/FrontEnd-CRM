@@ -284,7 +284,7 @@ class CreateForm extends React.Component {
         <Form.Item
           name="reason"
           label="Rank Explanation"
-          rules={[{ required: true, message: 'Input your reason' }]}
+          rules={[{ required: true, message: 'Explanation for this rank' }]}
         >
           <TextArea
             autoSize={{ minRows: 2, maxRows: 6 }}
