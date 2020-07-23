@@ -14,62 +14,67 @@ const NormalLoginForm = (props) => {
   };
   return (
     <div className={styles.large}>
-      <Form
-        name="normal_login"
-        className={cusForm}
-        initialValues={{
-          remember: true,
-        }}
-        onFinish={onFinish}
-      >
-        <h1 className={styles.titleOne}>Welcome Harmonia</h1>
-        <div className={styles.medium}>
-          <Form.Item
-            name="email"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Email!',
-              },
-            ]}
-          >
-            <Input
-              style={{ borderColor: 'cadetblue' }}
-              prefix={<UserOutlined className="site-form-item-icon" />}
-              placeholder="Email"
-            />
-          </Form.Item>
-        </div>
-
-        <div className={styles.mediumOne}>
-          <Form.Item
-            name="password"
-            rules={[
-              {
-                required: true,
-                message: 'Please input your Password!',
-              },
-            ]}
-          >
-            <Input
-              style={{ borderColor: 'cadetblue' }}
-              prefix={<LockOutlined className="site-form-item-icon" />}
-              type="password"
-              placeholder="Password"
-            />
-          </Form.Item>
-          <Form.Item>
-            <Button
-              loading={props.submitting}
-              type="primary"
-              htmlType="submit"
-              className={styles.butt}
+      <div>
+        <Form
+          name="normal_login"
+          className={cusForm}
+          initialValues={{
+            remember: true,
+          }}
+          onFinish={onFinish}
+        >
+          <h1 className={styles.titleOne}>Welcome Harmonia</h1>
+          <div className={styles.medium}>
+            <Form.Item
+              name="email"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Email!',
+                },
+              ]}
             >
-              Log in
-            </Button>
-          </Form.Item>
-        </div>
-      </Form>
+              <Input
+                style={{ borderColor: 'cadetblue' }}
+                prefix={<UserOutlined className="site-form-item-icon" />}
+                placeholder="Email"
+              />
+            </Form.Item>
+          </div>
+
+          <div className={styles.mediumOne}>
+            <Form.Item
+              name="password"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input your Password!',
+                },
+              ]}
+            >
+              <Input
+                style={{ borderColor: 'cadetblue' }}
+                prefix={<LockOutlined className="site-form-item-icon" />}
+                type="password"
+                placeholder="Password"
+              />
+            </Form.Item>
+            <Form.Item>
+              <Button
+                loading={props.submitting}
+                type="primary"
+                htmlType="submit"
+                className={styles.butt}
+              >
+                Log in
+              </Button>
+            </Form.Item>
+          </div>
+        </Form>
+      </div>
+      <div>
+        <img src="https://geekup.hexaspace.vn/images/254e00fa6bec87d593748b68dfe69313.svg" alt="" />
+      </div>
     </div>
   );
 };

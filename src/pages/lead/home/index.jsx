@@ -3,7 +3,12 @@ import React from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH, faCheckCircle, faTimesCircle } from '@fortawesome/free-solid-svg-icons';
+import {
+  faEllipsisH,
+  faCheckCircle,
+  faTimesCircle,
+  faDotCircle,
+} from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
@@ -51,6 +56,23 @@ const taskColorStore = {
   'Proposal Handling': '#B5F5EC',
   'Lead Management': '#D3ADF7',
   'Product Consulting': '#1890FF',
+};
+
+const statusPhaseBoderStore = {
+  Done: styles.donePhase,
+  'In-progress': styles.inprogessPhase,
+  Draft: styles.daftPhase,
+};
+
+const tagBackgoundStore = {
+  Done: styles.doneStatusTag,
+  'In-progress': styles.inprogessStatusTag,
+  Draft: styles.daftStatusTag,
+};
+
+const StatusTag = (statusProps) => {
+  const tagBackgound = tagBackgoundStore[statusProps.status];
+  return <div className={[styles.statusTag, tagBackgound].join(' ')}>{statusProps.status}</div>;
 };
 
 const menu = (
@@ -163,14 +185,15 @@ const ListLead = connect(({ lead, loading }) => ({
                         {index === 0 ? (
                           <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
                         ) : null}
-                        <Card className={styles.phaseCard}>
+                        <Card
+                          className={[
+                            styles.phaseCard,
+                            statusPhaseBoderStore[touchpointItem.status],
+                          ]}
+                        >
                           <div className={styles.spaceTouchpoint}>
                             <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                            {touchpointItem.status === 'In-progress' ? (
-                              <Tag color="cyan">{touchpointItem.status}</Tag>
-                            ) : (
-                              <Tag color="gold">{touchpointItem.status}</Tag>
-                            )}
+                            <StatusTag status={touchpointItem.status} />
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
                               listTask={touchpointItem.task}
@@ -208,9 +231,17 @@ const ListLead = connect(({ lead, loading }) => ({
                               return (
                                 <div key={taskItem.id} className={styles.spaceTask}>
                                   <span className={styles.textTouchpoint}>
+                                    <FontAwesomeIcon
+                                      icon={faDotCircle}
+                                      size="xs"
+                                      style={{
+                                        marginRight: '5px',
+                                        color: taskColorStore[taskItem.type],
+                                      }}
+                                    />
                                     {taskItem.taskname}
                                     <br />
-                                    {moment(taskItem.dueDate).format('HH:mm DD-MM-YYYY')}
+                                    {moment(taskItem.dueDate).format('DD-MM-YYYY')}
                                   </span>
                                   <span className={styles.textTouchpoint}>{taskItem.userName}</span>
                                 </div>
