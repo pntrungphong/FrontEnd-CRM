@@ -86,7 +86,7 @@ class App extends React.Component {
         <div className={styles.top}>
           <Search
             className={styles.search}
-            placeholder="Search lead"
+            placeholder="Search lead by name"
             enterButton="Search"
             size="large"
             onSearch={this.onSearch}
@@ -144,7 +144,9 @@ const ListLead = connect(({ lead, loading }) => ({
         rowKey="id"
         dataSource={props.lead.leadInfo}
       />
-      <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+      {props.lead.itemCount / 10 >= 1 ? (
+        <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+      ) : null}
     </div>
   );
 });

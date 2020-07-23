@@ -50,7 +50,6 @@ class MarkDoneModal extends React.Component {
       rankData: rankData || undefined,
     };
 
-    console.table(payload);
     this.props
       .dispatch({
         type: 'touchpoint/markDone',
@@ -76,8 +75,6 @@ class MarkDoneModal extends React.Component {
   };
 
   onRankChange = (value) => {
-    console.table(value.target.value);
-    console.table(this.props.rank);
     if (value.target.value !== this.props.rank) {
       this.setState({
         rankReason: false,
