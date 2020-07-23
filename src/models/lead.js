@@ -125,9 +125,49 @@ const Model = {
         });
       }
     },
+    *searchLeadByName(
+      {
+        payload = {
+          page: 1,
+          searchValue: '',
+        },
+      },
+      { call, put },
+    ) {
+      yield put({
+        type: 'saveLeadSearchValue',
+        payload: payload.searchValue,
+      });
+      const response = yield call(getLead, payload);
+
+      if (response != null) {
+        yield put({
+          type: 'saveLeadInfo',
+          payload: formatedListLeadData(response),
+        });
+      }
+    },
+
     *update({ payload }, { call }) {
       yield call(updateLead, payload);
     },
+  },
+  *loadListContact(
+    {
+      payload = {
+        page: 1,
+        searchValue: '',
+      },
+    },
+    { call, put },
+  ) {
+    const response = yield call(getLead, payload);
+    if (response != null) {
+      yield put({
+        type: 'saveContactInfo',
+        payload: formatedListLeadData(response),
+      });
+    }
   },
 
   reducers: {
@@ -173,7 +213,6 @@ const Model = {
       return { ...state, viewable: payload.viewable };
     },
     showCompleteModal(state, { payload }) {
-      // nsole.log(payload)co
       return { ...state, viewable: payload.viewable };
     },
     showCompleteWinModal(state, { payload }) {
