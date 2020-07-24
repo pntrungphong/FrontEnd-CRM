@@ -152,6 +152,7 @@ class App extends React.Component {
             placeholder="Search company by name"
             enterButton="Search"
             size="large"
+            loading={this.props.loadingSearch}
             onSearch={this.onSearch}
           />
         </div>
@@ -222,6 +223,7 @@ const Create = connect(({ company }) => ({
   );
 });
 
-export default connect(({ company }) => ({
+export default connect(({ company, loading }) => ({
   company,
+  loadingSearch: loading.effects['lead/searchCompanyByName'],
 }))(App);

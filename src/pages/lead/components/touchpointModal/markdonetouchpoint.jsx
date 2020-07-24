@@ -30,7 +30,6 @@ class MarkDoneModal extends React.Component {
   };
 
   onMarkDone = (values) => {
-    console.table(values);
     const markDoneData = {
       touchPointId: this.props.touchpointId,
       review: values.review,
@@ -72,6 +71,11 @@ class MarkDoneModal extends React.Component {
           });
           this.props.dispatch({
             type: 'lead/loadListLead',
+            payload: {
+              page: 1,
+              searchValue: this.props.lead.leadSearchValue,
+              status: this.props.lead.status,
+            },
           });
         }
       });
