@@ -83,6 +83,7 @@ class MarkDoneModal extends React.Component {
           });
         }
       });
+    this.props.reloadData();
     this.setState({
       visible: false,
     });
