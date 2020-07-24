@@ -240,10 +240,19 @@ const ListLead = connect(({ lead, loading }) => ({
                               <Row>
                                 <Col flex="2">
                                   <h3 className={styles.meetingDate}>
-                                    Meeting date:{' '}
-                                    {touchpointItem.meetingDate
-                                      ? moment(touchpointItem.meetingDate).format('DD-MM')
-                                      : 'Not set'}
+                                    {touchpointItem.status === 'Done' ? (
+                                      <>
+                                        Actual date:{' '}
+                                        {moment(touchpointItem.actualDate).format('DD-MM')}
+                                      </>
+                                    ) : (
+                                      <>
+                                        Meeting date:{' '}
+                                        {touchpointItem.meetingDate
+                                          ? moment(touchpointItem.meetingDate).format('DD-MM')
+                                          : 'Not set'}
+                                      </>
+                                    )}
                                   </h3>
                                 </Col>
                                 {touchpointItem.task.length <= 0 ? (
