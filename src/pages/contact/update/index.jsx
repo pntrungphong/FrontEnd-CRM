@@ -162,6 +162,7 @@ const Update = connect(({ contact, tag, loading }) => ({
             mode="multiple"
             labelInValue
             value={props.contact.searchValue}
+            placeholder="Select company"
             notFoundContent={
               props.fetchingCompany ? (
                 <Spin size="small" />
@@ -408,6 +409,7 @@ const Update = connect(({ contact, tag, loading }) => ({
             mode="multiple"
             labelInValue
             value={props.contact.searchValueContactReferral}
+            placeholder="Select contact"
             notFoundContent={
               props.fetchingContact ? (
                 <Spin size="small" />
