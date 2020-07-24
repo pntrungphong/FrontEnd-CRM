@@ -43,6 +43,7 @@ export const formatedListLeadData = (response) => {
                 taskname: task.taskName,
                 type: task.type,
                 userId: task.userId,
+                avatar: task.user.avatar,
                 dueDate: task.dueDate,
                 userName: task.user.firstName,
               };
