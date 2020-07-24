@@ -143,7 +143,6 @@ const Update = connect(({ tag, company, loading }) => ({
             mode="multiple"
             labelInValue
             value={props.company.searchValueContact}
-            placeholder="Select contact"
             notFoundContent={
               props.fetchingContact ? (
                 <Spin size="small" />
