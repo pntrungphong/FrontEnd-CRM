@@ -181,7 +181,7 @@ const Update = connect(({ tag, company, loading }) => ({
                 <div>
                   <Form.Item label="Phone">
                     <Button
-                      type="dashed"
+                      className={styles.customButtomAdd}
                       onClick={() => {
                         add();
                       }}
@@ -233,7 +233,7 @@ const Update = connect(({ tag, company, loading }) => ({
                 <div>
                   <Form.Item label="Email">
                     <Button
-                      type="dashed"
+                      className={styles.customButtomAdd}
                       onClick={() => {
                         add();
                       }}
@@ -302,7 +302,7 @@ const Update = connect(({ tag, company, loading }) => ({
                 <div>
                   <Form.Item label="Website">
                     <Button
-                      type="dashed"
+                      className={styles.customButtomAdd}
                       onClick={() => {
                         add();
                       }}
@@ -368,7 +368,7 @@ const Update = connect(({ tag, company, loading }) => ({
                 <div>
                   <Form.Item label="Address">
                     <Button
-                      type="dashed"
+                      className={styles.customButtomAdd}
                       onClick={() => {
                         add();
                       }}
