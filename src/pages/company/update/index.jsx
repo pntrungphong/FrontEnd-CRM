@@ -176,31 +176,6 @@ const Update = connect(({ tag, company, loading }) => ({
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['company', 'contact']} label="Contact">
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.company.searchValueContact}
-            notFoundContent={
-              props.fetchingContact ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create contact
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleChange}
-          >
-            {props.company.contactInfo.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Form.Item name={['company', 'tag']} label="Tag">
           <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
             {props.tag.tag.map((item) => {
