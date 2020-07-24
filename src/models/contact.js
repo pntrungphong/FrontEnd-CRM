@@ -125,9 +125,7 @@ const Model = {
     },
 
     *update({ payload }, { call }) {
-      // const response =
       yield call(updateContact, payload);
-      // console.table(response);
       history.push({
         pathname: '/contact',
       });

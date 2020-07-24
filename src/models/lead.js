@@ -29,6 +29,7 @@ const Model = {
         const loadListResponse = yield call(getLead, {
           page: 1,
           searchValue: '',
+          status: 'In-progress',
         });
         if (loadListResponse != null) {
           yield put({
@@ -153,8 +154,22 @@ const Model = {
       }
     },
 
-    *update({ payload }, { call }) {
-      yield call(updateLead, payload);
+    *update({ payload }, { call, put }) {
+      const response = yield call(updateLead, payload);
+      if (response && response.id) {
+        message.success('Successfully');
+        const loadListResponse = yield call(getLead, {
+          page: 1,
+          searchValue: '',
+          status: 'In-progress',
+        });
+        if (loadListResponse != null) {
+          yield put({
+            type: 'saveLeadInfo',
+            payload: formatedListLeadData(loadListResponse),
+          });
+        }
+      }
     },
   },
   *loadListContact(

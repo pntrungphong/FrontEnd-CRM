@@ -166,29 +166,34 @@ export async function updateLead(params) {
         });
     }
 
-    const rank = params.rank.rank ? params.rank.rank.toString() : params.rank.toString();
 
-    const rankRevision = params.rank.rank ? [{
-        rank,
-        touchPoint: 0,
-        reason: params.rank.reason,
-    },] : [{
-        rank: 0,
-        touchPoint: 0,
-        reason: 'Not update',
-    },];
+    const rank = params.rank.toString();
 
-    const note = [];
+    const rankRevision = params.reason
+        ? [
+            {
+                rank: 0,
+                reason: params.reason,
+                touchPoint: 0,
+            },
+        ]
+        : [{}];
+
+    const note = [
+        {
+            title: '',
+            content: params.note,
+        },
+    ];
 
     const body = {
         name: `${params.name}`,
-        idCompany: params.company !== undefined ? params.company.key.toString() : '',
         linkContact: contact,
         relatedTo: relation,
         rankRevision,
-        review: '',
         tag,
         rank,
+        review: '',
         file,
         description: `${params.description}`,
         note,

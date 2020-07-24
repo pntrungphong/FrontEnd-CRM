@@ -3,7 +3,7 @@ import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH, faDotCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
@@ -11,6 +11,7 @@ import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
+import UpdateLead from '../update/updateLeadForm';
 
 const { Search } = Input;
 
@@ -86,12 +87,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
         </div>
         <div className={styles.rankHeader}>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
-          <div
-            className={styles.iconOne}
-            onClick={() => history.push({ pathname: `/lead/update/${id}` })}
-          >
-            <FontAwesomeIcon icon={faEllipsisH} size="sm" />
-          </div>
+          <UpdateLead leadId={id} />
         </div>
       </div>
     </>
@@ -244,9 +240,11 @@ const ListLead = connect(({ lead, loading }) => ({
                             <div>
                               <Row>
                                 <Col flex="2">
-                                  <h3 className={styles.phaseCardOne}>
+                                  <h3 className={styles.meetingDate}>
                                     Meeting date:{' '}
-                                    {moment(touchpointItem.meetingDate).format('DD-MM')}
+                                    {touchpointItem.meetingDate
+                                      ? moment(touchpointItem.meetingDate).format('DD-MM')
+                                      : 'Not set'}
                                   </h3>
                                 </Col>
                                 {touchpointItem.task.length <= 0 ? (
