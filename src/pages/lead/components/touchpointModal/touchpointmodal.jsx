@@ -128,6 +128,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         setVisible(false);
       });
   };
+
   const onCancel = () => {
     setVisible(false);
     props.dispatch({

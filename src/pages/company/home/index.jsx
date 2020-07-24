@@ -2,6 +2,7 @@ import { Tag, Table, Pagination, Input, Button, Row } from 'antd';
 import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
+import { FormOutlined, EyeOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -10,7 +11,8 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (name) => <div className={styles.customField}>{name}</div>,
+    render: (name) => <h3>{name}</h3>,
+    width: '15%',
   },
   {
     title: 'Contact',
@@ -22,17 +24,17 @@ const columns = [
       <>
         {company.map((item) => {
           return item.key !== undefined ? (
-            <Tag key={item.key} className={styles.customFieldContact}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: `/contact/detail/${item.key}`,
-                  });
-                }}
-              >
-                {item.label}
-              </a>
-            </Tag>
+            <a
+              key={item.key}
+              className={styles.customCell}
+              onClick={() => {
+                history.push({
+                  pathname: `/contact/detail/${item.key}`,
+                });
+              }}
+            >
+              {item.label}
+            </a>
           ) : (
             ''
           );
@@ -45,7 +47,7 @@ const columns = [
     dataIndex: 'phone',
     key: 'phone',
     size: 'small',
-    width: '20%',
+    width: '15%',
     render: (phone) => (
       <>
         {phone.map((item) => {
@@ -69,6 +71,7 @@ const columns = [
     dataIndex: 'email',
     key: 'email',
     size: 'small',
+    width: '30%',
 
     render: (email) => (
       <>
@@ -93,6 +96,7 @@ const columns = [
     title: 'Action',
     key: 'action',
     size: 'small',
+    width: '10%',
 
     render: (record) => (
       <ul className={styles.customUl}>
@@ -104,7 +108,7 @@ const columns = [
               });
             }}
           >
-            Update
+            <FormOutlined /> Update
           </a>
         </li>
         <li>
@@ -115,7 +119,7 @@ const columns = [
               });
             }}
           >
-            Detail
+            <EyeOutlined /> Detail
           </a>
         </li>
       </ul>
@@ -217,8 +221,8 @@ const Create = connect(({ company }) => ({
   };
 
   return (
-    <Button htmlType="button" onClick={createDetail}>
-      Create
+    <Button type="primary" onClick={createDetail}>
+      Create New Company
     </Button>
   );
 });

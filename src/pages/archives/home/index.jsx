@@ -22,7 +22,7 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (leadName) => <h3 className={styles.customField}>{leadName}</h3>,
+    render: (leadName) => <h3>{leadName}</h3>,
   },
   {
     title: 'Company',

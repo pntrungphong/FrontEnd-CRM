@@ -23,9 +23,9 @@ const NormalLoginForm = (props) => {
         onFinish={onFinish}
       >
         <div>
-          <img src="/logo.png" alt="" width="560px" height="168px" />
+          <img src="/logo.png" alt="" width="500px" height="172px" />
         </div>
-        <h1 className={styles.titleOne}>Welcome</h1>
+        {/* <h1 className={styles.titleOne}>Welcome</h1> */}
 
         <div className={styles.mediumOne}>
           <Form.Item
