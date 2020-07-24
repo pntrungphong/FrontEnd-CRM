@@ -53,6 +53,6 @@ export default {
   'menu.Company': 'Company',
   'menu.Contact': 'Contact',
   'menu.Lead': 'Lead',
-  'menu.Archives': 'Archives',
+  'menu.Archives': 'Archive',
   'menu.Service': 'Service',
 };

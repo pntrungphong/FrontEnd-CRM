@@ -151,6 +151,7 @@ class App extends React.Component {
             placeholder="Search contact by name"
             enterButton="Search"
             size="large"
+            loading={this.props.loadingSearch}
             onSearch={this.onSearch}
           />
         </div>
@@ -225,6 +226,7 @@ const Create = connect(({ contact }) => ({
     </Button>
   );
 });
-export default connect(({ contact }) => ({
+export default connect(({ contact, loading }) => ({
   contact,
+  loadingSearch: loading.effects['contact/searchContactByName'],
 }))(App);

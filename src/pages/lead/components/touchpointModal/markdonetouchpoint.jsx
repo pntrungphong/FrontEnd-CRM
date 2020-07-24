@@ -1,5 +1,6 @@
 import React from 'react';
-import { Modal, Form, Button, Tag, Input, Radio } from 'antd';
+import { Modal, Form, Button, Tag, notification, DatePicker, Input, Radio } from 'antd';
+import moment from 'moment';
 import styles from './style.less';
 
 const { TextArea } = Input;
@@ -7,6 +8,7 @@ const { TextArea } = Input;
 class MarkDoneModal extends React.Component {
   constructor(props) {
     super(props);
+
     this.state = {
       visible: false,
       rankReason: true,
@@ -16,6 +18,12 @@ class MarkDoneModal extends React.Component {
   }
 
   showModal = () => {
+    if (this.props.goal === '') {
+      notification.error({
+        message: 'Goal must be updated first!',
+      });
+      return;
+    }
     this.setState({
       visible: true,
     });
@@ -25,6 +33,7 @@ class MarkDoneModal extends React.Component {
     const markDoneData = {
       touchPointId: this.props.touchpointId,
       review: values.review,
+      actualDate: values.actualdate.format('YYYY-MM-DD HH:mm'),
     };
 
     let rankData;
@@ -62,6 +71,11 @@ class MarkDoneModal extends React.Component {
           });
           this.props.dispatch({
             type: 'lead/loadListLead',
+            payload: {
+              page: 1,
+              searchValue: this.props.lead.leadSearchValue,
+              status: this.props.lead.status,
+            },
           });
         }
       });
@@ -119,6 +133,7 @@ class MarkDoneModal extends React.Component {
             initialValues={{
               status: 'In-progess',
               rank: this.props.rank,
+              actualdate: moment(this.props.actualdate),
             }}
           >
             <Form.Item label="Rank" name="rank">
@@ -131,7 +146,7 @@ class MarkDoneModal extends React.Component {
             </Form.Item>
             {!this.state.rankReason ? (
               <Form.Item
-                label="Updating Reason"
+                label=" Ranking update reason"
                 name="rank_reason"
                 rules={[
                   {
@@ -146,6 +161,18 @@ class MarkDoneModal extends React.Component {
                 />
               </Form.Item>
             ) : null}
+            <Form.Item
+              name="actualdate"
+              label="Actual date"
+              rules={[
+                {
+                  required: true,
+                  message: 'Please input actual date',
+                },
+              ]}
+            >
+              <DatePicker format="YYYY-MM-DD HH:mm" showTime />
+            </Form.Item>
             <Form.Item
               label="Review"
               name="review"
@@ -166,7 +193,7 @@ class MarkDoneModal extends React.Component {
               <Radio.Group onChange={this.onLeadChange} className={styles.customRadioRank}>
                 <Radio value="In-progess">Continue</Radio>
                 <Radio value="Win">Win</Radio>
-                <Radio value="Lose">Lose</Radio>
+                <Radio value="Lost">Lost</Radio>
               </Radio.Group>
             </Form.Item>
             {!this.state.reviewReason ? (
@@ -176,7 +203,7 @@ class MarkDoneModal extends React.Component {
                 rules={[
                   {
                     required: true,
-                    message: 'Please input reason for mark lead as win/lose',
+                    message: 'Please input reason for mark lead as win/lost',
                   },
                 ]}
               >

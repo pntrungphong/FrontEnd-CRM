@@ -106,7 +106,7 @@ export async function changeRank(params) {
         rankRevision: [{
             reason: params.reason,
             touchPoint: 0,
-        }, ],
+        },],
     };
     return request(`/lead/${params.id}/rank`, {
         method: 'PUT',
@@ -172,11 +172,11 @@ export async function updateLead(params) {
         rank,
         touchPoint: 0,
         reason: params.rank.reason,
-    }, ] : [{
+    },] : [{
         rank: 0,
         touchPoint: 0,
         reason: 'Not update',
-    }, ];
+    },];
 
     const note = [];
 
@@ -201,12 +201,25 @@ export async function updateLead(params) {
     });
 }
 export async function getLead(params) {
-    if (params.searchValue !== '') {
-        return request(`/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+    if (params.status === '') {
+        if (params.searchValue !== '') {
+            return request(`/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+                method: 'GET',
+            });
+        }
+        return request(`/lead?order=ASC&page=${params.page}&take=10`, {
             method: 'GET',
         });
     }
-    return request(`/lead?order=ASC&page=${params.page}&take=10`, {
+    if (params.searchValue !== '') {
+        return request(
+            `/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}&status=${params.status}`,
+            {
+                method: 'GET',
+            },
+        );
+    }
+    return request(`/lead?order=ASC&page=${params.page}&take=10&status=${params.status}`, {
         method: 'GET',
     });
 }
