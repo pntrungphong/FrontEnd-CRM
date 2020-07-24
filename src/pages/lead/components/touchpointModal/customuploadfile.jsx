@@ -14,10 +14,11 @@ function showNote(note) {
   });
 }
 
+const iff = (condition, then, otherwise) => (condition ? then : otherwise);
+
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
-
     const fileData = props.value.map((file, index) => {
       return {
         key: index,
@@ -228,8 +229,13 @@ class CustomUploadFile extends React.Component {
               {item.order !== this.props.order ? (
                 <Tag>{`Touchpoint ${item.order}`}</Tag>
               ) : (
-                <Tag color="red">{`Touchpoint ${item.order}`}</Tag>
+                iff(
+                  item.order !== undefined,
+                  <Tag color="red">{`Touchpoint ${item.order}`}</Tag>,
+                  <Tag>Lead Generation</Tag>,
+                )
               )}
+
               <a>{item.createdBy}</a>
             </List.Item>
           )}

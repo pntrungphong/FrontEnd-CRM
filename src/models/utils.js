@@ -459,6 +459,7 @@ export const formatedDetailLeadData = (response) => {
       tag,
       contact,
       relation,
+      note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
     };
 

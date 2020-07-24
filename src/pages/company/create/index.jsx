@@ -53,7 +53,6 @@ class Create extends React.Component {
   }
 
   onFinish = (values) => {
-    // console.table(values)
     this.props.dispatch({
       type: 'company/fullCreate',
       payload: { ...values },
@@ -86,7 +85,6 @@ class Create extends React.Component {
     let listValue = this.formRef.current.getFieldValue('contact');
     if (!listValue) listValue = [];
     listValue.push(value);
-    console.table(listValue);
     this.formRef.current.setFieldsValue({ contact: [...listValue] });
     this.newContactName = '';
   };

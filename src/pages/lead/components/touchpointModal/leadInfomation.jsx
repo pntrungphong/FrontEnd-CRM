@@ -8,7 +8,6 @@ import styles from './style.less';
 
 // if function
 const LeadInfomation = (props) => {
-  console.table(props);
   return (
     <>
       <div className={styles.header}>
