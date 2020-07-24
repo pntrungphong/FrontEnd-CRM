@@ -260,6 +260,11 @@ class EditableTable extends React.Component {
 
     this.props.dispatch({
       type: 'lead/loadListLead',
+      payload: {
+        page: 1,
+        searchValue: this.props.lead.leadSearchValue,
+        status: this.props.lead.status,
+      },
     });
 
     const newData = {
@@ -304,6 +309,11 @@ class EditableTable extends React.Component {
     }
     this.props.dispatch({
       type: 'lead/loadListLead',
+      payload: {
+        page: 1,
+        searchValue: this.props.lead.leadSearchValue,
+        status: this.props.lead.status,
+      },
     });
   };
 

@@ -7,9 +7,10 @@ import EditableTable from './tasktable';
 
 const { TextArea } = Input;
 
-const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
+const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
   task,
   touchpoint,
+  lead,
 }))((props) => {
   return (
     <>
@@ -55,6 +56,7 @@ const UpdateGeneralInformation = connect(({ task, touchpoint }) => ({
         <EditableTable
           status={props.status}
           dispatch={props.dispatch}
+          lead={props.lead}
           touchpointId={props.touchpointId}
           listTask={props.listTask}
         />
