@@ -57,7 +57,7 @@ export async function fullCreateLead(params) {
   }
 
   const review = '';
-  const status = '';
+  const status = 'In-progress';
   let rank = '';
   if (params.rank) rank = params.rank.toString();
 
@@ -89,7 +89,7 @@ export async function fullCreateLead(params) {
     rankRevision,
     tag,
     file,
-    description: `${params.description}`,
+    description: params.description ? params.description : '',
     review,
     status,
     note,
@@ -168,35 +168,33 @@ export async function updateLead(params) {
     });
   }
 
-  const rank = params.rank.rank ? params.rank.rank.toString() : params.rank.toString();
+  const rank = params.rank.toString();
 
-  const rankRevision = params.rank.rank
+  const rankRevision = params.reason
     ? [
         {
-          rank,
+          rank: 0,
+          reason: params.reason,
           touchPoint: 0,
-          reason: params.rank.reason,
         },
       ]
-    : [
-        {
-          rank: 0,
-          touchPoint: 0,
-          reason: 'Not update',
-        },
-      ];
+    : [{}];
 
-  const note = [];
+  const note = [
+    {
+      title: '',
+      content: params.note,
+    },
+  ];
 
   const body = {
     name: `${params.name}`,
-    idCompany: params.company !== undefined ? params.company.key.toString() : '',
     linkContact: contact,
     relatedTo: relation,
     rankRevision,
-    review: '',
     tag,
     rank,
+    review: '',
     file,
     description: `${params.description}`,
     note,

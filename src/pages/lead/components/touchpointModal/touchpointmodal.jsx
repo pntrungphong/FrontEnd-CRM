@@ -14,17 +14,21 @@ const CustomHeader = (props) => {
     <div>
       <Row>
         <Col flex={6}>
-          <Row>{props.name}</Row>
           <Row>
-            <a
-              onClick={() => {
-                history.push({
-                  pathname: `/company/detail/${props.company.id}`,
-                });
-              }}
-            >
-              {props.company.name}
-            </a>
+            <h2 style={{ fontWeight: '600' }}>{props.name}</h2>
+          </Row>
+          <Row>
+            <h3>
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: `/company/detail/${props.company.id}`,
+                  });
+                }}
+              >
+                {props.company.name}
+              </a>
+            </h3>
           </Row>
         </Col>
         <Col flex={1}>
@@ -38,6 +42,7 @@ const CustomHeader = (props) => {
             rank={props.rank}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
+            reloadData={props.reloadData}
           />
         </Col>
       </Row>
@@ -50,11 +55,11 @@ const CustomHeader = (props) => {
           <Menu.Item key="lead-information">
             <a href="#lead-information">Lead Information</a>
           </Menu.Item>
-          <Menu.Item key="estimation">
-            <a href="#estimation">Estimation</a>
-          </Menu.Item>
           <Menu.Item key="scope">
             <a href="#scope">Scope</a>
+          </Menu.Item>
+          <Menu.Item key="estimation">
+            <a href="#estimation">Estimation</a>
           </Menu.Item>
           <Menu.Item key="pricing">
             <a href="#pricing">Pricing</a>
@@ -82,7 +87,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
-  // const formRef = React.createRef();
 
   const onShow = () => {
     setVisible(true);
@@ -158,6 +162,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             dispatch={props.dispatch}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
+            reloadData={onCancel}
           />
         }
         visible={visible}
@@ -167,7 +172,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         bodyStyle={{
           height: '75vh',
           overflowY: 'scroll',
-          paddingTop: 20,
+          paddingTop: 0,
           scrollBehavior: 'smooth',
         }}
         afterClose={cleanData}
@@ -229,7 +234,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               <LeadInfomation lead={props.lead.data} />
             </div>
             <div id="scope">
-              <Form.Item name="scope" label="Scope">
+              <div className={styles.header}>
+                <h2 className={styles.title}>Scope</h2>
+              </div>
+              <Form.Item name="scope">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="scope"
@@ -238,7 +246,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               </Form.Item>
             </div>
             <div id="estimation">
-              <Form.Item name="estimation" label="Estimation">
+              <div className={styles.header}>
+                <h2 className={styles.title}>Estimation</h2>
+              </div>
+              <Form.Item name="estimation">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="estimation"
@@ -247,7 +258,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               </Form.Item>
             </div>
             <div id="pricing">
-              <Form.Item name="pricing" label="Pricing:">
+              <div className={styles.header}>
+                <h2 className={styles.title}>Pricing</h2>
+              </div>
+              <Form.Item name="pricing">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="pricing"
@@ -256,7 +270,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               </Form.Item>
             </div>
             <div id="proposal">
-              <Form.Item name="proposal" label="Proposal:">
+              <div className={styles.header}>
+                <h2 className={styles.title}>Proposal</h2>
+              </div>
+              <Form.Item name="proposal">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="proposal"
@@ -265,7 +282,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               </Form.Item>
             </div>
             <div id="quotation">
-              <Form.Item name="quotation" label="Quotation:">
+              <div className={styles.header}>
+                <h2 className={styles.title}>Quotation</h2>
+              </div>
+              <Form.Item name="quotation">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="quotation"
@@ -274,7 +294,10 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               </Form.Item>
             </div>
             <div id="sla">
-              <Form.Item name="sla" label="SLA:">
+              <div className={styles.header}>
+                <h2 className={styles.title}>Service level Agreement</h2>
+              </div>
+              <Form.Item name="sla">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="sla"

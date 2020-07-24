@@ -5,6 +5,10 @@ import styles from './style.less';
 
 const { TextArea } = Input;
 
+const layout = {
+  labelCol: { span: 6 },
+  wrappercol: { span: 12 },
+};
 class MarkDoneModal extends React.Component {
   constructor(props) {
     super(props);
@@ -79,6 +83,7 @@ class MarkDoneModal extends React.Component {
           });
         }
       });
+    this.props.reloadData();
     this.setState({
       visible: false,
     });
@@ -124,11 +129,13 @@ class MarkDoneModal extends React.Component {
         <Modal
           title="Complete Touchpoint"
           visible={this.state.visible}
+          width={600}
           destroyOnClose
           footer={false}
           onCancel={this.onCancel}
         >
           <Form
+            {...layout}
             onFinish={this.onOk}
             initialValues={{
               status: 'In-progess',
@@ -146,7 +153,7 @@ class MarkDoneModal extends React.Component {
             </Form.Item>
             {!this.state.rankReason ? (
               <Form.Item
-                label=" Ranking update reason"
+                label="Rank Explanation"
                 name="rank_reason"
                 rules={[
                   {
@@ -183,11 +190,7 @@ class MarkDoneModal extends React.Component {
                 },
               ]}
             >
-              <TextArea
-                placeholder="Review touchpoint here"
-                className={styles.customField}
-                value={this.state.reason}
-              />
+              <TextArea placeholder="Review touchpoint here" value={this.state.reason} />
             </Form.Item>
             <Form.Item name="status" label="Lead Status">
               <Radio.Group onChange={this.onLeadChange} className={styles.customRadioRank}>
@@ -215,7 +218,7 @@ class MarkDoneModal extends React.Component {
             ) : null}
             <Form.Item>
               <Button type="primary" htmlType="submit">
-                Submit
+                Complete
               </Button>
             </Form.Item>
           </Form>
@@ -225,7 +228,7 @@ class MarkDoneModal extends React.Component {
             Complete Touchpoint
           </Button>
         ) : (
-          <Tag color="gold">{this.state.status}</Tag>
+          <Tag color="green">{this.state.status}</Tag>
         )}
       </div>
     );

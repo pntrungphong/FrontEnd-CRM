@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
 import moment from 'moment';
+import { PaperClipOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
+import styles from './style.less';
 
 const { TextArea } = Input;
 
@@ -14,10 +16,11 @@ function showNote(note) {
   });
 }
 
+const iff = (condition, then, otherwise) => (condition ? then : otherwise);
+
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
-
     const fileData = props.value.map((file, index) => {
       return {
         key: index,
@@ -96,7 +99,7 @@ class CustomUploadFile extends React.Component {
         createdAt: file.createdAt,
         createdBy: file.createdBy,
         note: file.note,
-        old: false,
+        old: file.old,
       };
     });
 
@@ -178,59 +181,79 @@ class CustomUploadFile extends React.Component {
           dataSource={this.state.dataSource}
           locale={{ emptyText: 'No file' }}
           renderItem={(item) => (
-            <List.Item
-              actions={
-                this.props.dataIndex !== 'brief'
-                  ? [
-                      <Button
-                        onClick={() => {
-                          if (
-                            item.order !== this.props.order ||
-                            this.props.status === 'Done' ||
-                            this.props.status === 'Draft'
-                          ) {
-                            showNote(this.state.dataSource[item.key].note);
-                          } else this.addNote(item.key);
-                        }}
-                        type="text"
-                      >
-                        {(this.state.dataSource[item.key].note &&
-                          this.state.dataSource[item.key].note !== '') ||
-                        item.order !== this.props.order ||
-                        this.props.status === 'Done' ||
-                        this.props.status === 'Draft'
-                          ? 'View Note'
-                          : 'Add Note'}
-                      </Button>,
+            <List.Item>
+              <h3>
+                <PaperClipOutlined style={{ color: '#66666666' }} />{' '}
+                <a onClick={() => downloadFile(item)}>{item.originalname}</a>
+              </h3>
 
-                      !this.state.dataSource[item.key].old ? (
-                        <Button
-                          onClick={() => {
-                            this.removeFile(item.key);
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      ) : null,
-                    ]
-                  : []
-              }
-            >
-              <a
-                onClick={() => {
-                  downloadFile(item);
-                }}
-              >
-                {item.originalname}
-              </a>
-              <a>{item.createdAt}</a>
-
-              {item.order !== this.props.order ? (
-                <Tag>{`Touchpoint ${item.order}`}</Tag>
+              {this.props.dataIndex !== 'brief' ? (
+                <span
+                  onClick={() => {
+                    if (
+                      item.order !== this.props.order ||
+                      this.props.status === 'Done' ||
+                      this.props.status === 'Draft'
+                    ) {
+                      showNote(this.state.dataSource[item.key].note);
+                    } else this.addNote(item.key);
+                  }}
+                >
+                  {(this.state.dataSource[item.key].note &&
+                    this.state.dataSource[item.key].note !== '') ||
+                  item.order !== this.props.order ||
+                  this.props.status === 'Done' ||
+                  this.props.status === 'Draft' ? (
+                    <div className={styles.viewNote}>View Note</div>
+                  ) : (
+                    <Tag>
+                      <FormOutlined />
+                      Add Note
+                    </Tag>
+                  )}
+                </span>
               ) : (
-                <Tag color="red">{`Touchpoint ${item.order}`}</Tag>
+                iff(
+                  this.props.dataIndex !== 'brief',
+                  <Tag
+                    onClick={() => {
+                      this.addNote(item.key);
+                    }}
+                  >
+                    <FormOutlined /> Add Note
+                  </Tag>,
+                  null,
+                )
               )}
-              <a>{item.createdBy}</a>
+              <h3>
+                <a>{moment(item.createdAt).format('YYYY-MM-DD')}</a>
+              </h3>
+              <h3>
+                <a>{item.createdBy}</a>
+              </h3>
+              {item.order !== this.props.order ? (
+                <Tag
+                  style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
+                >{`Touchpoint ${item.order}`}</Tag>
+              ) : (
+                iff(
+                  item.order !== undefined,
+                  <Tag
+                    color="#EFDBFF"
+                    style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
+                  >{`Touchpoint ${item.order}`}</Tag>,
+                  <Tag style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}>
+                    Lead Generation
+                  </Tag>,
+                )
+              )}
+              {!this.state.dataSource[item.key].old ? (
+                <DeleteOutlined
+                  onClick={() => {
+                    this.removeFile(item.key);
+                  }}
+                />
+              ) : null}
             </List.Item>
           )}
         />

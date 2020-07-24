@@ -40,7 +40,6 @@ const CompleteWinForm = ({ visible, onCreate, onCancel }) => {
         form
           .validateFields()
           .then((values) => {
-            // console.table(values);
             form.resetFields();
             onCreate(values);
           })

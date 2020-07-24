@@ -43,6 +43,7 @@ export const formatedListLeadData = (response) => {
                 taskname: task.taskName,
                 type: task.type,
                 userId: task.userId,
+                avatar: task.user.avatar,
                 dueDate: task.dueDate,
                 userName: task.user.firstName,
               };
@@ -395,7 +396,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       note: response.note ? response.note : '',
       review: response.review ? response.review : '',
       order: response.order ? response.order : '',
-      meetingdate: response.meetingdate ? moment(response.meetingDate) : moment(),
+      meetingdate: response.meetingDate ? moment(response.meetingDate) : moment(),
       sla,
       task: tasks,
       estimation,
@@ -459,6 +460,7 @@ export const formatedDetailLeadData = (response) => {
       tag,
       contact,
       relation,
+      note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
     };
 

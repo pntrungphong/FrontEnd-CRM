@@ -3,15 +3,15 @@ import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH, faDotCircle } from '@fortawesome/free-solid-svg-icons';
+import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 // import TouchpointCreatenotForm from '../components/addButton/notdatatouchpoint'
 import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
+import UpdateLead from '../update/updateLeadForm';
 
 const { Search } = Input;
 
@@ -87,12 +87,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
         </div>
         <div className={styles.rankHeader}>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
-          <div
-            className={styles.iconOne}
-            onClick={() => history.push({ pathname: `/lead/update/${id}` })}
-          >
-            <FontAwesomeIcon icon={faEllipsisH} size="sm" />
-          </div>
+          <UpdateLead leadId={id} />
         </div>
       </div>
     </>
@@ -246,9 +241,20 @@ const ListLead = connect(({ lead, loading }) => ({
                             <div>
                               <Row>
                                 <Col flex="2">
-                                  <h3 className={styles.phaseCardOne}>
-                                    Meeting date:{' '}
-                                    {moment(touchpointItem.meetingDate).format('DD-MM')}
+                                  <h3 className={styles.meetingDate}>
+                                    {touchpointItem.status === 'Done' ? (
+                                      <>
+                                        Actual date:{' '}
+                                        {moment(touchpointItem.actualDate).format('DD-MM')}
+                                      </>
+                                    ) : (
+                                      <>
+                                        Meeting date:{' '}
+                                        {touchpointItem.meetingDate
+                                          ? moment(touchpointItem.meetingDate).format('DD-MM')
+                                          : 'Not set'}
+                                      </>
+                                    )}
                                   </h3>
                                 </Col>
                                 {touchpointItem.task.length <= 0 ? (
@@ -290,7 +296,13 @@ const ListLead = connect(({ lead, loading }) => ({
                                         </span>
                                       </span>
                                       <span className={styles.avatarPIC}>
-                                        <Avatar icon={<UserOutlined size="small" />} />
+                                        <Avatar
+                                          style={{ verticalAlign: 'middle' }}
+                                          src={taskItem.avatar}
+                                          size="small"
+                                        >
+                                          {taskItem.userName}
+                                        </Avatar>
                                       </span>
                                     </div>
                                   );
