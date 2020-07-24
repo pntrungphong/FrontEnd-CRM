@@ -43,8 +43,7 @@ class Create extends React.Component {
     this.fetchCompany = debounce(this.fetchCompany, 1000);
     this.fetchContact = debounce(this.fetchContact, 1000);
 
-    this.newReferralName = '';
-    this.newCompanyName = '';
+    this.inputValue = '';
     this.formRef = React.createRef();
   }
 
@@ -78,13 +77,13 @@ class Create extends React.Component {
       payload: { value },
     });
 
-    this.newCompanyName = value;
+    this.inputValue = value;
   };
 
   fetchContact = (value) => {
     this.props.dispatch({
       type: 'contact/handleSearchChangeContactReferral',
-      payload: { value: this.props.contact.searchValueContactReferral, contactInfo: [] },
+      payload: { value: this.props.contact.searchValue, contactInfo: [] },
     });
     this.props.dispatch({
       type: 'searchModel/saveSearchValue',
@@ -98,38 +97,40 @@ class Create extends React.Component {
       },
     });
 
-    this.newReferralName = value;
+    this.inputValue = value;
   };
 
-  quickCreateReferral = async () => {
-    const value = await this.props.dispatch({
-      type: 'contact/quickCreateContact',
-      payload: {
-        name: this.newReferralName,
-      },
-    });
-    let listValue = this.formRef.current.getFieldValue('referral');
-    if (!listValue) listValue = [];
-    listValue.push(value);
-    this.formRef.current.setFieldsValue({ referral: [...listValue] });
-    this.newReferralName = '';
+  dispatchType = {
+    referral: 'contact/quickCreateContact',
+    company: 'company/quickCreateCompany',
   };
 
-  quickCreateCompany = async () => {
+  formatFieldValue = (field, listValue) => {
+    if (field === 'referral') return { referral: [...listValue] };
+    if (field === 'company') return { company: [...listValue] };
+    return {};
+  };
+
+  quickCreate = async (field) => {
+    const searchValue = this.inputValue;
+    this.inputValue = '';
     const value = await this.props.dispatch({
-      type: 'company/quickCreateCompany',
+      type: this.dispatchType[field],
       payload: {
-        name: this.newCompanyName,
+        name: searchValue,
       },
     });
-    let listValue = this.formRef.current.getFieldValue('company');
+    let listValue = this.formRef.current.getFieldValue(field);
     if (!listValue) listValue = [];
     listValue.push(value);
-    this.formRef.current.setFieldsValue({ company: [...listValue] });
-    this.newCompanyName = '';
+    const updateValue = this.formatFieldValue(field, listValue);
+    this.formRef.current.setFieldsValue(updateValue);
+    this.setState({});
   };
 
   handleChange = (value) => {
+    this.inputValue = '';
+    this.setState({});
     this.props.dispatch({
       type: 'contact/handleSearchChange',
       payload: { value, listCompany: [] },
@@ -137,19 +138,28 @@ class Create extends React.Component {
   };
 
   handleChangeContactReferral = (value) => {
+    this.inputValue = '';
+    this.setState({});
     this.props.dispatch({
       type: 'contact/handleSearchChangeContactReferral',
       payload: { value, contactInfo: [] },
     });
   };
 
+  onBlur = () => {
+    this.inputValue = '';
+    this.setState({});
+  };
+
+  onInputKeyDown = (event) => {
+    if (event.nativeEvent.code === 'Backspace') {
+      this.inputValue = '';
+      this.setState({});
+    }
+  };
+
   render() {
-    const {
-      searchValue,
-      listCompany,
-      searchValueContactReferral,
-      contactInfo,
-    } = this.props.contact;
+    const { searchValue, listCompany, contactInfo } = this.props.contact;
     const { tag } = this.props.tag;
 
     return (
@@ -173,29 +183,25 @@ class Create extends React.Component {
             <Input />
           </Form.Item>
 
-          <Form.Item name="title" label="Title">
-            <Input />
-          </Form.Item>
-
-          <Form.Item
-            name="company"
-            label="Company"
-            rules={[{ required: true, message: 'Please enter company!' }]}
-          >
+          <Form.Item name="company" label="Company">
             <Select
               mode="multiple"
               labelInValue
               autoClearSearchValue
+              placeholder="Select realation company"
               value={searchValue}
               notFoundContent={iff(
                 this.props.fetchingCompany,
                 <Spin size="small" />,
-                this.newCompanyName !== '' ? (
+                this.inputValue !== '' ? (
                   <>
                     <div className={styles.resultNotFound}>No results found</div>
                     <Divider className={styles.customDevider} />
-                    <h3 onClick={this.quickCreateCompany} className={styles.createNewContact}>
-                      Create "{this.newCompanyName}" as company
+                    <h3
+                      onClick={() => this.quickCreate('company')}
+                      className={styles.createNewContact}
+                    >
+                      Create "{this.inputValue}" as company
                     </h3>
                   </>
                 ) : (
@@ -205,31 +211,37 @@ class Create extends React.Component {
               filterOption={false}
               onSearch={this.fetchCompany}
               onChange={this.handleChange}
+              onBlur={this.onBlur}
+              onInputKeyDown={this.onInputKeyDown}
             >
               {listCompany.map((d) => (
                 <Option key={d.key}>{d.label}</Option>
               ))}
             </Select>
           </Form.Item>
-          <Form.Item
-            name="referral"
-            label="Referral"
-            rules={[{ required: true, message: 'Please enter referral!' }]}
-          >
+          <Form.Item name="title" label="Title">
+            <Input />
+          </Form.Item>
+
+          <Form.Item name="referral" label="Referral">
             <Select
               labelInValue
               autoClearSearchValue
-              value={searchValueContactReferral}
+              value={searchValue}
+              placeholder="Select realation contact"
               mode="multiple"
               notFoundContent={iff(
                 this.props.fetchingContact,
                 <Spin size="small" />,
-                this.newReferralName !== '' ? (
+                this.inputValue !== '' ? (
                   <>
                     <div className={styles.resultNotFound}>No results found</div>
                     <Divider className={styles.customDevider} />
-                    <h3 onClick={this.quickCreateReferral} className={styles.createNewContact}>
-                      Create "{this.newReferralName}" as contact
+                    <h3
+                      onClick={() => this.quickCreate('referral')}
+                      className={styles.createNewContact}
+                    >
+                      Create "{this.inputValue}" as contact
                     </h3>
                   </>
                 ) : (
@@ -239,6 +251,8 @@ class Create extends React.Component {
               filterOption={false}
               onSearch={this.fetchContact}
               onChange={this.handleChangeContactReferral}
+              onBlur={this.onBlur}
+              onInputKeyDown={this.onInputKeyDown}
             >
               {contactInfo.map((d) => (
                 <Option key={d.key}>{d.label}</Option>

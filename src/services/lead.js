@@ -209,12 +209,25 @@ export async function updateLead(params) {
   });
 }
 export async function getLead(params) {
-  if (params.searchValue !== '') {
-    return request(`/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+  if (params.status === '') {
+    if (params.searchValue !== '') {
+      return request(`/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
+        method: 'GET',
+      });
+    }
+    return request(`/lead?order=ASC&page=${params.page}&take=10`, {
       method: 'GET',
     });
   }
-  return request(`/lead?order=ASC&page=${params.page}&take=10`, {
+  if (params.searchValue !== '') {
+    return request(
+      `/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}&status=${params.status}`,
+      {
+        method: 'GET',
+      },
+    );
+  }
+  return request(`/lead?order=ASC&page=${params.page}&take=10&status=${params.status}`, {
     method: 'GET',
   });
 }

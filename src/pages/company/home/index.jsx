@@ -1,5 +1,5 @@
 import { Tag, Table, Pagination, Input, Button, Row } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import styles from './style.less';
@@ -149,9 +149,10 @@ class App extends React.Component {
           <Create />
           <Search
             className={styles.search}
-            placeholder="input search text"
-            enterButton="Search company"
+            placeholder="Search company by name"
+            enterButton="Search"
             size="large"
+            loading={this.props.loadingSearch}
             onSearch={this.onSearch}
           />
         </div>
@@ -164,12 +165,14 @@ class App extends React.Component {
 const ListCompany = connect(({ company, loading }) => ({
   company,
   loading: loading.effects['company/loadListCompany'],
+  loadingSearch: loading.effects['company/searchCompanyByName'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'company/loadListCompany',
     });
   });
+  const [currentPage, setcurrentPage] = useState(1);
 
   const onPaginitionChange = (page) => {
     props.dispatch({
@@ -179,20 +182,27 @@ const ListCompany = connect(({ company, loading }) => ({
         searchValue: props.company.searchCompanyValue,
       },
     });
+    setcurrentPage(page);
   };
 
   return (
     <div>
       <Table
         bordered
-        loading={props.loading}
+        loading={props.loading === true || props.loadingSearch === true}
         pagination={false}
         columns={columns}
         rowKey="id"
         size="small"
         dataSource={props.company.companyInfo}
       />
-      <Pagination total={props.company.itemCount} onChange={onPaginitionChange} />
+      {props.company.itemCount / 10 >= 1 ? (
+        <Pagination
+          current={currentPage}
+          total={props.company.itemCount}
+          onChange={onPaginitionChange}
+        />
+      ) : null}
     </div>
   );
 });
@@ -213,6 +223,7 @@ const Create = connect(({ company }) => ({
   );
 });
 
-export default connect(({ company }) => ({
+export default connect(({ company, loading }) => ({
   company,
+  loadingSearch: loading.effects['lead/searchCompanyByName'],
 }))(App);

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Spin } from 'antd';
+import { Modal, Spin, Tag } from 'antd';
 import { connect } from 'umi';
 import styles from './style.less';
 import EditableTable from './tasktable';
@@ -11,7 +11,6 @@ const ViewTaskTable = connect(({ task, lead, touchpoint, loading }) => ({
   loading: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
-  // const formRef = React.createRef();
 
   const onShow = () => {
     setVisible(true);
@@ -31,7 +30,10 @@ const ViewTaskTable = connect(({ task, lead, touchpoint, loading }) => ({
 
   return (
     <div>
-      <a onClick={onShow}>View More</a>
+      <a onClick={onShow}>
+        View More
+        <Tag className={styles.viewMoreTaskTag}>+{props.listTask.length - 3}</Tag>
+      </a>
       <Modal
         title="Tasks"
         visible={visible}

@@ -112,10 +112,12 @@ class CreateForm extends React.Component {
     listValue.push(value);
     const updateValue = this.formatFieldValue(field, listValue);
     this.formRef.current.setFieldsValue(updateValue);
+    this.setState({});
   };
 
   handleChange = (value) => {
     this.inputValue = '';
+    this.setState({});
     this.props.dispatch({
       type: 'lead/handleSearchChange',
       payload: { value, listCompany: [] },
@@ -124,15 +126,27 @@ class CreateForm extends React.Component {
 
   handleContactChange = (value) => {
     this.inputValue = '';
+    this.setState({});
     this.props.dispatch({
       type: 'lead/handleSearchContactChange',
       payload: { value, listContact: [] },
     });
   };
 
+  onBlur = () => {
+    this.inputValue = '';
+    this.setState({});
+  };
+
+  onInputKeyDown = (event) => {
+    if (event.nativeEvent.code === 'Backspace') {
+      this.inputValue = '';
+      this.setState({});
+    }
+  };
+
   render() {
     const { searchValue, listCompany, listContact } = this.props.lead;
-
     return (
       <Form
         id={this.props.id}
@@ -179,6 +193,8 @@ class CreateForm extends React.Component {
             filterOption={false}
             onSearch={this.fetchCompany}
             onChange={this.handleChange}
+            onBlur={this.onBlur}
+            onInputKeyDown={this.onInputKeyDown}
           >
             {listCompany.map((d) => (
               <Option key={d.key}>{d.label}</Option>
@@ -214,6 +230,8 @@ class CreateForm extends React.Component {
             filterOption={false}
             onSearch={this.fetchContact}
             onChange={this.handleContactChange}
+            onBlur={this.onBlur}
+            onInputKeyDown={this.onInputKeyDown}
           >
             {listContact.map((d) => (
               <Option key={d.key}>{d.label}</Option>
@@ -249,6 +267,8 @@ class CreateForm extends React.Component {
             filterOption={false}
             onSearch={this.fetchContact}
             onChange={this.handleContactChange}
+            onBlur={this.onBlur}
+            onInputKeyDown={this.onInputKeyDown}
           >
             {listContact.map((d) => (
               <Option key={d.key}>{d.label}</Option>

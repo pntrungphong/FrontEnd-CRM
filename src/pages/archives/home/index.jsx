@@ -76,6 +76,7 @@ class App extends React.Component {
       payload: {
         page: 1,
         searchValue: value,
+        status: this.props.lead.status,
       },
     });
   };
@@ -86,8 +87,9 @@ class App extends React.Component {
         <div className={styles.top}>
           <Search
             className={styles.search}
-            placeholder="Search lead"
+            placeholder="Search lead by name"
             enterButton="Search"
+            loading={this.props.loadingSearch}
             size="large"
             onSearch={this.onSearch}
           />
@@ -101,10 +103,16 @@ class App extends React.Component {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingSearch: loading.effects['lead/searchLeadByName'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'lead/loadListLead',
+      payload: {
+        page: 1,
+        searchValue: '',
+        status: '',
+      },
     });
   });
 
@@ -119,16 +127,85 @@ const ListLead = connect(({ lead, loading }) => ({
       type: 'lead/loadListLead',
       payload: {
         page,
-        searchValue: props.lead.searchLeadValue,
+        searchValue: props.lead.leadSearchValue,
+        status: props.lead.status,
       },
     });
+  };
+
+  const onFilter = (filterValue) => {
+    switch (filterValue.target.value) {
+      case 'All': {
+        props.dispatch({
+          type: 'lead/loadListLead',
+          payload: {
+            page: 1,
+            searchValue: props.lead.leadSearchValue,
+            status: '',
+          },
+        });
+        props.dispatch({
+          type: 'lead/saveStatus',
+          payload: '',
+        });
+        break;
+      }
+      case 'In-progress': {
+        props.dispatch({
+          type: 'lead/loadListLead',
+          payload: {
+            page: 1,
+            searchValue: props.lead.leadSearchValue,
+            status: 'In-progress',
+          },
+        });
+        props.dispatch({
+          type: 'lead/saveStatus',
+          payload: 'In-progress',
+        });
+        break;
+      }
+      case 'Lost': {
+        props.dispatch({
+          type: 'lead/loadListLead',
+          payload: {
+            page: 1,
+            searchValue: props.lead.leadSearchValue,
+            status: 'Lost',
+          },
+        });
+        props.dispatch({
+          type: 'lead/saveStatus',
+          payload: 'Lost',
+        });
+        break;
+      }
+      case 'Win': {
+        props.dispatch({
+          type: 'lead/loadListLead',
+          payload: {
+            page: 1,
+            searchValue: props.lead.leadSearchValue,
+            status: 'Win',
+          },
+        });
+        props.dispatch({
+          type: 'lead/saveStatus',
+          payload: 'Win',
+        });
+        break;
+      }
+      default:
+        break;
+    }
   };
 
   return (
     <div>
       <div className={styles.filterBox}>
         <h3>Status</h3>
-        <Radio.Group buttonStyle="solid">
+        <Radio.Group defaultValue="All" buttonStyle="solid" onChange={onFilter}>
+          <Radio.Button value="All">All</Radio.Button>
           <Radio.Button value="In-progress">In-progress</Radio.Button>
           <Radio.Button value="Win">Win</Radio.Button>
           <Radio.Button value="Lost">Lost</Radio.Button>
@@ -137,18 +214,21 @@ const ListLead = connect(({ lead, loading }) => ({
 
       <Table
         bordered
-        loading={props.loading}
+        loading={props.loading === true || props.loadingSearch === true}
         pagination={false}
         columns={columns}
         size="small"
         rowKey="id"
         dataSource={props.lead.leadInfo}
       />
-      <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+      {props.lead.itemCount / 10 >= 1 ? (
+        <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+      ) : null}
     </div>
   );
 });
 
-export default connect(({ lead }) => ({
+export default connect(({ lead, loading }) => ({
   lead,
+  loadingSearch: loading.effects['lead/searchLeadByName'],
 }))(App);

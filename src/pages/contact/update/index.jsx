@@ -157,14 +157,7 @@ const Update = connect(({ contact, tag, loading }) => ({
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['contact', 'title']} label="Title">
-          <Input />
-        </Form.Item>
-        <Form.Item
-          name={['contact', 'company']}
-          label="Company"
-          rules={[{ required: true, message: 'Please enter company!' }]}
-        >
+        <Form.Item name={['contact', 'company']} label="Company">
           <Select
             mode="multiple"
             labelInValue
@@ -190,36 +183,10 @@ const Update = connect(({ contact, tag, loading }) => ({
             ))}
           </Select>
         </Form.Item>
-        <Form.Item
-          name={['contact', 'referral']}
-          label="Referral"
-          rules={[{ required: true, message: 'Please enter referral' }]}
-        >
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.contact.searchValueContactReferral}
-            placeholder="Select contact"
-            notFoundContent={
-              props.fetchingContact ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create Contact
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleChangeContactReferral}
-          >
-            {props.contact.contactInfo.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
+        <Form.Item name={['contact', 'title']} label="Title">
+          <Input />
         </Form.Item>
+
         <Form.Item name={['contact', 'tag']} label="Tag">
           <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
             {props.tag.tag.map((item) => {
@@ -437,7 +404,32 @@ const Update = connect(({ contact, tag, loading }) => ({
             }}
           </Form.List>
         </div>
-
+        <Form.Item name={['contact', 'referral']} label="Referral">
+          <Select
+            mode="multiple"
+            labelInValue
+            value={props.contact.searchValueContactReferral}
+            placeholder="Select contact"
+            notFoundContent={
+              props.fetchingContact ? (
+                <Spin size="small" />
+              ) : (
+                <p>
+                  <Button type="text" onClick={createContact}>
+                    Create Contact
+                  </Button>
+                </p>
+              )
+            }
+            filterOption={false}
+            onSearch={fetchContact}
+            onChange={handleChangeContactReferral}
+          >
+            {props.contact.contactInfo.map((d) => (
+              <Option key={d.key}>{d.label}</Option>
+            ))}
+          </Select>
+        </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Update

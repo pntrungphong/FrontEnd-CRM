@@ -1,14 +1,9 @@
-import { Input, Space, Card, Pagination, Tag, Spin, Divider, Dropdown, Menu, Avatar } from 'antd';
-import React from 'react';
+import { Input, Space, Card, Pagination, Tag, Col, Row, Spin, Divider, Avatar } from 'antd';
+import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faEllipsisH,
-  faCheckCircle,
-  faTimesCircle,
-  faDotCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
@@ -26,6 +21,7 @@ class App extends React.Component {
       payload: {
         page: 1,
         searchValue: value,
+        status: this.props.lead.status,
       },
     });
   };
@@ -36,8 +32,9 @@ class App extends React.Component {
         <div className={styles.top}>
           <Search
             className={styles.search}
-            placeholder="Search lead"
+            placeholder="Search lead by name"
             enterButton="Search"
+            loading={this.props.loadingSearch}
             size="large"
             onSearch={this.onSearch}
           />
@@ -77,20 +74,6 @@ const StatusTag = (statusProps) => {
   return <div className={[styles.statusTag, tagBackgound].join(' ')}>{statusProps.status}</div>;
 };
 
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank">
-        <FontAwesomeIcon icon={faCheckCircle} size="1x" /> Win
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank">
-        <FontAwesomeIcon icon={faTimesCircle} size="1x" /> Archive
-      </a>
-    </Menu.Item>
-  </Menu>
-);
 const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
@@ -101,13 +84,14 @@ const LeadTitle = ({ leadName, rank, id }) => {
         >
           {leadName}
         </div>
-        <div>{rankStore[rank]}</div>
+        <div className={styles.rankHeader}>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
-          <Dropdown overlay={menu}>
-            <div className={styles.iconOne}>
-              <FontAwesomeIcon icon={faEllipsisH} size="sm" />
-            </div>
-          </Dropdown>
+          <div
+            className={styles.iconOne}
+            onClick={() => history.push({ pathname: `/lead/update/${id}` })}
+          >
+            <FontAwesomeIcon icon={faEllipsisH} size="sm" />
+          </div>
         </div>
       </div>
     </>
@@ -117,25 +101,35 @@ const LeadTitle = ({ leadName, rank, id }) => {
 const ListLead = connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/loadListLead'],
+  loadingSearch: loading.effects['lead/searchLeadByName'],
   loadingCreate: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
       type: 'lead/loadListLead',
     });
+    props.dispatch({
+      type: 'lead/saveStatus',
+      payload: 'In-progress',
+    });
   });
+
+  const [currentPage, setcurrentPage] = useState(1);
+
   const onPaginitionChange = (page) => {
     props.dispatch({
       type: 'lead/loadListLead',
       payload: {
         page,
-        searchValue: props.lead.searchValue,
+        searchValue: props.lead.leadSearchValue,
+        status: props.lead.status,
       },
     });
+    setcurrentPage(page);
   };
 
   return (
-    <Spin spinning={props.loading}>
+    <Spin spinning={props.loading === true || props.loadingSearch === true}>
       <div className={styles.spaceAll}>
         <div className={styles.spaceOne}>
           <div className={styles.spanTitle}>
@@ -179,7 +173,13 @@ const ListLead = connect(({ lead, loading }) => ({
               })}
             </Space>
 
-            <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+            {props.lead.itemCount / 10 >= 1 ? (
+              <Pagination
+                total={props.lead.itemCount}
+                current={currentPage}
+                onChange={onPaginitionChange}
+              />
+            ) : null}
           </div>
         </div>
         <div className={styles.horScroll}>
@@ -209,71 +209,108 @@ const ListLead = connect(({ lead, loading }) => ({
                               listTask={touchpointItem.task}
                               dispatch={props.dispatch}
                               rank={item.rank}
+                              actualdate={touchpointItem.actualDate}
                               name={item.name}
+                              goal={touchpointItem.goal}
                               status={touchpointItem.status}
                               leadId={item.id}
                             />
-                            {touchpointItem.task.map((taskItem) => {
+                            {touchpointItem.task.map((taskItem, taskIndex) => {
                               if (listType.includes(taskItem.type)) return null;
                               listType.push(taskItem.type);
                               return (
-                                <Tag
-                                  key={taskItem.type}
-                                  className={styles.customTaskTag}
-                                  style={{ background: taskColorStore[taskItem.type] }}
-                                >
-                                  {taskItem.type} <br />
-                                </Tag>
-                              );
-                            })}
-                            <h3 className={styles.phaseCardOne}>
-                              {moment(touchpointItem.createdAt).fromNow()}
-                            </h3>
-                            <h3 className={styles.phaseCardOne}>
-                              {touchpointItem.status === 'Done'
-                                ? touchpointItem.review
-                                : touchpointItem.goal}
-                            </h3>
-                          </div>
-                          <Divider className={styles.customDivider} />
-                          <div className={styles.spanTwo}>
-                            {touchpointItem.task.slice(0, 3).map((taskItem) => {
-                              return (
-                                <div key={taskItem.id} className={styles.spaceTask}>
-                                  <span className={styles.textTouchpoint}>
-                                    <FontAwesomeIcon
-                                      icon={faDotCircle}
-                                      size="xs"
-                                      style={{
-                                        marginRight: '5px',
-                                        color: taskColorStore[taskItem.type],
-                                      }}
-                                    />
-                                    {taskItem.taskname}
-                                    <br />
-                                    {moment(taskItem.dueDate).format('DD-MM-YYYY')}
-                                  </span>
-                                  <span className={styles.textTouchpoint}>
-                                    {taskItem.userName}
-                                    <br /> <Avatar icon={<UserOutlined />} />
-                                  </span>
+                                <div>
+                                  <Row>
+                                    <Col flex="2">
+                                      <Tag
+                                        key={taskItem.type}
+                                        className={styles.customTaskTag}
+                                        style={{ background: taskColorStore[taskItem.type] }}
+                                      >
+                                        {taskItem.type} <br />
+                                      </Tag>
+                                    </Col>
+                                    {taskIndex === 0 ? (
+                                      <div className={styles.counttime}>
+                                        <Col flex="1">
+                                          {moment(touchpointItem.createdAt).fromNow()}
+                                        </Col>
+                                      </div>
+                                    ) : null}
+                                  </Row>
                                 </div>
                               );
                             })}
-                            <div className={styles.viewmore}>
-                              {touchpointItem.task.length > 2 ? (
-                                <ViewTaskTable
-                                  touchpointId={touchpointItem.id}
-                                  listTask={touchpointItem.task}
-                                  dispatch={props.dispatch}
-                                  rank={item.rank}
-                                  name={item.name}
-                                  status={touchpointItem.status}
-                                  leadId={item.id}
-                                />
-                              ) : null}
+                            <div>
+                              <Row>
+                                <Col flex="2">
+                                  <h3 className={styles.phaseCardOne}>
+                                    Meeting date:{' '}
+                                    {moment(touchpointItem.meetingDate).format('DD-MM')}
+                                  </h3>
+                                </Col>
+                                {touchpointItem.task.length <= 0 ? (
+                                  <div className={styles.counttime}>
+                                    <Col flex="2">{moment(touchpointItem.createdAt).fromNow()}</Col>
+                                  </div>
+                                ) : null}
+                              </Row>
                             </div>
+
+                            <h3 className={styles.goalText}>
+                              {touchpointItem.status === 'Done'
+                                ? `Review: ${touchpointItem.review}`
+                                : `Goal: ${touchpointItem.goal}`}
+                            </h3>
                           </div>
+                          {touchpointItem.status !== 'Done' ? (
+                            <>
+                              <Divider className={styles.customDivider} />
+                              <div className={styles.spanTwo}>
+                                {touchpointItem.task.slice(0, 3).map((taskItem) => {
+                                  return (
+                                    <div key={taskItem.id} className={styles.spaceTask}>
+                                      <span className={styles.textTouchpoint}>
+                                        <FontAwesomeIcon
+                                          icon={faDotCircle}
+                                          size="xs"
+                                          style={{
+                                            marginRight: '5px',
+                                            color: taskColorStore[taskItem.type],
+                                            background: taskColorStore[taskItem.type],
+                                            borderRadius: '50%',
+                                          }}
+                                        />
+                                        {taskItem.taskname}
+                                        <br />
+                                        <span className={styles.taskDueDate}>
+                                          {moment(taskItem.dueDate).format('DD-MM-YYYY')}
+                                        </span>
+                                      </span>
+                                      <span className={styles.avatarPIC}>
+                                        <Avatar icon={<UserOutlined size="small" />} />
+                                      </span>
+                                    </div>
+                                  );
+                                })}
+                                <div className={styles.viewmore}>
+                                  {touchpointItem.task.length > 3 ? (
+                                    <ViewTaskTable
+                                      touchpointId={touchpointItem.id}
+                                      listTask={touchpointItem.task}
+                                      dispatch={props.dispatch}
+                                      rank={item.rank}
+                                      name={item.name}
+                                      status={touchpointItem.status}
+                                      leadId={item.id}
+                                    />
+                                  ) : null}
+                                </div>
+                              </div>
+                            </>
+                          ) : (
+                            <></>
+                          )}
                         </Card>
                       </div>
                     );
@@ -314,6 +351,7 @@ const ListLead = connect(({ lead, loading }) => ({
   );
 });
 
-export default connect(({ lead }) => ({
+export default connect(({ lead, loading }) => ({
   lead,
+  loadingSearch: loading.effects['lead/searchLeadByName'],
 }))(App);

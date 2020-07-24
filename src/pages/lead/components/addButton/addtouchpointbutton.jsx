@@ -12,10 +12,15 @@ class AddTouchpointButton extends React.Component {
 
   fakeAdd = () => {
     this.adding = true;
+
     this.props
       .dispatch({
         type: 'lead/createTouchpoint',
-        payload: this.props.id,
+        payload: {
+          id: this.props.id,
+          searchValue: this.props.lead.leadSearchValue,
+          status: this.props.lead.status,
+        },
       })
       .then(() => {
         this.adding = false;

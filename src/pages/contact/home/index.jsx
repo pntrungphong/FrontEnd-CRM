@@ -1,5 +1,5 @@
 import { Tag, Pagination, Input, Table, Button, Row } from 'antd';
-import React from 'react';
+import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
 import styles from './style.less';
@@ -148,9 +148,10 @@ class App extends React.Component {
           <Create />
           <Search
             className={styles.search}
-            placeholder="Search contact"
+            placeholder="Search contact by name"
             enterButton="Search"
             size="large"
+            loading={this.props.loadingSearch}
             onSearch={this.onSearch}
           />
         </div>
@@ -162,7 +163,10 @@ class App extends React.Component {
 const ListContact = connect(({ contact, loading }) => ({
   contact,
   loading: loading.effects['contact/loadListContact'],
+  loadingSearch: loading.effects['contact/searchContactByName'],
 }))((props) => {
+  const [currentPage, setcurrentPage] = useState(1);
+
   useMount(() => {
     props.dispatch({
       type: 'contact/loadListContact',
@@ -183,20 +187,27 @@ const ListContact = connect(({ contact, loading }) => ({
         searchValue: props.contact.searchContactValue,
       },
     });
+    setcurrentPage(page);
   };
 
   return (
     <div>
       <Table
         bordered
-        loading={props.loading}
+        loading={props.loading === true || props.loadingSearch === true}
         pagination={false}
         columns={columns}
         size="small"
         rowKey="id"
         dataSource={props.contact.contactInfo}
       />
-      <Pagination total={props.contact.itemCount} onChange={onPaginitionChange} />
+      {props.contact.itemCount / 10 >= 1 ? (
+        <Pagination
+          current={currentPage}
+          total={props.contact.itemCount}
+          onChange={onPaginitionChange}
+        />
+      ) : null}
     </div>
   );
 });
@@ -215,6 +226,7 @@ const Create = connect(({ contact }) => ({
     </Button>
   );
 });
-export default connect(({ contact }) => ({
+export default connect(({ contact, loading }) => ({
   contact,
+  loadingSearch: loading.effects['contact/searchContactByName'],
 }))(App);
