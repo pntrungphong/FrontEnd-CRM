@@ -395,7 +395,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       note: response.note ? response.note : '',
       review: response.review ? response.review : '',
       order: response.order ? response.order : '',
-      meetingdate: response.meetingdate ? moment(response.meetingDate) : moment(),
+      meetingdate: response.meetingDate ? moment(response.meetingDate) : moment(),
       sla,
       task: tasks,
       estimation,

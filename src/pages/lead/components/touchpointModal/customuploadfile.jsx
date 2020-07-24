@@ -201,13 +201,17 @@ class CustomUploadFile extends React.Component {
                   View Note
                 </span>
               ) : (
-                <Tag
-                  onClick={() => {
-                    this.addNote(item.key);
-                  }}
-                >
-                  <FormOutlined /> Add Note
-                </Tag>
+                iff(
+                  this.props.dataIndex !== 'brief',
+                  <Tag
+                    onClick={() => {
+                      this.addNote(item.key);
+                    }}
+                  >
+                    <FormOutlined /> Add Note
+                  </Tag>,
+                  null,
+                )
               )}
               <h3>
                 <a>{item.createdAt}</a>
@@ -232,8 +236,6 @@ class CustomUploadFile extends React.Component {
                   </Tag>,
                 )
               )}
-
-              <a>{item.createdBy}</a>
             </List.Item>
           )}
         />
