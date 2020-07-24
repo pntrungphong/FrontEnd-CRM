@@ -1,8 +1,10 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
 import moment from 'moment';
+import { PaperClipOutlined, FormOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
+import styles from './style.less';
 
 const { TextArea } = Input;
 
@@ -178,59 +180,51 @@ class CustomUploadFile extends React.Component {
           dataSource={this.state.dataSource}
           locale={{ emptyText: 'No file' }}
           renderItem={(item) => (
-            <List.Item
-              actions={
-                this.props.dataIndex !== 'brief'
-                  ? [
-                      <Button
-                        onClick={() => {
-                          if (
-                            item.order !== this.props.order ||
-                            this.props.status === 'Done' ||
-                            this.props.status === 'Draft'
-                          ) {
-                            showNote(this.state.dataSource[item.key].note);
-                          } else this.addNote(item.key);
-                        }}
-                        type="text"
-                      >
-                        {(this.state.dataSource[item.key].note &&
-                          this.state.dataSource[item.key].note !== '') ||
-                        item.order !== this.props.order ||
-                        this.props.status === 'Done' ||
-                        this.props.status === 'Draft'
-                          ? 'View Note'
-                          : 'Add Note'}
-                      </Button>,
+            <List.Item>
+              <h3>
+                <PaperClipOutlined style={{ color: '#66666666' }} />{' '}
+                <a onClick={() => downloadFile(item)}>{item.originalname}</a>
+              </h3>
 
-                      !this.state.dataSource[item.key].old ? (
-                        <Button
-                          onClick={() => {
-                            this.removeFile(item.key);
-                          }}
-                        >
-                          Remove
-                        </Button>
-                      ) : null,
-                    ]
-                  : []
-              }
-            >
-              <a
-                onClick={() => {
-                  downloadFile(item);
-                }}
-              >
-                {item.originalname}
-              </a>
-              <a>{item.createdAt}</a>
+              {(this.state.dataSource[item.key].note &&
+                this.state.dataSource[item.key].note !== '') ||
+              item.order !== this.props.order ||
+              this.props.status === 'Done' ||
+              this.props.status === 'Draft' ? (
+                <span
+                  className={styles.viewNote}
+                  onClick={() => {
+                    showNote(this.state.dataSource[item.key].note);
+                  }}
+                >
+                  View Note
+                </span>
+              ) : (
+                <Tag
+                  onClick={() => {
+                    this.addNote(item.key);
+                  }}
+                >
+                  <FormOutlined /> Add Note
+                </Tag>
+              )}
+              <h3>
+                <a>{item.createdAt}</a>
+              </h3>
+              <h3>
+                <a>{item.createdBy}</a>
+              </h3>
 
               {item.order !== this.props.order ? (
-                <Tag>{`Touchpoint ${item.order}`}</Tag>
+                <Tag
+                  style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
+                >{`Touchpoint ${item.order}`}</Tag>
               ) : (
-                <Tag color="red">{`Touchpoint ${item.order}`}</Tag>
+                <Tag
+                  color="#EFDBFF"
+                  style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
+                >{`Touchpoint ${item.order}`}</Tag>
               )}
-              <a>{item.createdBy}</a>
             </List.Item>
           )}
         />

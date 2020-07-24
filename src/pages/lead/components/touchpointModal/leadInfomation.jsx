@@ -1,14 +1,13 @@
 import React from 'react';
 import { history } from 'umi';
 import { Tag, List } from 'antd';
-import { PaperClipOutlined, FormOutlined } from '@ant-design/icons';
+import { PaperClipOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
 
 // if function
 const LeadInfomation = (props) => {
-  console.table(props);
   return (
     <>
       <div className={styles.header}>
@@ -46,7 +45,7 @@ const LeadInfomation = (props) => {
           ))}
         </h4>
         <h4>
-          Relation to:{' '}
+          Related to:{' '}
           {props.lead.relation.map((item, index, listContact) => (
             <a
               onClick={() => {
@@ -79,6 +78,7 @@ const LeadInfomation = (props) => {
         </h4>
         <h4>Brief:</h4>
         <List
+          className={styles.customBrief}
           itemLayout="horizontal"
           dataSource={props.lead.file}
           locale={{ emptyText: 'No file' }}
@@ -88,13 +88,13 @@ const LeadInfomation = (props) => {
                 <PaperClipOutlined style={{ color: '#66666666' }} />{' '}
                 <a onClick={() => downloadFile(item)}>{item.originalname}</a>
               </h3>
-              <Tag>
-                <FormOutlined /> Add Note
-              </Tag>
               <h3>{moment(item.createdAt).format('DD/MM/YYYY')}</h3>
+              <h3>
+                <a>{item.createdBy}</a>
+              </h3>
               <Tag
                 color="#EFDBFF"
-                style={{ color: 'black', borderRadius: '20px', fontWeight: '500' }}
+                style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
               >
                 Lead generation
               </Tag>

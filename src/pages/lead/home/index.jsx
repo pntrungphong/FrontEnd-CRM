@@ -244,9 +244,11 @@ const ListLead = connect(({ lead, loading }) => ({
                             <div>
                               <Row>
                                 <Col flex="2">
-                                  <h3 className={styles.phaseCardOne}>
+                                  <h3 className={styles.meetingDate}>
                                     Meeting date:{' '}
-                                    {moment(touchpointItem.meetingDate).format('DD-MM')}
+                                    {touchpointItem.meetingDate
+                                      ? moment(touchpointItem.meetingDate).format('DD-MM')
+                                      : 'Not set'}
                                   </h3>
                                 </Col>
                                 {touchpointItem.task.length <= 0 ? (
