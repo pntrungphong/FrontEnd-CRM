@@ -19,7 +19,7 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
       </div>
       {props.status === 'Done' ? (
         <Form.Item name="review" label="Review:">
-          <TextArea disabled rows={4} />
+          <TextArea disabled rows={4} className={styles.disableField} />
         </Form.Item>
       ) : null}
       <Form.Item
@@ -32,7 +32,11 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           },
         ]}
       >
-        <TextArea disabled={props.status === 'Done'} rows={4} />
+        <TextArea
+          disabled={props.status === 'Done'}
+          className={props.status === 'Done' ? styles.disableField : ''}
+          rows={4}
+        />
       </Form.Item>
       <Form.Item name="rank" label="Rank:">
         <Rankmodal status={props.status} rank={props.rank} />
@@ -47,10 +51,19 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           },
         ]}
       >
-        <DatePicker disabled={props.status === 'Done'} format="YYYY-MM-DD HH:mm" showTime />
+        <DatePicker
+          className={props.status === 'Done' ? styles.disableField : ''}
+          disabled={props.status === 'Done'}
+          format="YYYY-MM-DD HH:mm"
+          showTime
+        />
       </Form.Item>
       <Form.Item name="note" label="Note:" rules={[{ min: 10 }]}>
-        <TextArea disabled={props.status === 'Done'} rows={4} />
+        <TextArea
+          disabled={props.status === 'Done'}
+          className={props.status === 'Done' ? styles.disableField : ''}
+          rows={4}
+        />
       </Form.Item>
       <Form.Item name="task" label="Task:">
         <EditableTable
