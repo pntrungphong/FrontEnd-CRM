@@ -89,6 +89,7 @@ class App extends React.Component {
             className={styles.search}
             placeholder="Search lead by name"
             enterButton="Search"
+            loading={this.props.loadingSearch}
             size="large"
             onSearch={this.onSearch}
           />
@@ -127,7 +128,7 @@ const ListLead = connect(({ lead, loading }) => ({
       payload: {
         page,
         searchValue: props.lead.leadSearchValue,
-        status: this.props.lead.status,
+        status: props.lead.status,
       },
     });
   };
@@ -227,6 +228,7 @@ const ListLead = connect(({ lead, loading }) => ({
   );
 });
 
-export default connect(({ lead }) => ({
+export default connect(({ lead, loading }) => ({
   lead,
+  loadingSearch: loading.effects['lead/searchLeadByName'],
 }))(App);

@@ -1,27 +1,9 @@
-import {
-  Input,
-  Space,
-  Card,
-  Pagination,
-  Tag,
-  Col,
-  Row,
-  Spin,
-  Divider,
-  Dropdown,
-  Menu,
-  Avatar,
-} from 'antd';
+import { Input, Space, Card, Pagination, Tag, Col, Row, Spin, Divider, Avatar } from 'antd';
 import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import {
-  faEllipsisH,
-  faCheckCircle,
-  faTimesCircle,
-  faDotCircle,
-} from '@fortawesome/free-solid-svg-icons';
+import { faEllipsisH, faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
@@ -52,6 +34,7 @@ class App extends React.Component {
             className={styles.search}
             placeholder="Search lead by name"
             enterButton="Search"
+            loading={this.props.loadingSearch}
             size="large"
             onSearch={this.onSearch}
           />
@@ -91,20 +74,6 @@ const StatusTag = (statusProps) => {
   return <div className={[styles.statusTag, tagBackgound].join(' ')}>{statusProps.status}</div>;
 };
 
-const menu = (
-  <Menu>
-    <Menu.Item>
-      <a target="_blank">
-        <FontAwesomeIcon icon={faCheckCircle} size="1x" /> Win
-      </a>
-    </Menu.Item>
-    <Menu.Item>
-      <a target="_blank">
-        <FontAwesomeIcon icon={faTimesCircle} size="1x" /> Archive
-      </a>
-    </Menu.Item>
-  </Menu>
-);
 const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
@@ -115,13 +84,14 @@ const LeadTitle = ({ leadName, rank, id }) => {
         >
           {leadName}
         </div>
-        <div>{rankStore[rank]}</div>
+        <div className={styles.rankHeader}>{rankStore[rank]}</div>
         <div id="components-dropdown-demo-dropdown-button">
-          <Dropdown overlay={menu}>
-            <div className={styles.iconOne}>
-              <FontAwesomeIcon icon={faEllipsisH} size="sm" />
-            </div>
-          </Dropdown>
+          <div
+            className={styles.iconOne}
+            onClick={() => history.push({ pathname: `/lead/update/${id}` })}
+          >
+            <FontAwesomeIcon icon={faEllipsisH} size="sm" />
+          </div>
         </div>
       </div>
     </>
@@ -381,6 +351,7 @@ const ListLead = connect(({ lead, loading }) => ({
   );
 });
 
-export default connect(({ lead }) => ({
+export default connect(({ lead, loading }) => ({
   lead,
+  loadingSearch: loading.effects['lead/searchLeadByName'],
 }))(App);
