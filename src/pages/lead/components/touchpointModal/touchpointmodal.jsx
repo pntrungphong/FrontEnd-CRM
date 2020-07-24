@@ -42,6 +42,7 @@ const CustomHeader = (props) => {
             rank={props.rank}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
+            reloadData={props.reloadData}
           />
         </Col>
       </Row>
@@ -160,6 +161,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             dispatch={props.dispatch}
             leadId={props.leadId}
             touchpointId={props.touchpointId}
+            reloadData={onCancel}
           />
         }
         visible={visible}
