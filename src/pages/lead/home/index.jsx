@@ -5,7 +5,6 @@ import { useMount } from 'ahooks';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
-import { UserOutlined } from '@ant-design/icons';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
 import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
@@ -286,7 +285,13 @@ const ListLead = connect(({ lead, loading }) => ({
                                         </span>
                                       </span>
                                       <span className={styles.avatarPIC}>
-                                        <Avatar icon={<UserOutlined size="small" />} />
+                                        <Avatar
+                                          style={{ verticalAlign: 'middle' }}
+                                          src={taskItem.avatar}
+                                          size="small"
+                                        >
+                                          {taskItem.userName}
+                                        </Avatar>
                                       </span>
                                     </div>
                                   );

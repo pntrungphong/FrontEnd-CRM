@@ -86,7 +86,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
-  // const formRef = React.createRef();
 
   const onShow = () => {
     setVisible(true);
