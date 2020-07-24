@@ -188,7 +188,6 @@ class Create extends React.Component {
               mode="multiple"
               labelInValue
               autoClearSearchValue
-              placeholder="Select realation company"
               value={searchValue}
               notFoundContent={iff(
                 this.props.fetchingCompany,
@@ -228,7 +227,6 @@ class Create extends React.Component {
               labelInValue
               autoClearSearchValue
               value={searchValue}
-              placeholder="Select realation contact"
               mode="multiple"
               notFoundContent={iff(
                 this.props.fetchingContact,
