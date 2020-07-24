@@ -172,36 +172,6 @@ class Create extends React.Component {
           >
             <Input />
           </Form.Item>
-          <Form.Item name="contact" label="Contact">
-            <Select
-              labelInValue
-              autoClearSearchValue
-              value={searchValueContact}
-              mode="multiple"
-              notFoundContent={iff(
-                this.props.fetchingContact,
-                <Spin size="small" />,
-                this.newContactName !== '' ? (
-                  <>
-                    <div className={styles.resultNotFound}>No results found</div>
-                    <Divider className={styles.customDevider} />
-                    <h3 onClick={this.quickCreateContact} className={styles.createNewContact}>
-                      Create "{this.newContactName}" as contact
-                    </h3>
-                  </>
-                ) : (
-                  ''
-                ),
-              )}
-              filterOption={false}
-              onSearch={this.fetchContact}
-              onChange={this.handleChange}
-            >
-              {contactInfo.map((d) => (
-                <Option key={d.key}>{d.label}</Option>
-              ))}
-            </Select>
-          </Form.Item>
           <Form.Item name="tag" label="Tag">
             <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
