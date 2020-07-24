@@ -227,8 +227,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             <div id="lead-information">
               <LeadInfomation lead={props.lead.data} />
             </div>
-            <div id="estimation">
-              <Form.Item name="scope" label="Scope:">
+            <div id="scope">
+              <Form.Item name="scope" label="Scope">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="scope"
@@ -236,8 +236,8 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
                 />
               </Form.Item>
             </div>
-            <div id="scope">
-              <Form.Item name="estimation" label="Estimation:">
+            <div id="estimation">
+              <Form.Item name="estimation" label="Estimation">
                 <CustomUploadFile
                   status={props.status}
                   dataIndex="estimation"
