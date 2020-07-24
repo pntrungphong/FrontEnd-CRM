@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
 import moment from 'moment';
-import { PaperClipOutlined, FormOutlined } from '@ant-design/icons';
+import { PaperClipOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
@@ -99,7 +99,7 @@ class CustomUploadFile extends React.Component {
         createdAt: file.createdAt,
         createdBy: file.createdBy,
         note: file.note,
-        old: false,
+        old: file.old,
       };
     });
 
@@ -187,27 +187,43 @@ class CustomUploadFile extends React.Component {
                 <a onClick={() => downloadFile(item)}>{item.originalname}</a>
               </h3>
 
-              {(this.state.dataSource[item.key].note &&
-                this.state.dataSource[item.key].note !== '') ||
-              item.order !== this.props.order ||
-              this.props.status === 'Done' ||
-              this.props.status === 'Draft' ? (
+              {this.props.dataIndex !== 'brief' ? (
                 <span
-                  className={styles.viewNote}
                   onClick={() => {
-                    showNote(this.state.dataSource[item.key].note);
+                    if (
+                      item.order !== this.props.order ||
+                      this.props.status === 'Done' ||
+                      this.props.status === 'Draft'
+                    ) {
+                      showNote(this.state.dataSource[item.key].note);
+                    } else this.addNote(item.key);
                   }}
                 >
-                  View Note
+                  {(this.state.dataSource[item.key].note &&
+                    this.state.dataSource[item.key].note !== '') ||
+                  item.order !== this.props.order ||
+                  this.props.status === 'Done' ||
+                  this.props.status === 'Draft' ? (
+                    <div className={styles.viewNote}>View Note</div>
+                  ) : (
+                    <Tag>
+                      <FormOutlined />
+                      Add Note
+                    </Tag>
+                  )}
                 </span>
               ) : (
-                <Tag
-                  onClick={() => {
-                    this.addNote(item.key);
-                  }}
-                >
-                  <FormOutlined /> Add Note
-                </Tag>
+                iff(
+                  this.props.dataIndex !== 'brief',
+                  <Tag
+                    onClick={() => {
+                      this.addNote(item.key);
+                    }}
+                  >
+                    <FormOutlined /> Add Note
+                  </Tag>,
+                  null,
+                )
               )}
               <h3>
                 <a>{item.createdAt}</a>
@@ -215,7 +231,6 @@ class CustomUploadFile extends React.Component {
               <h3>
                 <a>{item.createdBy}</a>
               </h3>
-
               {item.order !== this.props.order ? (
                 <Tag
                   style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
@@ -232,8 +247,13 @@ class CustomUploadFile extends React.Component {
                   </Tag>,
                 )
               )}
-
-              <a>{item.createdBy}</a>
+              {!this.state.dataSource[item.key].old ? (
+                <DeleteOutlined
+                  onClick={() => {
+                    this.removeFile(item.key);
+                  }}
+                />
+              ) : null}
             </List.Item>
           )}
         />
