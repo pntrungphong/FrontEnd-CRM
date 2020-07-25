@@ -58,6 +58,7 @@ export async function fullCreateLead(params) {
 
   const review = '';
   const status = 'In-progress';
+
   let rank = '';
   if (params.rank) rank = params.rank.toString();
 
@@ -102,7 +103,7 @@ export async function fullCreateLead(params) {
 
 export async function changeRank(params) {
   const body = {
-    rank: params.rank.toString(),
+    rank: params.rank,
     rankRevision: [
       {
         reason: params.reason,
