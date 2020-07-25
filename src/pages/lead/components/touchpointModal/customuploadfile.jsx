@@ -201,52 +201,52 @@ class CustomUploadFile extends React.Component {
                 >
                   {(this.state.dataSource[item.key].note &&
                     this.state.dataSource[item.key].note !== '') ||
-                    item.order !== this.props.order ||
-                    this.props.status === 'Done' ||
-                    this.props.status === 'Draft' ? (
-                      <div className={styles.viewNote}>View Note</div>
-                    ) : (
-                      <Tag>
-                        <FormOutlined />
+                  item.order !== this.props.order ||
+                  this.props.status === 'Done' ||
+                  this.props.status === 'Draft' ? (
+                    <div className={styles.viewNote}>View Note</div>
+                  ) : (
+                    <Tag>
+                      <FormOutlined />
                       Add Note
-                      </Tag>
-                    )}
+                    </Tag>
+                  )}
                 </span>
               ) : (
-                  iff(
-                    this.props.dataIndex !== 'brief',
-                    <Tag
-                      onClick={() => {
-                        this.addNote(item.key);
-                      }}
-                    >
-                      <FormOutlined /> Add Note
+                iff(
+                  this.props.dataIndex !== 'brief',
+                  <Tag
+                    onClick={() => {
+                      this.addNote(item.key);
+                    }}
+                  >
+                    <FormOutlined /> Add Note
                   </Tag>,
-                    null,
-                  )
-                )}
+                  null,
+                )
+              )}
               <h3>
-                <a>{item.createdAt}</a>
+                <span>{item.createdAt}</span>
               </h3>
               <h3>
-                <a>{item.createdBy}</a>
+                <span>{item.createdBy}</span>
               </h3>
               {item.order !== this.props.order ? (
                 <Tag
                   style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
                 >{`Touchpoint ${item.order}`}</Tag>
               ) : (
-                  iff(
-                    item.order !== undefined,
-                    <Tag
-                      color="#EFDBFF"
-                      style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
-                    >{`Touchpoint ${item.order}`}</Tag>,
-                    <Tag style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}>
-                      Lead Generation
+                iff(
+                  item.order !== undefined,
+                  <Tag
+                    color="#EFDBFF"
+                    style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
+                  >{`Touchpoint ${item.order}`}</Tag>,
+                  <Tag style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}>
+                    Lead Generation
                   </Tag>,
-                  )
-                )}
+                )
+              )}
               {!this.state.dataSource[item.key].old ? (
                 <DeleteOutlined
                   onClick={() => {
