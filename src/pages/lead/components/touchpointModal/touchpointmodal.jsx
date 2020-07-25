@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Modal, Form, Spin, Button, Col, Row, Menu } from 'antd';
 import { connect, history } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
@@ -46,9 +46,8 @@ const CustomHeader = (props) => {
           />
         </Col>
       </Row>
-
       <Row>
-        <Menu mode="horizontal">
+        <Menu mode="horizontal" id="menu-touchpoint-update">
           <Menu.Item key="general">
             <a href="#general">General</a>
           </Menu.Item>
@@ -87,17 +86,60 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
+  const [documentReady, setDocumentReady] = useState(false);
+
+  useEffect(() => {
+    if (documentReady) {
+      // Cache selectors
+      const topMenu = document.querySelector('#menu-touchpoint-update');
+      const topMenuHeight = topMenu.offsetHeight + 150;
+      // All list items
+      const menuItems = [...topMenu.querySelectorAll('li.ant-menu-item')];
+      const scrollItems = [];
+
+      scrollItems.push(document.querySelector('#general'));
+      scrollItems.push(document.querySelector('#lead-information'));
+      scrollItems.push(document.querySelector('#scope'));
+      scrollItems.push(document.querySelector('#estimation'));
+      scrollItems.push(document.querySelector('#pricing'));
+      scrollItems.push(document.querySelector('#proposal'));
+      scrollItems.push(document.querySelector('#quotation'));
+      scrollItems.push(document.querySelector('#sla'));
+
+      document.querySelector('.ant-modal-body').addEventListener('scroll', (event) => {
+        // Get container scroll position
+        const { scrollTop } = event.srcElement;
+        const fromTop = scrollTop + topMenuHeight;
+        let cur = scrollItems.filter((it) => it.offsetTop < fromTop);
+        if (cur.length === 0) return;
+        cur = cur[cur.length - 1];
+        const id = cur ? cur.id : '';
+        menuItems.map((it) => it.classList.remove('ant-menu-item-selected'));
+        const item = menuItems.filter((it) => it.children[0].getAttribute('href') === `#${id}`);
+        if (item.length === 0) return;
+        item[0].classList.add('ant-menu-item-selected');
+      });
+    }
+  }, [documentReady]);
 
   const onShow = () => {
     setVisible(true);
-    props.dispatch({
-      type: 'touchpoint/get',
-      payload: { id: props.touchpointId, leadId: props.leadId },
-    });
-    props.dispatch({
-      type: 'lead/loading',
-      payload: { id: props.leadId },
-    });
+    props
+      .dispatch({
+        type: 'touchpoint/get',
+        payload: { id: props.touchpointId, leadId: props.leadId },
+      })
+      .then(() => {
+        setDocumentReady(true);
+      });
+    props
+      .dispatch({
+        type: 'lead/loading',
+        payload: { id: props.leadId },
+      })
+      .then(() => {
+        setDocumentReady(true);
+      });
   };
 
   const cleanData = () => {};
@@ -130,10 +172,13 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         });
 
         setVisible(false);
+        setDocumentReady(false);
       });
   };
+
   const onCancel = () => {
     setVisible(false);
+    setDocumentReady(false);
     props.dispatch({
       type: 'task/cleanData',
     });
@@ -167,11 +212,12 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         visible={visible}
         destroyOnClose
         width={800}
-        style={{ top: 10, background: 'white' }}
+        style={{ top: 0, background: 'white' }}
         bodyStyle={{
-          height: '75vh',
+          height: '71.5vh',
           overflowY: 'scroll',
           paddingTop: 0,
+          paddingRight: 0,
           scrollBehavior: 'smooth',
         }}
         afterClose={cleanData}
