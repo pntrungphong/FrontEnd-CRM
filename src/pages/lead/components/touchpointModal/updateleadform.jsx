@@ -160,7 +160,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         >
           <Input />
         </Form.Item>
-        <Form.Item name="contact" label="Company">
+        <Form.Item name="company" label="Company">
           <Select
             labelInValue
             aria-readonly
