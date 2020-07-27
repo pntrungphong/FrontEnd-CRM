@@ -2,6 +2,7 @@ import { Tag, Pagination, Input, Table, Button, Row } from 'antd';
 import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
+import { FormOutlined, EyeOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -10,34 +11,39 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (name) => <div className={styles.customField}>{name}</div>,
+    width: '15%',
+    render: (name) => <h3>{name}</h3>,
   },
   {
     title: 'Title',
     dataIndex: 'title',
     key: 'title',
-    render: (title) => <div className={styles.customField}>{title}</div>,
+    width: '15%',
+
+    render: (title) => <h3>{title}</h3>,
   },
   {
     title: 'Company',
     dataIndex: 'company',
     key: 'company',
     size: 'small',
+    width: '25%',
+
     render: (company) => (
       <>
         {company.map((item) => {
           return item.key !== undefined ? (
-            <Tag key={item.key} className={styles.customFieldContact}>
-              <a
-                onClick={() => {
-                  history.push({
-                    pathname: `/company/detail/${item.key}`,
-                  });
-                }}
-              >
-                {item.label}
-              </a>
-            </Tag>
+            <a
+              key={item.key}
+              className={styles.customCell}
+              onClick={() => {
+                history.push({
+                  pathname: `/company/detail/${item.key}`,
+                });
+              }}
+            >
+              {item.label}
+            </a>
           ) : (
             ''
           );
@@ -50,6 +56,8 @@ const columns = [
     dataIndex: 'phone',
     key: 'phone',
     size: 'small',
+    width: '15%',
+
     render: (phone) => (
       <>
         {phone.map((item) => {
@@ -74,6 +82,7 @@ const columns = [
     dataIndex: 'email',
     key: 'email',
     size: 'small',
+    width: '20%',
 
     render: (email) => (
       <>
@@ -96,6 +105,8 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
+    width: '10%',
+
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
@@ -106,7 +117,7 @@ const columns = [
               });
             }}
           >
-            Update
+            <FormOutlined /> Update
           </a>
         </li>
         <li>
@@ -117,7 +128,7 @@ const columns = [
               });
             }}
           >
-            Detail
+            <EyeOutlined /> Detail
           </a>
         </li>
       </ul>
@@ -221,8 +232,8 @@ const Create = connect(({ contact }) => ({
     });
   };
   return (
-    <Button htmlType="button" onClick={createDetail}>
-      Create
+    <Button type="primary" onClick={createDetail}>
+      Create New Contact
     </Button>
   );
 });

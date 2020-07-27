@@ -6,6 +6,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+// import TouchpointCreatenotForm from '../components/addButton/notdatatouchpoint'
 import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
@@ -198,6 +199,7 @@ const ListLead = connect(({ lead, loading }) => ({
                           <div className={styles.spaceTouchpoint}>
                             <p className={styles.titleTwo}>{touchpointItem.duration}</p>
                             <StatusTag status={touchpointItem.status} />
+
                             <TouchpointCreateForm
                               touchpointId={touchpointItem.id}
                               company={item.company}
