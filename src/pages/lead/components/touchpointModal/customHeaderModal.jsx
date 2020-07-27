@@ -4,6 +4,14 @@ import { history } from 'umi';
 import MarkDoneModal from './markdonetouchpoint';
 
 const CustomHeader = (props) => {
+  const onClickNavLink = (event, tag) => {
+    event.preventDefault();
+    const targetSection = document.querySelector(tag);
+    const topMenu = document.querySelector('#menu-touchpoint-update');
+    const topMenuHeight = topMenu.offsetHeight + topMenu.offsetTop + 10;
+    document.querySelector('.ant-modal-body').scrollTo(0, targetSection.offsetTop - topMenuHeight);
+  };
+
   return (
     <div>
       <Row>
@@ -43,28 +51,47 @@ const CustomHeader = (props) => {
       <Row>
         <Menu mode="horizontal" id="menu-touchpoint-update" defaultSelectedKeys="general">
           <Menu.Item key="general">
-            <a href="#general">General</a>
+            <a href="#general" onClick={(event) => onClickNavLink(event, '#general')}>
+              General
+            </a>
           </Menu.Item>
           <Menu.Item key="lead-information">
-            <a href="#lead-information">Lead Information</a>
+            <a
+              href="#lead-information"
+              onClick={(event) => onClickNavLink(event, '#lead-information')}
+            >
+              Lead Information
+            </a>
           </Menu.Item>
           <Menu.Item key="scope">
-            <a href="#scope">Scope</a>
+            <a href="#scope" onClick={(event) => onClickNavLink(event, '#scope')}>
+              Scope
+            </a>
           </Menu.Item>
           <Menu.Item key="estimation">
-            <a href="#estimation">Estimation</a>
+            <a href="#estimation" onClick={(event) => onClickNavLink(event, '#estimation')}>
+              Estimation
+            </a>
           </Menu.Item>
           <Menu.Item key="pricing">
-            <a href="#pricing">Pricing</a>
+            <a href="#pricing" onClick={(event) => onClickNavLink(event, '#pricing')}>
+              Pricing
+            </a>
           </Menu.Item>
           <Menu.Item key="proposal">
-            <a href="#proposal">Proposal</a>
+            <a href="#proposal" onClick={(event) => onClickNavLink(event, '#proposal')}>
+              Proposal
+            </a>
           </Menu.Item>
           <Menu.Item key="quotation">
-            <a href="#quotation">Quotation</a>
+            <a href="#quotation" onClick={(event) => onClickNavLink(event, '#quotation')}>
+              Quotation
+            </a>
           </Menu.Item>
           <Menu.Item key="sla">
-            <a href="#sla">SLA</a>
+            <a href="#sla" onClick={(event) => onClickNavLink(event, '#sla')}>
+              SLA
+            </a>
           </Menu.Item>
         </Menu>
       </Row>
