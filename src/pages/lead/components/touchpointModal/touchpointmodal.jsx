@@ -96,6 +96,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             lead={props.lead}
             rank={props.rank}
             touchpointId={props.touchpointId}
+            status={props.status}
           />
         ) : (
           <Spin className={styles.customSpin} />
