@@ -226,10 +226,10 @@ class CustomUploadFile extends React.Component {
                 )
               )}
               <h3>
-                <a>{moment(item.createdAt).format('YYYY-MM-DD')}</a>
+                <span>{item.createdAt}</span>
               </h3>
               <h3>
-                <a>{item.createdBy}</a>
+                <span>{item.createdBy}</span>
               </h3>
               {item.order !== this.props.order ? (
                 <Tag
