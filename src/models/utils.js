@@ -1,5 +1,33 @@
 import moment from 'moment';
 
+const emailFormat = (listEmail) => {
+  return listEmail.map((element) => ({
+    type: element.type,
+    url: element.url,
+  }));
+};
+const phoneFormat = (listPhone) => {
+  return listPhone.map((data) => data);
+};
+
+const listTagFormat = (listData) => {
+  return listData.map((data) => ({
+    key: data.id.toString(),
+    label: data.name,
+    value: data.id.toString(),
+  }));
+};
+
+const listTaskFormat = (listData) => {
+  return listData.map((task) => ({
+    id: task.id,
+    taskname: task.taskName,
+    type: task.type,
+    userId: task.userId,
+    dueDate: task.dueDate,
+  }));
+};
+
 export const getDefaultPagination = () => {
   return {
     page_size: 0,
@@ -154,7 +182,7 @@ export const formatedDetailContactData = (response) => {
     const returnData = {
       referral,
       company,
-      title: response.title != null ? response.title : '',
+      title: response.title ? response.title : '',
       email,
       website,
       address,
@@ -226,7 +254,7 @@ export const formatedDetailCompanyData = (response) => {
 
     const returnData = {
       contact,
-      url: response.url != null ? response.url : '',
+      url: response.url ? response.url : '',
       email,
       website,
       tag,
@@ -243,41 +271,18 @@ export const formatedDetailCompanyData = (response) => {
 
 export const formatedListContactData = (response) => {
   try {
-    const formatedData = [];
-    response.data.forEach((element) => {
-      const company = element.company
-        ? element.company.map((data) => {
-            return {
-              key: data.id.toString(),
-              label: data.name,
-              value: data.id.toString(),
-            };
-          })
-        : [];
-
-      const title = element.title ? element.title : '';
-
-      const email = element.email
-        ? element.email.map((data) => {
-            return data;
-          })
-        : [];
-
-      const phone = element.phone
-        ? element.phone.map((data) => {
-            return data;
-          })
-        : [];
-
-      const data = {
+    const formatedData = response.data.map((element) => {
+      const company = listTagFormat(element.company ?? []);
+      const email = emailFormat(element.email ?? []);
+      const phone = phoneFormat(element.phone ?? []);
+      return {
         company,
         email,
         phone,
-        title,
+        title: element.title ? element.title : '',
         name: element.name,
         id: element.id,
       };
-      formatedData.push(data);
     });
     const returnData = {
       data: formatedData,
@@ -292,38 +297,18 @@ export const formatedListContactData = (response) => {
 
 export const formatedListCompanyData = (response) => {
   try {
-    const formatedData = [];
-    response.data.forEach((element) => {
-      const contact = element.contact
-        ? element.contact.map((data) => {
-            return {
-              key: data.id.toString(),
-              label: data.name,
-              value: data.id.toString(),
-            };
-          })
-        : [];
+    const formatedData = response.data.map((element) => {
+      const contact = listTagFormat(element.contact ?? []);
+      const email = emailFormat(element.email ?? []);
+      const phone = phoneFormat(element.phone ?? []);
 
-      const email = element.email
-        ? element.email.map((data) => {
-            return data;
-          })
-        : [];
-
-      const phone = element.phone
-        ? element.phone.map((data) => {
-            return data;
-          })
-        : [];
-
-      const data = {
+      return {
         contact,
         email,
         phone,
         name: element.name,
         id: element.id,
       };
-      formatedData.push(data);
     });
     const returnData = {
       data: formatedData,
@@ -379,17 +364,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       }
     });
 
-    const tasks = response.task
-      ? response.task.map((task) => {
-          return {
-            id: task.id,
-            taskname: task.taskName,
-            type: task.type,
-            userId: task.userId,
-            dueDate: task.dueDate,
-          };
-        })
-      : [];
+    const tasks = listTaskFormat(response.task ?? []);
 
     const returnData = {
       goal: response.goal,
@@ -414,43 +389,14 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
 
 export const formatedDetailLeadData = (response) => {
   try {
-    const contact = [];
-    if (response.contact != null) {
-      response.contact.forEach((element) => {
-        contact.push({
-          key: element.id.toString(),
-          value: element.id.toString(),
-          label: element.name,
-        });
-      });
-    }
-    const relation = [];
-    if (response.relatedTo != null) {
-      response.relatedTo.forEach((element) => {
-        relation.push({
-          key: element.id.toString(),
-          value: element.id.toString(),
-          label: element.name,
-        });
-      });
-    }
-    const tag = [];
-    if (response.tag != null) {
-      response.tag.forEach((element) => {
-        tag.push({
-          key: element.id,
-          value: element.id,
-          label: element.tag,
-        });
-      });
-    }
-
+    const contact = listTagFormat(response.contact ?? []);
+    const relation = listTagFormat(response.relatedTo ?? []);
+    const tag = listTagFormat(response.tag ?? []);
     const company = {
       key: response.company.id,
       label: response.company.name,
     };
-
-    const returnData = {
+    return {
       company,
       description: response.description,
       rank: response.rank,
@@ -463,8 +409,6 @@ export const formatedDetailLeadData = (response) => {
       note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
     };
-
-    return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
   }

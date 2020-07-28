@@ -106,7 +106,6 @@ const columns = [
     title: 'Action',
     key: 'action',
     width: '10%',
-
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
@@ -136,12 +135,7 @@ const columns = [
   },
 ];
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class ListContactPage extends React.Component {
   onSearch = (value) => {
     this.props.dispatch({
       type: 'contact/searchContactByName',
@@ -156,7 +150,16 @@ class App extends React.Component {
     return (
       <div className={styles.containerBox}>
         <div className={styles.top}>
-          <Create />
+          <Button
+            type="primary"
+            onClick={() => {
+              history.push({
+                pathname: '/contact/create',
+              });
+            }}
+          >
+            Create New Contact
+          </Button>
           <Search
             className={styles.search}
             placeholder="Search contact by name"
@@ -223,21 +226,7 @@ const ListContact = connect(({ contact, loading }) => ({
   );
 });
 
-const Create = connect(({ contact }) => ({
-  contact,
-}))(() => {
-  const createDetail = () => {
-    history.push({
-      pathname: '/contact/create',
-    });
-  };
-  return (
-    <Button type="primary" onClick={createDetail}>
-      Create New Contact
-    </Button>
-  );
-});
 export default connect(({ contact, loading }) => ({
   contact,
   loadingSearch: loading.effects['contact/searchContactByName'],
-}))(App);
+}))(ListContactPage);

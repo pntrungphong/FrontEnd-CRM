@@ -101,9 +101,6 @@ const Model = {
     cleanData(state) {
       return { ...state, contactInfo: [], data: undefined };
     },
-    handleCreateModal(state, { payload }) {
-      return { ...state, visible: payload };
-    },
     saveContactInfo(state, { payload }) {
       return {
         ...state,

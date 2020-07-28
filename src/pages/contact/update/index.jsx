@@ -63,7 +63,6 @@ const Update = connect(({ contact, tag, loading }) => ({
     });
   };
 
-  console.table(props.contact.data);
   if (props.contact.data === undefined) {
     return <Spin />;
   }
