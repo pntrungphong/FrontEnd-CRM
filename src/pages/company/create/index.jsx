@@ -1,9 +1,9 @@
-import { Form, Input, Spin, Button, Row, Col, Select, Divider } from 'antd';
+import { Form, Input, Button, Row, Col, Select } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import debounce from 'lodash/debounce';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import styles from './style.less';
+import QuickCreate, { CreateType } from '../../common/quickCreate';
 
 const { Option } = Select;
 
@@ -33,13 +33,9 @@ const validateMessages = (label) => ({
   required: `${label} is required!`,
 });
 
-// if function
-const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 class Create extends React.Component {
   constructor(props) {
     super(props);
-    this.fetchContact = debounce(this.fetchContact, 1000);
-    this.newContactName = '';
     this.formRef = React.createRef();
   }
 
@@ -59,46 +55,7 @@ class Create extends React.Component {
     });
   };
 
-  fetchContact = (value) => {
-    this.props.dispatch({
-      type: 'company/handleSearchContactChange',
-      payload: { value: this.props.company.searchValueContact, contactInfo: [] },
-    });
-
-    this.props.dispatch({
-      type: 'company/searchContactByName',
-      payload: {
-        page: 1,
-        searchValue: value,
-      },
-    });
-    this.newContactName = value;
-  };
-
-  quickCreateContact = async () => {
-    const value = await this.props.dispatch({
-      type: 'contact/quickCreateContact',
-      payload: {
-        name: this.newContactName,
-      },
-    });
-    let listValue = this.formRef.current.getFieldValue('contact');
-    if (!listValue) listValue = [];
-    listValue.push(value);
-    this.formRef.current.setFieldsValue({ contact: [...listValue] });
-    this.newContactName = '';
-  };
-
-  handleChange = (value) => {
-    this.newContactName = '';
-    this.props.dispatch({
-      type: 'company/handleSearchContactChange',
-      payload: { value, contactInfo: [] },
-    });
-  };
-
   render() {
-    const { contactInfo, searchValueContact } = this.props.company;
     const { tag } = this.props.tag;
 
     return (
@@ -128,34 +85,12 @@ class Create extends React.Component {
           </Form.Item>
 
           <Form.Item name="contact" label="Contact">
-            <Select
-              labelInValue
-              autoClearSearchValue
-              value={searchValueContact}
-              mode="multiple"
-              notFoundContent={iff(
-                this.props.fetchingContact,
-                <Spin size="small" />,
-                this.newContactName !== '' ? (
-                  <>
-                    <div className={styles.resultNotFound}>No results found</div>
-                    <Divider className={styles.customDevider} />
-                    <h3 onClick={this.quickCreateContact} className={styles.createNewContact}>
-                      Create "{this.newContactName}" as contact
-                    </h3>
-                  </>
-                ) : (
-                  ''
-                ),
-              )}
-              filterOption={false}
-              onSearch={this.fetchContact}
-              onChange={this.handleChange}
-            >
-              {contactInfo.map((d) => (
-                <Option key={d.key}>{d.label}</Option>
-              ))}
-            </Select>
+            <QuickCreate
+              formRef={this.formRef}
+              placeholder="Type and select a contact"
+              createType={CreateType.CONTACT}
+              dataIndex="contact"
+            />
           </Form.Item>
           <Form.Item
             name="url"
@@ -401,10 +336,8 @@ class Create extends React.Component {
   }
 }
 
-export default connect(({ company, tag, loading, contact }) => ({
+export default connect(({ company, tag, loading }) => ({
   company,
-  contact,
   tag,
   submitting: loading.effects['company/fullCreate'],
-  fetchingContact: loading.effects['company/searchContactByName'],
 }))(Create);

@@ -10,11 +10,6 @@ const { Option } = Select;
 const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 
 class QuickCreate extends React.Component {
-  dispatchType = {
-    contact: 'contact/quickCreateContact',
-    company: 'company/quickCreateCompany',
-  };
-
   constructor(props) {
     super(props);
     this.fetchDataByName = debounce(this.fetchDataByName, 700);
@@ -25,7 +20,7 @@ class QuickCreate extends React.Component {
 
   fetchDataByName = (value) => {
     this.props.dispatch({
-      type: 'lead/getListDataRelated',
+      type: 'quickCreate/getListDataRelated',
       payload: { value, searchType: this.props.createType },
     });
 
@@ -45,9 +40,10 @@ class QuickCreate extends React.Component {
   quickCreate = async (field) => {
     const searchValue = this.state.inputValue;
     const value = await this.props.dispatch({
-      type: this.dispatchType[this.props.createType],
+      type: 'quickCreate/quickCreate',
       payload: {
         name: searchValue,
+        createType: this.props.createType,
       },
     });
     let listValue = this.props.formRef.current.getFieldValue(field);
@@ -63,7 +59,7 @@ class QuickCreate extends React.Component {
 
   handleOnChange = () => {
     this.props.dispatch({
-      type: 'lead/clearListSearchData',
+      type: 'quickCreate/clearListSearchData',
     });
     this.setState({
       inputValue: '',
@@ -72,7 +68,7 @@ class QuickCreate extends React.Component {
 
   onBlur = () => {
     this.props.dispatch({
-      type: 'lead/clearListSearchData',
+      type: 'quickCreate/clearListSearchData',
     });
     this.setState({
       inputValue: '',
@@ -89,7 +85,7 @@ class QuickCreate extends React.Component {
 
   onFocus = () => {
     this.props.dispatch({
-      type: 'lead/getListDataRelated',
+      type: 'quickCreate/getListDataRelated',
       payload: { value: ' ', searchType: this.props.createType },
     });
   };
@@ -110,9 +106,9 @@ class QuickCreate extends React.Component {
   };
 
   render() {
-    const { listSearchData } = this.props.lead;
+    const { listSearchData } = this.props.quickCreate;
     return (
-      <Form.Item name={this.props.dataIndex}>
+      <Form.Item name={this.props.dataIndex} className={styles.disableDefaultStyle}>
         <Select
           key={this.props.dataIndex}
           mode="multiple"
@@ -151,9 +147,9 @@ class QuickCreate extends React.Component {
     );
   }
 }
-export default connect(({ lead, loading }) => ({
-  lead,
-  fetchingData: loading.effects['lead/getListDataRelated'],
+export default connect(({ quickCreate, loading }) => ({
+  quickCreate,
+  fetchingData: loading.effects['quickCreate/getListDataRelated'],
 }))(QuickCreate);
 
 export const CreateType = Object.freeze({
