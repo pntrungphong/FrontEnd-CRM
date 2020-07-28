@@ -52,16 +52,16 @@ class ContactDetail extends Component {
               {contact.detail.company.map((item) => {
                 return (
                   <>
-                    <Tag key={item.key} className={styles.ta}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/company/detail/${item.key}`,
-                          });
-                        }}
-                      >
-                        {item.label}
-                      </a>
+                    <Tag
+                      key={item.key}
+                      className={styles.ta}
+                      onClick={() => {
+                        history.push({
+                          pathname: `/company/detail/${item.key}`,
+                        });
+                      }}
+                    >
+                      {item.label}
                     </Tag>
                   </>
                 );
@@ -78,9 +78,9 @@ class ContactDetail extends Component {
                 return (
                   <>
                     <Row>
-                      <Tag key={item.type} className={styles.customField}>
+                      <h4 key={item.type} className={styles.customField}>
                         {item.url} ({item.type})
-                      </Tag>
+                      </h4>
                     </Row>
                   </>
                 );

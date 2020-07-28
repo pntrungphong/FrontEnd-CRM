@@ -91,7 +91,7 @@ class Create extends React.Component {
               dataIndex="company"
             />
           </Form.Item>
-          <Form.Item name="title" label="Title">
+          <Form.Item name="title" label="Title" className={styles.editOne}>
             <Input />
           </Form.Item>
 
@@ -103,14 +103,14 @@ class Create extends React.Component {
               dataIndex="referral"
             />
           </Form.Item>
-          <Form.Item name="tag" label="Tag">
+          <Form.Item name="tag" label="Tag" className={styles.editOne}>
             <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
               })}
             </Select>
           </Form.Item>
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="phone" label="Phone">
               {(fields, { add, remove }) => {
                 return (
@@ -164,7 +164,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="email">
               {(fields, { add, remove }) => {
                 return (
@@ -225,7 +225,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="website">
               {(fields, { add, remove }) => {
                 return (
@@ -282,7 +282,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="address">
               {(fields, { add, remove }) => {
                 return (
@@ -322,11 +322,18 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-          <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
-            <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Create
-            </Button>
-          </Form.Item>
+          <div className={styles.aroundBtn}>
+            <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }} className={styles.editBtn}>
+              <Button type="primary" htmlType="submit" loading={this.props.submitting}>
+                Create
+              </Button>
+            </Form.Item>
+            <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }} className={styles.editBtn}>
+              <Button type="primary" htmlType="submit">
+                Cancel
+              </Button>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );

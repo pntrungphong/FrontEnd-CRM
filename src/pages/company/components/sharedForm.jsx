@@ -21,7 +21,7 @@ const SharedForm = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item name="contact" label="Contact">
+      <Form.Item name="contact" label="Contact" className={styles.editOne}>
         <QuickCreate
           formRef={props.formRef}
           placeholder="Type and select a contact"
@@ -32,6 +32,7 @@ const SharedForm = (props) => {
       <Form.Item
         name="url"
         label="Website"
+        className={styles.editOne}
         rules={[
           {
             type: 'url',
@@ -41,7 +42,7 @@ const SharedForm = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item name="tag" label="Tag">
+      <Form.Item name="tag" label="Tag" className={styles.editOne}>
         <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
           {props.tag.map((item) => {
             return <Option key={item.key}>{item.label}</Option>;
@@ -88,7 +89,7 @@ const SharedForm = (props) => {
         </Form.List>
       </div>
       <div>
-        <Form.List name="email">
+        <Form.List className={styles.editOne} name="email">
           {(fields, { add, remove }) => {
             return (
               <div>
@@ -153,7 +154,7 @@ const SharedForm = (props) => {
         </Form.List>
       </div>
       <div>
-        <Form.List name="website">
+        <Form.List className={styles.editOne} name="website">
           {(fields, { add, remove }) => {
             return (
               <div>
@@ -224,7 +225,7 @@ const SharedForm = (props) => {
         </Form.List>
       </div>
       <div>
-        <Form.List name="address">
+        <Form.List className={styles.editOne} name="address">
           {(fields, { add, remove }) => {
             return (
               <div>

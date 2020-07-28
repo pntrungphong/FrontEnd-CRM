@@ -18,12 +18,12 @@ const columns = [
     dataIndex: 'contact',
     key: 'contact',
     size: 'small',
-    width: '30%',
+    width: '25%',
     render: (contact) => (
       <>
         {contact.map((item) => {
           return item.key !== undefined ? (
-            <a
+            <Tag
               key={item.key}
               className={styles.customCell}
               onClick={() => {
@@ -33,7 +33,7 @@ const columns = [
               }}
             >
               {item.label}
-            </a>
+            </Tag>
           ) : (
             ''
           );
@@ -53,7 +53,7 @@ const columns = [
           return item.number ? (
             <div key={item.number}>
               <Row>
-                <Tag className={styles.customField}>{item.number}</Tag>
+                <p className={styles.customField}>{item.number}</p>
               </Row>
             </div>
           ) : (
@@ -68,16 +68,14 @@ const columns = [
     dataIndex: 'email',
     key: 'email',
     size: 'small',
-    width: '30%',
+    width: '25%',
     render: (email) => (
       <>
         {email.map((item) => {
           return item.type && item.url ? (
             <div key={item.url}>
               <Row>
-                <Tag className={styles.customField}>
-                  {item.type}: {item.url}
-                </Tag>
+                <h4 className={styles.customField}>{item.url}</h4>
               </Row>
             </div>
           ) : (
@@ -95,26 +93,26 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <a
+          <span
             onClick={() => {
               history.push({
                 pathname: `/company/update/${record.id}`,
               });
             }}
           >
-            <FormOutlined /> Update
-          </a>
+            <FormOutlined />
+          </span>
         </li>
         <li>
-          <a
+          <span
             onClick={() => {
               history.push({
                 pathname: `/company/detail/${record.id}`,
               });
             }}
           >
-            <EyeOutlined /> Detail
-          </a>
+            <EyeOutlined />
+          </span>
         </li>
       </ul>
     ),

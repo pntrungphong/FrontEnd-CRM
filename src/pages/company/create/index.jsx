@@ -33,12 +33,12 @@ class CreateCompanyForm extends React.Component {
     return (
       <div className={styles.main}>
         <div className={styles.header}>
-          <h2 className={styles.title}> CREATE COMPANY</h2>
+          <h2 className={styles.title}> Create New Company</h2>
         </div>
 
         <Form {...layout} ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
           <SharedForm tag={tag} formRef={this.formRef} />
-          <Form.Item wrapperCol={{ offset: 8 }}>
+          <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
               Create
             </Button>

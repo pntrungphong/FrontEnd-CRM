@@ -26,18 +26,17 @@ class ViewCompany extends React.Component {
   render() {
     return (
       <div className={styles.containerBox}>
+        <Search
+          className={styles.search}
+          placeholder="Search company by name"
+          size="large"
+          loading={this.props.loadingSearch}
+          onSearch={this.onSearch}
+        />
         <div className={styles.top}>
-          <Button type="primary" onClick={this.createDetail}>
+          <Button className={styles.create_btn} type="primary" onClick={this.createDetail}>
             Create New Company
           </Button>
-          <Search
-            className={styles.search}
-            placeholder="Search company by name"
-            enterButton="Search"
-            size="large"
-            loading={this.props.loadingSearch}
-            onSearch={this.onSearch}
-          />
         </div>
         <CompanyTable />
       </div>
