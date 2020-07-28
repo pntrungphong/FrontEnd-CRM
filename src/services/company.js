@@ -1,12 +1,16 @@
+import queryString from 'query-string';
 import request from '../utils/request';
 
 export async function getCompany(params) {
-  if (params.searchValue !== '') {
-    return request(`/company?order=DESC&page=${params.page}&take=10&q=${params.searchValue}`, {
-      method: 'GET',
-    });
-  }
-  return request(`/company?order=DESC&page=${params.page}&take=10`, {
+  const query = {
+    order: 'DESC',
+    page: params.page,
+    take: 10,
+    q: params.searchValue,
+  };
+  const stringified = queryString.stringify(query, { skipEmptyString: true });
+
+  return request(`/company?${stringified}`, {
     method: 'GET',
   });
 }
@@ -90,7 +94,7 @@ export async function updateCompany(params) {
     data: body,
   });
 }
-export async function getCompanyById(params) {
+export async function getDetail(params) {
   return request(`/company/${params.id}`, {
     method: 'GET',
   });
@@ -112,7 +116,7 @@ export async function quickCreateCompany(params) {
   });
 }
 
-export async function fullCreateCompany(params) {
+export async function createCompany(params) {
   const email = [];
   if (params.email !== undefined) {
     params.email.forEach((element) => {

@@ -16,7 +16,7 @@ const listCompanyFormat = (listData) => {
     value: data.id.toString(),
   }));
 };
-const listReferalFormat = (listData) => {
+const listReferralFormat = (listData) => {
   return listData.map((data) => ({
     key: data.idTarget.toString(),
     value: data.idTarget.toString(),
@@ -127,7 +127,7 @@ export const formatedDetailContactData = (response) => {
   try {
     const company = listCompanyFormat(response.company ?? []);
     const tag = listTagFormat(response.tag ?? []);
-    const referral = listReferalFormat(response.referral ?? []);
+    const referral = listReferralFormat(response.referral ?? []);
     const website = emailFormat(response.website ?? []);
     const email = emailFormat(response.email ?? []);
     const address = response.address ?? [];
@@ -151,7 +151,8 @@ export const formatedDetailContactData = (response) => {
     throw new Error('Missing data');
   }
 };
-export const formatedDetailCompanyData = (response) => {
+
+export const formatDetailCompanyData = (response) => {
   try {
     const contact = response.contact
       ? response.contact.map((element) => {
@@ -247,7 +248,8 @@ export const formatedListContactData = (response) => {
     throw new Error('Missing data');
   }
 };
-export const formatedListCompanyData = (response) => {
+
+export const formatListCompanyData = (response) => {
   try {
     const formatedData = response.data.map((element) => {
       const contact = listTagFormat(element.contact ?? []);
