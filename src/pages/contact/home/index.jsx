@@ -18,8 +18,7 @@ const columns = [
     title: 'Title',
     dataIndex: 'title',
     key: 'title',
-    width: '10%',
-
+    width: '15%',
     render: (title) => <h3>{title}</h3>,
   },
   {
@@ -28,7 +27,6 @@ const columns = [
     key: 'company',
     size: 'small',
     width: '25%',
-
     render: (company) => (
       <>
         {company.map((item) => {
@@ -75,14 +73,12 @@ const columns = [
       </>
     ),
   },
-
   {
     title: 'Email',
     dataIndex: 'email',
     key: 'email',
     size: 'small',
-    width: '25%',
-
+    width: '20%',
     render: (email) => (
       <>
         {email.map((item) => {
@@ -105,7 +101,6 @@ const columns = [
     title: 'Action',
     key: 'action',
     width: '10%',
-
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
@@ -135,15 +130,10 @@ const columns = [
   },
 ];
 
-class App extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {};
-  }
-
+class ListContactPage extends React.Component {
   onSearch = (value) => {
     this.props.dispatch({
-      type: 'contact/searchContactByName',
+      type: 'contact/searchByName',
       payload: {
         page: 1,
         searchValue: value,
@@ -162,7 +152,24 @@ class App extends React.Component {
           onSearch={this.onSearch}
         />
         <div className={styles.top}>
-          <Create />
+          <Button
+            type="primary"
+            onClick={() => {
+              history.push({
+                pathname: '/contact/create',
+              });
+            }}
+          >
+            Create New Contact
+          </Button>
+          <Search
+            className={styles.search}
+            placeholder="Search contact by name"
+            enterButton="Search"
+            size="large"
+            loading={this.props.loadingSearch}
+            onSearch={this.onSearch}
+          />
         </div>
         <ListContact />
       </div>
@@ -171,14 +178,14 @@ class App extends React.Component {
 }
 const ListContact = connect(({ contact, loading }) => ({
   contact,
-  loading: loading.effects['contact/loadListContact'],
-  loadingSearch: loading.effects['contact/searchContactByName'],
+  loading: loading.effects['contact/getList'],
+  loadingSearch: loading.effects['contact/searchByName'],
 }))((props) => {
   const [currentPage, setcurrentPage] = useState(1);
 
   useMount(() => {
     props.dispatch({
-      type: 'contact/loadListContact',
+      type: 'contact/getList',
     });
   });
 
@@ -190,7 +197,7 @@ const ListContact = connect(({ contact, loading }) => ({
 
   const onPaginitionChange = (page) => {
     props.dispatch({
-      type: 'contact/loadListContact',
+      type: 'contact/getList',
       payload: {
         page,
         searchValue: props.contact.searchContactValue,
@@ -208,7 +215,7 @@ const ListContact = connect(({ contact, loading }) => ({
         columns={columns}
         size="small"
         rowKey="id"
-        dataSource={props.contact.contactInfo}
+        dataSource={props.contact.list}
       />
       {props.contact.itemCount / 10 >= 1 ? (
         <Pagination
@@ -221,21 +228,7 @@ const ListContact = connect(({ contact, loading }) => ({
   );
 });
 
-const Create = connect(({ contact }) => ({
-  contact,
-}))(() => {
-  const createDetail = () => {
-    history.push({
-      pathname: '/contact/create',
-    });
-  };
-  return (
-    <Button type="primary" onClick={createDetail} className={styles.btn}>
-      Create New Contact
-    </Button>
-  );
-});
 export default connect(({ contact, loading }) => ({
   contact,
-  loadingSearch: loading.effects['contact/searchContactByName'],
-}))(App);
+  loadingSearch: loading.effects['contact/searchByName'],
+}))(ListContactPage);

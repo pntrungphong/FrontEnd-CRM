@@ -1,26 +1,22 @@
-import React, { useState } from 'react';
-import { Form, Input, Radio, Spin, Select, Divider } from 'antd';
+import React, { useState, useRef } from 'react';
+import { Form, Input, Radio, Spin, Select } from 'antd';
 import { connect } from 'umi';
-import debounce from 'lodash/debounce';
 import { useUnmount, useMount } from 'ahooks';
 import styles from './style.less';
 import CustomUploadFile from './customuploadfile';
+import QuickCreate, { CreateType } from '../../../common/quickCreate';
 
 const { TextArea } = Input;
-const { Option } = Select;
 const layout = {
   labelCol: { span: 4 },
   wrappercol: { span: 16 },
 };
-// if function
-const iff = (condition, then, otherwise) => (condition ? then : otherwise);
+
 const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
   lead,
   tag,
   submitting: loading.effects['lead/update'],
   querying: loading.effects['lead/loading'],
-  fetchingCompany: loading.effects['lead/searchCompanyByName'],
-  fetchingContact: loading.effects['lead/searchContactByName'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
@@ -38,48 +34,8 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
     });
   });
   const [form] = Form.useForm();
+  const formRef = useRef(null);
   const [rankReason, setRankReason] = useState(true);
-  const [inputValue, setInputValue] = useState('');
-
-  let fetchContact = (value) => {
-    props.dispatch({
-      type: 'lead/handleSearchContactChange',
-      payload: { value: props.lead.searchValue, listContact: [] },
-    });
-    props.dispatch({
-      type: 'lead/searchContactByName',
-      payload: { value },
-    });
-    setInputValue(value);
-  };
-
-  fetchContact = debounce(fetchContact, 1000);
-
-  const dispatchType = {
-    contact: 'contact/quickCreateContact',
-    relation: 'contact/quickCreateContact',
-  };
-  const formatFieldValue = (field, listValue) => {
-    if (field === 'contact') return { lead: { contact: [...listValue] } };
-    if (field === 'relation') return { lead: { relation: [...listValue] } };
-    return {};
-  };
-
-  const quickCreate = async (field) => {
-    const searchValue = inputValue;
-    setInputValue('');
-    const value = await props.dispatch({
-      type: dispatchType[field],
-      payload: {
-        name: searchValue,
-      },
-    });
-    let listValue = form.getFieldValue(['lead', field]);
-    if (!listValue) listValue = [];
-    listValue.push(value);
-    const updateValue = formatFieldValue(field, listValue);
-    form.setFieldsValue(updateValue);
-  };
 
   const onFinish = (values) => {
     const returnValue = values;
@@ -89,35 +45,6 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
       payload: { ...returnValue },
     });
     props.closeModal();
-  };
-
-  const onBlur = () => {
-    setInputValue('');
-  };
-
-  const onInputKeyDown = (event) => {
-    if (event.nativeEvent.code === 'Backspace') {
-      setInputValue('');
-    }
-  };
-
-  function NotFoundComponent(data) {
-    return (
-      <>
-        <div className={styles.resultNotFound}>No results found</div>
-        <Divider className={styles.customDevider} />
-        <h3 onClick={() => quickCreate(data.field)} className={styles.createNewContact}>
-          Create "{data.inputValue}" as {data.field}
-        </h3>
-      </>
-    );
-  }
-  const handleContactChange = (value) => {
-    setInputValue('');
-    props.dispatch({
-      type: 'lead/handleSearchContactChange',
-      payload: { value, listContact: [] },
-    });
   };
 
   const onRankChange = (value) => {
@@ -138,6 +65,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
       </div>
       <Form
         form={form}
+        ref={formRef}
         onFinish={onFinish}
         {...layout}
         id={props.id}
@@ -170,72 +98,33 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
             value={props.lead.searchValue}
           />
         </Form.Item>
+
         <Form.Item
           name="contact"
           label="Contact"
           rules={[{ required: true, message: 'Please input contact' }]}
         >
-          <Select
-            mode="multiple"
-            autoClearSearchValue
-            labelInValue
-            value={props.lead.searchValue}
-            placeholder="Select contact"
-            notFoundContent={iff(
-              props.fetchingContact,
-              <Spin size="small" />,
-              inputValue !== '' ? (
-                <NotFoundComponent inputValue={inputValue} field="contact" />
-              ) : (
-                ''
-              ),
-            )}
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleContactChange}
-            onBlur={onBlur}
-            onInputKeyDown={onInputKeyDown}
-          >
-            {props.lead.listContact.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
+          <QuickCreate
+            formRef={formRef}
+            placeholder="Type and select contact"
+            createType={CreateType.CONTACT}
+            dataIndex="contact"
+          />
         </Form.Item>
         <Form.Item
           name="relation"
           label="Related To"
           rules={[{ required: true, message: 'Input relation to this lead' }]}
         >
-          <Select
-            mode="multiple"
-            autoClearSearchValue
-            labelInValue
-            value={props.lead.searchValue}
-            notFoundContent={iff(
-              props.fetchingContact,
-              <Spin size="small" />,
-              inputValue !== '' ? (
-                <NotFoundComponent inputValue={inputValue} field="relation" />
-              ) : (
-                ''
-              ),
-            )}
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleContactChange}
-            onBlur={onBlur}
-            onInputKeyDown={onInputKeyDown}
-          >
-            {props.lead.listContact.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
+          <QuickCreate
+            formRef={formRef}
+            placeholder="Type and select contact"
+            createType={CreateType.CONTACT}
+            dataIndex="relation"
+          />
         </Form.Item>
         <Form.Item name="tag" label="Tag">
-          <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
-            {/* <Option key="1">String</Option>
-            <Option key="6">tesst</Option> */}
-          </Select>
+          <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']} />
         </Form.Item>
         <Form.Item label="Rank" name="rank">
           <Radio.Group onChange={onRankChange}>

@@ -9,14 +9,14 @@ class ContactDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
     dispatch({
-      type: 'contact/loading',
+      type: 'contact/get',
       payload: { id: this.props.match.params.id },
     });
   }
 
   render() {
     const { contact } = this.props;
-    if (contact.data === undefined) {
+    if (contact.detail === undefined) {
       return <Spin />;
     }
     return (
@@ -32,7 +32,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Name</h3>
             </Col>
             <Col flex="auto">
-              <span className={styles.customField}>{contact.data.name}</span>
+              <span className={styles.customField}>{contact.detail.name}</span>
             </Col>
           </Row>
           <Row className={styles.rowCol}>
@@ -40,7 +40,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Title</h3>
             </Col>
             <Col flex="auto">
-              <span className={styles.customField}>{contact.data.title}</span>
+              <span className={styles.customField}>{contact.detail.title}</span>
             </Col>
           </Row>
 
@@ -49,7 +49,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Company</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.company.map((item) => {
+              {contact.detail.company.map((item) => {
                 return (
                   <>
                     <Tag
@@ -74,7 +74,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Email</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.email.map((item) => {
+              {contact.detail.email.map((item) => {
                 return (
                   <>
                     <Row>
@@ -93,7 +93,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Phone</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.phone.map((item) => {
+              {contact.detail.phone.map((item) => {
                 return (
                   <>
                     <Row>
@@ -112,7 +112,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Tag</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.tag.map((item) => {
+              {contact.detail.tag.map((item) => {
                 return (
                   <>
                     <Tag key={item.key} className={styles.ta}>
@@ -129,7 +129,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Referral</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.referral.map((item) => {
+              {contact.detail.referral.map((item) => {
                 return (
                   <>
                     <Tag key={item.name} className={styles.customFieldContact}>
@@ -154,7 +154,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Website</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.website.map((item) => {
+              {contact.detail.website.map((item) => {
                 return (
                   <>
                     <Row>
@@ -173,7 +173,7 @@ class ContactDetail extends Component {
               <h3 className={styles.cloOne}>Address</h3>
             </Col>
             <Col flex="auto">
-              {contact.data.address.map((item) => {
+              {contact.detail.address.map((item) => {
                 return (
                   <Row>
                     <span key={item} className={styles.customField}>
@@ -192,5 +192,5 @@ class ContactDetail extends Component {
 }
 export default connect(({ contact, loading }) => ({
   contact,
-  querying: loading.effects['contact/loading'],
+  querying: loading.effects['contact/get'],
 }))(ContactDetail);

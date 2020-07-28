@@ -5,21 +5,23 @@ import { createTouchpoint } from '../services/touchpoint';
 import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
+const searchMethod = {
+  contact: getContact,
+  company: getCompany,
+};
+
 const Model = {
   namespace: 'lead',
   state: {
     leadInfo: [],
     data: undefined,
     itemCount: undefined,
-    listCompany: [],
-    listContact: [],
+    listSearchData: [], // contact/company
     searchValue: [],
-    touchpointList: [],
     listFile: [],
     listTouchpoint: [],
     status: '',
     leadSearchValue: '',
-    viewable: false,
   },
   effects: {
     *fullCreate({ payload }, { call, put }) {
@@ -76,27 +78,16 @@ const Model = {
         });
       }
     },
-    *searchCompanyByName({ payload }, { call, put }) {
+    *getListDataRelated({ payload }, { call, put }) {
       if (payload.value === '') return;
-      const response = yield call(getCompany, {
+      const response = yield call(searchMethod[payload.searchType], {
         page: 1,
         searchValue: payload.value,
       });
-
-      const formatedData = [];
-
-      response.data.forEach((element) => {
-        const data = {
-          key: element.id,
-          label: element.name,
-          value: element.id,
-        };
-        formatedData.push(data);
-      });
       if (response != null) {
         yield put({
-          type: 'saveListCompany',
-          payload: formatedData,
+          type: 'updateListSearchData',
+          payload: response.data,
         });
       }
     },
@@ -107,30 +98,6 @@ const Model = {
         payload: formatedDetailLeadData(response),
       });
     },
-    *searchContactByName({ payload }, { call, put }) {
-      if (payload.value === '') return;
-      const response = yield call(getContact, {
-        page: 1,
-        searchValue: payload.value,
-      });
-      const formatedData = [];
-
-      response.data.forEach((element) => {
-        const data = {
-          key: element.id,
-          label: element.name,
-          value: element.id,
-        };
-        formatedData.push(data);
-      });
-      if (response != null) {
-        yield put({
-          type: 'saveListContact',
-          payload: formatedData,
-        });
-      }
-    },
-
     *searchLeadByName(
       {
         payload = {
@@ -172,23 +139,6 @@ const Model = {
       }
     },
   },
-  *loadListContact(
-    {
-      payload = {
-        page: 1,
-        searchValue: '',
-      },
-    },
-    { call, put },
-  ) {
-    const response = yield call(getLead, payload);
-    if (response != null) {
-      yield put({
-        type: 'saveContactInfo',
-        payload: formatedListLeadData(response),
-      });
-    }
-  },
 
   reducers: {
     cleanData(state) {
@@ -226,33 +176,16 @@ const Model = {
     saveListTouchpoint(state, { payload }) {
       return { ...state, listTouchpoint: payload };
     },
-    saveListCompany(state, { payload }) {
-      return { ...state, listCompany: payload };
+    updateListSearchData(state, { payload }) {
+      const listSearchData = payload.map((it) => ({
+        key: it.id,
+        label: it.name,
+        value: it.id,
+      }));
+      return { ...state, listSearchData };
     },
-    handleSearchChange(state, { payload }) {
-      return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
-    },
-    saveListContact(state, { payload }) {
-      return { ...state, listContact: payload };
-    },
-    handleSearchContactChange(state, { payload }) {
-      return { ...state, searchValue: payload.value, listContact: payload.listContact };
-    },
-    handleCompleteTouchpoint(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-    showCompleteModal(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-    showCompleteWinModal(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-    showCompleteLoseModal(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-
-    handlecancelCompleteTouchpoint(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
+    clearListSearchData(state) {
+      return { ...state, searchValue: [], listSearchData: [] };
     },
   },
 };
