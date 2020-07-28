@@ -54,7 +54,7 @@ class Create extends React.Component {
 
   onFinish = (values) => {
     this.props.dispatch({
-      type: 'contact/fullCreate',
+      type: 'contact/create',
       payload: { ...values },
     });
   };
@@ -336,5 +336,5 @@ class Create extends React.Component {
 export default connect(({ contact, tag, loading }) => ({
   contact,
   tag,
-  submitting: loading.effects['contact/fullCreate'],
+  submitting: loading.effects['contact/create'],
 }))(Create);
