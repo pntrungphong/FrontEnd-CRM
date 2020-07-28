@@ -9,16 +9,6 @@
     width: 100%;
   }
 
-  .large {
-    display: flex;
-    height: 100%;
-    margin: 0;
-    padding: 50px;
-    background-color: #f8f8f8;
-    background-image: url('https://geekup.hexaspace.vn/images/254e00f….svg');
-    background-repeat: no-repeat;
-    background-position: 100%;
-  }
   .icon {
     margin-left: 16px;
     color: rgba(0, 0, 0, 0.2);
@@ -31,66 +21,6 @@
       color: @primary-color;
     }
   }
-  .title {
-    margin: 50px;
-  }
-  .other {
-    width: 20%;
-    margin-top: 20px;
-    line-height: 22px;
-    text-align: left;
-
-    .register {
-      float: right;
-    }
-  }
-
-  :global {
-    .antd-pro-login-submit {
-      width: 60%;
-      margin-top: 24px;
-    }
-  }
-}
-
-#normal_login,
-.cusForm {
-  position: absolute;
-  top: 40%;
-  left: 50%;
-  width: 25%;
-  width: 440px;
-  height: 300px;
-  margin: auto;
-  background-color: #fff;
-  border: 1.5px solid black;
-  border-radius: 15px;
-  transform: translate(-50%, -50%);
-  .ite-form-item-icon {
-    width: 200px;
-  }
-}
-
-.titleOne {
-  width: 400px;
-  margin: auto;
-  margin-top: 10px;
-  font-weight: 600;
-  font-size: 32px;
-  text-align: center;
-}
-
-.medium {
-  position: absolute;
-  top: 110px;
-  left: 65px;
-  width: 300px;
-}
-.mediumOne {
-  position: absolute;
-  top: 160px;
-  left: 65px;
-  width: 300px;
 }
 
 .login-form-button {
@@ -98,7 +28,74 @@
   align-items: center;
   justify-content: center;
 }
-.butt {
-  display: block;
+
+.boxContainer {
+  width: 100%;
+  height: 100vh;
+  padding: 50px;
+  background: url('../../../assets//background.svg');
+  background-color: #f8f8f8;
+  background-repeat: no-repeat;
+  background-position: right center;
+}
+
+.boxContent {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  height: 100%;
+}
+
+.formBox {
+  width: 570px;
   margin: auto;
+  padding: 30px;
+  background: white;
+  background-color: rgb(255, 255, 255);
+  border-color: rgb(255, 255, 255);
+  border-style: solid;
+  border-width: 1px;
+  border-radius: 6px;
+  border-image: initial;
+  box-shadow: rgb(226, 234, 232) 0 4px 4px 0;
+}
+
+.loginTitle {
+  margin-top: 0;
+  margin-bottom: 0.5em;
+  color: #192a3e;
+  font-weight: 600;
+  font-size: 2em;
+  text-align: center;
+}
+.loginForm {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: rgba(0, 0, 0, 0.65);
+  font-size: 18px;
+  font-variant: tabular-nums;
+  line-height: 1.5;
+  list-style: none;
+  font-feature-settings: 'tnum';
+}
+.subtitle {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 40px;
+  font-weight: 600;
+}
+.loginButton {
+  background-color: #259589;
+  border-radius: 4px;
+}
+.loginLogo {
+  margin: auto;
+  text-align: center;
+
+  img {
+    width: auto;
+    height: 200px;
+  }
 }
