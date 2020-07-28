@@ -37,12 +37,12 @@ const Update = connect(({ contact, tag, loading }) => ({
   contact,
   tag,
   submitting: loading.effects['contact/create'],
-  querying: loading.effects['contact/loading'],
+  querying: loading.effects['contact/get'],
 }))((props) => {
   const formRef = useRef(null);
   useMount(() => {
     props.dispatch({
-      type: 'contact/loading',
+      type: 'contact/get',
       payload: { id: props.match.params.id },
     });
   });
@@ -63,7 +63,7 @@ const Update = connect(({ contact, tag, loading }) => ({
     });
   };
 
-  if (props.contact.data === undefined) {
+  if (props.contact.detail === undefined) {
     return <Spin />;
   }
 
@@ -72,22 +72,21 @@ const Update = connect(({ contact, tag, loading }) => ({
       <div className={styles.header}>
         <h2 className={styles.title}> UPDATE CONTACT</h2>
       </div>
-
       <Form
         {...layout}
         ref={formRef}
         name="nest-messages"
         onFinish={onFinish}
         initialValues={{
-          name: props.contact.data.name,
-          phone: props.contact.data.phone,
-          website: props.contact.data.website,
-          email: props.contact.data.email,
-          tag: props.contact.data.tag,
-          title: props.contact.data.title,
-          referral: props.contact.data.referral,
-          address: props.contact.data.address,
-          company: props.contact.data.company,
+          name: props.contact.detail.name,
+          phone: props.contact.detail.phone,
+          website: props.contact.detail.website,
+          email: props.contact.detail.email,
+          tag: props.contact.detail.tag,
+          title: props.contact.detail.title,
+          referral: props.contact.detail.referral,
+          address: props.contact.detail.address,
+          company: props.contact.detail.company,
         }}
         validateMessages={validateMessages}
       >

@@ -9,17 +9,16 @@ import {
   quickCreateContact as quickCreateContactServices,
 } from '../services/contact';
 
-const Model = {
+const ContactModel = {
   namespace: 'contact',
   state: {
-    contactInfo: [],
-    data: undefined,
-    searchContactValue: '',
+    list: [],
+    detail: undefined,
     itemCount: undefined,
-    searchValue: [],
+    searchValue: '',
   },
   effects: {
-    *searchContactByName(
+    *searchByName(
       {
         payload = {
           page: 1,
@@ -29,19 +28,18 @@ const Model = {
       { call, put },
     ) {
       yield put({
-        type: 'saveContactSearchValue',
+        type: 'saveSearchValue',
         payload: payload.searchValue,
       });
       const response = yield call(getContact, payload);
-
       if (response != null) {
         yield put({
-          type: 'saveContactInfo',
+          type: 'saveList',
           payload: formatedListContactData(response),
         });
       }
     },
-    *loadListContact(
+    *getList(
       {
         payload = {
           page: 1,
@@ -53,12 +51,12 @@ const Model = {
       const response = yield call(getContact, payload);
       if (response != null) {
         yield put({
-          type: 'saveContactInfo',
+          type: 'saveList',
           payload: formatedListContactData(response),
         });
       }
     },
-    *fullCreate({ payload }, { call }) {
+    *create({ payload }, { call }) {
       yield call(fullCreateContact, payload);
       message.success('Successfully');
       history.push({
@@ -77,7 +75,6 @@ const Model = {
       }
       return null;
     },
-
     *update({ payload }, { call }) {
       yield call(updateContact, payload);
       history.push({
@@ -85,9 +82,8 @@ const Model = {
       });
       message.success('Successfully');
     },
-    *loading({ payload }, { call, put }) {
+    *get({ payload }, { call, put }) {
       const response = yield call(getContactById, payload);
-
       yield put({
         type: 'loadContact',
         payload: formatedDetailContactData(response),
@@ -96,22 +92,22 @@ const Model = {
   },
   reducers: {
     loadContact(state, { payload }) {
-      return { ...state, data: payload };
+      return { ...state, detail: payload };
     },
     cleanData(state) {
-      return { ...state, contactInfo: [], data: undefined };
+      return { ...state, list: [], detail: undefined };
     },
-    saveContactInfo(state, { payload }) {
+    saveList(state, { payload }) {
       return {
         ...state,
-        contactInfo: payload.data,
+        list: payload.list,
         itemCount: payload.itemCount,
       };
     },
-    saveContactSearchValue(state, { payload }) {
-      return { ...state, searchContactValue: payload };
+    saveSearchValue(state, { payload }) {
+      return { ...state, searchValue: payload };
     },
   },
 };
 
-export default Model;
+export default ContactModel;
