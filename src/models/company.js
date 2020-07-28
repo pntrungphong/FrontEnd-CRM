@@ -1,33 +1,31 @@
 import { message } from 'antd';
 import { history } from 'umi';
-import { formatedListCompanyData, formatedDetailCompanyData } from './utils';
+import { formatListCompanyData, formatDetailCompanyData } from './utils';
 import {
   getCompany,
   updateCompany,
-  getCompanyById,
-  fullCreateCompany,
+  getDetail,
+  createCompany,
   quickCreateCompany as quickCreateCompanyServices,
 } from '../services/company';
-import { getContact } from '../services/contact';
 
 const Model = {
   namespace: 'company',
   state: {
-    companyInfo: undefined,
-    contactInfo: [],
-    searchValueContact: [],
-    data: undefined,
+    list: undefined,
+    detail: undefined,
     itemCount: undefined,
-    searchCompanyValue: '',
+    searchValue: '',
   },
   effects: {
-    *fullCreate({ payload }, { call }) {
-      yield call(fullCreateCompany, payload);
-
-      message.success('Successfully');
-      history.push({
-        pathname: '/company/',
-      });
+    *create({ payload }, { call }) {
+      const response = yield call(createCompany, payload);
+      if (response && response.id) {
+        message.success('Successfully');
+        history.push({
+          pathname: '/company/',
+        });
+      }
     },
     *quickCreateCompany({ payload }, { call }) {
       const createdCompany = yield call(quickCreateCompanyServices, payload);
@@ -41,28 +39,7 @@ const Model = {
       }
       return null;
     },
-    *searchContactByName({ payload }, { call, put }) {
-      if (payload.value === '') return;
-      const response = yield call(getContact, payload);
-      const formatedData = [];
-
-      response.data.forEach((element) => {
-        const data = {
-          key: element.id.toString(),
-          label: element.name,
-          value: element.id.toString(),
-        };
-        formatedData.push(data);
-      });
-
-      if (response != null) {
-        yield put({
-          type: 'saveListContact',
-          payload: formatedData,
-        });
-      }
-    },
-    *searchCompanyByName(
+    *searchByName(
       {
         payload = {
           page: 1,
@@ -72,20 +49,18 @@ const Model = {
       { call, put },
     ) {
       yield put({
-        type: 'saveCompanySearchValue',
+        type: 'saveSearchValue',
         payload: payload.searchValue,
       });
-
       const response = yield call(getCompany, payload);
-
       if (response != null) {
         yield put({
-          type: 'saveCompanyInfo',
-          payload: formatedListCompanyData(response),
+          type: 'saveList',
+          payload: formatListCompanyData(response),
         });
       }
     },
-    *loadListCompany(
+    *getList(
       {
         payload = {
           page: 1,
@@ -97,53 +72,40 @@ const Model = {
       const response = yield call(getCompany, payload);
       if (response != null) {
         yield put({
-          type: 'saveCompanyInfo',
-          payload: formatedListCompanyData(response),
+          type: 'saveList',
+          payload: formatListCompanyData(response),
         });
       }
     },
     *update({ payload }, { call }) {
-      yield call(updateCompany, payload);
-
-      history.push({
-        pathname: '/company',
-      });
-      message.success('Successfully');
+      const response = yield call(updateCompany, payload);
+      if (response && response.id) {
+        history.push({
+          pathname: '/company',
+        });
+        message.success('Successfully');
+      }
     },
-    *loading({ payload }, { call, put }) {
-      const response = yield call(getCompanyById, payload);
-
+    *get({ payload }, { call, put }) {
+      const response = yield call(getDetail, payload);
       yield put({
-        type: 'loadCompany',
-        payload: formatedDetailCompanyData(response),
+        type: 'saveDetail',
+        payload: formatDetailCompanyData(response),
       });
     },
   },
   reducers: {
-    saveCompanyInfo(state, { payload }) {
-      return { ...state, companyInfo: payload.data, itemCount: payload.itemCount };
+    saveList(state, { payload }) {
+      return { ...state, list: payload.data, itemCount: payload.itemCount };
     },
-    handleCreateModal(state, { payload }) {
-      return { ...state, visible: payload };
+    saveDetail(state, { payload }) {
+      return { ...state, detail: payload };
     },
-    loadCompany(state, { payload }) {
-      return { ...state, data: payload };
+    cleanDetail(state) {
+      return { ...state, detail: undefined };
     },
-    cleanData(state) {
-      return { ...state, data: undefined, searchValueContact: [] };
-    },
-    handleSearchContactChange(state, { payload }) {
-      return {
-        ...state,
-        searchValueContact: payload.value,
-        contactInfo: payload.contactInfo,
-      };
-    },
-    saveCompanySearchValue(state, { payload }) {
-      return { ...state, searchCompanyValue: payload };
-    },
-    saveListContact(state, { payload }) {
-      return { ...state, contactInfo: payload };
+    saveSearchValue(state, { payload }) {
+      return { ...state, searchValue: payload };
     },
   },
 };

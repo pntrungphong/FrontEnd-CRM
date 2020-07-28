@@ -14,23 +14,20 @@ class UpdateCompanyForm extends React.Component {
     this.formRef = React.createRef();
   }
 
-  componentWillUnmount() {
-    this.props.dispatch({
-      type: 'company/cleanData',
-    });
-  }
-
   componentDidMount() {
     this.props.dispatch({
-      type: 'company/loading',
+      type: 'company/get',
       payload: { id: this.props.match.params.id },
     });
 
     this.props.dispatch({
-      type: 'company/cleanData',
-    });
-    this.props.dispatch({
       type: 'tag/getTag',
+    });
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'company/cleanDetail',
     });
   }
 
@@ -43,9 +40,10 @@ class UpdateCompanyForm extends React.Component {
 
   render() {
     const { tag } = this.props.tag;
-    const company = this.props.company.data;
+    const company = this.props.company.detail;
+    const { querying } = this.props;
 
-    if (company === undefined) {
+    if (querying || !company) {
       return <Spin />;
     }
 
@@ -88,5 +86,5 @@ export default connect(({ company, tag, loading }) => ({
   company,
   tag,
   submitting: loading.effects['company/update'],
-  querying: loading.effects['company/loading'],
+  querying: loading.effects['company/get'],
 }))(UpdateCompanyForm);

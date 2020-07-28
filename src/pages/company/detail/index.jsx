@@ -7,10 +7,15 @@ import styles from './style.less';
 
 class CompanyDetail extends Component {
   componentDidMount() {
-    const { dispatch } = this.props;
-    dispatch({
-      type: 'company/loading',
+    this.props.dispatch({
+      type: 'company/get',
       payload: { id: this.props.match.params.id },
+    });
+  }
+
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'company/cleanData',
     });
   }
 
@@ -18,7 +23,7 @@ class CompanyDetail extends Component {
     const { company } = this.props;
     const { querying } = this.props;
 
-    if (querying || !company.data) {
+    if (querying || !company.detail) {
       return <Spin />;
     }
 
@@ -34,7 +39,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Name</h3>
             </Col>
             <Col flex="auto">
-              <span className={styles.customField}>{company.data.name}</span>
+              <span className={styles.customField}>{company.detail.name}</span>
             </Col>
           </Row>
 
@@ -43,7 +48,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Email</h3>
             </Col>
             <Col flex="auto">
-              {company.data.email.map((item) => {
+              {company.detail.email.map((item) => {
                 return (
                   <>
                     <Row>
@@ -62,7 +67,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Tag</h3>
             </Col>
             <Col flex="auto">
-              {company.data.tag.map((item) => {
+              {company.detail.tag.map((item) => {
                 return (
                   <>
                     <Tag key={item.key} className={styles.tagOne}>
@@ -79,7 +84,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Phone</h3>
             </Col>
             <Col flex="auto">
-              {company.data.phone.map((item) => {
+              {company.detail.phone.map((item) => {
                 return (
                   <>
                     <Row>
@@ -98,7 +103,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Url</h3>
             </Col>
             <Col flex="auto">
-              <span className={styles.customField}>{company.data.url}</span>
+              <span className={styles.customField}>{company.detail.url}</span>
             </Col>
           </Row>
 
@@ -107,7 +112,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Website</h3>
             </Col>
             <Col flex="auto">
-              {company.data.website.map((item) => {
+              {company.detail.website.map((item) => {
                 return (
                   <>
                     <Row>
@@ -126,7 +131,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Contact</h3>
             </Col>
             <Col flex="auto">
-              {company.data.contact.map((item) => {
+              {company.detail.contact.map((item) => {
                 return (
                   <>
                     <Tag key={item.name} className={styles.customFieldContact}>
@@ -150,7 +155,7 @@ class CompanyDetail extends Component {
               <h3 className={styles.cloOne}>Address</h3>
             </Col>
             <Col flex="auto">
-              {company.data.address.map((item) => {
+              {company.detail.address.map((item) => {
                 return (
                   <>
                     <Row>
@@ -171,5 +176,5 @@ class CompanyDetail extends Component {
 
 export default connect(({ company, loading }) => ({
   company,
-  querying: loading.effects['company/loading'],
+  querying: loading.effects['company/get'],
 }))(CompanyDetail);

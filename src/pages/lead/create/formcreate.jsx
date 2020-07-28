@@ -157,9 +157,8 @@ class CreateForm extends React.Component {
     );
   }
 }
-export default connect(({ lead, loading, searchModel }) => ({
+export default connect(({ lead, loading }) => ({
   lead,
-  searchModel,
   submitting: loading.effects['lead/fullCreate'],
   fetchingCompany: loading.effects['lead/searchCompanyByName'],
   fetchingContact: loading.effects['lead/searchContactByName'],

@@ -170,7 +170,7 @@ export const formatedDetailContactData = (response) => {
   }
 };
 
-export const formatedDetailCompanyData = (response) => {
+export const formatDetailCompanyData = (response) => {
   try {
     const contact = response.contact
       ? response.contact.map((element) => {
@@ -291,7 +291,7 @@ export const formatedListContactData = (response) => {
   }
 };
 
-export const formatedListCompanyData = (response) => {
+export const formatListCompanyData = (response) => {
   try {
     const formatedData = [];
     response.data.forEach((element) => {

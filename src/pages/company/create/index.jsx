@@ -16,16 +16,13 @@ class CreateCompanyForm extends React.Component {
 
   componentDidMount() {
     this.props.dispatch({
-      type: 'company/cleanData',
-    });
-    this.props.dispatch({
       type: 'tag/getTag',
     });
   }
 
   onFinish = (values) => {
     this.props.dispatch({
-      type: 'company/fullCreate',
+      type: 'company/create',
       payload: { ...values },
     });
   };
@@ -55,5 +52,5 @@ class CreateCompanyForm extends React.Component {
 export default connect(({ company, tag, loading }) => ({
   company,
   tag,
-  submitting: loading.effects['company/fullCreate'],
+  submitting: loading.effects['company/create'],
 }))(CreateCompanyForm);
