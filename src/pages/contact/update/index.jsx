@@ -1,9 +1,9 @@
 import { Spin, Form, Input, Col, Row, Button, Select } from 'antd';
-import React from 'react';
-import { connect, history } from 'umi';
+import React, { useRef } from 'react';
+import { connect } from 'umi';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import QuickCreate, { CreateType } from '../../common/quickCreate';
 import { useMount, useUnmount } from 'ahooks';
-import debounce from 'lodash/debounce';
 import styles from './style.less';
 
 const { Option } = Select;
@@ -38,9 +38,8 @@ const Update = connect(({ contact, tag, loading }) => ({
   tag,
   submitting: loading.effects['contact/create'],
   querying: loading.effects['contact/loading'],
-  fetchingCompany: loading.effects['contact/searchCompanyByName'],
-  fetchingContact: loading.effects['contact/searchContactReferralByName'],
 }))((props) => {
+  const formRef = useRef(null);
   useMount(() => {
     props.dispatch({
       type: 'contact/loading',
@@ -63,63 +62,8 @@ const Update = connect(({ contact, tag, loading }) => ({
       payload: { ...values, id: props.match.params.id },
     });
   };
-  const [form] = Form.useForm();
 
-  let fetchCompany = (value) => {
-    props.dispatch({
-      type: 'contact/handleSearchChange',
-      payload: { value: props.contact.searchValue, listCompany: [] },
-    });
-
-    props.dispatch({
-      type: 'contact/searchCompanyByName',
-      payload: { value },
-    });
-  };
-
-  const createCompany = () => {
-    history.push({
-      pathname: '/company/create',
-    });
-  };
-
-  const createContact = () => {
-    history.push({
-      pathname: '/contact/create',
-    });
-  };
-
-  let fetchContact = (value) => {
-    props.dispatch({
-      type: 'contact/handleSearchChangeContactReferral',
-      payload: { value: props.contact.searchValueContactReferral, contactInfo: [] },
-    });
-
-    props.dispatch({
-      type: 'contact/searchContactReferralByName',
-      payload: {
-        page: 1,
-        searchValue: value,
-      },
-    });
-  };
-  fetchCompany = debounce(fetchCompany, 1000);
-  fetchContact = debounce(fetchContact, 1000);
-
-  const handleChange = (value) => {
-    props.dispatch({
-      type: 'contact/handleSearchChange',
-      payload: { value, listCompany: [] },
-    });
-  };
-
-  const handleChangeContactReferral = (value) => {
-    props.dispatch({
-      type: 'contact/handleSearchChangeContactReferral',
-      payload: { value, contactInfo: [] },
-    });
-  };
-
+  console.table(props.contact.data);
   if (props.contact.data === undefined) {
     return <Spin />;
   }
@@ -132,62 +76,50 @@ const Update = connect(({ contact, tag, loading }) => ({
 
       <Form
         {...layout}
-        form={form}
+        ref={formRef}
         name="nest-messages"
         onFinish={onFinish}
         initialValues={{
-          contact: {
-            name: props.contact.data.name,
-            phone: props.contact.data.phone,
-            website: props.contact.data.website,
-            email: props.contact.data.email,
-            tag: props.contact.data.tag,
-            title: props.contact.data.title,
-            referral: props.contact.data.referral,
-            address: props.contact.data.address,
-            company: props.contact.data.company,
-          },
+          name: props.contact.data.name,
+          phone: props.contact.data.phone,
+          website: props.contact.data.website,
+          email: props.contact.data.email,
+          tag: props.contact.data.tag,
+          title: props.contact.data.title,
+          referral: props.contact.data.referral,
+          address: props.contact.data.address,
+          company: props.contact.data.company,
         }}
         validateMessages={validateMessages}
       >
         <Form.Item
-          name={['contact', 'name']}
+          name="name"
           label="Name"
           rules={[{ required: true, message: 'Please enter name!' }]}
         >
           <Input />
         </Form.Item>
-        <Form.Item name={['contact', 'company']} label="Company">
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.contact.searchValue}
-            placeholder="Select company"
-            notFoundContent={
-              props.fetchingCompany ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createCompany}>
-                    Create Company
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchCompany}
-            onChange={handleChange}
-          >
-            {props.contact.listCompany.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
+        <Form.Item name="company" label="Company">
+          <QuickCreate
+            formRef={formRef}
+            placeholder="Type and select a company"
+            createType={CreateType.COMPANY}
+            dataIndex="company"
+          />
         </Form.Item>
-        <Form.Item name={['contact', 'title']} label="Title">
+        <Form.Item name="title" label="Title">
           <Input />
         </Form.Item>
 
-        <Form.Item name={['contact', 'tag']} label="Tag">
+        <Form.Item name="referral" label="Referral">
+          <QuickCreate
+            formRef={formRef}
+            placeholder="Type and select a referral"
+            createType={CreateType.CONTACT}
+            dataIndex="referral"
+          />
+        </Form.Item>
+        <Form.Item name="tag" label="Tag">
           <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
             {props.tag.tag.map((item) => {
               return <Option key={item.key}>{item.label}</Option>;
@@ -196,7 +128,7 @@ const Update = connect(({ contact, tag, loading }) => ({
         </Form.Item>
 
         <div {...formItemLayoutWithOutLabel}>
-          <Form.List name={['contact', 'phone']}>
+          <Form.List name="phone">
             {(fields, { add, remove }) => {
               return (
                 <div>
@@ -249,7 +181,7 @@ const Update = connect(({ contact, tag, loading }) => ({
           </Form.List>
         </div>
         <div {...formItemLayoutWithOutLabel}>
-          <Form.List name={['contact', 'email']}>
+          <Form.List name="email">
             {(fields, { add, remove }) => {
               return (
                 <div>
@@ -315,7 +247,7 @@ const Update = connect(({ contact, tag, loading }) => ({
           </Form.List>
         </div>
         <div {...formItemLayoutWithOutLabel}>
-          <Form.List name={['contact', 'website']}>
+          <Form.List name="website">
             {(fields, { add, remove }) => {
               return (
                 <div>
@@ -372,7 +304,7 @@ const Update = connect(({ contact, tag, loading }) => ({
           </Form.List>
         </div>
         <div {...formItemLayoutWithOutLabel}>
-          <Form.List name={['contact', 'address']}>
+          <Form.List name="address">
             {(fields, { add, remove }) => {
               return (
                 <div>
@@ -404,32 +336,6 @@ const Update = connect(({ contact, tag, loading }) => ({
             }}
           </Form.List>
         </div>
-        <Form.Item name={['contact', 'referral']} label="Referral">
-          <Select
-            mode="multiple"
-            labelInValue
-            value={props.contact.searchValueContactReferral}
-            placeholder="Select contact"
-            notFoundContent={
-              props.fetchingContact ? (
-                <Spin size="small" />
-              ) : (
-                <p>
-                  <Button type="text" onClick={createContact}>
-                    Create Contact
-                  </Button>
-                </p>
-              )
-            }
-            filterOption={false}
-            onSearch={fetchContact}
-            onChange={handleChangeContactReferral}
-          >
-            {props.contact.contactInfo.map((d) => (
-              <Option key={d.key}>{d.label}</Option>
-            ))}
-          </Select>
-        </Form.Item>
         <Form.Item wrapperCol={{ ...layout.wrapperCol, offset: 8 }}>
           <Button type="primary" htmlType="submit" loading={props.submitting}>
             Update
