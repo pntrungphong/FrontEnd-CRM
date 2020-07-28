@@ -18,12 +18,10 @@ const Model = {
     itemCount: undefined,
     listSearchData: [], // contact/company
     searchValue: [],
-    touchpointList: [],
     listFile: [],
     listTouchpoint: [],
     status: '',
     leadSearchValue: '',
-    viewable: false,
   },
   effects: {
     *fullCreate({ payload }, { call, put }) {
@@ -188,22 +186,6 @@ const Model = {
     },
     clearListSearchData(state) {
       return { ...state, searchValue: [], listSearchData: [] };
-    },
-    handleCompleteTouchpoint(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-    showCompleteModal(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-    showCompleteWinModal(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-    showCompleteLoseModal(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
-    },
-
-    handlecancelCompleteTouchpoint(state, { payload }) {
-      return { ...state, viewable: payload.viewable };
     },
   },
 };
