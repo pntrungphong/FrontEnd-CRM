@@ -1,5 +1,44 @@
 import moment from 'moment';
 
+const emailFormat = (listEmail) => {
+  return listEmail.map((element) => ({
+    type: element.type,
+    url: element.url,
+  }));
+};
+const phoneFormat = (listPhone) => {
+  return listPhone.map((item) => ({ number: item.number, type: item.type }));
+};
+const listCompanyFormat = (listData) => {
+  return listData.map((data) => ({
+    key: data.id.toString(),
+    label: data.name,
+    value: data.id.toString(),
+  }));
+};
+const listReferralFormat = (listData) => {
+  return listData.map((data) => ({
+    key: data.idTarget.toString(),
+    value: data.idTarget.toString(),
+    label: data.name,
+  }));
+};
+const listTagFormat = (listData) => {
+  return listData.map((data) => ({
+    key: data.id.toString(),
+    label: data.tag,
+    value: data.id.toString(),
+  }));
+};
+const listTaskFormat = (listData) => {
+  return listData.map((task) => ({
+    id: task.id,
+    taskname: task.taskName,
+    type: task.type,
+    userId: task.userId,
+    dueDate: task.dueDate,
+  }));
+};
 export const getDefaultPagination = () => {
   return {
     page_size: 0,
@@ -9,7 +48,6 @@ export const getDefaultPagination = () => {
     prev_page: 0,
   };
 };
-
 export const setPagination = (data) => {
   try {
     return {
@@ -85,81 +123,25 @@ export const formatedListLeadData = (response) => {
     throw new Error(error);
   }
 };
-
 export const formatedDetailContactData = (response) => {
   try {
-    const company = response.company
-      ? response.company.map((element) => {
-          return {
-            key: element.id.toString(),
-            label: element.name,
-            value: element.id.toString(),
-          };
-        })
-      : [];
-
-    const tag = response.tag
-      ? response.tag.map((element) => {
-          return {
-            key: element.id.toString(),
-            value: element.id.toString(),
-            label: element.tag,
-          };
-        })
-      : [];
-
-    const referral = response.referral
-      ? response.referral.map((element) => {
-          return {
-            key: element.idTarget.toString(),
-            value: element.idTarget.toString(),
-            label: element.name,
-          };
-        })
-      : [];
-
-    const website = response.website
-      ? response.website.map((element) => {
-          return {
-            type: element.type,
-            url: element.url,
-          };
-        })
-      : [];
-
-    const email = response.email
-      ? response.email.map((element) => {
-          return {
-            type: element.type,
-            url: element.url,
-          };
-        })
-      : [];
-
-    const address = response.address
-      ? response.address.map((element) => {
-          return element;
-        })
-      : [];
-
-    const phone = response.phone
-      ? response.phone.map((element) => {
-          return {
-            type: element.type,
-            number: element.number,
-          };
-        })
-      : [];
+    const company = listCompanyFormat(response.company ?? []);
+    const tag = listTagFormat(response.tag ?? []);
+    const referral = listReferralFormat(response.referral ?? []);
+    const website = emailFormat(response.website ?? []);
+    const email = emailFormat(response.email ?? []);
+    const address = response.address ?? [];
+    const phone = phoneFormat(response.phone ?? []);
 
     const returnData = {
       referral,
       company,
-      title: response.title != null ? response.title : '',
       email,
       website,
       address,
       tag,
       phone,
+      title: response.title ?? '',
       name: response.name,
       id: response.id,
     };
@@ -226,7 +208,7 @@ export const formatDetailCompanyData = (response) => {
 
     const returnData = {
       contact,
-      url: response.url != null ? response.url : '',
+      url: response.url ? response.url : '',
       email,
       website,
       tag,
@@ -241,47 +223,23 @@ export const formatDetailCompanyData = (response) => {
     throw new Error('Missing data');
   }
 };
-
 export const formatedListContactData = (response) => {
   try {
-    const formatedData = [];
-    response.data.forEach((element) => {
-      const company = element.company
-        ? element.company.map((data) => {
-            return {
-              key: data.id.toString(),
-              label: data.name,
-              value: data.id.toString(),
-            };
-          })
-        : [];
-
-      const title = element.title ? element.title : '';
-
-      const email = element.email
-        ? element.email.map((data) => {
-            return data;
-          })
-        : [];
-
-      const phone = element.phone
-        ? element.phone.map((data) => {
-            return data;
-          })
-        : [];
-
-      const data = {
+    const formatedData = response.data.map((element) => {
+      const company = listTagFormat(element.company ?? []);
+      const email = emailFormat(element.email ?? []);
+      const phone = phoneFormat(element.phone ?? []);
+      return {
         company,
         email,
         phone,
-        title,
+        title: element.title ? element.title : '',
         name: element.name,
         id: element.id,
       };
-      formatedData.push(data);
     });
     const returnData = {
-      data: formatedData,
+      list: formatedData,
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
     };
@@ -293,38 +251,18 @@ export const formatedListContactData = (response) => {
 
 export const formatListCompanyData = (response) => {
   try {
-    const formatedData = [];
-    response.data.forEach((element) => {
-      const contact = element.contact
-        ? element.contact.map((data) => {
-            return {
-              key: data.id.toString(),
-              label: data.name,
-              value: data.id.toString(),
-            };
-          })
-        : [];
+    const formatedData = response.data.map((element) => {
+      const contact = listTagFormat(element.contact ?? []);
+      const email = emailFormat(element.email ?? []);
+      const phone = phoneFormat(element.phone ?? []);
 
-      const email = element.email
-        ? element.email.map((data) => {
-            return data;
-          })
-        : [];
-
-      const phone = element.phone
-        ? element.phone.map((data) => {
-            return data;
-          })
-        : [];
-
-      const data = {
+      return {
         contact,
         email,
         phone,
         name: element.name,
         id: element.id,
       };
-      formatedData.push(data);
     });
     const returnData = {
       data: formatedData,
@@ -336,7 +274,6 @@ export const formatListCompanyData = (response) => {
     throw new Error('Missing data');
   }
 };
-
 export const formatedDetailTouchpointData = (response, fileResponse) => {
   try {
     const sla = [];
@@ -380,17 +317,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
       }
     });
 
-    const tasks = response.task
-      ? response.task.map((task) => {
-          return {
-            id: task.id,
-            taskname: task.taskName,
-            type: task.type,
-            userId: task.userId,
-            dueDate: task.dueDate,
-          };
-        })
-      : [];
+    const tasks = listTaskFormat(response.task ?? []);
 
     const returnData = {
       goal: response.goal,
@@ -412,46 +339,16 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
     throw new Error('Missing pagination data');
   }
 };
-
 export const formatedDetailLeadData = (response) => {
   try {
-    const contact = [];
-    if (response.contact != null) {
-      response.contact.forEach((element) => {
-        contact.push({
-          key: element.id.toString(),
-          value: element.id.toString(),
-          label: element.name,
-        });
-      });
-    }
-    const relation = [];
-    if (response.relatedTo != null) {
-      response.relatedTo.forEach((element) => {
-        relation.push({
-          key: element.id.toString(),
-          value: element.id.toString(),
-          label: element.name,
-        });
-      });
-    }
-    const tag = [];
-    if (response.tag != null) {
-      response.tag.forEach((element) => {
-        tag.push({
-          key: element.id,
-          value: element.id,
-          label: element.tag,
-        });
-      });
-    }
-
+    const contact = listTagFormat(response.contact ?? []);
+    const relation = listTagFormat(response.relatedTo ?? []);
+    const tag = listTagFormat(response.tag ?? []);
     const company = {
       key: response.company.id,
       label: response.company.name,
     };
-
-    const returnData = {
+    return {
       company,
       description: response.description,
       rank: response.rank,
@@ -464,8 +361,6 @@ export const formatedDetailLeadData = (response) => {
       note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
     };
-
-    return returnData;
   } catch (error) {
     throw new Error('Missing pagination data');
   }
