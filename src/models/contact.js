@@ -156,16 +156,12 @@ const Model = {
     saveListContactReferral(state, { payload }) {
       return { ...state, contactInfo: payload };
     },
-    handleCreateModal(state, { payload }) {
-      return { ...state, visible: payload };
-    },
     handleSearchChange(state, { payload }) {
       return { ...state, searchValue: payload.value, listCompany: payload.listCompany };
     },
     handleQuickCreate(state, { payload }) {
       return { ...state, searchValueContactReferral: payload };
     },
-
     handleSearchChangeContactReferral(state, { payload }) {
       return {
         ...state,

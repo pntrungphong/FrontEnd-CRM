@@ -16,9 +16,12 @@ class CompanyDetail extends Component {
 
   render() {
     const { company } = this.props;
-    if (company.data === undefined) {
+    const { querying } = this.props;
+
+    if (querying || !company.data) {
       return <Spin />;
     }
+
     return (
       <PageHeaderWrapper title="Company Details">
         <Card bordered="true">
