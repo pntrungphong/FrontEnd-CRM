@@ -52,7 +52,7 @@ const EditableCell = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    if (status === 'Done' || status === 'Draft') return;
+    if (status === 'Done') return;
     if (record.taskname === '' && dataIndex !== 'taskname') return;
     setEditing(!editing);
     form.setFieldsValue({
@@ -409,7 +409,7 @@ class EditableTable extends React.Component {
           </Form>
         </Modal>
         <Button
-          hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
+          hidden={!!(this.props.status === 'Done')}
           onClick={this.onShow}
           style={{
             marginBottom: 10,

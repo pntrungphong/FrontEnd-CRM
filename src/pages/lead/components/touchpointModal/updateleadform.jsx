@@ -72,7 +72,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         initialValues={{
           name: props.lead.data.name,
           rank: props.lead.data.rank,
-          company: props.lead.data.company,
+          company: props.lead.data.company.label,
           contact: props.lead.data.contact,
           relation: props.lead.data.relation,
           tag: props.lead.data.tag,
@@ -89,14 +89,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           <Input />
         </Form.Item>
         <Form.Item name="company" label="Company">
-          <Select
-            labelInValue
-            aria-readonly
-            disabled
-            mode="multiple"
-            placeholder="Select a company"
-            value={props.lead.searchValue}
-          />
+          <Input readOnly disabled />
         </Form.Item>
 
         <Form.Item
@@ -138,7 +131,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           <Form.Item
             name="reason"
             label="Rank Explanation"
-            rules={[{ required: true, message: 'Explanation for this rank' }]}
+            rules={[{ required: true, message: 'Input explanation for this rank' }]}
           >
             <TextArea
               autoSize={{ minRows: 2, maxRows: 6 }}
