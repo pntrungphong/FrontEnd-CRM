@@ -31,7 +31,7 @@ export async function updateContact(params) {
   if (params.contact.phone !== undefined) {
     params.contact.phone.forEach((element) => {
       phone.push({
-        type: '',
+        type: element.type,
         number: element.number,
       });
     });
@@ -92,7 +92,7 @@ export async function updateContact(params) {
 
   const body = {
     name: `${params.contact.name}`,
-    title: params.title !== undefined ? params.contact.title : '',
+    title: params.contact.title !== undefined ? params.contact.title : '',
     phone,
     address,
     company,

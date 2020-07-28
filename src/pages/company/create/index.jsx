@@ -104,7 +104,7 @@ class Create extends React.Component {
     return (
       <div className={styles.main}>
         <div className={styles.header}>
-          <h2 className={styles.title}> CREATE COMPANY</h2>
+          <h2 className={styles.title}> Create New Company</h2>
         </div>
 
         <Form
@@ -127,7 +127,7 @@ class Create extends React.Component {
             <Input />
           </Form.Item>
 
-          <Form.Item name="contact" label="Contact">
+          <Form.Item name="contact" label="Contact" className={styles.editOne}>
             <Select
               labelInValue
               autoClearSearchValue
@@ -159,6 +159,7 @@ class Create extends React.Component {
           </Form.Item>
           <Form.Item
             name="url"
+            className={styles.editOne}
             label="Website"
             defaultField={{ type: 'url' }}
             rules={[
@@ -170,7 +171,7 @@ class Create extends React.Component {
           >
             <Input />
           </Form.Item>
-          <Form.Item name="tag" label="Tag">
+          <Form.Item name="tag" label="Tag" className={styles.editOne}>
             <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
               {tag.map((item) => {
                 return <Option key={item.key}>{item.label}</Option>;
@@ -178,7 +179,7 @@ class Create extends React.Component {
             </Select>
           </Form.Item>
 
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="phone">
               {(fields, { add, remove }) => {
                 return (
@@ -220,7 +221,7 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="email">
               {(fields, { add, remove }) => {
                 return (
@@ -246,21 +247,7 @@ class Create extends React.Component {
                                 <Input />
                               </Form.Item>
                             </Col>
-                            <Col flex="2">
-                              <Form.Item
-                                {...field}
-                                className={styles.childrenRow}
-                                name={[field.name, 'type']}
-                                fieldKey={[field.fieldKey, 'type']}
-                                rules={[{ required: true, message: 'Select type' }]}
-                              >
-                                <Select placeholder="Type">
-                                  <Option value="Primary">Primary</Option>
-                                  <Option value="Company">Company</Option>
-                                  <Option value="Personal">Personal</Option>
-                                </Select>
-                              </Form.Item>
-                            </Col>
+
                             <MinusCircleOutlined
                               className={['dynamic-delete-button', styles.customDeleteButton]}
                               onClick={() => {
@@ -285,7 +272,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="website">
               {(fields, { add, remove }) => {
                 return (
@@ -311,7 +298,6 @@ class Create extends React.Component {
                                 className={styles.childrenRow}
                                 name={[field.name, 'type']}
                                 fieldKey={[field.fieldKey, 'type']}
-                                type
                               >
                                 <Select placeholder="Type">
                                   <Option value="Facebook">Facebook</Option>
@@ -347,7 +333,7 @@ class Create extends React.Component {
             </Form.List>
           </div>
 
-          <div {...formItemLayoutWithOutLabel}>
+          <div {...formItemLayoutWithOutLabel} className={styles.editOne}>
             <Form.List name="address">
               {(fields, { add, remove }) => {
                 return (
@@ -389,8 +375,7 @@ class Create extends React.Component {
               }}
             </Form.List>
           </div>
-
-          <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }}>
+          <Form.Item wrapperCol={{ ...layout.wrappercol, offset: 8 }} className={styles.editBtn}>
             <Button type="primary" htmlType="submit" loading={this.props.submitting}>
               Create
             </Button>

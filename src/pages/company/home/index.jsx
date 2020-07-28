@@ -19,12 +19,12 @@ const columns = [
     dataIndex: 'contact',
     key: 'contact',
     size: 'small',
-    width: '30%',
-    render: (company) => (
+    width: '25%',
+    render: (contact) => (
       <>
-        {company.map((item) => {
+        {contact.map((item) => {
           return item.key !== undefined ? (
-            <a
+            <Tag
               key={item.key}
               className={styles.customCell}
               onClick={() => {
@@ -34,7 +34,7 @@ const columns = [
               }}
             >
               {item.label}
-            </a>
+            </Tag>
           ) : (
             ''
           );
@@ -54,9 +54,9 @@ const columns = [
           return item.number ? (
             <div>
               <Row>
-                <Tag key={item.number} className={styles.customField}>
+                <p key={item.number} className={styles.customField}>
                   {item.number}
-                </Tag>
+                </p>
               </Row>
             </div>
           ) : (
@@ -71,17 +71,17 @@ const columns = [
     dataIndex: 'email',
     key: 'email',
     size: 'small',
-    width: '30%',
+    width: '25%',
 
     render: (email) => (
       <>
         {email.map((item) => {
-          return item.type && item.url ? (
+          return item.url ? (
             <div>
               <Row>
-                <Tag key={item.type} className={styles.customField}>
-                  {item.type}: {item.url}
-                </Tag>
+                <h4 key={item.type} className={styles.customField}>
+                  {item.url}
+                </h4>
               </Row>
             </div>
           ) : (
@@ -101,26 +101,26 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <a
+          <span
             onClick={() => {
               history.push({
                 pathname: `/company/update/${record.id}`,
               });
             }}
           >
-            <FormOutlined /> Update
-          </a>
+            <FormOutlined />
+          </span>
         </li>
         <li>
-          <a
+          <span
             onClick={() => {
               history.push({
                 pathname: `/company/detail/${record.id}`,
               });
             }}
           >
-            <EyeOutlined /> Detail
-          </a>
+            <EyeOutlined />
+          </span>
         </li>
       </ul>
     ),
@@ -149,16 +149,15 @@ class App extends React.Component {
   render() {
     return (
       <div className={styles.containerBox}>
+        <Search
+          className={styles.search}
+          placeholder="Search company by name"
+          size="large"
+          loading={this.props.loadingSearch}
+          onSearch={this.onSearch}
+        />
         <div className={styles.top}>
           <Create />
-          <Search
-            className={styles.search}
-            placeholder="Search company by name"
-            enterButton="Search"
-            size="large"
-            loading={this.props.loadingSearch}
-            onSearch={this.onSearch}
-          />
         </div>
         <ListCompany />
       </div>
@@ -199,6 +198,7 @@ const ListCompany = connect(({ company, loading }) => ({
         rowKey="id"
         size="small"
         dataSource={props.company.companyInfo}
+        className={styles.editTable}
       />
       {props.company.itemCount / 10 >= 1 ? (
         <Pagination
@@ -221,7 +221,7 @@ const Create = connect(({ company }) => ({
   };
 
   return (
-    <Button type="primary" onClick={createDetail}>
+    <Button type="primary" onClick={createDetail} className={styles.btn}>
       Create New Company
     </Button>
   );

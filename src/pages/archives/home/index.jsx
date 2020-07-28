@@ -1,4 +1,4 @@
-import { Tag, Pagination, Input, Table, Radio } from 'antd';
+import { Pagination, Input, Table, Radio } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
@@ -11,11 +11,11 @@ const rankStore = {
   '2': 'C',
   '3': 'D',
 };
-const colorStatusStore = {
-  'In-progress': 'blue',
-  Win: 'green',
-  Lost: 'red',
-};
+// const colorStatusStore = {
+//   'In-progress': 'blue',
+//   Win: 'green',
+//   Lost: 'red',
+// };
 
 const columns = [
   {
@@ -45,10 +45,30 @@ const columns = [
     ),
   },
   {
-    title: 'Status',
-    dataIndex: 'status',
-    key: 'status',
-    render: (status) => <Tag color={colorStatusStore[status]}>{status}</Tag>,
+    title: 'Contact',
+    dataIndex: 'contact',
+    key: 'contact',
+    render: (contact) => (
+      <>
+        {contact.map((item) => {
+          return item.id !== undefined ? (
+            <a
+              key={contact.id}
+              className={styles.customCell}
+              onClick={() => {
+                history.push({
+                  pathname: `/contact/detail/${item.id}`,
+                });
+              }}
+            >
+              {item.name}
+            </a>
+          ) : (
+            ''
+          );
+        })}
+      </>
+    ),
   },
   {
     title: 'Rank',
@@ -68,7 +88,6 @@ const columns = [
     ),
   },
 ];
-
 class App extends React.Component {
   onSearch = (value) => {
     this.props.dispatch({
@@ -88,7 +107,6 @@ class App extends React.Component {
           <Search
             className={styles.search}
             placeholder="Search lead by name"
-            enterButton="Search"
             loading={this.props.loadingSearch}
             size="large"
             onSearch={this.onSearch}

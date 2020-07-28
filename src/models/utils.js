@@ -70,7 +70,9 @@ export const formatedListLeadData = (response) => {
         description: element.description,
         id: element.id,
         company: element.company,
+        contact: element.contact,
       };
+
       formatedData.push(data);
     });
 
