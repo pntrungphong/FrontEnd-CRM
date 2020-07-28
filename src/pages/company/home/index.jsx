@@ -178,7 +178,7 @@ const ListCompany = connect(({ company, loading }) => ({
   });
   const [currentPage, setcurrentPage] = useState(1);
 
-  const onPaginitionChange = (page) => {
+  const onPaginationChange = (page) => {
     props.dispatch({
       type: 'company/loadListCompany',
       payload: {
@@ -203,8 +203,9 @@ const ListCompany = connect(({ company, loading }) => ({
       {props.company.itemCount / 10 >= 1 ? (
         <Pagination
           current={currentPage}
+          pageSizeOptions={[]}
           total={props.company.itemCount}
-          onChange={onPaginitionChange}
+          onChange={onPaginationChange}
         />
       ) : null}
     </div>

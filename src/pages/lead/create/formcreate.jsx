@@ -99,7 +99,7 @@ class CreateForm extends React.Component {
         <Form.Item name="relation" label="Related To">
           <QuickCreate
             formRef={this.formRef}
-            placeholder="Type and select realation contact"
+            placeholder="Type and select relation contact"
             createType={CreateType.CONTACT}
             dataIndex="relation"
           />
