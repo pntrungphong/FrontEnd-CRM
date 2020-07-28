@@ -235,6 +235,7 @@ export const formatedDetailCompanyData = (response) => {
       name: response.name,
       id: response.id,
     };
+
     return returnData;
   } catch (error) {
     throw new Error('Missing data');

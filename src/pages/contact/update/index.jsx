@@ -2,8 +2,8 @@ import { Spin, Form, Input, Col, Row, Button, Select } from 'antd';
 import React, { useRef } from 'react';
 import { connect } from 'umi';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
-import QuickCreate, { CreateType } from '../../common/quickCreate';
 import { useMount, useUnmount } from 'ahooks';
+import QuickCreate, { CreateType } from '../../common/quickCreate';
 import styles from './style.less';
 
 const { Option } = Select;
