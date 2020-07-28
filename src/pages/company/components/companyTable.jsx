@@ -75,9 +75,7 @@ const columns = [
           return item.type && item.url ? (
             <div key={item.url}>
               <Row>
-                <h4 className={styles.customField}>
-                  {item.type}: {item.url}
-                </h4>
+                <h4 className={styles.customField}>{item.url}</h4>
               </Row>
             </div>
           ) : (
@@ -102,7 +100,7 @@ const columns = [
               });
             }}
           >
-            <FormOutlined /> Update
+            <FormOutlined />
           </span>
         </li>
         <li>
@@ -113,7 +111,7 @@ const columns = [
               });
             }}
           >
-            <EyeOutlined /> Detail
+            <EyeOutlined />
           </span>
         </li>
       </ul>

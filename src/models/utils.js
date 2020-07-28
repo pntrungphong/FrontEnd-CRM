@@ -228,7 +228,7 @@ export const formatDetailCompanyData = (response) => {
 export const formatedListContactData = (response) => {
   try {
     const formatedData = response.data.map((element) => {
-      const company = listTagFormat(element.company ?? []);
+      const company = listCompanyFormat(element.company ?? []);
       const email = emailFormat(element.email ?? []);
       const phone = phoneFormat(element.phone ?? []);
       return {
@@ -254,7 +254,7 @@ export const formatedListContactData = (response) => {
 export const formatListCompanyData = (response) => {
   try {
     const formatedData = response.data.map((element) => {
-      const contact = listTagFormat(element.contact ?? []);
+      const contact = listCompanyFormat(element.contact ?? []);
       const email = emailFormat(element.email ?? []);
       const phone = phoneFormat(element.phone ?? []);
 

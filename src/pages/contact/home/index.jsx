@@ -154,6 +154,7 @@ class ListContactPage extends React.Component {
         <div className={styles.top}>
           <Button
             type="primary"
+            className={styles.btn}
             onClick={() => {
               history.push({
                 pathname: '/contact/create',
@@ -162,14 +163,6 @@ class ListContactPage extends React.Component {
           >
             Create New Contact
           </Button>
-          <Search
-            className={styles.search}
-            placeholder="Search contact by name"
-            enterButton="Search"
-            size="large"
-            loading={this.props.loadingSearch}
-            onSearch={this.onSearch}
-          />
         </div>
         <ListContact />
       </div>
