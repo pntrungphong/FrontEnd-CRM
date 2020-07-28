@@ -216,7 +216,7 @@ const ListLead = connect(({ lead, loading }) => ({
                               if (listType.includes(taskItem.type)) return null;
                               listType.push(taskItem.type);
                               return (
-                                <div>
+                                <div key={taskItem.id}>
                                   <Row>
                                     <Col flex="2">
                                       <Tag

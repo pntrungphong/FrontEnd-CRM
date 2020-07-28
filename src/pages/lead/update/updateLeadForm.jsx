@@ -21,7 +21,7 @@ class UpdateLead extends React.Component {
   render() {
     return (
       <>
-        <FontAwesomeIcon icon={faEllipsisH} onClick={() => this.showModal(true)} size="xl" />
+        <FontAwesomeIcon icon={faEllipsisH} onClick={() => this.showModal(true)} size="sm" />
         <Modal
           className={styles.modalCreate}
           style={{ top: 0 }}
