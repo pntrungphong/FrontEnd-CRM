@@ -1,5 +1,5 @@
-import request from '../utils/request';
 import queryString from 'query-string';
+import request from '../utils/request';
 
 const formatOutputData = (params) => {
   const idCompany = params.company && params.company.length > 0 ? params.company[0].value : '';
