@@ -39,7 +39,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       type: 'touchpoint/cleanData',
     });
   };
-
   return (
     <div>
       <a onClick={onShow} className={styles.updateTouchPointButton}>
@@ -90,6 +89,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       >
         {(props.touchpoint.data && props.lead.data) || props.updateLoading ? (
           <UpdateTouchpointForm
+            leadId={props.lead.data.id}
             onCancel={onCancel}
             touchpoint={props.touchpoint}
             lead={props.lead}

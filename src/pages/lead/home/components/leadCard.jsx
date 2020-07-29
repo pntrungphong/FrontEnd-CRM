@@ -1,7 +1,7 @@
 import { Card } from 'antd';
 import React from 'react';
 import { history } from 'umi';
-import UpdateLead from '../../update/updateLeadForm';
+import UpdateLead from '../../update/updateLeadModal';
 import styles from '../style.less';
 
 const rankStore = {
