@@ -8,7 +8,7 @@ const Model = {
   effects: {
     *getTag({ payload }, { call, put }) {
       const response = yield call(getTag, payload);
-      const formatedData = [];
+      const formattedData = [];
 
       response.data.forEach((element) => {
         const data = {
@@ -16,11 +16,12 @@ const Model = {
           label: element.tag,
           value: element.id.toString(),
         };
-        formatedData.push(data);
+        formattedData.push(data);
       });
+
       yield put({
         type: 'saveListTag',
-        payload: formatedData,
+        payload: formattedData,
       });
     },
   },
