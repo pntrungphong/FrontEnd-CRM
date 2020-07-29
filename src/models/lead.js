@@ -1,7 +1,7 @@
 import { message } from 'antd';
-import { formatedListLeadData, formatedDetailLeadData } from './utils';
+import { formatListLeadData, formatDetailLeadData } from './utils';
 import { getContact } from '../services/contact';
-import { createTouchpoint } from '../services/touchpoint';
+import { createTouchPoint } from '../services/touchpoint';
 import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
 import { getCompany } from '../services/company';
 
@@ -13,18 +13,15 @@ const searchMethod = {
 const Model = {
   namespace: 'lead',
   state: {
-    leadInfo: [],
-    data: undefined,
+    list: [],
+    detail: undefined,
     itemCount: undefined,
-    listSearchData: [], // contact/company
-    searchValue: [],
-    listFile: [],
-    listTouchpoint: [],
+    listSearchData: [],
+    searchValue: '',
     status: '',
-    leadSearchValue: '',
   },
   effects: {
-    *fullCreate({ payload }, { call, put }) {
+    *create({ payload }, { call, put }) {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
         message.success('Successfully');
@@ -36,14 +33,14 @@ const Model = {
         if (loadListResponse != null) {
           yield put({
             type: 'saveLeadInfo',
-            payload: formatedListLeadData(loadListResponse),
+            payload: formatListLeadData(loadListResponse),
           });
         }
       }
     },
-    *createTouchpoint({ payload }, { call, put }) {
-      const createTouchpointResponse = yield call(createTouchpoint, payload.id);
-      if (createTouchpointResponse) {
+    *createTouchPoint({ payload }, { call, put }) {
+      const createTouchPointResponse = yield call(createTouchPoint, payload.id);
+      if (createTouchPointResponse) {
         message.success('Successfully');
         const response = yield call(getLead, {
           page: 1,
@@ -53,14 +50,14 @@ const Model = {
         if (response != null) {
           yield put({
             type: 'saveLeadInfo',
-            payload: formatedListLeadData(response),
+            payload: formatListLeadData(response),
           });
         }
       } else {
         message.error('Failed');
       }
     },
-    *loadListLead(
+    *getList(
       {
         payload = {
           page: 1,
@@ -74,7 +71,7 @@ const Model = {
       if (response != null) {
         yield put({
           type: 'saveLeadInfo',
-          payload: formatedListLeadData(response),
+          payload: formatListLeadData(response),
         });
       }
     },
@@ -91,11 +88,11 @@ const Model = {
         });
       }
     },
-    *loading({ payload }, { call, put }) {
+    *get({ payload }, { call, put }) {
       const response = yield call(getLeadById, payload);
       yield put({
-        type: 'loadLead',
-        payload: formatedDetailLeadData(response),
+        type: 'saveDetail',
+        payload: formatDetailLeadData(response),
       });
     },
     *searchLeadByName(
@@ -116,11 +113,10 @@ const Model = {
       if (response != null) {
         yield put({
           type: 'saveLeadInfo',
-          payload: formatedListLeadData(response),
+          payload: formatListLeadData(response),
         });
       }
     },
-
     *update({ payload }, { call, put }) {
       const response = yield call(updateLead, payload);
       if (response && response.id) {
@@ -133,7 +129,7 @@ const Model = {
         if (loadListResponse != null) {
           yield put({
             type: 'saveLeadInfo',
-            payload: formatedListLeadData(loadListResponse),
+            payload: formatListLeadData(loadListResponse),
           });
         }
       }
@@ -142,23 +138,16 @@ const Model = {
 
   reducers: {
     cleanData(state) {
-      return { ...state, leadInfo: [], data: undefined };
+      return { ...state, detail: undefined };
     },
-    cleanLeadData(state) {
-      return { ...state, data: undefined };
-    },
-    cleanListLead(state) {
-      return { ...state, leadInfo: [] };
-    },
-    loadLead(state, { payload }) {
-      return { ...state, data: payload };
+    saveDetail(state, { payload }) {
+      return { ...state, detail: payload };
     },
     saveLeadInfo(state, { payload }) {
       return {
         ...state,
-        leadInfo: payload.data,
+        list: payload.data,
         itemCount: payload.itemCount,
-        touchpointList: payload.touchpointList,
       };
     },
     saveStatus(state, { payload }) {
@@ -169,12 +158,6 @@ const Model = {
     },
     saveLeadSearchValue(state, { payload }) {
       return { ...state, leadSearchValue: payload };
-    },
-    saveListFile(state, { payload }) {
-      return { ...state, listFile: payload };
-    },
-    saveListTouchpoint(state, { payload }) {
-      return { ...state, listTouchpoint: payload };
     },
     updateListSearchData(state, { payload }) {
       const listSearchData = payload.map((it) => ({

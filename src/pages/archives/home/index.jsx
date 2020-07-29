@@ -1,7 +1,7 @@
 import { Pagination, Input, Table, Radio } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
-import { useMount, useUnmount } from 'ahooks';
+import { useMount } from 'ahooks';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -120,12 +120,12 @@ class App extends React.Component {
 
 const ListLead = connect(({ lead, loading }) => ({
   lead,
-  loading: loading.effects['lead/loadListLead'],
+  loading: loading.effects['lead/getList'],
   loadingSearch: loading.effects['lead/searchLeadByName'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
-      type: 'lead/loadListLead',
+      type: 'lead/getList',
       payload: {
         page: 1,
         searchValue: '',
@@ -134,18 +134,12 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   });
 
-  useUnmount(() => {
+  const onPaginationChange = (page) => {
     props.dispatch({
-      type: 'lead/cleanData',
-    });
-  });
-
-  const onPaginitionChange = (page) => {
-    props.dispatch({
-      type: 'lead/loadListLead',
+      type: 'lead/getList',
       payload: {
         page,
-        searchValue: props.lead.leadSearchValue,
+        searchValue: props.lead.searchValue,
         status: props.lead.status,
       },
     });
@@ -155,10 +149,10 @@ const ListLead = connect(({ lead, loading }) => ({
     switch (filterValue.target.value) {
       case 'All': {
         props.dispatch({
-          type: 'lead/loadListLead',
+          type: 'lead/getList',
           payload: {
             page: 1,
-            searchValue: props.lead.leadSearchValue,
+            searchValue: props.lead.searchValue,
             status: '',
           },
         });
@@ -170,10 +164,10 @@ const ListLead = connect(({ lead, loading }) => ({
       }
       case 'In-progress': {
         props.dispatch({
-          type: 'lead/loadListLead',
+          type: 'lead/getList',
           payload: {
             page: 1,
-            searchValue: props.lead.leadSearchValue,
+            searchValue: props.lead.searchValue,
             status: 'In-progress',
           },
         });
@@ -185,10 +179,10 @@ const ListLead = connect(({ lead, loading }) => ({
       }
       case 'Lost': {
         props.dispatch({
-          type: 'lead/loadListLead',
+          type: 'lead/getList',
           payload: {
             page: 1,
-            searchValue: props.lead.leadSearchValue,
+            searchValue: props.lead.searchValue,
             status: 'Lost',
           },
         });
@@ -200,10 +194,10 @@ const ListLead = connect(({ lead, loading }) => ({
       }
       case 'Win': {
         props.dispatch({
-          type: 'lead/loadListLead',
+          type: 'lead/getList',
           payload: {
             page: 1,
-            searchValue: props.lead.leadSearchValue,
+            searchValue: props.lead.searchValue,
             status: 'Win',
           },
         });
@@ -237,10 +231,10 @@ const ListLead = connect(({ lead, loading }) => ({
         columns={columns}
         size="small"
         rowKey="id"
-        dataSource={props.lead.leadInfo}
+        dataSource={props.lead.list}
       />
       {props.lead.itemCount / 10 >= 1 ? (
-        <Pagination total={props.lead.itemCount} onChange={onPaginitionChange} />
+        <Pagination total={props.lead.itemCount} onChange={onPaginationChange} />
       ) : null}
     </div>
   );

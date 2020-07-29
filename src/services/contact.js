@@ -2,25 +2,10 @@ import queryString from 'query-string';
 import request from '../utils/request';
 
 const formatOutputData = (params) => {
-  const email = params.email
-    ? params.email.map((item) => ({
-        type: item.type,
-        url: item.url,
-      }))
-    : [];
-  const phone = params.phone
-    ? params.phone.map((item) => ({
-        type: item.type,
-        number: item.number,
-      }))
-    : [];
+  const email = params.email ?? [];
+  const phone = params.phone ?? [];
   const address = params.address ?? [];
-  const website = params.website
-    ? params.website.map((item) => ({
-        type: item.type,
-        url: item.url,
-      }))
-    : [];
+  const website = params.website ?? [];
   const company = params.company
     ? params.company.map((item) => ({
         idCompany: parseInt(item.key, 10),

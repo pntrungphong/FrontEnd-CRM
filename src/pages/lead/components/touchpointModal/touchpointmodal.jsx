@@ -7,11 +7,10 @@ import styles from './style.less';
 import UpdateTouchpointForm from './updateTouchpointForm';
 import CustomHeader from './customHeaderModal';
 
-const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
+const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   task,
   touchpoint,
   lead,
-  loading: loading.effects['lead/createTouchpoint'],
   updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
@@ -23,7 +22,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       payload: { id: props.touchpointId, leadId: props.leadId },
     });
     props.dispatch({
-      type: 'lead/loading',
+      type: 'lead/get',
       payload: { id: props.leadId },
     });
   };
@@ -88,7 +87,7 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           </Button>,
         ]}
       >
-        {(props.touchpoint.data && props.lead.data) || props.updateLoading ? (
+        {(props.touchpoint.data && props.lead.detail) || props.updateLoading ? (
           <UpdateTouchpointForm
             onCancel={onCancel}
             touchpoint={props.touchpoint}
@@ -104,4 +103,4 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
     </div>
   );
 });
-export default TouchpointCreateForm;
+export default TouchPointCreateForm;

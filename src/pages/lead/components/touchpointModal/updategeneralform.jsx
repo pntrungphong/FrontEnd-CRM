@@ -39,7 +39,7 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           rows={4}
         />
       </Form.Item>
-      {/* <Form.Item name="rank" label={`Rank: ${RankStore[props.lead.data.rank]}`}> */}
+      {/* <Form.Item name="rank" label={`Rank: ${RankStore[props.lead.detail.rank]}`}> */}
       <Form.Item name="rank">
         <Rankmodal status={props.status} rank={props.rank} />
       </Form.Item>

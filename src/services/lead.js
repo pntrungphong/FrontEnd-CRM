@@ -34,9 +34,9 @@ export async function fullCreateLead(params) {
     });
   }
   const file = [];
-  if (params.listFile !== undefined) {
-    params.listFile.forEach((element) => {
-      file.push(element.response.id);
+  if (params.brief !== undefined) {
+    params.brief.forEach((element) => {
+      file.push(element.id);
     });
   }
 
@@ -95,6 +95,7 @@ export async function fullCreateLead(params) {
     status,
     note,
   };
+
   return request('/lead', {
     method: 'POST',
     data: body,

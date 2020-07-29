@@ -61,23 +61,23 @@ export const setPagination = (data) => {
     throw new Error('Missing pagination data');
   }
 };
-export const formatedListLeadData = (response) => {
+export const formatListLeadData = (response) => {
   try {
     const touchPointLength = response.data.map((element) => {
       return element.touchPoint.length;
     });
-    const touchpointList = [];
+    const touchPointList = [];
     for (let i = 0; i < Math.max(...touchPointLength); i += 1) {
-      touchpointList.push(i);
+      touchPointList.push(i);
     }
     const formattedData = [];
     response.data.forEach((element) => {
-      const touchPoint = element.touchPoint
-        ? element.touchPoint.map((touchpoint) => {
-            const tasks = touchpoint.task.map((task) => {
+      const touchPoints = element.touchPoint
+        ? element.touchPoint.map((touchPoint) => {
+            const tasks = touchPoint.task.map((task) => {
               return {
                 id: task.id,
-                touchpointId: touchpoint.id,
+                touchpointId: touchPoint.id,
                 taskname: task.taskName,
                 type: task.type,
                 userId: task.userId,
@@ -87,22 +87,22 @@ export const formatedListLeadData = (response) => {
               };
             });
             return {
-              status: touchpoint.status,
-              order: touchpoint.order,
-              review: touchpoint.review ? touchpoint.review : '',
-              note: touchpoint.note ? touchpoint.note : '',
-              id: touchpoint.id,
-              goal: touchpoint.goal ? touchpoint.goal : '',
-              meetingDate: touchpoint.meetingDate ? touchpoint.meetingDate : '',
-              createdAt: touchpoint.createdAt,
-              actualDate: touchpoint.actualDate,
+              status: touchPoint.status,
+              order: touchPoint.order,
+              review: touchPoint.review ? touchPoint.review : '',
+              note: touchPoint.note ? touchPoint.note : '',
+              id: touchPoint.id,
+              goal: touchPoint.goal ? touchPoint.goal : '',
+              meetingDate: touchPoint.meetingDate ? touchPoint.meetingDate : '',
+              createdAt: touchPoint.createdAt,
+              actualDate: touchPoint.actualDate,
               task: tasks,
             };
           })
         : [];
       const data = {
         name: element.name,
-        touchPoint,
+        touchPoint: touchPoints,
         rank: element.rank,
         status: element.status,
         description: element.description,
@@ -118,7 +118,7 @@ export const formatedListLeadData = (response) => {
       data: formattedData,
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
-      touchpointList,
+      touchPointList,
     };
     return returnData;
   } catch (error) {
@@ -275,7 +275,7 @@ export const formatListCompanyData = (response) => {
     throw new Error('Missing data');
   }
 };
-export const formatedDetailTouchpointData = (response, fileResponse) => {
+export const formatDetailTouchPointData = (response, fileResponse) => {
   try {
     const sla = [];
     const scope = [];
@@ -340,7 +340,7 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
     throw new Error('Missing pagination data');
   }
 };
-export const formatedDetailLeadData = (response) => {
+export const formatDetailLeadData = (response) => {
   try {
     const contact = listCompanyFormat(response.contact ?? []);
     const relation = listCompanyFormat(response.relatedTo ?? []);

@@ -1,15 +1,14 @@
-import { Form, Input, message, Button, Select, Upload, Radio } from 'antd';
+import { Form, Input, Select, Radio } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
-import { getToken } from '../../../utils/authority';
 import styles from './style.less';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
+import CustomUploadFile from '../components/touchpointModal/customuploadfile';
 
 const { Option } = Select;
 const { TextArea } = Input;
 const layout = {
   labelCol: { span: 4 },
-  wrappercol: { span: 16 },
 };
 
 const validateMessages = (label) => ({
@@ -23,31 +22,10 @@ class CreateForm extends React.Component {
     this.formRef = React.createRef();
   }
 
-  onUpload = {
-    name: 'file',
-    action: 'http://api-harmonia.geekup.io/file',
-    headers: {
-      Authorization: `Bearer ${getToken()}`,
-    },
-    props: this.props,
-    onChange(info) {
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`);
-
-        this.props.dispatch({
-          type: 'lead/saveListFile',
-          payload: info.fileList,
-        });
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`);
-      }
-    },
-  };
-
   onFinish = (values) => {
     this.props.dispatch({
-      type: 'lead/fullCreate',
-      payload: { ...values, listFile: this.props.lead.listFile },
+      type: 'lead/create',
+      payload: { ...values },
     });
     this.props.closeModal();
   };
@@ -147,11 +125,8 @@ class CreateForm extends React.Component {
         <Form.Item name="note" label="Note">
           <TextArea rows={4} placeholder="Add a note here" />
         </Form.Item>
-
         <Form.Item name="brief" label="Brief">
-          <Upload {...this.onUpload}>
-            <Button>Click to Upload</Button>
-          </Upload>
+          <CustomUploadFile dataIndex="brief" />
         </Form.Item>
       </Form>
     );
@@ -159,7 +134,7 @@ class CreateForm extends React.Component {
 }
 export default connect(({ lead, loading }) => ({
   lead,
-  submitting: loading.effects['lead/fullCreate'],
+  submitting: loading.effects['lead/create'],
   fetchingCompany: loading.effects['lead/searchCompanyByName'],
   fetchingContact: loading.effects['lead/searchContactByName'],
 }))(CreateForm);

@@ -3,9 +3,9 @@ import React from 'react';
 import { connect } from 'umi';
 import { useMount } from 'ahooks';
 import moment from 'moment';
-import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
+import TouchPointCreateForm from '../components/touchpointModal/touchpointmodal';
 import styles from './style.less';
-import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
+import AddTouchPointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
 import LeadCard from './components/leadCard';
 import TaskList from './components/taskList';
@@ -42,32 +42,31 @@ class App extends React.Component {
   }
 }
 
-const statusPhaseBoderStore = {
+const statusPhaseBorderStore = {
   Done: styles.donePhase,
-  'In-progress': styles.inprogessPhase,
+  'In-progress': styles.inProgressPhase,
   Draft: styles.daftPhase,
 };
 
-const tagBackgoundStore = {
+const tagBackgroundStore = {
   Done: styles.doneStatusTag,
-  'In-progress': styles.inprogessStatusTag,
+  'In-progress': styles.inProgressStatusTag,
   Draft: styles.daftStatusTag,
 };
 
 const StatusTag = (statusProps) => {
-  const tagBackgound = tagBackgoundStore[statusProps.status];
-  return <div className={[styles.statusTag, tagBackgound].join(' ')}>{statusProps.status}</div>;
+  const tagBackground = tagBackgroundStore[statusProps.status];
+  return <div className={[styles.statusTag, tagBackground].join(' ')}>{statusProps.status}</div>;
 };
 
 const ListLead = connect(({ lead, loading }) => ({
   lead,
-  loading: loading.effects['lead/loadListLead'],
+  loading: loading.effects['lead/getList'],
   loadingSearch: loading.effects['lead/searchLeadByName'],
-  loadingCreate: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
-      type: 'lead/loadListLead',
+      type: 'lead/getList',
     });
     props.dispatch({
       type: 'lead/saveStatus',
@@ -86,9 +85,9 @@ const ListLead = connect(({ lead, loading }) => ({
               <CreateLead />
             </span>
           </div>
-          <div className={styles.spcing}>
+          <div className={styles.spacing}>
             <Space align="center" direction="vertical">
-              {props.lead.leadInfo.map((item) => {
+              {props.lead.list.map((item) => {
                 return <LeadCard item={item} />;
               })}
             </Space>
@@ -96,39 +95,39 @@ const ListLead = connect(({ lead, loading }) => ({
         </div>
         <div className={styles.horScroll}>
           <div className={styles.touchPointCol}>
-            {props.lead.leadInfo.map((item, index) => {
+            {props.lead.list.map((item, index) => {
               return (
                 <Space key={item.id} align="center" direction="horizontal">
-                  {item.touchPoint.map((touchpointItem, touchpointIndex) => {
+                  {item.touchPoint.map((touchPointItem, touchPointIndex) => {
                     // const listType = [];
                     return (
-                      <div key={touchpointIndex}>
+                      <div key={touchPointIndex}>
                         {index === 0 ? (
-                          <h3 className={styles.titleOne}>Touchpoint {touchpointIndex + 1}</h3>
+                          <h3 className={styles.titleOne}>TouchPoint {touchPointIndex + 1}</h3>
                         ) : null}
                         <Card
                           className={[
                             styles.phaseCard,
-                            statusPhaseBoderStore[touchpointItem.status],
+                            statusPhaseBorderStore[touchPointItem.status],
                           ]}
                         >
-                          <div className={styles.spaceTouchpoint}>
-                            <p className={styles.titleTwo}>{touchpointItem.duration}</p>
-                            <StatusTag status={touchpointItem.status} />
+                          <div className={styles.spaceTouchPoint}>
+                            <p className={styles.titleTwo}>{touchPointItem.duration}</p>
+                            <StatusTag status={touchPointItem.status} />
 
-                            <TouchpointCreateForm
-                              touchpointId={touchpointItem.id}
+                            <TouchPointCreateForm
+                              touchpointId={touchPointItem.id}
                               company={item.company}
-                              listTask={touchpointItem.task}
+                              listTask={touchPointItem.task}
                               dispatch={props.dispatch}
                               rank={item.rank}
-                              actualdate={touchpointItem.actualDate}
+                              actualdate={touchPointItem.actualDate}
                               name={item.name}
-                              goal={touchpointItem.goal}
-                              status={touchpointItem.status}
+                              goal={touchPointItem.goal}
+                              status={touchPointItem.status}
                               leadId={item.id}
                             />
-                            {/* {touchpointItem.task.map((taskItem, taskIndex) => {
+                            {/* {touchPointItem.task.map((taskItem, taskIndex) => {
                               if (listType.includes(taskItem.type)) return null;
                               listType.push(taskItem.type);
                               return (
@@ -146,7 +145,7 @@ const ListLead = connect(({ lead, loading }) => ({
                                     {taskIndex === 0 ? (
                                       <div className={styles.counttime}>
                                         <Col flex="1">
-                                          {moment(touchpointItem.createdAt).fromNow()}
+                                          {moment(touchPointItem.createdAt).fromNow()}
                                         </Col>
                                       </div>
                                     ) : null}
@@ -158,42 +157,42 @@ const ListLead = connect(({ lead, loading }) => ({
                               <Row>
                                 <Col flex="2">
                                   <h3 className={styles.meetingDate}>
-                                    {touchpointItem.status === 'Done' ? (
+                                    {touchPointItem.status === 'Done' ? (
                                       <>
                                         Actual date:{' '}
-                                        {moment(touchpointItem.actualDate).format('DD-MM')}
+                                        {moment(touchPointItem.actualDate).format('DD-MM')}
                                       </>
                                     ) : (
                                       <>
                                         Meeting date:{' '}
-                                        {touchpointItem.meetingDate
-                                          ? moment(touchpointItem.meetingDate).format('DD-MM')
+                                        {touchPointItem.meetingDate
+                                          ? moment(touchPointItem.meetingDate).format('DD-MM')
                                           : 'Not set'}
                                       </>
                                     )}
                                   </h3>
                                 </Col>
-                                {touchpointItem.task.length <= 0 ? (
+                                {touchPointItem.task.length <= 0 ? (
                                   <div className={styles.counttime}>
-                                    <Col flex="2">{moment(touchpointItem.createdAt).fromNow()}</Col>
+                                    <Col flex="2">{moment(touchPointItem.createdAt).fromNow()}</Col>
                                   </div>
                                 ) : null}
                               </Row>
                             </div>
                             <h3 className={styles.goalText}>
-                              <span>Goal</span>: {touchpointItem.goal}
+                              <span>Goal</span>: {touchPointItem.goal}
                             </h3>
-                            {touchpointItem.status === 'Done' ? (
+                            {touchPointItem.status === 'Done' ? (
                               <h3 className={styles.goalText}>
-                                <span>Review</span>: {touchpointItem.review}
+                                <span>Review</span>: {touchPointItem.review}
                               </h3>
                             ) : (
                               <></>
                             )}
                           </div>
                           <TaskList
-                            showTask={touchpointItem.status !== 'Done'}
-                            touchpointItem={touchpointItem}
+                            showTask={touchPointItem.status !== 'Done'}
+                            touchpointItem={touchPointItem}
                             item={item}
                           />
                         </Card>
@@ -205,14 +204,14 @@ const ListLead = connect(({ lead, loading }) => ({
                       <h3 className={styles.titleOne}>Touchpoint {item.touchPoint.length + 1}</h3>
                     ) : null}
                     <Card className={styles.emptyCard}>
-                      <AddTouchpointButton key={item.id} id={item.id} />
+                      <AddTouchPointButton key={item.id} id={item.id} />
                     </Card>
                   </div>
-                  {props.lead.touchpointList.map((_, secondIndex) => {
+                  {props.lead.list.map((_, secondIndex) => {
                     const key = secondIndex;
                     if (
                       secondIndex >=
-                      props.lead.touchpointList.length - props.lead.leadInfo[0].touchPoint.length
+                      props.lead.list.length - props.lead.list[0].touchPoint.length
                     )
                       return null;
                     return (
