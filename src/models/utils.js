@@ -70,7 +70,7 @@ export const formatedListLeadData = (response) => {
     for (let i = 0; i < Math.max(...touchPointLength); i += 1) {
       touchpointList.push(i);
     }
-    const formatedData = [];
+    const formattedData = [];
     response.data.forEach((element) => {
       const touchPoint = element.touchPoint
         ? element.touchPoint.map((touchpoint) => {
@@ -111,11 +111,11 @@ export const formatedListLeadData = (response) => {
         contact: element.contact,
       };
 
-      formatedData.push(data);
+      formattedData.push(data);
     });
 
     const returnData = {
-      data: formatedData,
+      data: formattedData,
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
       touchpointList,
@@ -125,7 +125,7 @@ export const formatedListLeadData = (response) => {
     throw new Error(error);
   }
 };
-export const formatedDetailContactData = (response) => {
+export const formatDetailContactData = (response) => {
   try {
     const company = listCompanyFormat(response.company ?? []);
     const tag = listTagFormat(response.tag ?? []);
@@ -224,9 +224,10 @@ export const formatDetailCompanyData = (response) => {
     throw new Error('Missing data');
   }
 };
-export const formatedListContactData = (response) => {
+
+export const formatListContactData = (response) => {
   try {
-    const formatedData = response.data.map((element) => {
+    const formattedData = response.data.map((element) => {
       const company = listCompanyFormat(element.company ?? []);
       const email = emailFormat(element.email ?? []);
       const phone = phoneFormat(element.phone ?? []);
@@ -240,7 +241,7 @@ export const formatedListContactData = (response) => {
       };
     });
     const returnData = {
-      list: formatedData,
+      list: formattedData,
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
     };
@@ -251,7 +252,7 @@ export const formatedListContactData = (response) => {
 };
 export const formatListCompanyData = (response) => {
   try {
-    const formatedData = response.data.map((element) => {
+    const formattedData = response.data.map((element) => {
       const contact = listCompanyFormat(element.contact ?? []);
       const email = emailFormat(element.email ?? []);
       const phone = phoneFormat(element.phone ?? []);
@@ -265,7 +266,7 @@ export const formatListCompanyData = (response) => {
       };
     });
     const returnData = {
-      data: formatedData,
+      data: formattedData,
       itemCount: response.meta.itemCount,
       currentPage: response.meta.page,
     };
