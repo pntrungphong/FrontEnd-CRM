@@ -4,6 +4,7 @@ import moment from 'moment';
 import { PaperClipOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
+import UploadLinkModal from './uploadLinkModal';
 import styles from './style.less';
 
 const { TextArea } = Input;
@@ -67,9 +68,7 @@ class CustomUploadFile extends React.Component {
           dataSource: newSource,
           count: this.state.state.count + 1,
         });
-
         message.success(`${info.file.name} file uploaded successfully`);
-
         this.props.onChange([...newSource]);
       } else if (info.file.status === 'error') {
         message.error(`${info.file.name} file upload failed.`);
@@ -102,7 +101,6 @@ class CustomUploadFile extends React.Component {
         old: file.old,
       };
     });
-
     this.setState({
       dataSource: newfileData,
       count: count - 1,
@@ -118,18 +116,15 @@ class CustomUploadFile extends React.Component {
   onFinish = (values) => {
     this.state.tempValue = values;
     const { dataSource } = this.state;
-
     const fileData = [...dataSource];
     const index = fileData.findIndex((item) => this.state.currentFile === item.key);
     const selectItem = fileData[index];
     selectItem.note = values.note;
     fileData.splice(index, 1, { ...selectItem });
-
     this.setState({
       visible: false,
       dataSource: fileData,
     });
-
     this.props.onChange([...fileData]);
   };
 
@@ -168,13 +163,19 @@ class CustomUploadFile extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Form.Item name={this.props.dataIndex}>
+        <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
           <Upload {...this.onUpload}>
-            <Button hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}>
+            <Button
+              size="small"
+              hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
+            >
               {' '}
-              Click to Upload
+              Upload file
             </Button>
           </Upload>
+          <UploadLinkModal
+            hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
+          />
         </Form.Item>
         <List
           itemLayout="horizontal"

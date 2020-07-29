@@ -1,10 +1,17 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
 import { Table, Input, Tag, Button, DatePicker, Modal, Select, Form } from 'antd';
 import moment from 'moment';
+import styles from './style.less';
 
 const EditableContext = React.createContext();
 
 const { Option } = Select;
+
+const tagColorStore = {
+  'Proposal Handling': 'cyan',
+  'Lead Management': 'purple',
+  'Product Consulting': 'blue',
+};
 
 const User = {
   '48862ade-6f9a-471f-835a-cff4f3b9a567': 'chau.dh',
@@ -120,7 +127,7 @@ const EditableCell = ({
     let selectElement;
     if (dataIndex === 'type') {
       if (children[1] === '') selectElement = '--Add Type--';
-      else selectElement = <Tag>{children}</Tag>;
+      else selectElement = <Tag color={tagColorStore[children[1]]}>{children}</Tag>;
     } else if (children[1] === '') selectElement = '--Add PIC--';
     else selectElement = children;
     childNode = editing ? (
@@ -374,7 +381,7 @@ class EditableTable extends React.Component {
     return (
       <div>
         <Modal
-          title="Add Task"
+          title="Add task"
           visible={this.state.visible}
           destroyOnClose
           onCancel={this.onCancel}
@@ -408,15 +415,17 @@ class EditableTable extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Button
-          hidden={!!(this.props.status === 'Done')}
-          onClick={this.onShow}
-          style={{
-            marginBottom: 10,
-          }}
-        >
-          Add task
-        </Button>
+        <h3 className={styles.modalTaskTitle}>
+          <span>Task</span>
+          <Button
+            type="primary"
+            size="middle"
+            hidden={!!(this.props.status === 'Done')}
+            onClick={this.onShow}
+          >
+            Add task
+          </Button>
+        </h3>
         <Table
           components={components}
           rowClassName={() => 'editable-row'}

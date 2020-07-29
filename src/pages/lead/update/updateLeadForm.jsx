@@ -3,7 +3,7 @@ import { Form, Input, Radio, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import { useUnmount, useMount } from 'ahooks';
 import styles from './style.less';
-import CustomUploadFile from '../components/touchpointModal/customuploadfile';
+import CustomUploadFile from '../components/fileComponent/customuploadfile';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
 
 const { TextArea } = Input;
