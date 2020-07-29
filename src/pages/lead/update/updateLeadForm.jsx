@@ -103,11 +103,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
             dataIndex="contact"
           />
         </Form.Item>
-        <Form.Item
-          name="relation"
-          label="Related To"
-          rules={[{ required: true, message: 'Please input relation!' }]}
-        >
+        <Form.Item name="relation" label="Related To">
           <QuickCreate
             formRef={formRef}
             placeholder="Type and select contact"

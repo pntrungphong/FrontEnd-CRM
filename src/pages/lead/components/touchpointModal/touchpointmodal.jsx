@@ -88,7 +88,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       >
         {(props.touchpoint.data && props.lead.detail) || props.updateLoading ? (
           <UpdateTouchpointForm
-            leadId={props.lead.data.id}
+            leadId={props.lead.detail.id}
             onCancel={onCancel}
             touchpoint={props.touchpoint}
             lead={props.lead}
