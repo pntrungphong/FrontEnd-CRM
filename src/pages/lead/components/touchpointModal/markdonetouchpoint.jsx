@@ -74,10 +74,10 @@ class MarkDoneModal extends React.Component {
             status: 'Done',
           });
           this.props.dispatch({
-            type: 'lead/loadListLead',
+            type: 'lead/getList',
             payload: {
               page: 1,
-              searchValue: this.props.lead.leadSearchValue,
+              searchValue: this.props.lead.searchValue,
               status: this.props.lead.status,
             },
           });

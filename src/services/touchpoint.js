@@ -1,6 +1,6 @@
 import request from '../utils/request';
 
-export async function createTouchpoint(params) {
+export async function createTouchPoint(params) {
   const body = {
     status: 'In-progress',
     leadId: params,

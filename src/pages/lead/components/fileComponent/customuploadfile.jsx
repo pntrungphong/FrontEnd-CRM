@@ -22,18 +22,20 @@ const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
-    const fileData = props.value.map((file, index) => {
-      return {
-        key: index,
-        order: file.order,
-        id: file.id,
-        originalname: file.originalname,
-        createdAt: file.createdAt,
-        createdBy: file.createdBy,
-        note: file.note,
-        old: true,
-      };
-    });
+    const fileData = props.value
+      ? props.value.map((file, index) => {
+          return {
+            key: index,
+            order: file.order,
+            id: file.id,
+            originalname: file.originalname,
+            createdAt: file.createdAt,
+            createdBy: file.createdBy,
+            note: file.note,
+            old: true,
+          };
+        })
+      : [];
     this.state = {
       visible: false,
       dataSource: [...fileData],
@@ -44,7 +46,7 @@ class CustomUploadFile extends React.Component {
 
   onUpload = {
     name: 'file',
-    action: 'http://api-harmonia.geekup.io/file',
+    action: 'https://api-harmonia.geekup.io/file',
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },

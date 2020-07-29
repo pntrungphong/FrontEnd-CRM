@@ -3,8 +3,8 @@ import { Form, Input, Radio, Spin, Select } from 'antd';
 import { connect } from 'umi';
 import { useUnmount, useMount } from 'ahooks';
 import styles from './style.less';
-import CustomUploadFile from '../components/fileComponent/customuploadfile';
-import QuickCreate, { CreateType } from '../../common/quickCreate';
+import CustomUploadFile from './customuploadfile';
+import QuickCreate, { CreateType } from '../../../common/quickCreate';
 
 const { TextArea } = Input;
 const layout = {
@@ -83,7 +83,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         <Form.Item
           name="name"
           label="Lead Name"
-          rules={[{ required: true, message: 'Please input lead name!' }]}
+          rules={[{ required: true, message: 'Please input lead name' }]}
         >
           <Input />
         </Form.Item>
@@ -94,7 +94,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         <Form.Item
           name="contact"
           label="Contact"
-          rules={[{ required: true, message: 'Please input contact!' }]}
+          rules={[{ required: true, message: 'Please input contact' }]}
         >
           <QuickCreate
             formRef={formRef}
@@ -103,7 +103,11 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
             dataIndex="contact"
           />
         </Form.Item>
-        <Form.Item name="relation" label="Related To">
+        <Form.Item
+          name="relation"
+          label="Related To"
+          rules={[{ required: true, message: 'Input relation to this lead' }]}
+        >
           <QuickCreate
             formRef={formRef}
             placeholder="Type and select contact"
@@ -126,7 +130,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           <Form.Item
             name="reason"
             label="Rank Explanation"
-            rules={[{ required: true, message: 'Please input explanation for this rank' }]}
+            rules={[{ required: true, message: 'Input explanation for this rank' }]}
           >
             <TextArea
               autoSize={{ minRows: 2, maxRows: 6 }}

@@ -19,7 +19,7 @@ const TaskList = (props) => {
         {props.touchpointItem.task.slice(0, 3).map((taskItem) => {
           return (
             <div key={taskItem.id} className={styles.spaceTask}>
-              <span className={styles.textTouchpoint}>
+              <span className={styles.textTouchPoint}>
                 <FontAwesomeIcon
                   icon={faDotCircle}
                   size="xs"
