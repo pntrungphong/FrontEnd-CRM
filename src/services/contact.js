@@ -1,3 +1,4 @@
+import queryString from 'query-string';
 import request from '../utils/request';
 
 const formatOutputData = (params) => {
@@ -93,12 +94,15 @@ export async function quickCreateContact(params) {
 }
 
 export async function getContact(params) {
-  if (params.searchValue !== '') {
-    return request(`/contact?order=DESC&page=${params.page}&take=10&q=${params.searchValue}`, {
-      method: 'GET',
-    });
-  }
-  return request(`/contact?order=DESC&page=${params.page}&take=10`, {
+  const query = {
+    order: 'DESC',
+    page: params.page,
+    take: 10,
+    q: params.searchValue,
+  };
+  const stringified = queryString.stringify(query, { skipEmptyString: true });
+
+  return request(`/contact?${stringified}`, {
     method: 'GET',
   });
 }
