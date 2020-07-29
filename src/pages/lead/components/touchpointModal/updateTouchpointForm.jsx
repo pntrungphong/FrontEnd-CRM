@@ -22,10 +22,10 @@ class UpdateTouchpointForm extends React.Component {
       })
       .then(() => {
         this.props.dispatch({
-          type: 'lead/loadListLead',
+          type: 'lead/getList',
           payload: {
             page: 1,
-            searchValue: this.props.lead.leadSearchValue,
+            searchValue: this.props.lead.searchValue,
             status: this.props.lead.status,
           },
         });
@@ -85,14 +85,14 @@ class UpdateTouchpointForm extends React.Component {
           quotation: this.props.touchpoint.data.quotation,
           proposal: this.props.touchpoint.data.proposal,
           lead: {
-            name: this.props.lead.data.name,
-            rank: this.props.lead.data.rank,
-            company: this.props.lead.data.company,
-            contact: this.props.lead.data.contact,
-            tag: this.props.lead.data.tag,
-            relation: this.props.lead.data.relation,
-            brief: this.props.lead.data.file,
-            description: this.props.lead.data.description,
+            name: this.props.lead.detail.name,
+            rank: this.props.lead.detail.rank,
+            company: this.props.lead.detail.company,
+            contact: this.props.lead.detail.contact,
+            tag: this.props.lead.detail.tag,
+            relation: this.props.lead.detail.relation,
+            brief: this.props.lead.detail.file,
+            description: this.props.lead.detail.description,
           },
         }}
       >
@@ -106,7 +106,7 @@ class UpdateTouchpointForm extends React.Component {
         </div>
 
         <div id="lead-information">
-          <LeadInfomation lead={this.props.lead.data} />
+          <LeadInfomation lead={this.props.lead.detail} />
         </div>
         <div id="scope">
           <div className={styles.header}>

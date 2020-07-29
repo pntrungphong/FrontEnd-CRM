@@ -4,11 +4,10 @@ import { connect } from 'umi';
 import styles from './style.less';
 import EditableTable from './tasktable';
 
-const ViewTaskTable = connect(({ task, lead, touchpoint, loading }) => ({
+const ViewTaskTable = connect(({ task, lead, touchpoint }) => ({
   task,
   touchpoint,
   lead,
-  loading: loading.effects['lead/createTouchpoint'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
 
@@ -19,7 +18,7 @@ const ViewTaskTable = connect(({ task, lead, touchpoint, loading }) => ({
       payload: { id: props.touchpointId, leadId: props.leadId },
     });
     props.dispatch({
-      type: 'lead/loading',
+      type: 'lead/get',
       payload: { id: props.leadId },
     });
   };
@@ -45,7 +44,7 @@ const ViewTaskTable = connect(({ task, lead, touchpoint, loading }) => ({
         onCancel={onCancel}
         footer={null}
       >
-        {props.touchpoint.data && props.lead.data ? (
+        {props.touchpoint.data && props.lead.detail ? (
           <div>
             <EditableTable
               dispatch={props.dispatch}

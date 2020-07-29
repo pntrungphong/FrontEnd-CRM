@@ -4,7 +4,7 @@ import { connect } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
 import styles from '../../home/style.less';
 
-class AddTouchpointButton extends React.Component {
+class AddTouchPointButton extends React.Component {
   constructor(props) {
     super(props);
     this.adding = false;
@@ -15,10 +15,10 @@ class AddTouchpointButton extends React.Component {
 
     this.props
       .dispatch({
-        type: 'lead/createTouchpoint',
+        type: 'lead/createTouchPoint',
         payload: {
           id: this.props.id,
-          searchValue: this.props.lead.leadSearchValue,
+          searchValue: this.props.lead.searchValue,
           status: this.props.lead.status,
         },
       })
@@ -43,5 +43,5 @@ class AddTouchpointButton extends React.Component {
 }
 export default connect(({ lead, loading }) => ({
   lead,
-  submitting: loading.effects['lead/createTouchpoint'],
-}))(AddTouchpointButton);
+  submitting: loading.effects['lead/createTouchPoint'],
+}))(AddTouchPointButton);
