@@ -12,7 +12,6 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
   touchpoint,
   lead,
 }))((props) => {
-  console.table(props);
   return (
     <>
       <div className={styles.header}>

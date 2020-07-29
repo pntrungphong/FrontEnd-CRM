@@ -9,18 +9,17 @@ import QuickCreate, { CreateType } from '../../common/quickCreate';
 const { TextArea } = Input;
 const layout = {
   labelCol: { span: 4 },
-  wrappercol: { span: 16 },
 };
 
 const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
   lead,
   tag,
   submitting: loading.effects['lead/update'],
-  querying: loading.effects['lead/loading'],
+  querying: loading.effects['lead/get'],
 }))((props) => {
   useMount(() => {
     props.dispatch({
-      type: 'lead/loading',
+      type: 'lead/get',
       payload: { id: props.leadId },
     });
   });
@@ -30,7 +29,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
       type: 'tag/getTag',
     });
     props.dispatch({
-      type: 'lead/cleanLeadData',
+      type: 'lead/cleanData',
     });
   });
   const [form] = Form.useForm();
@@ -48,14 +47,14 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
   };
 
   const onRankChange = (value) => {
-    if (value.target.value !== props.lead.data.rank) {
+    if (value.target.value !== props.lead.detail.rank) {
       setRankReason(false);
     } else {
       setRankReason(true);
     }
   };
 
-  if (props.lead.data === undefined) {
+  if (props.lead.detail === undefined) {
     return <Spin />;
   }
   return (
@@ -70,21 +69,21 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         {...layout}
         id={props.id}
         initialValues={{
-          name: props.lead.data.name,
-          rank: props.lead.data.rank,
-          company: props.lead.data.company.label,
-          contact: props.lead.data.contact,
-          relation: props.lead.data.relation,
-          tag: props.lead.data.tag,
-          brief: props.lead.data.file,
-          description: props.lead.data.description,
-          note: props.lead.data.note,
+          name: props.lead.detail.name,
+          rank: props.lead.detail.rank,
+          company: props.lead.detail.company.label,
+          contact: props.lead.detail.contact,
+          relation: props.lead.detail.relation,
+          tag: props.lead.detail.tag,
+          brief: props.lead.detail.file,
+          description: props.lead.detail.description,
+          note: props.lead.detail.note,
         }}
       >
         <Form.Item
           name="name"
           label="Lead Name"
-          rules={[{ required: true, message: 'Please input lead name' }]}
+          rules={[{ required: true, message: 'Please input lead name!' }]}
         >
           <Input />
         </Form.Item>
@@ -95,7 +94,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         <Form.Item
           name="contact"
           label="Contact"
-          rules={[{ required: true, message: 'Please input contact' }]}
+          rules={[{ required: true, message: 'Please input contact!' }]}
         >
           <QuickCreate
             formRef={formRef}
@@ -107,7 +106,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         <Form.Item
           name="relation"
           label="Related To"
-          rules={[{ required: true, message: 'Input relation to this lead' }]}
+          rules={[{ required: true, message: 'Please input relation!' }]}
         >
           <QuickCreate
             formRef={formRef}
@@ -131,7 +130,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           <Form.Item
             name="reason"
             label="Rank Explanation"
-            rules={[{ required: true, message: 'Input explanation for this rank' }]}
+            rules={[{ required: true, message: 'Please input explanation for this rank' }]}
           >
             <TextArea
               autoSize={{ minRows: 2, maxRows: 6 }}
