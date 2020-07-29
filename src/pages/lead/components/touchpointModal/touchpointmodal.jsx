@@ -70,7 +70,6 @@ const TouchpointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           height: '71.5vh',
           overflowY: 'scroll',
           paddingTop: 0,
-          paddingRight: 0,
           scrollBehavior: 'smooth',
         }}
         afterClose={cleanData}

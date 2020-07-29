@@ -1,20 +1,16 @@
-import { Input, Space, Card, Pagination, Tag, Col, Row, Spin, Divider, Avatar } from 'antd';
-import React, { useState } from 'react';
-import { connect, history } from 'umi';
+import { Input, Space, Card, Col, Row, Spin } from 'antd';
+import React from 'react';
+import { connect } from 'umi';
 import { useMount } from 'ahooks';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faDotCircle } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import TouchpointCreateForm from '../components/touchpointModal/touchpointmodal';
-// import TouchpointCreatenotForm from '../components/addButton/notdatatouchpoint'
-import ViewTaskTable from '../components/touchpointModal/viewtask';
 import styles from './style.less';
 import AddTouchpointButton from '../components/addButton/addtouchpointbutton';
 import CreateLead from '../create/createlead';
-import UpdateLead from '../update/updateLeadForm';
+import LeadCard from './components/leadCard';
+import TaskList from './components/taskList';
 
 const { Search } = Input;
-
 class App extends React.Component {
   onSearch = (value) => {
     this.props.dispatch({
@@ -46,18 +42,6 @@ class App extends React.Component {
   }
 }
 
-const rankStore = {
-  '0': 'A',
-  '1': 'B',
-  '2': 'C',
-  '3': 'D',
-};
-const taskColorStore = {
-  'Proposal Handling': '#B5F5EC',
-  'Lead Management': '#D3ADF7',
-  'Product Consulting': '#1890FF',
-};
-
 const statusPhaseBoderStore = {
   Done: styles.donePhase,
   'In-progress': styles.inprogessPhase,
@@ -73,25 +57,6 @@ const tagBackgoundStore = {
 const StatusTag = (statusProps) => {
   const tagBackgound = tagBackgoundStore[statusProps.status];
   return <div className={[styles.statusTag, tagBackgound].join(' ')}>{statusProps.status}</div>;
-};
-
-const LeadTitle = ({ leadName, rank, id }) => {
-  return (
-    <>
-      <div className={styles.leadTitle}>
-        <div
-          onClick={() => history.push({ pathname: `/lead/detail/${id}` })}
-          className={styles.textTwo}
-        >
-          {leadName}
-        </div>
-        <div className={styles.rankHeader}>{rankStore[rank]}</div>
-        <div id="components-dropdown-demo-dropdown-button">
-          <UpdateLead leadId={id} />
-        </div>
-      </div>
-    </>
-  );
 };
 
 const ListLead = connect(({ lead, loading }) => ({
@@ -110,20 +75,6 @@ const ListLead = connect(({ lead, loading }) => ({
     });
   });
 
-  const [currentPage, setcurrentPage] = useState(1);
-
-  const onPaginitionChange = (page) => {
-    props.dispatch({
-      type: 'lead/loadListLead',
-      payload: {
-        page,
-        searchValue: props.lead.leadSearchValue,
-        status: props.lead.status,
-      },
-    });
-    setcurrentPage(page);
-  };
-
   return (
     <Spin spinning={props.loading === true || props.loadingSearch === true}>
       <div className={styles.spaceAll}>
@@ -138,44 +89,9 @@ const ListLead = connect(({ lead, loading }) => ({
           <div className={styles.spcing}>
             <Space align="center" direction="vertical">
               {props.lead.leadInfo.map((item) => {
-                return (
-                  <div key={item.id}>
-                    <Card
-                      headStyle={{ padding: 0 }}
-                      bodyStyle={{ padding: 5, paddingLeft: 10 }}
-                      title={<LeadTitle leadName={item.name} rank={item.rank} id={item.id} />}
-                      className={styles.cardOne}
-                    >
-                      <div className={styles.textOne}>
-                        <h3>
-                          <strong>Company: </strong>
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/company/detail/${item.company.id}`,
-                              });
-                            }}
-                          >
-                            {item.company.name}
-                          </a>
-                        </h3>
-                        <h3>
-                          <strong>Description: </strong> {item.description}
-                        </h3>
-                      </div>
-                    </Card>
-                  </div>
-                );
+                return <LeadCard item={item} />;
               })}
             </Space>
-
-            {props.lead.itemCount / 10 >= 1 ? (
-              <Pagination
-                total={props.lead.itemCount}
-                current={currentPage}
-                onChange={onPaginitionChange}
-              />
-            ) : null}
           </div>
         </div>
         <div className={styles.horScroll}>
@@ -184,7 +100,7 @@ const ListLead = connect(({ lead, loading }) => ({
               return (
                 <Space key={item.id} align="center" direction="horizontal">
                   {item.touchPoint.map((touchpointItem, touchpointIndex) => {
-                    const listType = [];
+                    // const listType = [];
                     return (
                       <div key={touchpointIndex}>
                         {index === 0 ? (
@@ -212,7 +128,7 @@ const ListLead = connect(({ lead, loading }) => ({
                               status={touchpointItem.status}
                               leadId={item.id}
                             />
-                            {touchpointItem.task.map((taskItem, taskIndex) => {
+                            {/* {touchpointItem.task.map((taskItem, taskIndex) => {
                               if (listType.includes(taskItem.type)) return null;
                               listType.push(taskItem.type);
                               return (
@@ -237,7 +153,7 @@ const ListLead = connect(({ lead, loading }) => ({
                                   </Row>
                                 </div>
                               );
-                            })}
+                            })} */}
                             <div>
                               <Row>
                                 <Col flex="2">
@@ -264,67 +180,22 @@ const ListLead = connect(({ lead, loading }) => ({
                                 ) : null}
                               </Row>
                             </div>
-
                             <h3 className={styles.goalText}>
-                              {touchpointItem.status === 'Done'
-                                ? `Review: ${touchpointItem.review}`
-                                : `Goal: ${touchpointItem.goal}`}
+                              <span>Goal</span>: {touchpointItem.goal}
                             </h3>
+                            {touchpointItem.status === 'Done' ? (
+                              <h3 className={styles.goalText}>
+                                <span>Review</span>: {touchpointItem.review}
+                              </h3>
+                            ) : (
+                              <></>
+                            )}
                           </div>
-                          {touchpointItem.status !== 'Done' ? (
-                            <>
-                              <Divider className={styles.customDivider} />
-                              <div className={styles.spanTwo}>
-                                {touchpointItem.task.slice(0, 3).map((taskItem) => {
-                                  return (
-                                    <div key={taskItem.id} className={styles.spaceTask}>
-                                      <span className={styles.textTouchpoint}>
-                                        <FontAwesomeIcon
-                                          icon={faDotCircle}
-                                          size="xs"
-                                          style={{
-                                            marginRight: '5px',
-                                            color: taskColorStore[taskItem.type],
-                                            background: taskColorStore[taskItem.type],
-                                            borderRadius: '50%',
-                                          }}
-                                        />
-                                        {taskItem.taskname}
-                                        <br />
-                                        <span className={styles.taskDueDate}>
-                                          {moment(taskItem.dueDate).format('DD-MM-YYYY')}
-                                        </span>
-                                      </span>
-                                      <span className={styles.avatarPIC}>
-                                        <Avatar
-                                          style={{ verticalAlign: 'middle' }}
-                                          src={taskItem.avatar}
-                                          size="small"
-                                        >
-                                          {taskItem.userName}
-                                        </Avatar>
-                                      </span>
-                                    </div>
-                                  );
-                                })}
-                                <div className={styles.viewmore}>
-                                  {touchpointItem.task.length > 3 ? (
-                                    <ViewTaskTable
-                                      touchpointId={touchpointItem.id}
-                                      listTask={touchpointItem.task}
-                                      dispatch={props.dispatch}
-                                      rank={item.rank}
-                                      name={item.name}
-                                      status={touchpointItem.status}
-                                      leadId={item.id}
-                                    />
-                                  ) : null}
-                                </div>
-                              </div>
-                            </>
-                          ) : (
-                            <></>
-                          )}
+                          <TaskList
+                            showTask={touchpointItem.status !== 'Done'}
+                            touchpointItem={touchpointItem}
+                            item={item}
+                          />
                         </Card>
                       </div>
                     );

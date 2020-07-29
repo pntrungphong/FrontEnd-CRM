@@ -1,7 +1,8 @@
 import React from 'react';
 import { Modal, Form, Input, Radio, Button } from 'antd';
+import styles from './style.less';
 
-const rankStore = {
+export const RankStore = {
   '0': 'A',
   '1': 'B',
   '2': 'C',
@@ -51,9 +52,22 @@ class Rankmodal extends React.Component {
     return (
       <div>
         <Input
-          disabled={this.props.status === 'Done'}
           readOnly
-          value={rankStore[this.state.rank]}
+          value={RankStore[this.state.rank]}
+          disabled
+          // disabled={this.props.status === 'Done'}
+          className={styles.rankInput}
+          addonAfter={
+            <Button
+              type="primary"
+              className={styles.changRankBtn}
+              size="small"
+              hidden={this.props.status === 'Done' || this.props.status === 'Draft'}
+              onClick={this.showModal}
+            >
+              Change rank
+            </Button>
+          }
         />
         <Modal
           title="Do you want to update rank?"
@@ -62,6 +76,7 @@ class Rankmodal extends React.Component {
           onCancel={this.onCancel}
         >
           <Form
+            labelCol={{ span: 5 }}
             onFinish={this.onOk}
             initialValues={{
               rank: this.props.value,
@@ -76,27 +91,24 @@ class Rankmodal extends React.Component {
               </Radio.Group>
             </Form.Item>
             <Form.Item
-              label="Updating Reason"
+              label="Explanation"
               name="reason"
               rules={[
                 {
                   required: true,
-                  message: 'Please input Reason',
+                  message: 'Please input rank explanation',
                 },
               ]}
             >
               <TextArea value={this.state.reason} />
             </Form.Item>
             <Form.Item>
-              <Button type="primary" htmlType="submit">
+              <Button type="primary" htmlType="submit" style={{ float: 'right' }}>
                 Submit
               </Button>
             </Form.Item>
           </Form>
         </Modal>
-        <Button hidden={this.props.status === 'Done'} onClick={this.showModal}>
-          Update
-        </Button>
       </div>
     );
   }

@@ -153,7 +153,6 @@ export const formatDetailContactData = (response) => {
     throw new Error('Missing data');
   }
 };
-
 export const formatDetailCompanyData = (response) => {
   try {
     const contact = response.contact
@@ -251,7 +250,6 @@ export const formatListContactData = (response) => {
     throw new Error('Missing data');
   }
 };
-
 export const formatListCompanyData = (response) => {
   try {
     const formattedData = response.data.map((element) => {
@@ -344,8 +342,8 @@ export const formatedDetailTouchpointData = (response, fileResponse) => {
 };
 export const formatedDetailLeadData = (response) => {
   try {
-    const contact = listTagFormat(response.contact ?? []);
-    const relation = listTagFormat(response.relatedTo ?? []);
+    const contact = listCompanyFormat(response.contact ?? []);
+    const relation = listCompanyFormat(response.relatedTo ?? []);
     const tag = listTagFormat(response.tag ?? []);
     const company = {
       key: response.company.id,
