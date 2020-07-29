@@ -1,6 +1,6 @@
 import { message } from 'antd';
 import { history } from 'umi';
-import { formatedListContactData, formatedDetailContactData } from './utils';
+import { formatListContactData, formatDetailContactData } from './utils';
 import {
   getContact,
   updateContact,
@@ -35,7 +35,7 @@ const ContactModel = {
       if (response != null) {
         yield put({
           type: 'saveList',
-          payload: formatedListContactData(response),
+          payload: formatListContactData(response),
         });
       }
     },
@@ -52,16 +52,18 @@ const ContactModel = {
       if (response != null) {
         yield put({
           type: 'saveList',
-          payload: formatedListContactData(response),
+          payload: formatListContactData(response),
         });
       }
     },
     *create({ payload }, { call }) {
-      yield call(fullCreateContact, payload);
-      message.success('Successfully');
-      history.push({
-        pathname: '/contact/',
-      });
+      const response = yield call(fullCreateContact, payload);
+      if (response && response.id) {
+        message.success('Successfully');
+        history.push({
+          pathname: '/contact/',
+        });
+      }
     },
     *quickCreateContact({ payload }, { call }) {
       const createdContact = yield call(quickCreateContactServices, payload);
@@ -76,17 +78,19 @@ const ContactModel = {
       return null;
     },
     *update({ payload }, { call }) {
-      yield call(updateContact, payload);
-      history.push({
-        pathname: '/contact',
-      });
-      message.success('Successfully');
+      const response = yield call(updateContact, payload);
+      if (response && response.id) {
+        history.push({
+          pathname: '/contact',
+        });
+        message.success('Successfully');
+      }
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getContactById, payload);
       yield put({
         type: 'loadContact',
-        payload: formatedDetailContactData(response),
+        payload: formatDetailContactData(response),
       });
     },
   },

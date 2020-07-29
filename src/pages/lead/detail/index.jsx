@@ -23,7 +23,7 @@ const FileSpan = ({ fileinfo }) => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `Bearer ${getToken()}`);
-    fetch(`http://api-harmonia.geekup.io/file/${fileinfo.id}`, {
+    fetch(`https://api-harmonia.geekup.io/file/${fileinfo.id}`, {
       method: 'GET',
       headers,
     }).then((response) => {
@@ -55,14 +55,14 @@ class LeadDetail extends Component {
     const { dispatch } = this.props;
 
     dispatch({
-      type: 'lead/loading',
+      type: 'lead/get',
       payload: { id: this.props.match.params.id },
     });
   }
 
   render() {
     const { lead } = this.props;
-    if (lead.data === undefined) {
+    if (lead.detail === undefined) {
       return <Spin />;
     }
     return (
@@ -77,7 +77,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span>{lead.data.name}</span>
+                      <span>{lead.detail.name}</span>
                     </div>
                   </Col>
                 </Row>
@@ -88,7 +88,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span className={styles.customDescription}>{lead.data.description}</span>
+                      <span className={styles.customDescription}>{lead.detail.description}</span>
                     </div>
                   </Col>
                 </Row>
@@ -99,7 +99,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span>{rankStore[lead.data.rank]}</span>
+                      <span>{rankStore[lead.detail.rank]}</span>
                     </div>
                   </Col>
                 </Row>
@@ -110,7 +110,7 @@ class LeadDetail extends Component {
                   </Col>
                   <Col flex="auto">
                     <div className={styles.customContent}>
-                      <span>{lead.data.status}</span>
+                      <span>{lead.detail.status}</span>
                     </div>
                   </Col>
                 </Row>
@@ -121,21 +121,20 @@ class LeadDetail extends Component {
                 </div>
               </Sider>
             </Layout>
-
             <Row className={styles.rowCol}>
               <Col flex="150px">
                 <h3 className={styles.customTitle}>Company</h3>
               </Col>
               <Col flex="auto">
-                <Tag key={lead.data.company.key} className={styles.ta}>
+                <Tag key={lead.detail.company.key} className={styles.ta}>
                   <a
                     onClick={() => {
                       history.push({
-                        pathname: `/company/detail/${lead.data.company.key}`,
+                        pathname: `/company/detail/${lead.detail.company.key}`,
                       });
                     }}
                   >
-                    {lead.data.company.label}
+                    {lead.detail.company.label}
                   </a>
                 </Tag>
               </Col>
@@ -147,7 +146,7 @@ class LeadDetail extends Component {
               </Col>
               <Col flex="auto">
                 {' '}
-                {lead.data.tag.map((item) => {
+                {lead.detail.tag.map((item) => {
                   return (
                     <>
                       <Tag key={item.key} className={styles.customTitle}>
@@ -167,7 +166,7 @@ class LeadDetail extends Component {
               </Col>
               <Col flex="auto">
                 {' '}
-                {lead.data.contact.map((item) => {
+                {lead.detail.contact.map((item) => {
                   return (
                     <>
                       <Tag key={item.label} className={styles.customTitle}>
@@ -194,7 +193,7 @@ class LeadDetail extends Component {
                 </h3>
               </Col>
               <Col flex="auto">
-                {lead.data.relation.map((item) => {
+                {lead.detail.relation.map((item) => {
                   return (
                     <>
                       <Tag key={item.label} className={styles.customTitle}>
@@ -213,22 +212,8 @@ class LeadDetail extends Component {
                 })}
               </Col>
             </Row>
-            {/* <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.customTitle}>File</h3>
-            </Col>
-            <Col flex="auto">
-              {lead.data.file.map((item) => {
-                return (
-                  <>
-                    <FileSpan key={item.id} fileinfo={item} />
-                  </>
-                );
-              })}
-            </Col>
-          </Row>           */}
             <Collapse accordion className={styles.editCollapse}>
-              {lead.data.touchPoint.map((touchPointItem, index) => {
+              {lead.detail.touchPoint.map((touchPointItem, index) => {
                 return (
                   <Panel header={<h4>Touchpoint</h4>} key={index}>
                     <div>
@@ -257,7 +242,7 @@ class LeadDetail extends Component {
                         })}
                       </div>
                       <div>
-                        {lead.data.file.map((item) => {
+                        {lead.detail.file.map((item) => {
                           return (
                             <>
                               <FileSpan key={item.id} fileinfo={item} />
@@ -279,5 +264,5 @@ class LeadDetail extends Component {
 
 export default connect(({ lead, loading }) => ({
   lead,
-  querying: loading.effects['lead/loading'],
+  querying: loading.effects['lead/get'],
 }))(LeadDetail);

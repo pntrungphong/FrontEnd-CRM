@@ -133,3 +133,17 @@
     }
   }
 }
+.customFormItem {
+  flex-direction: row !important;
+
+  :global {
+    .ant-col.ant-form-item-label {
+      margin: auto;
+      padding: 0;
+    }
+    .ant-picker.ant-picker-focused,
+    .ant-picker {
+      width: 100%;
+    }
+  }
+}

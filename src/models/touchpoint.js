@@ -1,12 +1,12 @@
 import { message } from 'antd';
 import {
-  createTouchpoint,
+  createTouchPoint,
   updateTouchpoint,
   markDoneTouchpoint,
   getTouchpoint,
 } from '../services/touchpoint';
 import { changeRank, changeStatus, getAllFile } from '../services/lead';
-import { formatedDetailTouchpointData } from './utils';
+import { formatDetailTouchPointData } from './utils';
 
 const Model = {
   namespace: 'touchpoint',
@@ -17,11 +17,12 @@ const Model = {
   },
   effects: {
     *create({ payload }, { call }) {
-      yield call(createTouchpoint, payload);
+      yield call(createTouchPoint, payload);
       message.success('Create Successfully');
     },
     *update({ payload }, { call }) {
       const response = yield call(updateTouchpoint, payload);
+      console.log(payload);
       let changeRankresponse =
         payload.rank.rank !== undefined
           ? yield call(changeRank, {
@@ -44,7 +45,7 @@ const Model = {
       if (response && fileResponse) {
         yield put({
           type: 'saveInfo',
-          payload: formatedDetailTouchpointData(response, fileResponse),
+          payload: formatDetailTouchPointData(response, fileResponse),
         });
       }
     },

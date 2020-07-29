@@ -1,6 +1,38 @@
 import queryString from 'query-string';
 import request from '../utils/request';
 
+const formatOutputData = (params) => {
+  const email = params.email ?? [];
+  const phone = params.phone ?? [];
+  const address = params.address ?? [];
+  const website = params.website ?? [];
+  const contact = params.contact
+    ? params.contact.map((item) => ({
+        idContact: parseInt(item.key, 10),
+      }))
+    : [];
+  const tag = params.tag
+    ? params.tag.map((item) =>
+        item.value === item.label
+          ? { tag: item.label }
+          : {
+              id: parseInt(item.key, 10),
+              tag: item.label,
+            },
+      )
+    : [];
+  return {
+    name: params.name,
+    phone,
+    url: params.url ? params.url : '',
+    address,
+    email,
+    website,
+    contact,
+    tag,
+  };
+};
+
 export async function getCompany(params) {
   const query = {
     order: 'DESC',
@@ -16,77 +48,10 @@ export async function getCompany(params) {
 }
 
 export async function updateCompany(params) {
-  const email = [];
-  if (params.email !== undefined) {
-    params.email.forEach((element) => {
-      email.push({
-        type: element.type,
-        url: element.url,
-      });
-    });
-  }
-
-  const phone = [];
-  if (params.phone !== undefined) {
-    params.phone.forEach((element) => {
-      phone.push({
-        type: element.type,
-        number: element.number,
-      });
-    });
-  }
-
-  const address = [];
-  if (params.address !== undefined) {
-    params.address.forEach((element) => {
-      address.push(element);
-    });
-  }
-
-  const website = [];
-  if (params.website !== undefined) {
-    params.website.forEach((element) => {
-      website.push({
-        type: element.type,
-        url: element.url,
-      });
-    });
-  }
-
-  const contact = [];
-  if (params.contact !== undefined) {
-    params.contact.forEach((element) => {
-      contact.push({
-        idContact: parseInt(element.key, 10),
-      });
-    });
-  }
-
-  const tag = [];
-  if (params.tag !== undefined) {
-    params.tag.forEach((element) => {
-      if (element.label === element.key) {
-        tag.push({
-          tag: element.label,
-        });
-      } else {
-        tag.push({
-          id: parseInt(element.key, 10),
-          tag: element.label,
-        });
-      }
-    });
-  }
+  const outputData = formatOutputData(params);
 
   const body = {
-    name: `${params.name}`,
-    email,
-    phone,
-    address,
-    url: params.url !== undefined ? params.url : '',
-    website,
-    contact,
-    tag,
+    ...outputData,
   };
 
   return request(`/company/${params.id}`, {
@@ -94,6 +59,7 @@ export async function updateCompany(params) {
     data: body,
   });
 }
+
 export async function getDetail(params) {
   return request(`/company/${params.id}`, {
     method: 'GET',
@@ -117,77 +83,10 @@ export async function quickCreateCompany(params) {
 }
 
 export async function createCompany(params) {
-  const email = [];
-  if (params.email !== undefined) {
-    params.email.forEach((element) => {
-      email.push({
-        type: element.type,
-        url: element.url,
-      });
-    });
-  }
-
-  const phone = [];
-  if (params.phone !== undefined) {
-    params.phone.forEach((element) => {
-      phone.push({
-        type: element.type,
-        number: element.number,
-      });
-    });
-  }
-
-  const address = [];
-  if (params.address !== undefined) {
-    params.address.forEach((element) => {
-      address.push(element);
-    });
-  }
-
-  const website = [];
-  if (params.website !== undefined) {
-    params.website.forEach((element) => {
-      website.push({
-        type: element.type,
-        url: element.url,
-      });
-    });
-  }
-
-  const contact = [];
-  if (params.contact !== undefined) {
-    params.contact.forEach((element) => {
-      contact.push({
-        idContact: parseInt(element.key, 10),
-      });
-    });
-  }
-
-  const tag = [];
-  if (params.tag !== undefined) {
-    params.tag.forEach((element) => {
-      if (element.label === element.key) {
-        tag.push({
-          tag: element.label,
-        });
-      } else {
-        tag.push({
-          id: parseInt(element.key, 10),
-          tag: element.label,
-        });
-      }
-    });
-  }
+  const outputData = formatOutputData(params);
 
   const body = {
-    name: `${params.name}`,
-    email,
-    phone,
-    address,
-    url: params.url ? params.url : '',
-    website,
-    contact,
-    tag,
+    ...outputData,
   };
 
   return request('/company', {

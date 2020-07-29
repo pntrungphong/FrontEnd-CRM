@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form, Input, DatePicker } from 'antd';
+import { Form, Input, DatePicker, Row, Col } from 'antd';
 import { connect } from 'umi';
 import styles from './style.less';
 import Rankmodal from './rankmodal';
@@ -12,7 +12,6 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
   touchpoint,
   lead,
 }))((props) => {
-  console.table(props);
   return (
     <>
       <div className={styles.header}>
@@ -39,27 +38,39 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           rows={4}
         />
       </Form.Item>
-      {/* <Form.Item name="rank" label={`Rank: ${RankStore[props.lead.data.rank]}`}> */}
-      <Form.Item name="rank">
-        <Rankmodal status={props.status} rank={props.rank} />
-      </Form.Item>
-      <Form.Item
-        name="meetingdate"
-        label="Meeting Date:"
-        rules={[
-          {
-            required: true,
-            message: 'Insert meeting date',
-          },
-        ]}
-      >
-        <DatePicker
-          className={props.status === 'Done' ? styles.disableField : ''}
-          disabled={props.status === 'Done'}
-          format="YYYY-MM-DD HH:mm"
-          showTime
-        />
-      </Form.Item>
+      <Row gutter={16}>
+        <Col span={12}>
+          <Form.Item
+            name="rank"
+            label="Rank:"
+            className={styles.customFormItem}
+            labelCol={{ span: 3 }}
+          >
+            <Rankmodal status={props.status} rank={props.rank} />
+          </Form.Item>
+        </Col>
+        <Col span={12}>
+          <Form.Item
+            className={styles.customFormItem}
+            wrapperCol={{ offset: 2 }}
+            name="meetingdate"
+            label="Meeting Date:"
+            rules={[
+              {
+                required: true,
+                message: 'Insert meeting date',
+              },
+            ]}
+          >
+            <DatePicker
+              className={props.status === 'Done' ? styles.disableField : ''}
+              disabled={props.status === 'Done'}
+              format="YYYY-MM-DD HH:mm"
+              showTime
+            />
+          </Form.Item>
+        </Col>
+      </Row>
       <Form.Item name="note" label="Note:" rules={[{ min: 10 }]}>
         <TextArea
           disabled={props.status === 'Done'}

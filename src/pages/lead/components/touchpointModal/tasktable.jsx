@@ -259,10 +259,10 @@ class EditableTable extends React.Component {
     });
 
     this.props.dispatch({
-      type: 'lead/loadListLead',
+      type: 'lead/getList',
       payload: {
         page: 1,
-        searchValue: this.props.lead.leadSearchValue,
+        searchValue: this.props.lead.searchValue,
         status: this.props.lead.status,
       },
     });
@@ -308,10 +308,10 @@ class EditableTable extends React.Component {
       this.props.onChange([...formatedData]);
     }
     this.props.dispatch({
-      type: 'lead/loadListLead',
+      type: 'lead/getList',
       payload: {
         page: 1,
-        searchValue: this.props.lead.leadSearchValue,
+        searchValue: this.props.lead.searchValue,
         status: this.props.lead.status,
       },
     });

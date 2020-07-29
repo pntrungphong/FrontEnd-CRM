@@ -1,25 +1,11 @@
+import queryString from 'query-string';
 import request from '../utils/request';
 
 const formatOutputData = (params) => {
-  const email = params.email
-    ? params.email.map((item) => ({
-        type: item.type,
-        url: item.url,
-      }))
-    : [];
-  const phone = params.phone
-    ? params.phone.map((item) => ({
-        type: item.type,
-        number: item.number,
-      }))
-    : [];
+  const email = params.email ?? [];
+  const phone = params.phone ?? [];
   const address = params.address ?? [];
-  const website = params.website
-    ? params.website.map((item) => ({
-        type: item.type,
-        url: item.url,
-      }))
-    : [];
+  const website = params.website ?? [];
   const company = params.company
     ? params.company.map((item) => ({
         idCompany: parseInt(item.key, 10),
@@ -93,12 +79,15 @@ export async function quickCreateContact(params) {
 }
 
 export async function getContact(params) {
-  if (params.searchValue !== '') {
-    return request(`/contact?order=DESC&page=${params.page}&take=10&q=${params.searchValue}`, {
-      method: 'GET',
-    });
-  }
-  return request(`/contact?order=DESC&page=${params.page}&take=10`, {
+  const query = {
+    order: 'DESC',
+    page: params.page,
+    take: 10,
+    q: params.searchValue,
+  };
+  const stringified = queryString.stringify(query, { skipEmptyString: true });
+
+  return request(`/contact?${stringified}`, {
     method: 'GET',
   });
 }
