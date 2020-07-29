@@ -22,6 +22,12 @@ class CreateForm extends React.Component {
     this.formRef = React.createRef();
   }
 
+  componentDidMount() {
+    this.props.dispatch({
+      type: 'tag/getTag',
+    });
+  }
+
   onFinish = (values) => {
     this.props.dispatch({
       type: 'lead/create',
@@ -31,6 +37,7 @@ class CreateForm extends React.Component {
   };
 
   render() {
+    const { tag } = this.props.tag;
     return (
       <Form
         id={this.props.id}
@@ -91,12 +98,9 @@ class CreateForm extends React.Component {
             labelInValue
             tokenSeparators={[',']}
           >
-            <Option key="Coffee shop">Coffee shop</Option>
-            <Option key="Loyalty">Loyalty</Option>
-            <Option key="Technical">Technical</Option>
-            <Option key="Financial">Financial</Option>
-            <Option key="Stock">Stock</Option>
-            <Option key="Mobile app">Mobile app</Option>
+            {tag.map((item) => {
+              return <Option key={item.key}>{item.label}</Option>;
+            })}
           </Select>
         </Form.Item>
 
@@ -132,8 +136,9 @@ class CreateForm extends React.Component {
     );
   }
 }
-export default connect(({ lead, loading }) => ({
+export default connect(({ lead, tag, loading }) => ({
   lead,
+  tag,
   submitting: loading.effects['lead/create'],
   fetchingCompany: loading.effects['lead/searchCompanyByName'],
   fetchingContact: loading.effects['lead/searchContactByName'],

@@ -11,11 +11,6 @@ const rankStore = {
   '2': 'C',
   '3': 'D',
 };
-// const colorStatusStore = {
-//   'In-progress': 'blue',
-//   Win: 'green',
-//   Lost: 'red',
-// };
 
 const columns = [
   {
