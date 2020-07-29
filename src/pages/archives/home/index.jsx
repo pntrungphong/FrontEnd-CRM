@@ -2,6 +2,7 @@ import { Pagination, Input, Table, Radio } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
+import { EyeOutlined } from '@ant-design/icons';
 import styles from './style.less';
 
 const { Search } = Input;
@@ -22,7 +23,7 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
-    render: (leadName) => <h3>{leadName}</h3>,
+    render: (leadName) => <h4>{leadName}</h4>,
   },
   {
     title: 'Company',
@@ -82,7 +83,9 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <a onClick={() => history.push({ pathname: `/lead/detail/${record.id}` })}>Detail</a>
+          <a onClick={() => history.push({ pathname: `/lead/detail/${record.id}` })}>
+            <EyeOutlined />
+          </a>
         </li>
       </ul>
     ),

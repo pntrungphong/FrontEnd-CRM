@@ -1,4 +1,4 @@
-import { Card, Spin, Avatar, Row, Tag, Col, Layout } from 'antd';
+import { Card, Spin, Avatar, Row, Tag, Col, Layout, Collapse } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
@@ -9,6 +9,7 @@ import { getToken } from '../../../utils/authority';
 import styles from './style.less';
 
 const { Sider, Content } = Layout;
+const { Panel } = Collapse;
 
 const rankStore = {
   '0': 'A',
@@ -120,101 +121,99 @@ class LeadDetail extends Component {
                 </div>
               </Sider>
             </Layout>
-          </Layout>
 
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.customTitle}>Company</h3>
-            </Col>
-            <Col flex="auto">
-              <Tag key={lead.data.company.key} className={styles.ta}>
-                <a
-                  onClick={() => {
-                    history.push({
-                      pathname: `/company/detail/${lead.data.company.key}`,
-                    });
-                  }}
-                >
-                  {lead.data.company.label}
-                </a>
-              </Tag>
-            </Col>
-          </Row>
+            <Row className={styles.rowCol}>
+              <Col flex="150px">
+                <h3 className={styles.customTitle}>Company</h3>
+              </Col>
+              <Col flex="auto">
+                <Tag key={lead.data.company.key} className={styles.ta}>
+                  <a
+                    onClick={() => {
+                      history.push({
+                        pathname: `/company/detail/${lead.data.company.key}`,
+                      });
+                    }}
+                  >
+                    {lead.data.company.label}
+                  </a>
+                </Tag>
+              </Col>
+            </Row>
 
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.customTitle}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              {' '}
-              {lead.data.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key} className={styles.customTitle}>
-                      {item.label}
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.customTitle}>
-                <span> </span>Contact
-              </h3>
-            </Col>
-            <Col flex="auto">
-              {' '}
-              {lead.data.contact.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.label} className={styles.customTitle}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/contact/detail/${item.key}`,
-                          });
-                        }}
-                      >
+            <Row className={styles.rowCol}>
+              <Col flex="150px">
+                <h3 className={styles.customTitle}>Tag</h3>
+              </Col>
+              <Col flex="auto">
+                {' '}
+                {lead.data.tag.map((item) => {
+                  return (
+                    <>
+                      <Tag key={item.key} className={styles.customTitle}>
                         {item.label}
-                      </a>
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
+                      </Tag>
+                    </>
+                  );
+                })}
+              </Col>
+            </Row>
 
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.customTitle}>
-                <span> </span>Related to
-              </h3>
-            </Col>
-            <Col flex="auto">
-              {lead.data.relation.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.label} className={styles.customTitle}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/contact/detail/${item.key}`,
-                          });
-                        }}
-                      >
-                        {item.label}
-                      </a>
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
+            <Row className={styles.rowCol}>
+              <Col flex="150px">
+                <h3 className={styles.customTitle}>
+                  <span> </span>Contact
+                </h3>
+              </Col>
+              <Col flex="auto">
+                {' '}
+                {lead.data.contact.map((item) => {
+                  return (
+                    <>
+                      <Tag key={item.label} className={styles.customTitle}>
+                        <a
+                          onClick={() => {
+                            history.push({
+                              pathname: `/contact/detail/${item.key}`,
+                            });
+                          }}
+                        >
+                          {item.label}
+                        </a>
+                      </Tag>
+                    </>
+                  );
+                })}
+              </Col>
+            </Row>
 
-          <Row className={styles.rowCol}>
+            <Row className={styles.rowCol}>
+              <Col flex="150px">
+                <h3 className={styles.customTitle}>
+                  <span> </span>Related to
+                </h3>
+              </Col>
+              <Col flex="auto">
+                {lead.data.relation.map((item) => {
+                  return (
+                    <>
+                      <Tag key={item.label} className={styles.customTitle}>
+                        <a
+                          onClick={() => {
+                            history.push({
+                              pathname: `/contact/detail/${item.key}`,
+                            });
+                          }}
+                        >
+                          {item.label}
+                        </a>
+                      </Tag>
+                    </>
+                  );
+                })}
+              </Col>
+            </Row>
+            {/* <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.customTitle}>File</h3>
             </Col>
@@ -227,7 +226,51 @@ class LeadDetail extends Component {
                 );
               })}
             </Col>
-          </Row>
+          </Row>           */}
+            <Collapse accordion className={styles.editCollapse}>
+              {lead.data.touchPoint.map((touchPointItem, index) => {
+                return (
+                  <Panel header={<h4>Touchpoint</h4>} key={index}>
+                    <div>
+                      <h2>Goal:{touchPointItem.goal}</h2>
+                      <p className={styles.statusTp}>Status: {touchPointItem.status}</p>
+                      <p>Note: {touchPointItem.note}</p>
+                      <p>Review: {touchPointItem.review}</p>
+                      <div>
+                        {touchPointItem.task.map((task) => {
+                          return (
+                            <div className={styles.showTask}>
+                              <Row>
+                                <Col flex="40%">
+                                  <p className={styles.textTask}>
+                                    TaskName: {task.taskName}({task.type})
+                                  </p>
+                                </Col>
+                                <Col flex="auto">
+                                  <p>
+                                    {task.user.firstName} {task.dueDate}
+                                  </p>
+                                </Col>
+                              </Row>
+                            </div>
+                          );
+                        })}
+                      </div>
+                      <div>
+                        {lead.data.file.map((item) => {
+                          return (
+                            <>
+                              <FileSpan key={item.id} fileinfo={item} />
+                            </>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  </Panel>
+                );
+              })}
+            </Collapse>
+          </Layout>
         </Card>
       </PageHeaderWrapper>
     );

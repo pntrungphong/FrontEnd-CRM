@@ -128,32 +128,6 @@ const ListLead = connect(({ lead, loading }) => ({
                               status={touchpointItem.status}
                               leadId={item.id}
                             />
-                            {/* {touchpointItem.task.map((taskItem, taskIndex) => {
-                              if (listType.includes(taskItem.type)) return null;
-                              listType.push(taskItem.type);
-                              return (
-                                <div key={taskItem.id}>
-                                  <Row>
-                                    <Col flex="2">
-                                      <Tag
-                                        key={taskItem.type}
-                                        className={styles.customTaskTag}
-                                        style={{ background: taskColorStore[taskItem.type] }}
-                                      >
-                                        {taskItem.type} <br />
-                                      </Tag>
-                                    </Col>
-                                    {taskIndex === 0 ? (
-                                      <div className={styles.counttime}>
-                                        <Col flex="1">
-                                          {moment(touchpointItem.createdAt).fromNow()}
-                                        </Col>
-                                      </div>
-                                    ) : null}
-                                  </Row>
-                                </div>
-                              );
-                            })} */}
                             <div>
                               <Row>
                                 <Col flex="2">
