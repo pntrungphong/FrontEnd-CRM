@@ -12,6 +12,7 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
   touchpoint,
   lead,
 }))((props) => {
+  console.table(props);
   return (
     <>
       <div className={styles.header}>
@@ -38,7 +39,8 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           rows={4}
         />
       </Form.Item>
-      <Form.Item name="rank" label="Rank:">
+      {/* <Form.Item name="rank" label={`Rank: ${RankStore[props.lead.data.rank]}`}> */}
+      <Form.Item name="rank">
         <Rankmodal status={props.status} rank={props.rank} />
       </Form.Item>
       <Form.Item
