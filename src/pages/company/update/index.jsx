@@ -106,7 +106,6 @@ class UpdateCompanyForm extends React.Component {
                 }}
                 size="middle"
                 type="primary"
-                loading={this.props.submitting}
               >
                 Cancel
               </Button>
