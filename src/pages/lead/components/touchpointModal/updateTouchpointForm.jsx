@@ -2,7 +2,7 @@ import React from 'react';
 import { Form } from 'antd';
 import { connect } from 'umi';
 import styles from './style.less';
-import CustomUploadFile from './customuploadfile';
+import CustomUploadFile from '../fileComponent/customuploadfile';
 import LeadInfomation from './leadInfomation';
 import UpdateGeneralInformation from './updategeneralform';
 

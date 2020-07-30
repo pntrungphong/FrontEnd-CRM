@@ -13,6 +13,10 @@ class CompanyDetail extends Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Detail Company - Harmonia';
+  }
+
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanData',
@@ -55,32 +59,62 @@ class CompanyDetail extends Component {
           <Divider className={styles.two} />
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Name</h3>
+              <h3 className={styles.cloOne}>Contact</h3>
             </Col>
             <Col flex="auto">
-              <span className={styles.customField}>{company.detail.name}</span>
+              {company.detail.contact.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.name} className={styles.customFieldContact}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/contact/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
+                  </>
+                );
+              })}
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Email</h3>
+              <h3 className={styles.cloOne}>Website</h3>
             </Col>
             <Col flex="auto">
-              {company.detail.email.map((item) => {
+              {company.detail.website.map((item) => {
                 return (
                   <>
                     <Row>
-                      <Tag key={item.type} className={styles.customField}>
-                        {item.url} ({item.type})
-                      </Tag>
+                      <span className={styles.customField}>
+                        <a key={item.url}>{item.url}</a> ({item.type})
+                      </span>
                     </Row>
                   </>
                 );
               })}
             </Col>
           </Row>
-
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.tagOne}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Tag</h3>
@@ -116,59 +150,54 @@ class CompanyDetail extends Component {
               })}
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Url</h3>
+              <h3 className={styles.cloOne}>Email</h3>
             </Col>
             <Col flex="auto">
-              <span className={styles.customField}>{company.detail.url}</span>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Website</h3>
-            </Col>
-            <Col flex="auto">
-              {company.detail.website.map((item) => {
+              {company.detail.email.map((item) => {
                 return (
                   <>
                     <Row>
-                      <span className={styles.customField}>
-                        {item.type}: <a key={item.url}>{item.url}</a>
-                      </span>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.url}
+                      </Tag>
                     </Row>
                   </>
                 );
               })}
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Contact</h3>
+              <h3 className={styles.cloOne}>Social link</h3>
             </Col>
             <Col flex="auto">
-              {company.detail.contact.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.name} className={styles.customFieldContact}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/contact/detail/${item.key}`,
-                          });
-                        }}
-                      >
-                        {item.label}
-                      </a>
-                    </Tag>
-                  </>
-                );
-              })}
+              <span className={styles.customField}>
+                <a key={company.detail.url}>{company.detail.url}</a>
+              </span>
             </Col>
           </Row>
+          <Row className={styles.rowCol}>
+            {company.detail.address.map((item, index) => {
+              return (
+                <>
+                  <Col flex="150px">
+                    <h3 className={styles.cloOne}>Address {index + 1}</h3>
+                  </Col>
+                  <Col flex="auto" className={styles.address}>
+                    <span className={styles.customField}>{item}</span>
+                  </Col>
+                </>
+              );
+            })}
+          </Row>
+        </Card>
+        {/* <Card bordered="true" className={styles.cardTwo}>
+          <div className={styles.one}>
+            <h2>Leads</h2>
+          </div>
+          <Divider className={styles.two} />
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Address</h3>
@@ -187,7 +216,7 @@ class CompanyDetail extends Component {
               })}
             </Col>
           </Row>
-        </Card>
+        </Card> */}
       </PageHeaderWrapper>
     );
   }

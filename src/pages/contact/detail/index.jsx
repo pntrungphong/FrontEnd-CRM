@@ -56,15 +56,6 @@ class ContactDetail extends Component {
           </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Title</h3>
-            </Col>
-            <Col flex="auto">
-              <span className={styles.customField}>{contact.detail.title}</span>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
               <h3 className={styles.cloOne}>Company</h3>
             </Col>
             <Col flex="auto">
@@ -80,61 +71,6 @@ class ContactDetail extends Component {
                         });
                       }}
                     >
-                      {item.label}
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Email</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.email.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <h4 key={item.type} className={styles.customField}>
-                        {item.url} ({item.type})
-                      </h4>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Phone</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.phone.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <Tag key={item.type} className={styles.customField}>
-                        {item.number} ({item.type})
-                      </Tag>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key} className={styles.ta}>
                       {item.label}
                     </Tag>
                   </>
@@ -167,7 +103,58 @@ class ContactDetail extends Component {
               })}
             </Col>
           </Row>
-
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.ta}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Phone</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.phone.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.number} ({item.type})
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Email</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.email.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <h4 key={item.type} className={styles.customField}>
+                        {item.url}
+                      </h4>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Website</h3>
