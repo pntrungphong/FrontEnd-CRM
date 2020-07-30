@@ -53,11 +53,31 @@ class CreateCompanyForm extends React.Component {
 
         <Form {...layout} ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
           <SharedForm tag={tag} formRef={this.formRef} />
-          <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-            <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Create
-            </Button>
-          </Form.Item>
+          <div className={styles.aroundBtn}>
+            <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
+              <Button
+                size="middle"
+                type="primary"
+                htmlType="submit"
+                loading={this.props.submitting}
+              >
+                Create
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                onClick={() => {
+                  history.push({
+                    pathname: `/company`,
+                  });
+                }}
+                size="middle"
+                type="primary"
+              >
+                Cancel
+              </Button>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );
