@@ -351,8 +351,10 @@ export const formatDetailLeadData = (response) => {
       key: response.company.id,
       label: response.company.name,
     };
+
     return {
       company,
+      touchPoint: response.touchPoint,
       description: response.description,
       rank: response.rank,
       id: response.id,

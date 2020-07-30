@@ -1,4 +1,70 @@
+import queryString from 'query-string';
 import request from '../utils/request';
+
+const formatOutputData = (params) => {
+  const idCompany = params.company && params.company.length > 0 ? params.company[0].value : '';
+
+  const linkContact = params.contact
+    ? params.contact.map((item) => ({
+        idContact: item.key,
+      }))
+    : [];
+
+  const relatedTo = params.relation
+    ? params.relation.map((item) => ({
+        idContact: item.key,
+      }))
+    : [];
+
+  const file = params.brief ? params.brief.map((item) => item.id) : [];
+
+  const tag = params.tag
+    ? params.tag.map((item) =>
+        item.value === item.label
+          ? { tag: item.label }
+          : {
+              id: parseInt(item.key, 10),
+              tag: item.label,
+            },
+      )
+    : [];
+
+  const rank = params.rank ? params.rank.toString() : '';
+
+  const note = params.note
+    ? [
+        {
+          title: 'title',
+          content: params.note,
+        },
+      ]
+    : [];
+
+  const rankRevision = params.reason
+    ? [
+        {
+          rank,
+          touchPoint: 0,
+          reason: params.reason,
+        },
+      ]
+    : [{}];
+
+  return {
+    name: params.name,
+    idCompany,
+    linkContact,
+    relatedTo,
+    rank,
+    rankRevision,
+    tag,
+    file,
+    description: params.description ? params.description : '',
+    review: '',
+    status: 'In-progress',
+    note,
+  };
+};
 
 export async function getLeadById(params) {
   return request(`/lead/${params.id}`, {
@@ -13,87 +79,10 @@ export async function getAllFile(params) {
 }
 
 export async function fullCreateLead(params) {
-  let companyId = '';
-  if (params.company !== undefined && params.company.length) {
-    companyId = params.company[0].value;
-  }
-  const contact = [];
-  if (params.contact !== undefined) {
-    params.contact.forEach((element) => {
-      contact.push({
-        idContact: element.key,
-      });
-    });
-  }
-  const relation = [];
-  if (params.relation !== undefined) {
-    params.relation.forEach((element) => {
-      relation.push({
-        idContact: element.key,
-      });
-    });
-  }
-  const file = [];
-  if (params.brief !== undefined) {
-    params.brief.forEach((element) => {
-      file.push(element.id);
-    });
-  }
-
-  const tag = [];
-  if (params.tag !== undefined) {
-    params.tag.forEach((element) => {
-      if (element.value === element.key) {
-        tag.push({
-          tag: element.label,
-        });
-      } else {
-        tag.push({
-          id: element.key,
-          tag: element.label,
-        });
-      }
-    });
-  }
-
-  const review = '';
-  const status = 'In-progress';
-
-  let rank = '';
-  if (params.rank) rank = params.rank.toString();
-
-  const note = [];
-  if (params.note !== undefined) {
-    note.push({
-      title: 'title',
-      content: params.note,
-    });
-  }
-
-  const rankRevision = [];
-  if (params.reason !== undefined) {
-    rankRevision.push({
-      rank,
-      touchPoint: 0,
-      reason: params.reason,
-    });
-  }
+  const outputData = formatOutputData(params);
 
   const body = {
-    name: `${params.name}`,
-    createdBy: 'string',
-    updatedBy: 'string',
-    idCompany: companyId,
-    linkContact: contact,
-    relatedTo: relation,
-    rank,
-    rankRevision,
-    tag,
-    file,
-    description: params.description ? params.description : '',
-    review,
-    status,
-    note,
+    ...outputData,
   };
 
   return request('/lead', {
@@ -129,78 +118,64 @@ export async function changeStatus(params) {
   });
 }
 export async function updateLead(params) {
-  const contact = [];
-  if (params.contact !== undefined) {
-    params.contact.forEach((element) => {
-      contact.push({
-        idContact: element.key,
-      });
-    });
-  }
+  const linkContact = params.contact
+    ? params.contact.map((item) => ({
+        idContact: item.key,
+      }))
+    : [];
 
-  const relation = [];
-  if (params.relation !== undefined) {
-    params.relation.forEach((element) => {
-      relation.push({
-        idContact: element.key,
-      });
-    });
-  }
+  const relatedTo = params.relation
+    ? params.relation.map((item) => ({
+        idContact: item.key,
+      }))
+    : [];
 
-  const file = [];
-  if (params.brief !== undefined) {
-    params.brief.forEach((element) => {
-      file.push(element.id);
-    });
-  }
+  const file = params.brief ? params.brief.map((item) => item.id) : [];
 
-  const tag = [];
-  if (params.tag !== undefined) {
-    params.tag.forEach((element) => {
-      if (element.value === element.label) {
-        tag.push({
-          tag: element.label,
-        });
-      } else {
-        tag.push({
-          id: element.key,
-          tag: element.label,
-        });
-      }
-    });
-  }
+  const tag = params.tag
+    ? params.tag.map((item) =>
+        item.value === item.label
+          ? { tag: item.label }
+          : {
+              id: parseInt(item.key, 10),
+              tag: item.label,
+            },
+      )
+    : [];
 
-  const rank = params.rank.toString();
+  const rank = params.rank !== undefined ? params.rank.toString() : '';
+
+  const note = params.note
+    ? [
+        {
+          title: 'title',
+          content: params.note,
+        },
+      ]
+    : [];
 
   const rankRevision = params.reason
     ? [
         {
-          rank: 0,
-          reason: params.reason,
+          rank,
           touchPoint: 0,
+          reason: params.reason,
         },
       ]
     : [{}];
 
-  const note = [
-    {
-      title: '',
-      content: params.note,
-    },
-  ];
-
   const body = {
-    name: `${params.name}`,
-    linkContact: contact,
-    relatedTo: relation,
+    name: params.name,
+    linkContact,
+    relatedTo,
+    rank,
     rankRevision,
     tag,
-    rank,
-    review: '',
     file,
-    description: `${params.description}`,
-    note,
+    description: params.description ? params.description : '',
+    review: '',
     status: 'In-progress',
+    note,
   };
 
   return request(`/lead/${params.id}`, {
@@ -208,26 +183,18 @@ export async function updateLead(params) {
     data: body,
   });
 }
+
 export async function getLead(params) {
-  if (params.status === '') {
-    if (params.searchValue !== '') {
-      return request(`/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}`, {
-        method: 'GET',
-      });
-    }
-    return request(`/lead?order=ASC&page=${params.page}&take=10`, {
-      method: 'GET',
-    });
-  }
-  if (params.searchValue !== '') {
-    return request(
-      `/lead?order=ASC&page=${params.page}&take=10&q=${params.searchValue}&status=${params.status}`,
-      {
-        method: 'GET',
-      },
-    );
-  }
-  return request(`/lead?order=ASC&page=${params.page}&take=10&status=${params.status}`, {
+  const query = {
+    order: 'ASC',
+    page: params.page,
+    take: 10,
+    q: params.searchValue,
+    status: params.status,
+  };
+  const stringified = queryString.stringify(query, { skipEmptyString: true });
+
+  return request(`/lead?${stringified}`, {
     method: 'GET',
   });
 }

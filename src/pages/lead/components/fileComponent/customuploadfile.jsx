@@ -115,7 +115,7 @@ class CustomUploadFile extends React.Component {
     const fileData = [...dataSource];
     const index = fileData.findIndex((item) => key === item.key);
     fileData.splice(index, 1);
-    const newfileData = fileData.map((file, newIndex) => {
+    const newFileData = fileData.map((file, newIndex) => {
       return {
         key: newIndex,
         order: file.order,
@@ -130,7 +130,7 @@ class CustomUploadFile extends React.Component {
       };
     });
     this.setState({
-      dataSource: newfileData,
+      dataSource: newFileData,
       count: count - 1,
       currentFile: 0,
     });
@@ -276,14 +276,14 @@ class CustomUploadFile extends React.Component {
               {item.order !== this.props.order ? (
                 <Tag
                   style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
-                >{`Touchpoint ${item.order}`}</Tag>
+                >{`TouchPoint ${item.order}`}</Tag>
               ) : (
                 iff(
                   item.order !== undefined,
                   <Tag
                     color="#EFDBFF"
                     style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
-                  >{`Touchpoint ${item.order}`}</Tag>,
+                  >{`TouchPoint ${item.order}`}</Tag>,
                   <Tag style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}>
                     Lead Generation
                   </Tag>,
