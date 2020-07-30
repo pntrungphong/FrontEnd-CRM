@@ -88,7 +88,7 @@ const ListLead = connect(({ lead, loading }) => ({
           <div className={styles.spacing}>
             <Space align="center" direction="vertical">
               {props.lead.list.map((item) => {
-                return <LeadCard item={item} />;
+                return <LeadCard item={item} key={item.id} />;
               })}
             </Space>
           </div>

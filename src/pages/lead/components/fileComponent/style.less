@@ -57,10 +57,18 @@
     justify-content: center;
   }
 }
-.customFormItemUploadFile {
-  width: 100%;
-  text-align: right;
-}
 .uploadLinkModalBtn {
-  display: inline;
+  float: right;
+}
+.actionBtn {
+  text-align: right;
+  :global {
+    .ant-form-item-control-input {
+      min-height: auto;
+    }
+  }
+
+  button {
+    min-height: 35px;
+  }
 }

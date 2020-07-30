@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'umi';
 import styles from './style.less';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
-import CustomUploadFile from '../components/touchpointModal/customuploadfile';
+import CustomUploadFile from '../components/fileComponent/customuploadfile';
 
 const { Option } = Select;
 const { TextArea } = Input;

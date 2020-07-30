@@ -1,7 +1,7 @@
 import React from 'react';
 import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
 import moment from 'moment';
-import { PaperClipOutlined, FormOutlined, DeleteOutlined } from '@ant-design/icons';
+import { PaperClipOutlined, FormOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
 import UploadLinkModal from './uploadLinkModal';
@@ -22,8 +22,9 @@ const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 class CustomUploadFile extends React.Component {
   constructor(props) {
     super(props);
-    const fileData = props.value
-      ? props.value.map((file, index) => {
+    const { value } = this.props;
+    const fileData = value
+      ? value.map((file, index) => {
           return {
             key: index,
             order: file.order,
@@ -33,6 +34,8 @@ class CustomUploadFile extends React.Component {
             createdBy: file.createdBy,
             note: file.note,
             old: true,
+            fileType: file.fileType,
+            fileUrl: file.fileUrl,
           };
         })
       : [];
@@ -55,6 +58,7 @@ class CustomUploadFile extends React.Component {
     onChange(info) {
       if (info.file.status === 'done') {
         const { dataSource, count } = this.state.state;
+        console.table(info);
         const fileData = {
           key: count,
           originalname: info.file.name,
@@ -64,6 +68,8 @@ class CustomUploadFile extends React.Component {
           createdBy: info.file.response.createdBy,
           note: '',
           old: false,
+          fileType: info.file.response.mimetype,
+          fileUrl: info.file.response.url ?? '',
         };
         const newSource = [...dataSource, fileData];
         this.state.setState({
@@ -86,6 +92,24 @@ class CustomUploadFile extends React.Component {
     });
   };
 
+  onAddLink = (fileData) => {
+    this.updateDataSource(fileData);
+  };
+
+  updateDataSource = (fileData) => {
+    const { dataSource, count } = this.state;
+    const newFileData = {
+      ...fileData,
+      key: count,
+    };
+    const newSource = [...dataSource, newFileData];
+    this.setState({
+      dataSource: newSource,
+      count: count + 1,
+    });
+    this.props.onChange([...newSource]);
+  };
+
   removeFile = (key) => {
     const { dataSource, count } = this.state;
     const fileData = [...dataSource];
@@ -101,6 +125,8 @@ class CustomUploadFile extends React.Component {
         createdBy: file.createdBy,
         note: file.note,
         old: file.old,
+        fileType: file.fileType,
+        fileUrl: file.fileUrl,
       };
     });
     this.setState({
@@ -165,20 +191,23 @@ class CustomUploadFile extends React.Component {
             </Form.Item>
           </Form>
         </Modal>
-        <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
-          <Upload {...this.onUpload}>
-            <Button
-              size="small"
-              hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
-            >
-              {' '}
-              Upload file
-            </Button>
-          </Upload>
+        <div className={styles.actionBtn}>
           <UploadLinkModal
+            onAddLink={this.onAddLink}
+            count={this.state.count}
             hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
           />
-        </Form.Item>
+          <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
+            <Upload {...this.onUpload}>
+              <Button
+                size="small"
+                hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
+              >
+                Upload file
+              </Button>
+            </Upload>
+          </Form.Item>
+        </div>
         <List
           itemLayout="horizontal"
           dataSource={this.state.dataSource}
@@ -186,10 +215,20 @@ class CustomUploadFile extends React.Component {
           renderItem={(item) => (
             <List.Item>
               <h3>
-                <PaperClipOutlined style={{ color: '#66666666' }} />{' '}
-                <a onClick={() => downloadFile(item)}>{item.originalname}</a>
+                {item.fileType === 'link' ? (
+                  <>
+                    <LinkOutlined style={{ color: '#666666' }} />{' '}
+                    <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
+                      {item.originalname}
+                    </a>
+                  </>
+                ) : (
+                  <>
+                    <PaperClipOutlined style={{ color: '#666666' }} />{' '}
+                    <a onClick={() => downloadFile(item)}>{item.originalname}</a>
+                  </>
+                )}
               </h3>
-
               {this.props.dataIndex !== 'brief' ? (
                 <span
                   onClick={() => {

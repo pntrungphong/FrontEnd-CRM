@@ -4,7 +4,7 @@ export const downloadFile = (fileinfo) => {
   const headers = new Headers();
   headers.append('Content-Type', 'application/json');
   headers.append('Authorization', `Bearer ${getToken()}`);
-  fetch(`http://api-harmonia.geekup.io/file/${fileinfo.id}`, {
+  fetch(`https://api-harmonia.geekup.io/file/${fileinfo.id}`, {
     method: 'GET',
     headers,
   }).then((response) => {

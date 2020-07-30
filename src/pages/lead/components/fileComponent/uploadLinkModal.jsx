@@ -13,11 +13,15 @@ class UploadLinkModal extends React.Component {
   }
 
   onFinish = (values) => {
-    console.table(this.props);
-    this.props.dispatch({
-      type: 'file/uploadLink',
-      payload: values,
-    });
+    this.props
+      .dispatch({
+        type: 'file/uploadLink',
+        payload: values,
+      })
+      .then((uploadedLink) => {
+        this.props.onAddLink(uploadedLink);
+      });
+    this.setModalVisible(false);
   };
 
   render() {
@@ -34,11 +38,18 @@ class UploadLinkModal extends React.Component {
         <Modal
           title="Upload link"
           centered
+          destroyOnClose
           visible={this.state.modalVisible}
           onCancel={() => this.setModalVisible(false)}
           footer={[
             <Button onClick={() => this.setModalVisible(false)}>Cancel</Button>,
-            <Button form="upload-link-form" key="submit" type="primary" htmlType="submit">
+            <Button
+              form="upload-link-form"
+              key="submit"
+              type="primary"
+              htmlType="submit"
+              loading={this.props.adding}
+            >
               Submit
             </Button>,
           ]}
@@ -65,6 +76,7 @@ class UploadLinkModal extends React.Component {
   }
 }
 
-export default connect(({ file }) => ({
+export default connect(({ file, loading }) => ({
   file,
+  adding: loading.effects['file/uploadLink'],
 }))(UploadLinkModal);

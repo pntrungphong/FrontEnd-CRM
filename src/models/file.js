@@ -11,7 +11,10 @@ const FileModel = {
       const response = yield call(uploadLink, payload);
       if (response && response.id) {
         message.success('Successfully');
+        return response;
       }
+      message.error('Fail');
+      return null;
     },
   },
   reducers: {},
