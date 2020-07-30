@@ -51,13 +51,13 @@ class App extends React.Component {
 const statusPhaseBorderStore = {
   Done: styles.donePhase,
   'In-progress': styles.inProgressPhase,
-  Draft: styles.daftPhase,
+  Planning: styles.daftPhase,
 };
 
 const tagBackgroundStore = {
   Done: styles.doneStatusTag,
   'In-progress': styles.inProgressStatusTag,
-  Draft: styles.daftStatusTag,
+  Planning: styles.daftStatusTag,
 };
 
 const StatusTag = (statusProps) => {
