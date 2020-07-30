@@ -1,4 +1,4 @@
-import { Card, Spin, Avatar, Row, Tag, Col, Layout, Collapse } from 'antd';
+import { Card, Spin, Avatar, Row, Tag, Col, Layout, Collapse, Breadcrumb } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
@@ -66,7 +66,28 @@ class LeadDetail extends Component {
       return <Spin />;
     }
     return (
-      <PageHeaderWrapper title="Lead Details">
+      <PageHeaderWrapper
+        title={
+          <div>
+            <Breadcrumb>
+              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <a
+                  href="#"
+                  onClick={() => {
+                    history.push({
+                      pathname: `/lead`,
+                    });
+                  }}
+                >
+                  lead
+                </a>
+              </Breadcrumb.Item>
+              <Breadcrumb.Item>Detail</Breadcrumb.Item>
+            </Breadcrumb>
+          </div>
+        }
+      >
         <Card bordered="true" className={styles.customCard}>
           <Layout className={styles.customContentLayout}>
             <Layout className={styles.customContentLayout}>
@@ -215,7 +236,7 @@ class LeadDetail extends Component {
             <Collapse accordion className={styles.editCollapse}>
               {lead.detail.touchPoint.map((touchPointItem, index) => {
                 return (
-                  <Panel header={<h4>Touchpoint</h4>} key={index}>
+                  <Panel header={<h4>Touchpoint: {touchPointItem.status}</h4>} key={index}>
                     <div>
                       <h2>Goal:{touchPointItem.goal}</h2>
                       <p className={styles.statusTp}>Status: {touchPointItem.status}</p>
