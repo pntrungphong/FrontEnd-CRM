@@ -97,7 +97,6 @@ const Update = connect(({ contact, tag, loading }) => ({
               }}
               size="middle"
               type="primary"
-              loading={props.submitting}
             >
               Cancel
             </Button>
