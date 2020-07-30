@@ -44,6 +44,7 @@ class CompanyDetail extends Component {
                 Company
               </a>
             </Breadcrumb.Item>
+            <Breadcrumb.Item>Detail</Breadcrumb.Item>
           </Breadcrumb>
         }
       >

@@ -170,7 +170,7 @@ class UpdateTouchpointForm extends React.Component {
         </div>
         <div id="sla">
           <div className={styles.header}>
-            <h2 className={styles.title}>Service level Agreement</h2>
+            <h2 className={styles.title}>Service Level Agreement</h2>
           </div>
           <Form.Item name="sla">
             <CustomUploadFile
