@@ -22,7 +22,6 @@ const Model = {
     },
     *update({ payload }, { call }) {
       const response = yield call(updateTouchpoint, payload);
-      console.log(payload);
       let changeRankresponse =
         payload.rank.rank !== undefined
           ? yield call(changeRank, {

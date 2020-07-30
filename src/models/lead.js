@@ -25,17 +25,14 @@ const Model = {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
         message.success('Successfully');
-        const loadListResponse = yield call(getLead, {
-          page: 1,
-          searchValue: '',
-          status: 'In-progress',
+        yield put({
+          type: 'getList',
+          payload: {
+            page: 1,
+            searchValue: '',
+            status: 'In-progress',
+          },
         });
-        if (loadListResponse != null) {
-          yield put({
-            type: 'saveLeadInfo',
-            payload: formatListLeadData(loadListResponse),
-          });
-        }
       }
     },
     *createTouchPoint({ payload }, { call, put }) {
@@ -121,17 +118,14 @@ const Model = {
       const response = yield call(updateLead, payload);
       if (response && response.id) {
         message.success('Successfully');
-        const loadListResponse = yield call(getLead, {
-          page: 1,
-          searchValue: '',
-          status: 'In-progress',
+        yield put({
+          type: 'getList',
+          payload: {
+            page: 1,
+            searchValue: '',
+            status: 'In-progress',
+          },
         });
-        if (loadListResponse != null) {
-          yield put({
-            type: 'saveLeadInfo',
-            payload: formatListLeadData(loadListResponse),
-          });
-        }
       }
     },
   },
