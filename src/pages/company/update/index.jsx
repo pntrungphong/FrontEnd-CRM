@@ -1,6 +1,6 @@
-import { Spin, Form, Button } from 'antd';
+import { Spin, Form, Button, Breadcrumb } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import SharedForm from '../components/sharedForm';
 import styles from '../style.less';
 
@@ -49,8 +49,23 @@ class UpdateCompanyForm extends React.Component {
 
     return (
       <div className={styles.main}>
-        <div className={styles.header}>
-          <h2 className={styles.title}> UPDATE COMPANY</h2>
+        <div className={styles.editBread}>
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a
+                href="#"
+                onClick={() => {
+                  history.push({
+                    pathname: `/company`,
+                  });
+                }}
+              >
+                Company
+              </a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Update</Breadcrumb.Item>
+          </Breadcrumb>
         </div>
 
         <Form

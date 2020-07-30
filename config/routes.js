@@ -84,11 +84,11 @@ export default [
             path: '/archives/create',
             component: 'archives/create',
           },
-          {
-            path: '/service',
-            name: 'Service',
-            component: 'service/home',
-          },
+          // {
+          //   path: '/service',
+          //   name: 'Service',
+          //   component: 'service/home',
+          // },
         ],
       },
     ],

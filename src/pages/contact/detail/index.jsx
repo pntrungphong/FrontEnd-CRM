@@ -1,4 +1,4 @@
-import { Card, Divider, Tag, Spin, Avatar, Row, Col } from 'antd';
+import { Card, Divider, Tag, Spin, Avatar, Row, Col, Button, Breadcrumb } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { UserOutlined } from '@ant-design/icons';
@@ -20,7 +20,26 @@ class ContactDetail extends Component {
       return <Spin />;
     }
     return (
-      <PageHeaderWrapper title="Contact Details">
+      <PageHeaderWrapper
+        title={
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a
+                href="#"
+                onClick={() => {
+                  history.push({
+                    pathname: `/contact`,
+                  });
+                }}
+              >
+                Contact
+              </a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Detail</Breadcrumb.Item>
+          </Breadcrumb>
+        }
+      >
         <Card bordered="true">
           <div className={styles.one}>
             <Avatar size={64} icon={<UserOutlined />} />
@@ -184,6 +203,17 @@ class ContactDetail extends Component {
               })}
             </Col>
           </Row>
+          <Button
+            className={styles.backBtn}
+            type="primary"
+            onClick={() => {
+              history.push({
+                pathname: `/company`,
+              });
+            }}
+          >
+            Back
+          </Button>
           <Divider className={styles.three} />
         </Card>
       </PageHeaderWrapper>
