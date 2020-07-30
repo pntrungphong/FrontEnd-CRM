@@ -54,5 +54,4 @@ export default {
   'menu.Contact': 'Contact',
   'menu.Lead': 'Lead',
   'menu.Archives': 'Archive',
-  'menu.Service': 'Service',
 };

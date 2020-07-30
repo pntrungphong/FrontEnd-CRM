@@ -7,6 +7,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faFileDownload } from '@fortawesome/free-solid-svg-icons';
 import { getToken } from '../../../utils/authority';
 import styles from './style.less';
+import fileConfig from '../../../../config/apiConfig';
 
 const { Sider, Content } = Layout;
 const { Panel } = Collapse;
@@ -23,7 +24,7 @@ const FileSpan = ({ fileinfo }) => {
     const headers = new Headers();
     headers.append('Content-Type', 'application/json');
     headers.append('Authorization', `Bearer ${getToken()}`);
-    fetch(`https://api-harmonia.geekup.io/file/${fileinfo.id}`, {
+    fetch(`${fileConfig.uploadFile}/${fileinfo.id}`, {
       method: 'GET',
       headers,
     }).then((response) => {
@@ -236,7 +237,7 @@ class LeadDetail extends Component {
             <Collapse accordion className={styles.editCollapse}>
               {lead.detail.touchPoint.map((touchPointItem, index) => {
                 return (
-                  <Panel header={<h4>Touchpoint: {touchPointItem.status}</h4>} key={index}>
+                  <Panel header={<h4>TouchPoint: {touchPointItem.status}</h4>} key={index}>
                     <div>
                       <h2>Goal:{touchPointItem.goal}</h2>
                       <p className={styles.statusTp}>Status: {touchPointItem.status}</p>
