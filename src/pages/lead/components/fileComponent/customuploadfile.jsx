@@ -195,13 +195,13 @@ class CustomUploadFile extends React.Component {
           {/* <UploadLinkModal
             onAddLink={this.onAddLink}
             count={this.state.count}
-            hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
+            hidden={!!(this.props.status === 'Done' || this.props.status === 'Planning')}
           /> */}
           <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
             <Upload {...this.onUpload}>
               <Button
                 size="small"
-                hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
+                hidden={!!(this.props.status === 'Done' || this.props.status === 'Planning')}
               >
                 Upload file
               </Button>
@@ -235,7 +235,7 @@ class CustomUploadFile extends React.Component {
                     if (
                       item.order !== this.props.order ||
                       this.props.status === 'Done' ||
-                      this.props.status === 'Draft'
+                      this.props.status === 'Planning'
                     ) {
                       showNote(this.state.dataSource[item.key].note);
                     } else this.addNote(item.key);
@@ -245,7 +245,7 @@ class CustomUploadFile extends React.Component {
                     this.state.dataSource[item.key].note !== '') ||
                   item.order !== this.props.order ||
                   this.props.status === 'Done' ||
-                  this.props.status === 'Draft' ? (
+                  this.props.status === 'Planning' ? (
                     <div className={styles.viewNote}>View Note</div>
                   ) : (
                     <Tag>
