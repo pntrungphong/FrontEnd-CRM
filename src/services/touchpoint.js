@@ -3,6 +3,7 @@ import request from '../utils/request';
 export async function createTouchPoint(params) {
   const body = {
     status: 'In-progress',
+    meetingDate: '2020-07-30T10:14:54.259Z',
     leadId: params,
   };
 

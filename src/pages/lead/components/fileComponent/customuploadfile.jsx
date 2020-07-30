@@ -4,7 +4,7 @@ import moment from 'moment';
 import { PaperClipOutlined, FormOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
-import UploadLinkModal from './uploadLinkModal';
+// import UploadLinkModal from './uploadLinkModal';
 import styles from './style.less';
 
 const { TextArea } = Input;
@@ -192,11 +192,11 @@ class CustomUploadFile extends React.Component {
           </Form>
         </Modal>
         <div className={styles.actionBtn}>
-          <UploadLinkModal
+          {/* <UploadLinkModal
             onAddLink={this.onAddLink}
             count={this.state.count}
             hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
-          />
+          /> */}
           <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
             <Upload {...this.onUpload}>
               <Button
