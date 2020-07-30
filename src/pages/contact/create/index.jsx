@@ -1,6 +1,6 @@
 import { Form, Button } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import styles from '../style.less';
 import SharedForm from '../components/sharedForm';
 
@@ -56,12 +56,27 @@ class Create extends React.Component {
           <SharedForm tag={tag} formRef={this.formRef} />
           <div className={styles.aroundBtn}>
             <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-              <Button type="primary" htmlType="submit" loading={this.props.submitting}>
+              <Button
+                size="middle"
+                type="primary"
+                htmlType="submit"
+                loading={this.props.submitting}
+              >
                 Create
               </Button>
             </Form.Item>
-            <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-              <Button type="primary" htmlType="submit">
+            <Form.Item>
+              <Button
+                onClick={() => {
+                  history.push({
+                    pathname: `/contact`,
+                  });
+                }}
+                size="middle"
+                type="primary"
+                htmlType="submit"
+                loading={this.props.submitting}
+              >
                 Cancel
               </Button>
             </Form.Item>
