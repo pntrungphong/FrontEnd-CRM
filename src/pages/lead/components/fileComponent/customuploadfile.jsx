@@ -4,7 +4,7 @@ import moment from 'moment';
 import { PaperClipOutlined, FormOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
-import UploadLinkModal from './uploadLinkModal';
+// import UploadLinkModal from './uploadLinkModal';
 import styles from './style.less';
 import fileConfig from '../../../../../config/apiConfig';
 
@@ -59,7 +59,6 @@ class CustomUploadFile extends React.Component {
     onChange(info) {
       if (info.file.status === 'done') {
         const { dataSource, count } = this.state.state;
-        console.table(info);
         const fileData = {
           key: count,
           originalname: info.file.name,
@@ -193,11 +192,11 @@ class CustomUploadFile extends React.Component {
           </Form>
         </Modal>
         <div className={styles.actionBtn}>
-          <UploadLinkModal
+          {/* <UploadLinkModal
             onAddLink={this.onAddLink}
             count={this.state.count}
             hidden={!!(this.props.status === 'Done' || this.props.status === 'Draft')}
-          />
+          /> */}
           <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
             <Upload {...this.onUpload}>
               <Button
