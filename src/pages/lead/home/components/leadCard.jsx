@@ -31,7 +31,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
 
 const LeadCard = (props) => {
   return (
-    <div key={props.item.id}>
+    <div>
       <Card
         headStyle={{ padding: 0 }}
         bodyStyle={{ padding: 5, paddingLeft: 10 }}

@@ -6,7 +6,6 @@ import Rankmodal from './rankmodal';
 import EditableTable from './tasktable';
 
 const { TextArea } = Input;
-
 const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
   task,
   touchpoint,
@@ -78,7 +77,7 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           rows={4}
         />
       </Form.Item>
-      <Form.Item name="task" label="Task:">
+      <Form.Item name="task">
         <EditableTable
           status={props.status}
           dispatch={props.dispatch}
