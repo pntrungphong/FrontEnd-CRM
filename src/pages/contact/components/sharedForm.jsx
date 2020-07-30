@@ -16,6 +16,9 @@ const SharedForm = (props) => {
       >
         <Input />
       </Form.Item>
+      <Form.Item name="title" label="Title" className={styles.editOne}>
+        <Input />
+      </Form.Item>
       <Form.Item name="company" label="Company">
         <QuickCreate
           formRef={props.formRef}
@@ -23,9 +26,6 @@ const SharedForm = (props) => {
           createType={CreateType.COMPANY}
           dataIndex="company"
         />
-      </Form.Item>
-      <Form.Item name="title" label="Title" className={styles.editOne}>
-        <Input />
       </Form.Item>
       <Form.Item name="referral" label="Referral">
         <QuickCreate

@@ -16,6 +16,10 @@ class CompanyDetail extends Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Detail Company - Harmonia';
+  }
+
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanData',
@@ -37,91 +41,6 @@ class CompanyDetail extends Component {
             <h2>Details</h2>
           </div>
           <Divider className={styles.two} />
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              {company.detail.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key} className={styles.tagOne}>
-                      {item.label}
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Email</h3>
-            </Col>
-            <Col flex="auto">
-              {company.detail.email.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <Tag key={item.type} className={styles.customField}>
-                        {item.url}
-                      </Tag>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Phone</h3>
-            </Col>
-            <Col flex="auto">
-              {company.detail.phone.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <Tag key={item.number} className={styles.customField}>
-                        {item.number}
-                      </Tag>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Url</h3>
-            </Col>
-            <Col flex="auto">
-              <span className={styles.customField}>
-                <a key={company.detail.url}>{company.detail.url}</a>
-              </span>
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Website</h3>
-            </Col>
-            <Col flex="auto">
-              {company.detail.website.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <span className={styles.customField}>
-                        <a key={item.url}>{item.url}</a> ({item.type})
-                      </span>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Contact</h3>
@@ -146,7 +65,86 @@ class CompanyDetail extends Component {
               })}
             </Col>
           </Row>
-
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Website</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.website.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <span className={styles.customField}>
+                        <a key={item.url}>{item.url}</a> ({item.type})
+                      </span>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.tagOne}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Phone</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.phone.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.number} className={styles.customField}>
+                        {item.number}
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Email</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.email.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.url}
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Social link</h3>
+            </Col>
+            <Col flex="auto">
+              <span className={styles.customField}>
+                <a key={company.detail.url}>{company.detail.url}</a>
+              </span>
+            </Col>
+          </Row>
           <Row className={styles.rowCol}>
             {company.detail.address.map((item, index) => {
               return (

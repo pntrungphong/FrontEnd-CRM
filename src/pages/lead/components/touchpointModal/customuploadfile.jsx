@@ -5,6 +5,7 @@ import { PaperClipOutlined, FormOutlined, DeleteOutlined } from '@ant-design/ico
 import { getToken } from '../../../../utils/authority';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
+import fileConfig from '../../../../../config/apiConfig';
 
 const { TextArea } = Input;
 
@@ -45,7 +46,7 @@ class CustomUploadFile extends React.Component {
 
   onUpload = {
     name: 'file',
-    action: 'https://api-harmonia.geekup.io/file',
+    action: fileConfig.uploadFile,
     headers: {
       Authorization: `Bearer ${getToken()}`,
     },

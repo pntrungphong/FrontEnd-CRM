@@ -25,6 +25,10 @@ class UpdateCompanyForm extends React.Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Update Company - Harmonia';
+  }
+
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanDetail',

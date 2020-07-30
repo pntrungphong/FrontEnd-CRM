@@ -39,22 +39,6 @@ class ContactDetail extends Component {
           </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key} className={styles.ta}>
-                      {item.label}
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
               <h3 className={styles.cloOne}>Company</h3>
             </Col>
             <Col flex="auto">
@@ -77,45 +61,6 @@ class ContactDetail extends Component {
               })}
             </Col>
           </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Email</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.email.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <h4 key={item.type} className={styles.customField}>
-                        {item.url}
-                      </h4>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
-              <h3 className={styles.cloOne}>Phone</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.phone.map((item) => {
-                return (
-                  <>
-                    <Row>
-                      <Tag key={item.type} className={styles.customField}>
-                        {item.number}
-                      </Tag>
-                    </Row>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Referral</h3>
@@ -140,7 +85,58 @@ class ContactDetail extends Component {
               })}
             </Col>
           </Row>
-
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.ta}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Phone</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.phone.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.number}
+                      </Tag>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Email</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.email.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <h4 key={item.type} className={styles.customField}>
+                        {item.url}
+                      </h4>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Website</h3>

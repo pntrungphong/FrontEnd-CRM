@@ -1,18 +1,28 @@
 import { Input, Button } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
+import debounce from 'lodash/debounce';
 import CompanyTable from '../components/companyTable';
 import styles from '../style.less';
 
 const { Search } = Input;
 
 class ViewCompany extends React.Component {
-  onSearch = (value) => {
+  constructor(props) {
+    super(props);
+    this.onChange = debounce(this.onChange, 500);
+  }
+
+  componentWillUpdate() {
+    document.title = 'Company - Harmonia';
+  }
+
+  onChange = (e) => {
     this.props.dispatch({
       type: 'company/searchByName',
       payload: {
         page: 1,
-        searchValue: value,
+        searchValue: e.target.value,
       },
     });
   };
@@ -28,10 +38,14 @@ class ViewCompany extends React.Component {
       <div className={styles.containerBox}>
         <Search
           className={styles.search}
+          onChange={(event) => {
+            event.persist();
+            this.onChange(event);
+          }}
           placeholder="Search company by name"
           size="large"
+          allowClear
           loading={this.props.loadingSearch}
-          onSearch={this.onSearch}
         />
         <div className={styles.top}>
           <Button className={styles.create_btn} type="primary" onClick={this.createDetail}>
