@@ -192,7 +192,7 @@ class CompanyDetail extends Component {
             })}
           </Row>
         </Card>
-        <Card bordered="true" className={styles.cardTwo}>
+        {/* <Card bordered="true" className={styles.cardTwo}>
           <div className={styles.one}>
             <h2>Leads</h2>
           </div>
@@ -215,7 +215,7 @@ class CompanyDetail extends Component {
               })}
             </Col>
           </Row>
-        </Card>
+        </Card> */}
       </PageHeaderWrapper>
     );
   }
