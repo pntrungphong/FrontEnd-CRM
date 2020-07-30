@@ -57,7 +57,7 @@ class ViewCompany extends React.Component {
           loading={this.props.loadingSearch}
         />
         <div className={styles.top}>
-          <Button className={styles.create_btn} type="primary" onClick={this.createDetail}>
+          <Button className={styles.createBtn} type="primary" onClick={this.createDetail}>
             Create New Company
           </Button>
         </div>
