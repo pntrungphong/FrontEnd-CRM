@@ -293,6 +293,8 @@ export const formatDetailTouchPointData = (response, fileResponse) => {
         createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
         order: file.touchPoint.order,
         touchPointId: file.touchPointId,
+        fileType: file.file.mimetype,
+        fileUrl: file.file.url ?? '',
       };
       switch (file.type) {
         case 'sla':

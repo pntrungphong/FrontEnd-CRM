@@ -1,12 +1,9 @@
-import { Card, Spin, Divider, Tag, Row, Col, Button } from 'antd';
+import { Card, Spin, Divider, Avatar, Tag, Row, Col, Breadcrumb } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
+import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
 import styles from './style.less';
-
-function Heading(props) {
-  return <h2 className={styles.heading}>{props.name}</h2>;
-}
 
 class CompanyDetail extends Component {
   componentDidMount() {
@@ -35,10 +32,28 @@ class CompanyDetail extends Component {
     }
 
     return (
-      <PageHeaderWrapper className={styles.wrapper} title={<Heading name={company.detail.name} />}>
-        <Card bordered="true" className={styles.cardOne}>
+      <PageHeaderWrapper
+        title={
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a
+                href="#"
+                onClick={() => {
+                  history.push({
+                    pathname: `/company`,
+                  });
+                }}
+              >
+                Company
+              </a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        }
+      >
+        <Card bordered="true">
           <div className={styles.one}>
-            <h2>Details</h2>
+            <Avatar size={64} icon={<UserOutlined />} />
           </div>
           <Divider className={styles.two} />
           <Row className={styles.rowCol}>
@@ -99,6 +114,23 @@ class CompanyDetail extends Component {
               })}
             </Col>
           </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.tagOne}>
+                      {item.label}
+                    </Tag>
+                  </>
+                );
+              })}
+            </Col>
+          </Row>
+
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Phone</h3>
@@ -166,39 +198,24 @@ class CompanyDetail extends Component {
           </div>
           <Divider className={styles.two} />
           <Row className={styles.rowCol}>
-            {company.detail.address.map((item) => {
-              return (
-                <>
-                  <Col flex="100%">
-                    <span className={styles.customField}>
-                      <a
-                        onClick={() => {
-                          history.push({
-                            pathname: `/lead/detail/${item.key}`,
-                          });
-                        }}
-                        key={item.url}
-                      >
-                        Lead name-{company.detail.name}
-                      </a>
-                    </span>
-                  </Col>
-                </>
-              );
-            })}
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Address</h3>
+            </Col>
+            <Col flex="auto">
+              {company.detail.address.map((item) => {
+                return (
+                  <>
+                    <Row>
+                      <span key={item} className={styles.customField}>
+                        {item}
+                      </span>
+                    </Row>
+                  </>
+                );
+              })}
+            </Col>
           </Row>
         </Card>
-        <div className={styles.edit}>
-          <Button
-            onClick={() => {
-              history.push({
-                pathname: `/company/update/${this.props.match.params.id}`,
-              });
-            }}
-          >
-            Edit
-          </Button>
-        </div>
       </PageHeaderWrapper>
     );
   }

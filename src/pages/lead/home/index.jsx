@@ -1,4 +1,4 @@
-import { Input, Space, Card, Col, Row, Spin } from 'antd';
+import { Input, Space, Card, Col, Row, Spin, Breadcrumb } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
 import { useMount } from 'ahooks';
@@ -26,6 +26,12 @@ class App extends React.Component {
   render() {
     return (
       <div className={styles.containerBox}>
+        <div>
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Lead</Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
         <div className={styles.top}>
           <Search
             className={styles.search}
@@ -88,7 +94,7 @@ const ListLead = connect(({ lead, loading }) => ({
           <div className={styles.spacing}>
             <Space align="center" direction="vertical">
               {props.lead.list.map((item) => {
-                return <LeadCard item={item} />;
+                return <LeadCard item={item} key={item.id} />;
               })}
             </Space>
           </div>

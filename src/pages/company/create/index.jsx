@@ -1,6 +1,6 @@
-import { Form, Button } from 'antd';
+import { Form, Button, Breadcrumb } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import styles from '../style.less';
 import SharedForm from '../components/sharedForm';
 
@@ -36,17 +36,52 @@ class CreateCompanyForm extends React.Component {
 
     return (
       <div className={styles.main}>
-        <div className={styles.header}>
-          <h2 className={styles.title}> Create New Company</h2>
+        <div className={styles.editBread}>
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a
+                href="#"
+                onClick={() => {
+                  history.push({
+                    pathname: `/company`,
+                  });
+                }}
+              >
+                Company
+              </a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Create</Breadcrumb.Item>
+          </Breadcrumb>
         </div>
 
         <Form {...layout} ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
           <SharedForm tag={tag} formRef={this.formRef} />
-          <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-            <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Create
-            </Button>
-          </Form.Item>
+          <div className={styles.aroundBtn}>
+            <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
+              <Button
+                size="middle"
+                type="primary"
+                htmlType="submit"
+                loading={this.props.submitting}
+              >
+                Create
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                onClick={() => {
+                  history.push({
+                    pathname: `/company`,
+                  });
+                }}
+                size="middle"
+                type="primary"
+              >
+                Cancel
+              </Button>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );

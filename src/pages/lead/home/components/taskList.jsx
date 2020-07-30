@@ -32,10 +32,8 @@ const TaskList = (props) => {
                 />
                 {taskItem.taskname}
                 <br />
-                <span className={styles.taskDueDate}>
-                  {moment(taskItem.dueDate).format('DD-MM-YYYY')}
-                </span>
               </span>
+              <span className={styles.taskDueDate}>{moment(taskItem.dueDate).format('DD-MM')}</span>
               <span className={styles.avatarPIC}>
                 <Avatar style={{ verticalAlign: 'middle' }} src={taskItem.avatar} size="small">
                   {taskItem.userName}

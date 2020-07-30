@@ -1,6 +1,6 @@
-import { Form, Button } from 'antd';
+import { Form, Button, Breadcrumb } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import styles from '../style.less';
 import SharedForm from '../components/sharedForm';
 
@@ -42,8 +42,23 @@ class Create extends React.Component {
 
     return (
       <div className={styles.main}>
-        <div className={styles.header}>
-          <h2 className={styles.title}> CREATE CONTACT</h2>
+        <div className={styles.editBreadOne}>
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a
+                href="#"
+                onClick={() => {
+                  history.push({
+                    pathname: `/contact`,
+                  });
+                }}
+              >
+                Contact
+              </a>
+            </Breadcrumb.Item>
+            <Breadcrumb.Item>Create</Breadcrumb.Item>
+          </Breadcrumb>
         </div>
 
         <Form
@@ -56,12 +71,25 @@ class Create extends React.Component {
           <SharedForm tag={tag} formRef={this.formRef} />
           <div className={styles.aroundBtn}>
             <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-              <Button type="primary" htmlType="submit" loading={this.props.submitting}>
+              <Button
+                size="middle"
+                type="primary"
+                htmlType="submit"
+                loading={this.props.submitting}
+              >
                 Create
               </Button>
             </Form.Item>
-            <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-              <Button type="primary" htmlType="submit">
+            <Form.Item>
+              <Button
+                onClick={() => {
+                  history.push({
+                    pathname: `/contact`,
+                  });
+                }}
+                size="middle"
+                type="primary"
+              >
                 Cancel
               </Button>
             </Form.Item>

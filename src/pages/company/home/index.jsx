@@ -1,9 +1,9 @@
-import { Input, Button } from 'antd';
+import { Input, Button, Breadcrumb } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import CompanyTable from '../components/companyTable';
-import styles from '../style.less';
+import styles from './style.less';
 
 const { Search } = Input;
 
@@ -36,6 +36,15 @@ class ViewCompany extends React.Component {
   render() {
     return (
       <div className={styles.containerBox}>
+        <div className={styles.editBread}>
+          <Breadcrumb>
+            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="#">Company</a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
+
         <Search
           className={styles.search}
           onChange={(event) => {
