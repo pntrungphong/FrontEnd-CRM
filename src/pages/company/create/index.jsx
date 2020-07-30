@@ -58,7 +58,6 @@ class CreateCompanyForm extends React.Component {
                 }}
                 size="middle"
                 type="primary"
-                htmlType="submit"
                 loading={this.props.submitting}
               >
                 Cancel

@@ -1,6 +1,6 @@
 import { Spin, Form, Button } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
+import { connect, history } from 'umi';
 import SharedForm from '../components/sharedForm';
 import styles from '../style.less';
 
@@ -71,11 +71,32 @@ class UpdateCompanyForm extends React.Component {
           }}
         >
           <SharedForm tag={tag} formRef={this.formRef} />
-          <Form.Item wrapperCol={{ offset: 8 }}>
-            <Button type="primary" htmlType="submit" loading={this.props.submitting}>
-              Update
-            </Button>
-          </Form.Item>
+          <div className={styles.aroundBtn}>
+            <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
+              <Button
+                size="middle"
+                type="primary"
+                htmlType="submit"
+                loading={this.props.submitting}
+              >
+                Update
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button
+                onClick={() => {
+                  history.push({
+                    pathname: `/company`,
+                  });
+                }}
+                size="middle"
+                type="primary"
+                loading={this.props.submitting}
+              >
+                Cancel
+              </Button>
+            </Form.Item>
+          </div>
         </Form>
       </div>
     );
