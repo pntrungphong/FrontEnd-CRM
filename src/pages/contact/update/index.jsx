@@ -1,4 +1,4 @@
-import { Spin, Form, Button } from 'antd';
+import { Spin, Form, Button, Breadcrumb } from 'antd';
 import React, { useRef } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
@@ -46,8 +46,23 @@ const Update = connect(({ contact, tag, loading }) => ({
 
   return (
     <div className={styles.main}>
-      <div className={styles.header}>
-        <h2 className={styles.title}> UPDATE CONTACT</h2>
+      <div className={styles.editBread}>
+        <Breadcrumb>
+          <Breadcrumb.Item>Home</Breadcrumb.Item>
+          <Breadcrumb.Item>
+            <a
+              href="#"
+              onClick={() => {
+                history.push({
+                  pathname: `/contact`,
+                });
+              }}
+            >
+              Contact
+            </a>
+          </Breadcrumb.Item>
+          <Breadcrumb.Item>Update</Breadcrumb.Item>
+        </Breadcrumb>
       </div>
       <Form
         {...layout}
