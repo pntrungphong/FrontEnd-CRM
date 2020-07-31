@@ -9,3 +9,6 @@ export async function queryCurrent() {
 export async function queryNotices() {
   return request('/api/notices');
 }
+export async function getUsers() {
+  return request('/users/users?order=ASC&page=1&take=10');
+}

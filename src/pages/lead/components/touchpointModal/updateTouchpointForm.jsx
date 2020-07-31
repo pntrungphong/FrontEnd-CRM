@@ -65,6 +65,10 @@ class UpdateTouchpointForm extends React.Component {
     });
   };
 
+  onValuesChange = (value) => {
+    if (Object.keys(value)[0] !== 'task') this.props.enableButton();
+  };
+
   render() {
     return (
       <Form
@@ -72,6 +76,7 @@ class UpdateTouchpointForm extends React.Component {
         id={this.props.touchpointId}
         layout="vertical"
         name="form_in_modal"
+        onValuesChange={this.onValuesChange}
         initialValues={{
           goal: this.props.touchpoint.data.goal,
           meetingdate: this.props.touchpoint.data.meetingdate,

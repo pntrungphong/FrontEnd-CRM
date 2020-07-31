@@ -6,9 +6,10 @@ import Rankmodal from './rankmodal';
 import EditableTable from './tasktable';
 
 const { TextArea } = Input;
-const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
+const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => ({
   task,
   touchpoint,
+  user,
   lead,
 }))((props) => {
   return (
@@ -82,6 +83,7 @@ const UpdateGeneralInformation = connect(({ task, lead, touchpoint }) => ({
           status={props.status}
           dispatch={props.dispatch}
           lead={props.lead}
+          user={props.user}
           touchpointId={props.touchpointId}
           listTask={props.listTask}
         />

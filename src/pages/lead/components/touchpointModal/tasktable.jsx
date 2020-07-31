@@ -173,6 +173,9 @@ const EditableCell = ({
 class EditableTable extends React.Component {
   constructor(props) {
     super(props);
+    // this.props.dispatch({
+    //   type: 'user/getList',
+    // });
     this.columns = [
       {
         title: 'Task name',
@@ -298,15 +301,26 @@ class EditableTable extends React.Component {
     const { dataSource } = this.state;
     const newData = [...dataSource];
     const index = newData.findIndex((item) => row.key === item.key);
-    this.props.dispatch({
-      type: 'task/update',
-      payload: {
-        touchpointId: this.props.touchpointId,
-        newData: row,
-        index,
-        listTask: this.props.listTask,
-      },
-    });
+    this.props
+      .dispatch({
+        type: 'task/update',
+        payload: {
+          touchpointId: this.props.touchpointId,
+          newData: row,
+          index,
+          listTask: this.props.listTask,
+        },
+      })
+      .then(() => {
+        this.props.dispatch({
+          type: 'lead/getList',
+          payload: {
+            page: 1,
+            searchValue: this.props.lead.searchValue,
+            status: this.props.lead.status,
+          },
+        });
+      });
     const selectItem = newData[index];
     newData.splice(index, 1, { ...selectItem, ...row });
     this.setState({
@@ -316,14 +330,6 @@ class EditableTable extends React.Component {
     if (this.props.onChange) {
       this.props.onChange([...formatedData]);
     }
-    this.props.dispatch({
-      type: 'lead/getList',
-      payload: {
-        page: 1,
-        searchValue: this.props.lead.searchValue,
-        status: this.props.lead.status,
-      },
-    });
   };
 
   render() {

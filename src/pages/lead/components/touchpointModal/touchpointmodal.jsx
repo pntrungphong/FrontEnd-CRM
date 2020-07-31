@@ -14,9 +14,11 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
+  const [disableButton, setDisableButton] = useState(true);
 
   const onShow = () => {
     setVisible(true);
+    setDisableButton(true);
     props.dispatch({
       type: 'touchpoint/get',
       payload: { id: props.touchpointId, leadId: props.leadId },
@@ -27,7 +29,9 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
     });
   };
 
-  const cleanData = () => {};
+  const enableButton = () => {
+    if (disableButton) setDisableButton(false);
+  };
 
   const onCancel = () => {
     setVisible(false);
@@ -70,13 +74,12 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           paddingTop: 0,
           scrollBehavior: 'smooth',
         }}
-        afterClose={cleanData}
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
           <Button
             loading={props.updateLoading}
-            disabled={props.status === 'Done'}
+            disabled={props.status === 'Done' || disableButton}
             form={props.touchpointId}
             key="submit"
             type="primary"
@@ -90,6 +93,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           <UpdateTouchpointForm
             leadId={props.lead.detail.id}
             onCancel={onCancel}
+            enableButton={enableButton}
             touchpoint={props.touchpoint}
             lead={props.lead}
             rank={props.rank}

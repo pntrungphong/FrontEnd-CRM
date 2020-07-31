@@ -1,5 +1,5 @@
 import { Spin, Form, Button, Breadcrumb } from 'antd';
-import React, { useRef, useEffect } from 'react';
+import React, { useRef, useEffect, useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
 import SharedForm from '../components/sharedForm';
@@ -16,6 +16,7 @@ const Update = connect(({ contact, tag, loading }) => ({
   querying: loading.effects['contact/get'],
 }))((props) => {
   const formRef = useRef(null);
+  const [disableButton, setDisableButton] = useState(true);
 
   useMount(() => {
     props.dispatch({
@@ -42,6 +43,12 @@ const Update = connect(({ contact, tag, loading }) => ({
       type: 'contact/update',
       payload: { ...values, id: props.match.params.id },
     });
+  };
+
+  const onValuesChange = () => {
+    if (disableButton) {
+      setDisableButton(false);
+    }
   };
 
   if (!props.contact || props.querying) {
@@ -75,6 +82,7 @@ const Update = connect(({ contact, tag, loading }) => ({
         {...layout}
         ref={formRef}
         name="nest-messages"
+        onValuesChange={onValuesChange}
         onFinish={onFinish}
         initialValues={{
           name: props.contact.name,
@@ -91,7 +99,13 @@ const Update = connect(({ contact, tag, loading }) => ({
         <SharedForm tag={props.tag} formRef={formRef} />
         <div className={styles.aroundBtn}>
           <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
-            <Button size="middle" type="primary" htmlType="submit" loading={props.submitting}>
+            <Button
+              disabled={disableButton}
+              size="middle"
+              type="primary"
+              htmlType="submit"
+              loading={props.submitting}
+            >
               Update
             </Button>
           </Form.Item>
