@@ -42,6 +42,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       type: 'touchpoint/cleanData',
     });
   };
+
   return (
     <div>
       <a onClick={onShow} className={styles.updateTouchPointButton}>
@@ -91,6 +92,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       >
         {(props.touchpoint.data && props.lead.detail) || props.updateLoading ? (
           <UpdateTouchpointForm
+            fileTouchPoint={props.fileTouchPoint}
             leadId={props.lead.detail.id}
             onCancel={onCancel}
             enableButton={enableButton}
