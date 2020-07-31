@@ -1,9 +1,10 @@
-import { queryCurrent, query as queryUsers } from '@/services/user';
+import { queryCurrent, getUsers, query as queryUsers } from '@/services/user';
 
 const UserModel = {
   namespace: 'user',
   state: {
     currentUser: {},
+    list: [],
   },
   effects: {
     *fetch(_, { call, put }) {
@@ -11,6 +12,22 @@ const UserModel = {
       yield put({
         type: 'save',
         payload: response,
+      });
+    },
+
+    *getList(_, { call, put }) {
+      const response = yield call(getUsers);
+      const formattedList = response.data
+        .map((it) => {
+          return {
+            id: it.id,
+            firstName: it.firstName,
+          };
+        })
+        .filter((user) => user.firstName !== 'Admin');
+      yield put({
+        type: 'saveListUser',
+        payload: formattedList,
       });
     },
 
@@ -25,6 +42,9 @@ const UserModel = {
   reducers: {
     saveCurrentUser(state, action) {
       return { ...state, currentUser: action.payload || {} };
+    },
+    saveListUser(state, payload) {
+      return { ...state, list: payload };
     },
 
     changeNotifyCount(

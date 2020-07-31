@@ -12,6 +12,9 @@ class UpdateCompanyForm extends React.Component {
   constructor(props) {
     super(props);
     this.formRef = React.createRef();
+    this.state = {
+      disableButton: true,
+    };
   }
 
   componentDidMount() {
@@ -40,6 +43,14 @@ class UpdateCompanyForm extends React.Component {
       type: 'company/update',
       payload: { ...values, id: this.props.match.params.id },
     });
+  };
+
+  onValuesChange = () => {
+    if (this.state.disableButton) {
+      this.setState({
+        disableButton: false,
+      });
+    }
   };
 
   render() {
@@ -78,6 +89,7 @@ class UpdateCompanyForm extends React.Component {
           {...layout}
           ref={this.formRef}
           name="nest-messages"
+          onValuesChange={this.onValuesChange}
           onFinish={this.onFinish}
           initialValues={{
             name: company.name,
@@ -95,6 +107,7 @@ class UpdateCompanyForm extends React.Component {
           <div className={styles.aroundBtn}>
             <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
               <Button
+                disabled={this.state.disableButton}
                 size="middle"
                 type="primary"
                 htmlType="submit"

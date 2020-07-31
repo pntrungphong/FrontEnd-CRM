@@ -11,11 +11,22 @@ class UpdateLead extends React.Component {
     super(props);
     this.state = {
       showModal: false,
+      disableButton: true,
     };
   }
 
   showModal(showModal) {
+    this.setState({
+      disableButton: true,
+    });
     this.setState({ showModal });
+  }
+
+  enableButton() {
+    if (this.state.disableButton)
+      this.setState({
+        disableButton: false,
+      });
   }
 
   render() {
@@ -23,6 +34,12 @@ class UpdateLead extends React.Component {
       <>
         <FontAwesomeIcon icon={faEllipsisH} onClick={() => this.showModal(true)} size="sm" />
         <Modal
+          bodyStyle={{
+            height: '71.5vh',
+            overflowY: 'scroll',
+            paddingTop: 0,
+            scrollBehavior: 'smooth',
+          }}
           className={styles.modalCreate}
           style={{ top: 0 }}
           title="Update lead"
@@ -31,7 +48,12 @@ class UpdateLead extends React.Component {
           onOk={() => this.showModal(false)}
           onCancel={() => this.showModal(false)}
           footer={[
-            <Button form="updateLeadForm" key="submit" htmlType="submit">
+            <Button
+              disabled={this.state.disableButton}
+              form="updateLeadForm"
+              key="submit"
+              htmlType="submit"
+            >
               Submit
             </Button>,
           ]}
@@ -41,6 +63,7 @@ class UpdateLead extends React.Component {
             leadId={this.props.leadId}
             id="updateLeadForm"
             closeModal={() => this.showModal(false)}
+            enableButton={() => this.enableButton()}
           />
         </Modal>
       </>

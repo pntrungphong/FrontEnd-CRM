@@ -67,7 +67,9 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         ref={formRef}
         onFinish={onFinish}
         {...layout}
+        destroyOnClose
         id={props.id}
+        onValuesChange={props.enableButton}
         initialValues={{
           name: props.lead.detail.name,
           rank: props.lead.detail.rank,
