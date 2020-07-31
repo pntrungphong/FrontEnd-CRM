@@ -15,7 +15,7 @@ class UpdateTouchpointForm extends React.Component {
     if (values.rank.rank && values.rank.rank === this.props.rank) {
       returnValue.rank = this.props.rank;
     }
-    console.table(returnValue);
+
     this.props
       .dispatch({
         type: 'touchpoint/update',
