@@ -64,6 +64,9 @@ const Update = connect(({ contact, tag, loading }) => ({
           <Breadcrumb.Item>Update</Breadcrumb.Item>
         </Breadcrumb>
       </div>
+      <div className={styles.header}>
+        <h2 className={styles.title}> Update Contact</h2>
+      </div>
       <Form
         {...layout}
         ref={formRef}

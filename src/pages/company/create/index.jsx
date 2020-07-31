@@ -54,7 +54,9 @@ class CreateCompanyForm extends React.Component {
             <Breadcrumb.Item>Create</Breadcrumb.Item>
           </Breadcrumb>
         </div>
-
+        <div className={styles.header}>
+          <h2 className={styles.title}> Create New Company</h2>
+        </div>
         <Form {...layout} ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
           <SharedForm tag={tag} formRef={this.formRef} />
           <div className={styles.aroundBtn}>

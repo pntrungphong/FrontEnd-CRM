@@ -3,7 +3,7 @@ import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import CompanyTable from '../components/companyTable';
-import styles from './style.less';
+import styles from '../style.less';
 
 const { Search } = Input;
 
