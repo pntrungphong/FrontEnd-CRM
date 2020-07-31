@@ -4,10 +4,6 @@ import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
 import styles from './style.less';
 
-function Heading(props) {
-  return <h2 className={styles.heading}>{props.name}</h2>;
-}
-
 class CompanyDetail extends Component {
   componentDidMount() {
     this.props.dispatch({
@@ -55,10 +51,7 @@ class CompanyDetail extends Component {
           </Breadcrumb>
         }
       >
-        <PageHeaderWrapper
-          className={styles.wrapper}
-          title={<Heading name={company.detail.name} />}
-        />
+        <PageHeaderWrapper className={styles.wrapper} title={company.detail.name} />
         <Card bordered="true" className={styles.cardOne}>
           <div className={styles.one}>
             <h2>Details</h2>
