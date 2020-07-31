@@ -60,7 +60,9 @@ class Create extends React.Component {
             <Breadcrumb.Item>Create</Breadcrumb.Item>
           </Breadcrumb>
         </div>
-
+        <div className={styles.header}>
+          <h2 className={styles.title}> Create New Contact</h2>
+        </div>
         <Form
           {...layout}
           ref={this.formRef}

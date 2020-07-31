@@ -71,7 +71,9 @@ class UpdateCompanyForm extends React.Component {
             <Breadcrumb.Item>Update</Breadcrumb.Item>
           </Breadcrumb>
         </div>
-
+        <div className={styles.header}>
+          <h2 className={styles.title}> Update Company</h2>
+        </div>
         <Form
           {...layout}
           ref={this.formRef}

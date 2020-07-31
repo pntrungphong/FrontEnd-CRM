@@ -1,9 +1,12 @@
-import { Card, Divider, Tag, Spin, Avatar, Row, Col, Button, Breadcrumb } from 'antd';
+import { Card, Divider, Tag, Spin, Row, Col, Button, Breadcrumb } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
-import { UserOutlined } from '@ant-design/icons';
 import { connect, history } from 'umi';
 import styles from './style.less';
+
+function Heading(props) {
+  return <h2 className={styles.heading}>{props.name}</h2>;
+}
 
 class ContactDetail extends Component {
   componentDidMount() {
@@ -40,9 +43,14 @@ class ContactDetail extends Component {
           </Breadcrumb>
         }
       >
-        <Card bordered="true">
+        <PageHeaderWrapper
+          className={styles.wrapper}
+          title={<Heading name={contact.detail.name} />}
+        />
+
+        <Card bordered="true" className={styles.cardOne}>
           <div className={styles.one}>
-            <Avatar size={64} icon={<UserOutlined />} />
+            <h2>Details</h2>
           </div>
           <Divider className={styles.two} />
 
