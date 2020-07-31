@@ -17,9 +17,15 @@ class ContactDetail extends Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Detail Contact - Harmonia';
+  }
+
   render() {
     const { contact } = this.props;
-    if (contact.detail === undefined) {
+    const { querying } = this.props;
+
+    if (querying || !contact.detail) {
       return <Spin />;
     }
     return (

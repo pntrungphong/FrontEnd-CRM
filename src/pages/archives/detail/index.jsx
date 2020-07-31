@@ -14,11 +14,11 @@ class ArchivesDetail extends Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Detail Lead - Harmonia';
+  }
+
   render() {
-    // const { archives } = this.props;
-    // if (archives.data === undefined) {
-    //   return <Spin />;
-    // }
     return (
       <PageHeaderWrapper title="archives Details">
         <Card bordered="true">

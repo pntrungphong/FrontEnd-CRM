@@ -13,6 +13,10 @@ class ViewLead extends React.Component {
     this.onChange = debounce(this.onChange, 500);
   }
 
+  componentWillUpdate() {
+    document.title = 'Lead - Harmonia';
+  }
+
   onChange = (e) => {
     this.props.dispatch({
       type: 'lead/searchLeadByName',
