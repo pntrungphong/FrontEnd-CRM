@@ -59,12 +59,18 @@ class LeadDetail extends Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Detail Lead - Harmonia';
+  }
+
   render() {
     const { lead } = this.props;
-    console.table(lead);
-    if (lead.detail === undefined) {
+    const { querying } = this.props;
+
+    if (querying || !lead.detail) {
       return <Spin />;
     }
+
     return (
       <PageHeaderWrapper
         title={
