@@ -13,6 +13,10 @@ class ListContactPage extends React.Component {
     this.onChange = debounce(this.onChange, 500);
   }
 
+  componentWillUpdate() {
+    document.title = 'Contact - Harmonia';
+  }
+
   onChange = (e) => {
     this.props.dispatch({
       type: 'contact/searchByName',

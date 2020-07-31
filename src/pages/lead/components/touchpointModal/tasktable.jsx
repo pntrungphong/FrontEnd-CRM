@@ -1,5 +1,5 @@
 import React, { useContext, useState, useEffect, useRef } from 'react';
-import { Table, Input, Tag, Button, DatePicker, Modal, Select, Form } from 'antd';
+import { Table, Input, Tag, Button, notification, DatePicker, Modal, Select, Form } from 'antd';
 import moment from 'moment';
 import styles from './style.less';
 
@@ -73,7 +73,9 @@ const EditableCell = ({
       toggleEdit();
       handleSave({ ...record, ...values });
     } catch (errInfo) {
-      console.log(errInfo);
+      notification.error({
+        message: errInfo,
+      });
     }
   };
 

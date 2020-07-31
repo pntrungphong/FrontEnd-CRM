@@ -66,12 +66,6 @@ export async function getDetail(params) {
   });
 }
 
-export async function getCompanyByName(params) {
-  return request(`/company?order=ASC&page=1&take=10&q=${params}`, {
-    method: 'GET',
-  });
-}
-
 export async function quickCreateCompany(params) {
   const body = {
     name: `${params.name}`,

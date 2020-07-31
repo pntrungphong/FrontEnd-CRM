@@ -99,7 +99,7 @@ class QuickCreate extends React.Component {
           onClick={() => this.quickCreate(this.props.dataIndex)}
           className={styles.quickCreateTitle}
         >
-          Create "{props.inputValue}" as {props.field}
+          Create &quot;{props.inputValue}&quot; as {props.field}
         </h3>
       </>
     );

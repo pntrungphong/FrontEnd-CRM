@@ -7,14 +7,11 @@ export default () => (
       <img src="/geekadventure.svg" alt="GEEK Adventure" />
 
       <div className="cover-content">
-          <h1 className="heading-content">
-            It's time for GEEK Adventure
-          </h1>
-          <div className="body-content">
-            Join us and share our interest in 
-making impactful digital products.
-          </div>
+        <h1 className="heading-content">It&apos;s time for GEEK Adventure</h1>
+        <div className="body-content">
+          Join us and share our interest in making impactful digital products.
         </div>
+      </div>
     </div>
   </div>
 );

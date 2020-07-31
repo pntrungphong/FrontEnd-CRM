@@ -24,6 +24,10 @@ class Create extends React.Component {
     });
   }
 
+  componentWillUpdate() {
+    document.title = 'Create Contact - Harmonia';
+  }
+
   componentWillUnmount() {
     this.props.dispatch({
       type: 'contact/cleanData',

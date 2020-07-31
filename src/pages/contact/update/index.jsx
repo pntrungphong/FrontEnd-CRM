@@ -1,5 +1,5 @@
 import { Spin, Form, Button, Breadcrumb } from 'antd';
-import React, { useRef } from 'react';
+import React, { useRef, useEffect } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
 import SharedForm from '../components/sharedForm';
@@ -25,6 +25,10 @@ const Update = connect(({ contact, tag, loading }) => ({
     props.dispatch({
       type: 'tag/getTag',
     });
+  });
+
+  useEffect(() => {
+    document.title = 'Update Contact - Harmonia';
   });
 
   useUnmount(() => {
