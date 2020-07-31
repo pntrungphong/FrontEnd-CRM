@@ -14,3 +14,12 @@ export async function uploadLink(params) {
     data: body,
   });
 }
+
+export async function updateNote(params) {
+  return request(`/noteFile/${params.id}`, {
+    method: 'PUT',
+    data: {
+      note: params.note,
+    },
+  });
+}

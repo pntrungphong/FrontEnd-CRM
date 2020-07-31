@@ -132,7 +132,13 @@ class CustomUploadFile extends React.Component {
             leadId={this.props.leadId}
             onAddLink={this.onAddLink}
             count={this.state.count}
-            hidden={!!(this.props.status === 'Done' || this.props.status === 'Planning')}
+            hidden={
+              !!(
+                this.props.dataIndex === 'brief' ||
+                this.props.status === 'Done' ||
+                this.props.status === 'Planning'
+              )
+            }
           />
           <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
             <Upload {...this.onUpload}>
