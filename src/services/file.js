@@ -1,28 +1,16 @@
-// import request from '../utils/request';
-import moment from 'moment';
+import request from '../utils/request';
 
 export async function uploadLink(params) {
   const body = {
     name: params.name,
     url: params.url,
     note: params.note,
+    type: 'link',
+    touchPointId: params.touchPointId.toString(),
+    leadId: params.leadId.toString(),
   };
-
-  console.table(body);
-  await new Promise((resolve) => setTimeout(resolve, 1500));
-  return {
-    originalname: 'Cau Hoi On Tap.pdf',
-    order: 1,
-    id: '490',
-    createdAt: moment(Date.now()).format('DD-MM-YYYY'),
-    createdBy: 'Admin',
-    note: '123',
-    old: false,
-    fileType: 'link',
-    fileUrl: 'https://fb.com',
-  };
-  // return request(`/lead/${params.id}/rank`, {
-  //   method: 'PUT',
-  //   data: body,
-  // });
+  return request(`/file/url`, {
+    method: 'POST',
+    data: body,
+  });
 }

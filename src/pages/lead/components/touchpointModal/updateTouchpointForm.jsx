@@ -114,6 +114,8 @@ class UpdateTouchpointForm extends React.Component {
           </div>
           <Form.Item name="scope">
             <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="scope"
               order={this.props.touchpoint.data.order}
@@ -126,6 +128,8 @@ class UpdateTouchpointForm extends React.Component {
           </div>
           <Form.Item name="estimation">
             <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="estimation"
               order={this.props.touchpoint.data.order}
@@ -138,6 +142,8 @@ class UpdateTouchpointForm extends React.Component {
           </div>
           <Form.Item name="pricing">
             <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="pricing"
               order={this.props.touchpoint.data.order}
@@ -150,6 +156,8 @@ class UpdateTouchpointForm extends React.Component {
           </div>
           <Form.Item name="proposal">
             <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="proposal"
               order={this.props.touchpoint.data.order}
@@ -162,6 +170,8 @@ class UpdateTouchpointForm extends React.Component {
           </div>
           <Form.Item name="quotation">
             <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="quotation"
               order={this.props.touchpoint.data.order}
@@ -174,6 +184,8 @@ class UpdateTouchpointForm extends React.Component {
           </div>
           <Form.Item name="sla">
             <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="sla"
               order={this.props.touchpoint.data.order}

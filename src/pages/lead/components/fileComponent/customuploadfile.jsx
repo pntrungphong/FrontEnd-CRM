@@ -1,24 +1,11 @@
 import React from 'react';
-import { Button, message, Form, Upload, Modal, Tag, Input, List } from 'antd';
+import { Button, message, Form, Upload } from 'antd';
 import moment from 'moment';
-import { PaperClipOutlined, FormOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons';
 import { getToken } from '../../../../utils/authority';
-import { downloadFile } from '../../../../utils/downloadfile';
-// import UploadLinkModal from './uploadLinkModal';
+import UploadLinkModal from './uploadLinkModal';
 import styles from './style.less';
 import fileConfig from '../../../../../config/apiConfig';
-
-const { TextArea } = Input;
-
-function showNote(note) {
-  Modal.info({
-    title: 'Note',
-    content: note,
-    cancelText: 'Close',
-  });
-}
-
-const iff = (condition, then, otherwise) => (condition ? then : otherwise);
+import ListFile from './listFile';
 
 class CustomUploadFile extends React.Component {
   constructor(props) {
@@ -41,10 +28,8 @@ class CustomUploadFile extends React.Component {
         })
       : [];
     this.state = {
-      visible: false,
       dataSource: [...fileData],
       count: fileData.length,
-      currentFile: 0,
     };
   }
 
@@ -85,22 +70,20 @@ class CustomUploadFile extends React.Component {
     showUploadList: false,
   };
 
-  addNote = (key) => {
-    this.state.currentFile = key;
-    this.setState({
-      visible: true,
-    });
-  };
-
   onAddLink = (fileData) => {
     this.updateDataSource(fileData);
   };
 
   updateDataSource = (fileData) => {
+    if (!fileData) return;
     const { dataSource, count } = this.state;
     const newFileData = {
       ...fileData,
       key: count,
+      order: this.props.order,
+      old: false,
+      fileType: fileData.mimetype,
+      fileUrl: fileData.url,
     };
     const newSource = [...dataSource, newFileData];
     this.setState({
@@ -132,7 +115,6 @@ class CustomUploadFile extends React.Component {
     this.setState({
       dataSource: newFileData,
       count: count - 1,
-      currentFile: 0,
     });
     if (fileData.length !== 0) {
       this.props.onChange([...fileData]);
@@ -141,62 +123,17 @@ class CustomUploadFile extends React.Component {
     }
   };
 
-  onFinish = (values) => {
-    this.state.tempValue = values;
-    const { dataSource } = this.state;
-    const fileData = [...dataSource];
-    const index = fileData.findIndex((item) => this.state.currentFile === item.key);
-    const selectItem = fileData[index];
-    selectItem.note = values.note;
-    fileData.splice(index, 1, { ...selectItem });
-    this.setState({
-      visible: false,
-      dataSource: fileData,
-    });
-    this.props.onChange([...fileData]);
-  };
-
-  handleCancel = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-
   render() {
     return (
       <div>
-        <Modal
-          title="Add note"
-          visible={this.state.visible}
-          destroyOnClose
-          footer={false}
-          onCancel={this.handleCancel}
-        >
-          <Form
-            onFinish={this.onFinish}
-            initialValues={{
-              note:
-                this.state.dataSource.length > 0
-                  ? this.state.dataSource[this.state.currentFile].note
-                  : '',
-            }}
-          >
-            <Form.Item name="note">
-              <TextArea rows={4} />
-            </Form.Item>
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Add note
-              </Button>
-            </Form.Item>
-          </Form>
-        </Modal>
         <div className={styles.actionBtn}>
-          {/* <UploadLinkModal
+          <UploadLinkModal
+            touchPointId={this.props.touchPointId}
+            leadId={this.props.leadId}
             onAddLink={this.onAddLink}
             count={this.state.count}
             hidden={!!(this.props.status === 'Done' || this.props.status === 'Planning')}
-          /> */}
+          />
           <Form.Item name={this.props.dataIndex} className={styles.customFormItemUploadFile}>
             <Upload {...this.onUpload}>
               <Button
@@ -208,96 +145,13 @@ class CustomUploadFile extends React.Component {
             </Upload>
           </Form.Item>
         </div>
-        <List
-          itemLayout="horizontal"
+        <ListFile
+          onChange={this.props.onChange}
+          removeFile={(key) => this.removeFile(key)}
+          status={this.props.status}
+          order={this.props.order}
+          dataIndex={this.props.dataIndex}
           dataSource={this.state.dataSource}
-          locale={{ emptyText: 'No file' }}
-          renderItem={(item) => (
-            <List.Item>
-              <h3>
-                {item.fileType === 'link' ? (
-                  <>
-                    <LinkOutlined style={{ color: '#666666' }} />{' '}
-                    <a href={item.fileUrl} target="_blank" rel="noopener noreferrer">
-                      {item.originalname}
-                    </a>
-                  </>
-                ) : (
-                  <>
-                    <PaperClipOutlined style={{ color: '#666666' }} />{' '}
-                    <a onClick={() => downloadFile(item)}>{item.originalname}</a>
-                  </>
-                )}
-              </h3>
-              {this.props.dataIndex !== 'brief' ? (
-                <span
-                  onClick={() => {
-                    if (
-                      item.order !== this.props.order ||
-                      this.props.status === 'Done' ||
-                      this.props.status === 'Planning'
-                    ) {
-                      showNote(this.state.dataSource[item.key].note);
-                    } else this.addNote(item.key);
-                  }}
-                >
-                  {(this.state.dataSource[item.key].note &&
-                    this.state.dataSource[item.key].note !== '') ||
-                  item.order !== this.props.order ||
-                  this.props.status === 'Done' ||
-                  this.props.status === 'Planning' ? (
-                    <div className={styles.viewNote}>View Note</div>
-                  ) : (
-                    <Tag>
-                      <FormOutlined />
-                      Add Note
-                    </Tag>
-                  )}
-                </span>
-              ) : (
-                iff(
-                  this.props.dataIndex !== 'brief',
-                  <Tag
-                    onClick={() => {
-                      this.addNote(item.key);
-                    }}
-                  >
-                    <FormOutlined /> Add Note
-                  </Tag>,
-                  null,
-                )
-              )}
-              <h3>
-                <span>{item.createdAt}</span>
-              </h3>
-              <h3>
-                <span>{item.createdBy}</span>
-              </h3>
-              {item.order !== this.props.order ? (
-                <Tag
-                  style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
-                >{`TouchPoint ${item.order}`}</Tag>
-              ) : (
-                iff(
-                  item.order !== undefined,
-                  <Tag
-                    color="#EFDBFF"
-                    style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}
-                  >{`TouchPoint ${item.order}`}</Tag>,
-                  <Tag style={{ color: 'black', borderRadius: '20px', fontWeight: '600' }}>
-                    Lead Generation
-                  </Tag>,
-                )
-              )}
-              {!this.state.dataSource[item.key].old ? (
-                <DeleteOutlined
-                  onClick={() => {
-                    this.removeFile(item.key);
-                  }}
-                />
-              ) : null}
-            </List.Item>
-          )}
         />
       </div>
     );
