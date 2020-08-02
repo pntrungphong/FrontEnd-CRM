@@ -24,7 +24,7 @@ class Create extends React.Component {
     });
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Create Contact - Harmonia';
   }
 

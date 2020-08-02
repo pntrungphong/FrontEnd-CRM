@@ -28,7 +28,7 @@ class UpdateCompanyForm extends React.Component {
     });
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Update Company - Harmonia';
   }
 

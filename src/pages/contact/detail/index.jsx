@@ -17,7 +17,7 @@ class ContactDetail extends Component {
     });
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Detail Contact - Harmonia';
   }
 

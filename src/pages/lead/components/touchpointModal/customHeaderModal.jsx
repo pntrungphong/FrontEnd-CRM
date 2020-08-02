@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Row, Menu } from 'antd';
 import { history } from 'umi';
-import MarkDoneModal from './markdonetouchpoint';
 
 const CustomHeader = (props) => {
   const onClickNavLink = (event, tag) => {
@@ -32,20 +31,6 @@ const CustomHeader = (props) => {
               </a>
             </h3>
           </Row>
-        </Col>
-        <Col flex={1}>
-          <MarkDoneModal
-            form={props.form}
-            goal={props.goal}
-            dispatch={props.dispatch}
-            status={props.status}
-            lead={props.lead}
-            actualdate={props.actualdate}
-            rank={props.rank}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-            reloadData={props.reloadData}
-          />
         </Col>
       </Row>
       <Row>
