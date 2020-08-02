@@ -1,8 +1,7 @@
-import { Card, Popover } from 'antd';
+import { Card } from 'antd';
 import React from 'react';
 import { history } from 'umi';
 import UpdateLead from '../../update/updateLeadModal';
-import PopInfomation from './popInfomation';
 import styles from '../style.less';
 
 const rankStore = {
@@ -11,7 +10,6 @@ const rankStore = {
   '2': 'C',
   '3': 'D',
 };
-
 const LeadTitle = ({ leadName, rank, id }) => {
   return (
     <>
@@ -43,14 +41,15 @@ const LeadCard = (props) => {
         <div className={styles.textOne}>
           <h3>
             <strong>Company: </strong>
-            <Popover
-              destroyTooltipOnHide
-              content={<PopInfomation id={props.item.company.id} type="company" />}
-              trigger="click"
-              placement="right"
+            <a
+              onClick={() => {
+                history.push({
+                  pathname: `/company/detail/${props.item.company.id}`,
+                });
+              }}
             >
-              <a>{props.item.company.name}</a>
-            </Popover>
+              {props.item.company.name}
+            </a>
           </h3>
           <h3>
             <strong>Description: </strong> {props.item.description}
