@@ -33,12 +33,15 @@ class ListFile extends React.Component {
     const index = fileData.findIndex((item) => this.state.currentFile === item.key);
     const selectItem = fileData[index];
     selectItem.note = values.note;
-    await this.props.dispatch({
+
+    console.table(selectItem);
+    const response = await this.props.dispatch({
       type: 'file/updateNote',
       payload: {
         ...selectItem,
       },
     });
+    console.table(response);
     fileData.splice(index, 1, { ...selectItem });
     this.setState({
       visible: false,
