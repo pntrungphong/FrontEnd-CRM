@@ -59,7 +59,7 @@ class LeadDetail extends Component {
     });
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Detail Lead - Harmonia';
   }
 

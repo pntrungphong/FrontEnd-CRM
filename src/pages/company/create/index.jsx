@@ -20,7 +20,7 @@ class CreateCompanyForm extends React.Component {
     });
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Create Company - Harmonia';
   }
 

@@ -7,7 +7,7 @@ import ListLead from './components/leadList';
 const { Search } = Input;
 
 class DashBoard extends React.Component {
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Lead - Harmonia';
   }
 

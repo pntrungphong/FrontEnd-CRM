@@ -12,7 +12,7 @@ class CompanyDetail extends Component {
     });
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Detail Company - Harmonia';
   }
 

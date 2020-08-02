@@ -13,7 +13,7 @@ class ViewCompany extends React.Component {
     this.onChange = debounce(this.onChange, 500);
   }
 
-  componentWillUpdate() {
+  UNSAFE_componentWillUpdate() {
     document.title = 'Company - Harmonia';
   }
 

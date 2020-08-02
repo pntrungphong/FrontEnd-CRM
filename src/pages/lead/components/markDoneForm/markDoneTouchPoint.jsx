@@ -193,7 +193,7 @@ class MarkDoneModal extends React.Component {
               <TextArea placeholder="Review touchpoint here" value={this.state.reason} />
             </Form.Item>
             <Form.Item name="status" label="Lead Status">
-              <Radio.Group onChange={this.onLeadChange} className={styles.customRadioRank}>
+              <Radio.Group onChange={this.onLeadChange}>
                 <Radio value="In-progess">Continue</Radio>
                 <Radio value="Win">Win</Radio>
                 <Radio value="Lost">Lost</Radio>
@@ -224,11 +224,13 @@ class MarkDoneModal extends React.Component {
           </Form>
         </Modal>
         {this.state.status === 'In-progress' ? (
-          <Button color="cyan" size="small" onClick={this.showModal}>
-            Complete Touchpoint
+          <Button color="cyan" style={{ float: 'left' }} onClick={this.showModal}>
+            Complete TouchPoint
           </Button>
         ) : (
-          <Tag color="green">{this.state.status}</Tag>
+          <Tag color="green" className={styles.completedTPTag}>
+            Completed
+          </Tag>
         )}
       </div>
     );

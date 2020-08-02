@@ -6,6 +6,7 @@ import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import UpdateTouchpointForm from './updateTouchpointForm';
 import CustomHeader from './customHeaderModal';
+import MarkDoneModal from '../markDoneForm/markDoneTouchPoint';
 
 const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   task,
@@ -78,6 +79,27 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
+          <MarkDoneModal
+            form={props.form}
+            goal={props.goal}
+            dispatch={props.dispatch}
+            status={props.status}
+            lead={props.lead}
+            actualdate={props.actualdate}
+            rank={props.rank}
+            leadId={props.leadId}
+            touchpointId={props.touchpointId}
+            reloadData={onCancel}
+          />,
+          <Button
+            key="cancel"
+            type="ghost"
+            htmlType="reset"
+            onClick={onCancel}
+            form={props.touchpointId}
+          >
+            Cancel
+          </Button>,
           <Button
             loading={props.updateLoading}
             disabled={props.status === 'Done' || disableButton}
