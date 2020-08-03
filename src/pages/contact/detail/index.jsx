@@ -119,22 +119,6 @@ class ContactDetail extends Component {
           </Row>
           <Row className={styles.rowCol}>
             <Col flex="150px">
-              <h3 className={styles.cloOne}>Tag</h3>
-            </Col>
-            <Col flex="auto">
-              {contact.detail.tag.map((item) => {
-                return (
-                  <>
-                    <Tag key={item.key} className={styles.ta}>
-                      {item.label}
-                    </Tag>
-                  </>
-                );
-              })}
-            </Col>
-          </Row>
-          <Row className={styles.rowCol}>
-            <Col flex="150px">
               <h3 className={styles.cloOne}>Phone</h3>
             </Col>
             <Col flex="auto">
@@ -187,7 +171,6 @@ class ContactDetail extends Component {
               })}
             </Col>
           </Row>
-
           <Row className={styles.rowCol}>
             <Col flex="150px">
               <h3 className={styles.cloOne}>Address</h3>
@@ -200,6 +183,22 @@ class ContactDetail extends Component {
                       {item}
                     </span>
                   </Row>
+                );
+              })}
+            </Col>
+          </Row>
+          <Row className={styles.rowCol}>
+            <Col flex="150px">
+              <h3 className={styles.cloOne}>Tag</h3>
+            </Col>
+            <Col flex="auto">
+              {contact.detail.tag.map((item) => {
+                return (
+                  <>
+                    <Tag key={item.key} className={styles.ta}>
+                      {item.label}
+                    </Tag>
+                  </>
                 );
               })}
             </Col>

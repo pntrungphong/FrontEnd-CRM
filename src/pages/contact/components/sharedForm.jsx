@@ -16,7 +16,7 @@ const SharedForm = (props) => {
       >
         <Input />
       </Form.Item>
-      <Form.Item name="title" label="Title" className={styles.editOne}>
+      <Form.Item name="title" label="Title">
         <Input />
       </Form.Item>
       <Form.Item name="company" label="Company">
@@ -35,25 +35,19 @@ const SharedForm = (props) => {
           dataIndex="referral"
         />
       </Form.Item>
-      <Form.Item name="tag" label="Tag" className={styles.editOne}>
-        <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
-          {props.tag.map((item) => {
-            return <Option key={item.key}>{item.label}</Option>;
-          })}
-        </Select>
-      </Form.Item>
       <div className={styles.editOne}>
         <Form.List name="phone" label="Phone">
           {(fields, { add, remove }) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row key={field.key}>
-                    <Col span={8} />
-                    <Col flex="3">
+                    <Col span={index === 0 ? 4 : 8} />
+                    <Col flex={index === 0 ? '4.3' : '3'}>
                       <Form.Item
                         {...field}
-                        className={styles.childrenRow}
+                        label={index === 0 ? 'Phone' : ''}
+                        className={index === 0 ? styles.childrenRowWithLabel : styles.childrenRow}
                         name={[field.name, 'number']}
                         fieldKey={[field.fieldKey, 'number']}
                         rules={[{ required: true, message: 'Please enter phone!' }]}
@@ -76,17 +70,28 @@ const SharedForm = (props) => {
                         </Select>
                       </Form.Item>
                     </Col>
-                    <MinusCircleOutlined
-                      className={['dynamic-delete-button', styles.customDeleteButton]}
-                      onClick={() => remove(field.name)}
-                    />
+                    {index > 0 ? (
+                      <MinusCircleOutlined
+                        className={['dynamic-delete-button', styles.customDeleteButton]}
+                        onClick={() => remove(field.name)}
+                      />
+                    ) : (
+                      <MinusCircleOutlined
+                        className={['dynamic-delete-button', styles.customEmptySpace]}
+                      />
+                    )}
                   </Row>
                 ))}
-                <Form.Item className={fields.length === 0 ? '' : styles.customRow} label="Phone">
-                  <Button className={styles.customButtonAdd} onClick={() => add()}>
-                    <PlusOutlined /> Add
-                  </Button>
-                </Form.Item>
+                <Row>
+                  <Col flex="1" />
+                  <Col flex="2">
+                    <Form.Item className={styles.customRow}>
+                      <Button className={styles.customButtonAdd} onClick={() => add()}>
+                        <PlusOutlined /> Add
+                      </Button>
+                    </Form.Item>
+                  </Col>
+                </Row>
               </div>
             );
           }}
@@ -97,13 +102,14 @@ const SharedForm = (props) => {
           {(fields, { add, remove }) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row key={field.key}>
-                    <Col span={8} />
-                    <Col flex="3">
+                    <Col span={index === 0 ? 4 : 8} />
+                    <Col flex={index === 0 ? '4.3' : '3'}>
                       <Form.Item
                         {...field}
-                        className={styles.childrenRow}
+                        label={index === 0 ? 'Email' : ''}
+                        className={index === 0 ? styles.childrenRowWithLabel : styles.childrenRow}
                         name={[field.name, 'url']}
                         fieldKey={[field.fieldKey, 'url']}
                         rules={[
@@ -136,18 +142,37 @@ const SharedForm = (props) => {
                       </Form.Item>
                     </Col>
                     <Col flex="none">
-                      <MinusCircleOutlined
-                        className={['dynamic-delete-button', styles.customDeleteButton]}
-                        onClick={() => remove(field.name)}
-                      />
+                      {index > 0 ? (
+                        <MinusCircleOutlined
+                          className={['dynamic-delete-button', styles.customDeleteButton]}
+                          onClick={() => remove(field.name)}
+                        />
+                      ) : (
+                        <MinusCircleOutlined
+                          className={['dynamic-delete-button', styles.customEmptySpace]}
+                        />
+                      )}
                     </Col>
                   </Row>
                 ))}
-                <Form.Item className={fields.length === 0 ? '' : styles.customRow} label="Email">
-                  <Button className={styles.customButtonAdd} onClick={() => add()}>
-                    <PlusOutlined /> Add
-                  </Button>
-                </Form.Item>
+                {fields.length > 0 ? (
+                  <Row>
+                    <Col flex="1" />
+                    <Col flex="2">
+                      <Form.Item className={styles.customRow}>
+                        <Button className={styles.customButtonAdd} onClick={() => add()}>
+                          <PlusOutlined /> Add
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                ) : (
+                  <Form.Item className={styles.customRow} label="Email:">
+                    <Button className={styles.customButtonAdd} onClick={() => add()}>
+                      <PlusOutlined /> Add
+                    </Button>
+                  </Form.Item>
+                )}
               </div>
             );
           }}
@@ -158,13 +183,14 @@ const SharedForm = (props) => {
           {(fields, { add, remove }) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row key={field.key}>
-                    <Col span={8} />
-                    <Col flex="3">
+                    <Col span={index === 0 ? 4 : 8} />
+                    <Col flex={index === 0 ? '4.3' : '3'}>
                       <Form.Item
                         {...field}
-                        className={styles.childrenRow}
+                        label={index === 0 ? 'Social link' : ''}
+                        className={index === 0 ? styles.childrenRowWithLabel : styles.childrenRow}
                         name={[field.name, 'url']}
                         fieldKey={[field.fieldKey, 'url']}
                         rules={[
@@ -207,34 +233,47 @@ const SharedForm = (props) => {
                     </Col>
                   </Row>
                 ))}
-                <Form.Item
-                  className={fields.length === 0 ? '' : styles.customRow}
-                  label="Social link"
-                >
-                  <Button className={styles.customButtonAdd} onClick={() => add()}>
-                    <PlusOutlined /> Add
-                  </Button>
-                </Form.Item>
+                {fields.length > 0 ? (
+                  <Row>
+                    <Col flex="1" />
+                    <Col flex="2">
+                      <Form.Item className={styles.customRow}>
+                        <Button className={styles.customButtonAdd} onClick={() => add()}>
+                          <PlusOutlined /> Add
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                ) : (
+                  <Form.Item className={styles.customRow} label="Social link:">
+                    <Button className={styles.customButtonAdd} onClick={() => add()}>
+                      <PlusOutlined /> Add
+                    </Button>
+                  </Form.Item>
+                )}
               </div>
             );
           }}
         </Form.List>
       </div>
 
-      <div>
-        <Form.List className={styles.editOne} name="address">
+      <div className={styles.editOne}>
+        <Form.List name="address">
           {(fields, { add, remove }) => {
             return (
               <div>
-                {fields.map((field) => (
+                {fields.map((field, index) => (
                   <Row key={field.key}>
-                    <Col span={8} />
-                    <Col span={16}>
+                    <Col span={index === 0 ? 1 : 8} />
+                    <Col flex={3}>
                       <Row>
                         <Col flex="2">
                           <Form.Item
                             {...field}
-                            className={styles.childrenRow}
+                            label={index === 0 ? 'Address' : ''}
+                            className={
+                              index === 0 ? styles.childrenRowWithLabel : styles.childrenRow
+                            }
                             fieldKey={[field.fieldKey, 'address']}
                             rules={[
                               {
@@ -256,16 +295,36 @@ const SharedForm = (props) => {
                     </Col>
                   </Row>
                 ))}
-                <Form.Item label="Address" className={fields.length === 0 ? '' : styles.customRow}>
-                  <Button className={styles.customButtonAdd} onClick={() => add()}>
-                    <PlusOutlined /> Add
-                  </Button>
-                </Form.Item>
+                {fields.length > 0 ? (
+                  <Row>
+                    <Col flex="1" />
+                    <Col flex="2">
+                      <Form.Item className={styles.customRow}>
+                        <Button className={styles.customButtonAdd} onClick={() => add()}>
+                          <PlusOutlined /> Add
+                        </Button>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                ) : (
+                  <Form.Item className={styles.customRow} label="Address">
+                    <Button className={styles.customButtonAdd} onClick={() => add()}>
+                      <PlusOutlined /> Add
+                    </Button>
+                  </Form.Item>
+                )}
               </div>
             );
           }}
         </Form.List>
       </div>
+      <Form.Item name="tag" label="Tag" className={styles.editOne}>
+        <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
+          {props.tag.map((item) => {
+            return <Option key={item.key}>{item.label}</Option>;
+          })}
+        </Select>
+      </Form.Item>
     </div>
   );
 };
