@@ -1,5 +1,9 @@
 @import '~antd/es/style/themes/default.less';
 
+.main {
+  padding: 1rem;
+}
+
 .title {
   margin-bottom: 16px;
   color: @heading-color;
@@ -17,7 +21,13 @@
   text-align: center;
 }
 .wrapper {
-  padding-bottom: 30px;
+  padding-bottom: 10px;
+
+  :global {
+    .ant-page-header-heading {
+      justify-content: center;
+    }
+  }
 }
 .address {
   width: 799.792px;
