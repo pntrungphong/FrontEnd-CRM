@@ -6,9 +6,11 @@ const emailFormat = (listEmail) => {
     url: element.url,
   }));
 };
+
 const phoneFormat = (listPhone) => {
   return listPhone.map((item) => ({ number: item.number, type: item.type }));
 };
+
 const listCompanyFormat = (listData) => {
   return listData.map((data) => ({
     key: data.id.toString(),
@@ -16,6 +18,7 @@ const listCompanyFormat = (listData) => {
     value: data.id.toString(),
   }));
 };
+
 const listReferralFormat = (listData) => {
   return listData.map((data) => ({
     key: data.idTarget.toString(),
@@ -23,6 +26,7 @@ const listReferralFormat = (listData) => {
     label: data.name,
   }));
 };
+
 const listTagFormat = (listData) => {
   return listData.map((data) => ({
     key: data.id.toString(),
@@ -30,6 +34,7 @@ const listTagFormat = (listData) => {
     value: data.id.toString(),
   }));
 };
+
 const listTaskFormat = (listData) => {
   return listData.map((task) => ({
     id: task.id,
@@ -39,6 +44,41 @@ const listTaskFormat = (listData) => {
     dueDate: task.dueDate,
   }));
 };
+
+const listFileFormatDetail = (brief, listTP) => {
+  const listFileBrief = brief.map((it) => ({
+    id: it.id,
+    mimetype: it.mimetype,
+    originalname: it.originalname,
+    createdAt: it.createdAt,
+    createdBy: it.createdBy,
+    url: it.url ?? '',
+    type: it.type ?? 'brief',
+    order: it.type ?? 0,
+    note: it.note ?? '',
+  }));
+  const listTPID = {};
+  listTP.forEach((item) => {
+    listTPID[item.id] = item.order;
+  });
+  const filesTouchPoint = listTP.length ? listTP[0].fileTouchPoint : [];
+  const listFileTouchPoint = filesTouchPoint.map((it) => {
+    return {
+      id: it.file.id,
+      mimetype: it.file.mimetype,
+      originalname: it.file.originalname,
+      createdAt: it.file.createdAt,
+      createdBy: it.file.createdBy,
+      url: it.file.url ?? '',
+      type: it.type ?? 'brief',
+      order: listTPID[it.touchPointId] ?? 0,
+      note: it.note ?? '',
+    };
+  });
+
+  return [...listFileBrief, ...listFileTouchPoint];
+};
+
 export const getDefaultPagination = () => {
   return {
     page_size: 0,
@@ -275,6 +315,7 @@ export const formatListCompanyData = (response) => {
     throw new Error('Missing data');
   }
 };
+
 export const formatDetailTouchPointData = (response, fileResponse) => {
   try {
     const sla = [];
@@ -342,6 +383,7 @@ export const formatDetailTouchPointData = (response, fileResponse) => {
     throw new Error('Missing pagination data');
   }
 };
+
 export const formatDetailLeadData = (response) => {
   try {
     const contact = listCompanyFormat(response.contact ?? []);
@@ -351,8 +393,9 @@ export const formatDetailLeadData = (response) => {
       key: response.company.id,
       label: response.company.name,
     };
-
+    const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
     return {
+      listFile,
       company,
       touchPoint: response.touchPoint,
       description: response.description,
