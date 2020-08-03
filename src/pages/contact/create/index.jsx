@@ -1,4 +1,4 @@
-import { Form, Button, Breadcrumb } from 'antd';
+import { Form, Button, Breadcrumb, Modal } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import styles from '../style.less';
@@ -14,7 +14,6 @@ const validateMessages = (label) => ({
 class Create extends React.Component {
   constructor(props) {
     super(props);
-
     this.formRef = React.createRef();
   }
 
@@ -35,10 +34,31 @@ class Create extends React.Component {
   }
 
   onFinish = (values) => {
-    this.props.dispatch({
-      type: 'contact/create',
-      payload: { ...values },
-    });
+    if (
+      !values.referral ||
+      !values.company ||
+      values.referral.length <= 0 ||
+      values.company.length <= 0
+    ) {
+      Modal.confirm({
+        icon: null,
+        title: 'Company or Referrals are missing!',
+        content: 'Do you want to continue ?',
+        cancelText: 'Cancel',
+        onCancel: () => {},
+        onOk: () => {
+          this.props.dispatch({
+            type: 'contact/create',
+            payload: { ...values },
+          });
+        },
+      });
+    } else {
+      this.props.dispatch({
+        type: 'contact/create',
+        payload: { ...values },
+      });
+    }
   };
 
   render() {
@@ -70,6 +90,20 @@ class Create extends React.Component {
         <Form
           {...layout}
           ref={this.formRef}
+          initialValues={{
+            phone: [
+              {
+                number: undefined,
+                type: undefined,
+              },
+            ],
+            email: [
+              {
+                url: undefined,
+                type: undefined,
+              },
+            ],
+          }}
           name="nest-messages"
           onFinish={this.onFinish}
           validateMessages={validateMessages}

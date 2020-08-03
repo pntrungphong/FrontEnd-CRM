@@ -56,10 +56,10 @@ class ContactDetail extends Component {
 
             <Row className={styles.rowCol}>
               <Col flex="150px">
-                <h3 className={styles.cloOne}>Name</h3>
+                <h3 className={styles.cloOne}>Title</h3>
               </Col>
               <Col flex="auto">
-                <span className={styles.customField}>{contact.detail.name}</span>
+                <span className={styles.customField}>{contact.detail.title}</span>
               </Col>
             </Row>
             <Row className={styles.rowCol}>
@@ -86,7 +86,6 @@ class ContactDetail extends Component {
                 })}
               </Col>
             </Row>
-
             <Row className={styles.rowCol}>
               <Col flex="150px">
                 <h3 className={styles.cloOne}>Referral</h3>
@@ -105,22 +104,6 @@ class ContactDetail extends Component {
                         >
                           {item.label}
                         </a>
-                      </Tag>
-                    </>
-                  );
-                })}
-              </Col>
-            </Row>
-            <Row className={styles.rowCol}>
-              <Col flex="150px">
-                <h3 className={styles.cloOne}>Tag</h3>
-              </Col>
-              <Col flex="auto">
-                {contact.detail.tag.map((item) => {
-                  return (
-                    <>
-                      <Tag key={item.key} className={styles.ta}>
-                        {item.label}
                       </Tag>
                     </>
                   );
@@ -165,7 +148,7 @@ class ContactDetail extends Component {
             </Row>
             <Row className={styles.rowCol}>
               <Col flex="150px">
-                <h3 className={styles.cloOne}>Website</h3>
+                <h3 className={styles.cloOne}>Social link</h3>
               </Col>
               <Col flex="auto">
                 {contact.detail.website.map((item) => {
@@ -181,7 +164,6 @@ class ContactDetail extends Component {
                 })}
               </Col>
             </Row>
-
             <Row className={styles.rowCol}>
               <Col flex="150px">
                 <h3 className={styles.cloOne}>Address</h3>
@@ -198,6 +180,23 @@ class ContactDetail extends Component {
                 })}
               </Col>
             </Row>
+            <Row className={styles.rowCol}>
+              <Col flex="150px">
+                <h3 className={styles.cloOne}>Tag</h3>
+              </Col>
+              <Col flex="auto">
+                {contact.detail.tag.map((item) => {
+                  return (
+                    <>
+                      <Tag key={item.key} className={styles.ta}>
+                        {item.label}
+                      </Tag>
+                    </>
+                  );
+                })}
+              </Col>
+            </Row>
+            <Divider className={styles.three} />
           </Card>
         </PageHeaderWrapper>
       </div>
