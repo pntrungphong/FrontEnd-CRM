@@ -12,14 +12,14 @@ class CompanyDetail extends Component {
     });
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Detail Company - Harmonia';
-  }
-
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanData',
     });
+  }
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Detail Company - Harmonia';
   }
 
   render() {

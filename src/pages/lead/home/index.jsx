@@ -7,10 +7,6 @@ import ListLead from './components/leadList';
 const { Search } = Input;
 
 class DashBoard extends React.Component {
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Lead - Harmonia';
-  }
-
   onSearch = (value) => {
     this.props.dispatch({
       type: 'lead/searchLeadByName',
@@ -21,6 +17,10 @@ class DashBoard extends React.Component {
       },
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Lead - Harmonia';
+  }
 
   render() {
     return (

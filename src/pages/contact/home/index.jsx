@@ -13,10 +13,6 @@ class ListContactPage extends React.Component {
     this.onChange = debounce(this.onChange, 500);
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Contact - Harmonia';
-  }
-
   onChange = (e) => {
     this.props.dispatch({
       type: 'contact/searchByName',
@@ -26,6 +22,10 @@ class ListContactPage extends React.Component {
       },
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Contact - Harmonia';
+  }
 
   render() {
     return (
