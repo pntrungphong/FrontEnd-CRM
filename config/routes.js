@@ -55,6 +55,11 @@ export default [
             component: 'lead/home',
           },
           {
+            path: '/dashboard',
+            name: 'Dashboard',
+            component: 'lead/dashboard',
+          },
+          {
             path: '/lead',
             name: 'Lead',
             component: 'lead/home',
