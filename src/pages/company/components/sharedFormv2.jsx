@@ -127,7 +127,7 @@ const SharedForm = (props) => {
                     ]}
                   >
                     <div className={styles.customLayoutRow}>
-                      <Input value={email[index].url} />
+                      <Input defaultValue={email[index]?.url} />
                       <Form.Item
                         className={styles.typeFormItem}
                         name={[field.name, 'type']}
@@ -187,7 +187,7 @@ const SharedForm = (props) => {
                     ]}
                   >
                     <div className={styles.customLayoutRow}>
-                      <Input value={website[index].url} />
+                      <Input defaultValue={website[index]?.url} />
                       <Form.Item
                         className={styles.typeFormItem}
                         name={[field.name, 'type']}
