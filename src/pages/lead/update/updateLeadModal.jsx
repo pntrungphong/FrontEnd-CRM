@@ -44,7 +44,7 @@ class UpdateLead extends React.Component {
           className={styles.modalCreate}
           style={{ top: 0 }}
           title="Update lead"
-          width={800}
+          width={750}
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[
