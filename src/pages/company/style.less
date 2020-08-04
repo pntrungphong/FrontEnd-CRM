@@ -1,12 +1,16 @@
 @import '~antd/es/style/themes/default.less';
 
 .main {
-  width: 75%;
-  max-width: 800px;
+  width: 100%;
   padding: 1rem;
-  @media screen and (max-width: @screen-sm) {
-    width: 100%;
-  }
+  // @media screen and (max-width: @screen-sm) {
+  //   width: 100%;
+  // }
+}
+
+.getAll {
+  width: 587px;
+  margin-left: 28px;
 }
 
 .header {
@@ -40,13 +44,13 @@
 }
 
 .childrenRow {
-  width: 534px;
+  width: 608px;
   margin-bottom: 18px;
 }
 .spaceRow {
+  position: relative;
   display: flex;
-  justify-content: space-around;
-  height: 38px;
+  height: 33px;
   margin-top: -8px;
 }
 .resultNotFound {
@@ -82,17 +86,31 @@
   margin: 8px;
   font-size: 0.9rem;
 }
+
 .customButtonAdd {
   width: 182px;
   height: auto;
   margin-top: -6px;
   padding: 5px;
 }
+
+.customButtonOne {
+  right: -72px;
+  width: 182px;
+  height: auto;
+  margin-top: -6px;
+  padding: 5px;
+}
 .spaceInp {
+  width: 184%;
+  height: 32px;
+}
+.spaceInput {
+  width: 160%;
   height: 32px;
 }
 .editWidth {
-  width: 512px;
+  min-width: 513px;
 }
 .tag {
   width: 100%;
@@ -105,14 +123,14 @@
 }
 
 .editButton {
-  left: 28px;
+  left: 77px;
   min-width: 68px;
   height: 40px;
   background-color: #1890ff;
   border-radius: 4px;
 }
 .editButtonOne {
-  right: 120px;
+  left: 117px;
   min-width: 68px;
   height: 40px;
   color: black;
@@ -122,7 +140,6 @@
 
 .aroundBtn {
   display: flex;
-  justify-content: space-evenly;
 }
 
 .search {

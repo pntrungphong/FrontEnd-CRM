@@ -5,7 +5,7 @@ import styles from '../style.less';
 import SharedForm from '../components/sharedForm';
 
 const layout = {
-  labelCol: { span: 8 },
+  labelCol: { span: 3 },
 };
 
 class CreateCompanyForm extends React.Component {
