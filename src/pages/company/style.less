@@ -1,11 +1,7 @@
 @import '~antd/es/style/themes/default.less';
 
 .main {
-  width: 100%;
   padding: 1rem;
-  // @media screen and (max-width: @screen-sm) {
-  //   width: 100%;
-  // }
 }
 
 .getAll {
@@ -43,15 +39,16 @@
   cursor: pointer;
 }
 
-.childrenRow {
-  width: 608px;
-  margin-bottom: 18px;
-}
-.spaceRow {
-  position: relative;
+.customLayoutRow {
   display: flex;
-  height: 33px;
-  margin-top: -8px;
+  width: 100%;
+
+  // &>:nth-child(1) {
+  //   flex: 1 65%;
+  // }
+  // &>:nth-child(2) {
+  //   flex: 1 45%;
+  // }
 }
 .resultNotFound {
   color: #000;
@@ -70,6 +67,29 @@
   background: #f5f5f5;
 }
 
+.phoneFormItem {
+  width: 100%;
+  margin-bottom: 10px !important;
+
+  :global {
+    .ant-input-group-addon {
+      line-height: 1;
+    }
+  }
+}
+
+.typeFormItem {
+  width: 55%;
+  margin: 0 !important;
+
+  :global {
+    .ant-form-item-explain {
+      position: absolute;
+      top: 100%;
+    }
+  }
+}
+
 .customDivider {
   margin-top: 10px;
   margin-bottom: 10px;
@@ -77,40 +97,15 @@
   padding-bottom: 0;
 }
 
-.customDeleteButton {
-  margin-top: 8px;
-  margin-left: 8px;
-  font-size: 0.9rem;
-}
-.customDeleteAddressButton {
-  margin: 8px;
-  font-size: 0.9rem;
+.addButton {
+  height: 40px;
+  line-height: 1;
+  border-radius: 4px;
 }
 
-.customButtonAdd {
-  width: 182px;
-  height: auto;
-  margin-top: -6px;
-  padding: 5px;
-}
-
-.customButtonOne {
-  right: -72px;
-  width: 182px;
-  height: auto;
-  margin-top: -6px;
-  padding: 5px;
-}
-.spaceInp {
-  width: 184%;
-  height: 32px;
-}
 .spaceInput {
   width: 160%;
   height: 32px;
-}
-.editWidth {
-  min-width: 513px;
 }
 .tag {
   width: 100%;
@@ -123,23 +118,12 @@
 }
 
 .editButton {
-  left: 77px;
-  min-width: 68px;
-  height: 40px;
-  background-color: #1890ff;
-  border-radius: 4px;
-}
-.editButtonOne {
-  left: 117px;
-  min-width: 68px;
-  height: 40px;
-  color: black;
-  background-color: white;
   border-radius: 4px;
 }
 
 .aroundBtn {
   display: flex;
+  justify-self: end;
 }
 
 .search {

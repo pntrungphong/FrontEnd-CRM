@@ -2,7 +2,8 @@ import { Table, Tag, Pagination, Row } from 'antd';
 import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount } from 'ahooks';
-import { FormOutlined, EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
+import UpdateCompanyDrawer from '../update/updateDrawer';
 import styles from '../style.less';
 
 const columns = [
@@ -93,14 +94,8 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <span
-            onClick={() => {
-              history.push({
-                pathname: `/company/update/${record.id}`,
-              });
-            }}
-          >
-            <FormOutlined />
+          <span>
+            <UpdateCompanyDrawer companyId={record.id} />
           </span>
         </li>
         <li>

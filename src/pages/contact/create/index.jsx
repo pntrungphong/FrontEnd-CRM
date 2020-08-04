@@ -23,6 +23,10 @@ class Create extends React.Component {
     });
   }
 
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Create Contact - Harmonia';
+  }
+
   componentWillUnmount() {
     this.props.dispatch({
       type: 'contact/cleanData',
@@ -56,10 +60,6 @@ class Create extends React.Component {
       });
     }
   };
-
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Create Contact - Harmonia';
-  }
 
   render() {
     const { tag } = this.props.tag;
