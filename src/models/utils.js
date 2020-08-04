@@ -21,10 +21,8 @@ const listCompanyFormat = (listData) => {
 
 const listReferralFormat = (listData) => {
   return listData.map((data) => ({
-    key: data.id.toString(),
-    value: data.id.toString(),
-    // key: data.idTarget.toString(),
-    // value: data.idTarget.toString(),
+    key: data.idTarget.toString(),
+    value: data.idTarget.toString(),
     label: data.name,
   }));
 };
