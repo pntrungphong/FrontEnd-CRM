@@ -13,10 +13,6 @@ class ViewCompany extends React.Component {
     this.onChange = debounce(this.onChange, 500);
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Company - Harmonia';
-  }
-
   onChange = (e) => {
     this.props.dispatch({
       type: 'company/searchByName',
@@ -26,6 +22,10 @@ class ViewCompany extends React.Component {
       },
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Company - Harmonia';
+  }
 
   createDetail = () => {
     history.push({
