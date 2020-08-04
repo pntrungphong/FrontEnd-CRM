@@ -13,10 +13,6 @@ class ViewLead extends React.Component {
     this.onChange = debounce(this.onChange, 500);
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Lead - Harmonia';
-  }
-
   onChange = (e) => {
     this.props.dispatch({
       type: 'lead/searchLeadByName',
@@ -27,6 +23,10 @@ class ViewLead extends React.Component {
       },
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Lead - Harmonia';
+  }
 
   render() {
     return (

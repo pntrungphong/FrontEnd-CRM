@@ -20,16 +20,16 @@ class CreateCompanyForm extends React.Component {
     });
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Create Company - Harmonia';
-  }
-
   onFinish = (values) => {
     this.props.dispatch({
       type: 'company/create',
       payload: { ...values },
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Create Company - Harmonia';
+  }
 
   render() {
     const { tag } = this.props.tag;

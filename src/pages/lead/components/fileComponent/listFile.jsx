@@ -93,7 +93,7 @@ class ListFile extends React.Component {
           dataSource={dataSource}
           locale={{ emptyText: 'No file' }}
           renderItem={(item) => (
-            <List.Item>
+            <List.Item className={styles.briefDisplay}>
               <h3>
                 {item.fileType === 'link' ? (
                   <>
