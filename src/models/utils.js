@@ -224,6 +224,16 @@ export const formatDetailCompanyData = (response) => {
         })
       : [];
 
+    const lead = response.lead
+      ? response.lead.map((element) => {
+          return {
+            id: element.id,
+            name: element.name,
+            status: element.status,
+          };
+        })
+      : [];
+
     const email = response.email
       ? response.email.map((element) => {
           return {
@@ -253,6 +263,7 @@ export const formatDetailCompanyData = (response) => {
       email,
       website,
       tag,
+      lead,
       address,
       phone,
       name: response.name,
