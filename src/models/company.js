@@ -1,5 +1,4 @@
 import { message } from 'antd';
-import { history } from 'umi';
 import { formatListCompanyData, formatDetailCompanyData } from './utils';
 import {
   getCompany,
@@ -22,10 +21,9 @@ const Model = {
       const response = yield call(createCompany, payload);
       if (response && response.id) {
         message.success('Successfully');
-        history.push({
-          pathname: '/company/',
-        });
+        return response;
       }
+      return null;
     },
     *quickCreateCompany({ payload }, { call }) {
       const createdCompany = yield call(quickCreateCompanyServices, payload);
@@ -80,11 +78,10 @@ const Model = {
     *update({ payload }, { call }) {
       const response = yield call(updateCompany, payload);
       if (response && response.id) {
-        history.push({
-          pathname: '/company',
-        });
         message.success('Successfully');
+        return response;
       }
+      return null;
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getDetail, payload);

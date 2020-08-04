@@ -60,42 +60,34 @@ class CompanyDetail extends Component {
             <Divider className={styles.two} />
             <Row className={styles.rowCol}>
               <Col flex="150px">
+                <h3 className={styles.cloOne}>Website</h3>
+              </Col>
+              <Col flex="auto">
+                <span className={styles.customField}>
+                  <a href={company.detail.url} target="_blank" rel="noreferrer">
+                    {company.detail.url}
+                  </a>
+                </span>
+              </Col>
+            </Row>
+            <Row className={styles.rowCol}>
+              <Col flex="150px">
                 <h3 className={styles.cloOne}>Contact</h3>
               </Col>
               <Col flex="auto">
                 {company.detail.contact.map((item) => {
                   return (
-                    <>
-                      <Tag key={item.name} className={styles.customFieldContact}>
-                        <a
-                          onClick={() => {
-                            history.push({
-                              pathname: `/contact/detail/${item.key}`,
-                            });
-                          }}
-                        >
-                          {item.label}
-                        </a>
-                      </Tag>
-                    </>
-                  );
-                })}
-              </Col>
-            </Row>
-            <Row className={styles.rowCol}>
-              <Col flex="150px">
-                <h3 className={styles.cloOne}>Website</h3>
-              </Col>
-              <Col flex="auto">
-                {company.detail.website.map((item) => {
-                  return (
-                    <>
-                      <Row>
-                        <span className={styles.customField}>
-                          <a key={item.url}>{item.url}</a> ({item.type})
-                        </span>
-                      </Row>
-                    </>
+                    <Tag key={item.name} className={styles.customFieldContact}>
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/contact/detail/${item.key}`,
+                          });
+                        }}
+                      >
+                        {item.label}
+                      </a>
+                    </Tag>
                   );
                 })}
               </Col>
@@ -124,13 +116,11 @@ class CompanyDetail extends Component {
               <Col flex="auto">
                 {company.detail.phone.map((item) => {
                   return (
-                    <>
-                      <Row>
-                        <Tag key={item.number} className={styles.customField}>
-                          {item.number}
-                        </Tag>
-                      </Row>
-                    </>
+                    <Row key={item.number}>
+                      <Tag key={item.number} className={styles.customField}>
+                        {item.number}
+                      </Tag>
+                    </Row>
                   );
                 })}
               </Col>
@@ -142,13 +132,11 @@ class CompanyDetail extends Component {
               <Col flex="auto">
                 {company.detail.email.map((item) => {
                   return (
-                    <>
-                      <Row>
-                        <Tag key={item.type} className={styles.customField}>
-                          {item.url}
-                        </Tag>
-                      </Row>
-                    </>
+                    <Row key={item.url}>
+                      <Tag key={item.type} className={styles.customField}>
+                        {item.url}
+                      </Tag>
+                    </Row>
                   );
                 })}
               </Col>
@@ -158,9 +146,18 @@ class CompanyDetail extends Component {
                 <h3 className={styles.cloOne}>Social link</h3>
               </Col>
               <Col flex="auto">
-                <span className={styles.customField}>
-                  <a key={company.detail.url}>{company.detail.url}</a>
-                </span>
+                {company.detail.website.map((item) => {
+                  return (
+                    <Row key={item.url}>
+                      <span className={styles.customField}>
+                        <a href={item.url} target="_blank" rel="noreferrer">
+                          {item.url}
+                        </a>{' '}
+                        ({item.type})
+                      </span>
+                    </Row>
+                  );
+                })}
               </Col>
             </Row>
             <Row className={styles.rowCol}>
