@@ -15,11 +15,11 @@ const SharedForm = (props) => {
         rules={[
           {
             required: true,
-            message: 'Please enter name!',
+            message: "Please input company's name!",
           },
         ]}
       >
-        <Input />
+        <Input className={styles.editWidth} />
       </Form.Item>
       <Form.Item name="contact" label="Contact" className={styles.editOne}>
         <QuickCreate
@@ -40,8 +40,9 @@ const SharedForm = (props) => {
           },
         ]}
       >
-        <Input />
+        <Input className={styles.editWidth} />
       </Form.Item>
+
       <Form.Item name="tag" label="Tag" className={styles.editOne}>
         <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
           {props.tag.map((item) => {
@@ -67,13 +68,15 @@ const SharedForm = (props) => {
                             fieldKey={[field.fieldKey, 'number']}
                             rules={[{ required: true, message: 'Please enter phone!' }]}
                           >
-                            <Input pattern="^[0-9]{10}$" />
+                            <div className={styles.spaceRow}>
+                              <Input pattern="^[0-9]{10}$" />
+                              <MinusCircleOutlined
+                                className={styles.customDeleteButton}
+                                onClick={() => remove(field.name)}
+                              />
+                            </div>
                           </Form.Item>
                         </Col>
-                        <MinusCircleOutlined
-                          className={['dynamic-delete-button', styles.customDeleteButton]}
-                          onClick={() => remove(field.name)}
-                        />
                       </Row>
                     </Col>
                   </Row>
@@ -115,30 +118,30 @@ const SharedForm = (props) => {
                               },
                             ]}
                           >
-                            <Input />
+                            <div className={styles.spaceRow}>
+                              <Input className={styles.spaceInp} />
+                              <Form.Item
+                                {...field}
+                                className={styles.childrenRow}
+                                name={[field.name, 'type']}
+                                fieldKey={[field.fieldKey, 'type']}
+                                rules={[{ required: true, message: 'Select type' }]}
+                              >
+                                <Select placeholder="Type">
+                                  <Option value="Primary">Primary</Option>
+                                  <Option value="Company">Company</Option>
+                                  <Option value="Personal">Personal</Option>
+                                </Select>
+                              </Form.Item>
+                              <MinusCircleOutlined
+                                className={['dynamic-delete-button', styles.customDeleteButton]}
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                            </div>
                           </Form.Item>
                         </Col>
-                        <Col flex="2">
-                          <Form.Item
-                            {...field}
-                            className={styles.childrenRow}
-                            name={[field.name, 'type']}
-                            fieldKey={[field.fieldKey, 'type']}
-                            rules={[{ required: true, message: 'Select type' }]}
-                          >
-                            <Select placeholder="Type">
-                              <Option value="Primary">Primary</Option>
-                              <Option value="Company">Company</Option>
-                              <Option value="Personal">Personal</Option>
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <MinusCircleOutlined
-                          className={['dynamic-delete-button', styles.customDeleteButton]}
-                          onClick={() => {
-                            remove(field.name);
-                          }}
-                        />
                       </Row>
                     </Col>
                   </Row>
@@ -180,33 +183,33 @@ const SharedForm = (props) => {
                               },
                             ]}
                           >
-                            <Input />
+                            <div className={styles.spaceRow}>
+                              <Input className={styles.spaceInp} />
+                              <Form.Item
+                                {...field}
+                                className={styles.childrenRow}
+                                name={[field.name, 'type']}
+                                fieldKey={[field.fieldKey, 'type']}
+                                rules={[{ required: true, message: 'Select type' }]}
+                              >
+                                <Select placeholder="Type">
+                                  <Option value="Facebook">Facebook</Option>
+                                  <Option value="Skype">Skype</Option>
+                                  <Option value="Zalo">Zalo</Option>
+                                  <Option value="Youtube">Youtube</Option>
+                                  <Option value="Linkedin">Linkedin</Option>
+                                  <Option value="Instagram">Instagram</Option>
+                                </Select>
+                              </Form.Item>
+                              <MinusCircleOutlined
+                                className={['dynamic-delete-button', styles.customDeleteButton]}
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                            </div>
                           </Form.Item>
                         </Col>
-                        <Col flex="2">
-                          <Form.Item
-                            {...field}
-                            className={styles.childrenRow}
-                            name={[field.name, 'type']}
-                            fieldKey={[field.fieldKey, 'type']}
-                            rules={[{ required: true, message: 'Select type' }]}
-                          >
-                            <Select placeholder="Type">
-                              <Option value="Facebook">Facebook</Option>
-                              <Option value="Skype">Skype</Option>
-                              <Option value="Zalo">Zalo</Option>
-                              <Option value="Youtube">Youtube</Option>
-                              <Option value="Linkedin">Linkedin</Option>
-                              <Option value="Instagram">Instagram</Option>
-                            </Select>
-                          </Form.Item>
-                        </Col>
-                        <MinusCircleOutlined
-                          className={['dynamic-delete-button', styles.customDeleteButton]}
-                          onClick={() => {
-                            remove(field.name);
-                          }}
-                        />
                       </Row>
                     </Col>
                   </Row>
@@ -246,15 +249,17 @@ const SharedForm = (props) => {
                               },
                             ]}
                           >
-                            <Input />
+                            <div className={styles.spaceRow}>
+                              <Input className={styles.spaceInp} />
+                              <MinusCircleOutlined
+                                className={['dynamic-delete-button', styles.customDeleteButton]}
+                                onClick={() => {
+                                  remove(field.name);
+                                }}
+                              />
+                            </div>
                           </Form.Item>
                         </Col>
-                        <MinusCircleOutlined
-                          className={['dynamic-delete-button', styles.customDeleteButton]}
-                          onClick={() => {
-                            remove(field.name);
-                          }}
-                        />
                       </Row>
                     </Col>
                   </Row>

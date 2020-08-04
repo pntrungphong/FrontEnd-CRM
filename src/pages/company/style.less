@@ -2,7 +2,7 @@
 
 .main {
   width: 75%;
-  max-width: 545px;
+  max-width: 800px;
   padding: 1rem;
   @media screen and (max-width: @screen-sm) {
     width: 100%;
@@ -40,9 +40,15 @@
 }
 
 .childrenRow {
+  width: 534px;
   margin-bottom: 18px;
 }
-
+.spaceRow {
+  display: flex;
+  justify-content: space-around;
+  height: 38px;
+  margin-top: -8px;
+}
 .resultNotFound {
   color: #000;
   opacity: 0.65;
@@ -68,7 +74,8 @@
 }
 
 .customDeleteButton {
-  margin: 15px 8px;
+  margin-top: 8px;
+  margin-left: 8px;
   font-size: 0.9rem;
 }
 .customDeleteAddressButton {
@@ -76,10 +83,16 @@
   font-size: 0.9rem;
 }
 .customButtonAdd {
-  width: 100%;
+  width: 182px;
   height: auto;
   margin-top: -6px;
   padding: 5px;
+}
+.spaceInp {
+  height: 32px;
+}
+.editWidth {
+  width: 512px;
 }
 .tag {
   width: 100%;
@@ -88,16 +101,28 @@
   width: 90%;
 }
 .editOne {
-  margin-top: -6px;
+  margin-top: -2px;
 }
-.editBtn {
-  margin-right: 82px;
-  margin-left: 93px;
+
+.editButton {
+  left: 28px;
+  min-width: 68px;
+  height: 40px;
+  background-color: #1890ff;
+  border-radius: 4px;
+}
+.editButtonOne {
+  right: 120px;
+  min-width: 68px;
+  height: 40px;
+  color: black;
+  background-color: white;
+  border-radius: 4px;
 }
 
 .aroundBtn {
   display: flex;
-  justify-content: space-around;
+  justify-content: space-evenly;
 }
 
 .search {
