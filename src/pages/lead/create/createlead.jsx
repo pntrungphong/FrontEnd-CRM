@@ -33,7 +33,7 @@ class CreateLead extends React.Component {
           style={{ top: 0 }}
           title="Add new Lead"
           closable
-          width={800}
+          width={750}
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[

@@ -1,13 +1,7 @@
 import { message } from 'antd';
 import { history } from 'umi';
 import { formatListContactData, formatDetailContactData } from './utils';
-import {
-  getContact,
-  updateContact,
-  getContactById,
-  fullCreateContact,
-  quickCreateContact as quickCreateContactServices,
-} from '../services/contact';
+import { getContact, updateContact, getContactById, fullCreateContact } from '../services/contact';
 
 const ContactModel = {
   namespace: 'contact',
@@ -66,7 +60,7 @@ const ContactModel = {
       }
     },
     *quickCreateContact({ payload }, { call }) {
-      const createdContact = yield call(quickCreateContactServices, payload);
+      const createdContact = yield call(fullCreateContact, payload);
       if (createdContact.id) {
         const value = {
           value: createdContact.id.toString(),
