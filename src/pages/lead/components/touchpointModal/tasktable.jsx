@@ -193,7 +193,7 @@ class EditableTable extends React.Component {
       {
         title: 'PIC',
         dataIndex: 'pic',
-        selectData: ['chau.dh', 'tu.tt', 'khoa.nd', 'truong.nx'],
+        selectData: ['chau.dh', 'tu.tt', 'khoa.nd', 'nhan.lh'],
         width: '25%',
         select: true,
       },
@@ -265,19 +265,21 @@ class EditableTable extends React.Component {
       pic: values.pic ? values.pic[1] : '',
       duedate: values.duedate ? values.duedate.format('YYYY-MM-DD') : '',
     };
-    this.props.dispatch({
-      type: 'task/create',
-      payload: postData,
-    });
-
-    this.props.dispatch({
-      type: 'lead/getList',
-      payload: {
-        page: 1,
-        searchValue: this.props.lead.searchValue,
-        status: this.props.lead.status,
-      },
-    });
+    this.props
+      .dispatch({
+        type: 'task/create',
+        payload: postData,
+      })
+      .then(() => {
+        this.props.dispatch({
+          type: 'lead/getList',
+          payload: {
+            page: 1,
+            searchValue: this.props.lead.searchValue,
+            status: this.props.lead.status,
+          },
+        });
+      });
 
     const newData = {
       key: count,
@@ -286,7 +288,11 @@ class EditableTable extends React.Component {
       pic: values.pic ? values.pic[0] : '',
       duedate: values.duedate ? values.duedate : '',
     };
-    const newSource = [...dataSource, newData];
+    // console.table(dataSource);
+    const newSource = [newData, ...dataSource];
+    // const testSource = [newData,...dataSource];
+    // console.table(newSource);
+    // console.table(testSource);
     this.setState({
       dataSource: newSource,
       count: count + 1,

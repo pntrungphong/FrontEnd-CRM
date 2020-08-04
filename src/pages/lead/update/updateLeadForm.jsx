@@ -143,7 +143,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
           <TextArea rows={4} />
         </Form.Item>
         <Form.Item name="brief" label="Brief">
-          <CustomUploadFile dataIndex="brief" />
+          <CustomUploadFile className={styles.briefDisplay} dataIndex="brief" />
         </Form.Item>
       </Form>
     </>

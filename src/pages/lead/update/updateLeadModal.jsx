@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
-import { Modal, Button } from 'antd';
+import { Drawer, Button } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
@@ -33,7 +33,8 @@ class UpdateLead extends React.Component {
     return (
       <>
         <FontAwesomeIcon icon={faEllipsisH} onClick={() => this.showModal(true)} size="sm" />
-        <Modal
+        <Drawer
+          destroyOnClose
           bodyStyle={{
             height: '71.5vh',
             overflowY: 'scroll',
@@ -45,8 +46,7 @@ class UpdateLead extends React.Component {
           title="Update lead"
           width={800}
           visible={this.state.showModal}
-          onOk={() => this.showModal(false)}
-          onCancel={() => this.showModal(false)}
+          onClose={() => this.showModal(false)}
           footer={[
             <Button
               disabled={this.state.disableButton}
@@ -57,7 +57,6 @@ class UpdateLead extends React.Component {
               Submit
             </Button>,
           ]}
-          destroyOnClose
         >
           <UpdateLeadInformationForm
             leadId={this.props.leadId}
@@ -65,7 +64,7 @@ class UpdateLead extends React.Component {
             closeModal={() => this.showModal(false)}
             enableButton={() => this.enableButton()}
           />
-        </Modal>
+        </Drawer>
       </>
     );
   }
