@@ -3,6 +3,7 @@ import React from 'react';
 import { connect } from 'umi';
 import styles from './style.less';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
+import CreateContactDrawer from '../../common/createContactDrawer';
 import CustomUploadFile from '../components/fileComponent/customuploadfile';
 
 const { Option } = Select;
@@ -20,6 +21,10 @@ class CreateForm extends React.Component {
     super(props);
 
     this.formRef = React.createRef();
+
+    this.state = {
+      companyValue: undefined,
+    };
   }
 
   componentDidMount() {
@@ -59,6 +64,11 @@ class CreateForm extends React.Component {
           name="company"
           label="Company"
           rules={[{ required: true, message: 'Please input company' }]}
+          getValueProps={(value) => {
+            if (this.state.companyValue !== value) {
+              this.setState({ companyValue: value });
+            }
+          }}
         >
           <QuickCreate
             formRef={this.formRef}
@@ -73,8 +83,9 @@ class CreateForm extends React.Component {
           label="Contact"
           rules={[{ required: true, message: 'Please input contact' }]}
         >
-          <QuickCreate
+          <CreateContactDrawer
             formRef={this.formRef}
+            defaultCompany={this.state.companyValue}
             placeholder="Type and select contact"
             createType={CreateType.CONTACT}
             dataIndex="contact"

@@ -95,12 +95,16 @@ class QuickCreate extends React.Component {
       <>
         <div className={styles.resultNotFound}>No results found</div>
         <Divider className={styles.customDevider} />
-        <h3
-          onClick={() => this.quickCreate(this.props.dataIndex)}
-          className={styles.quickCreateTitle}
-        >
-          Create &quot;{props.inputValue}&quot; as {props.field}
-        </h3>
+        {this.props.dataIndex === 'company' ? (
+          <h3
+            onClick={() => this.quickCreate(this.props.dataIndex)}
+            className={styles.quickCreateTitle}
+          >
+            Create &quot;{props.inputValue}&quot; as {props.field}
+          </h3>
+        ) : (
+          ''
+        )}
       </>
     );
   };
