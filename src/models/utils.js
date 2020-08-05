@@ -394,7 +394,7 @@ export const formatDetailLeadData = (response) => {
       label: response.company.name,
     };
     const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
-    return {
+    const body = {
       listFile,
       company,
       touchPoint: response.touchPoint,
@@ -409,6 +409,7 @@ export const formatDetailLeadData = (response) => {
       note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
     };
+    return body;
   } catch (error) {
     throw new Error('Missing pagination data');
   }

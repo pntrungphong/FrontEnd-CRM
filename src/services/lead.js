@@ -31,6 +31,8 @@ const formatOutputData = (params) => {
 
   const rank = params.rank ? params.rank.toString() : '';
 
+  const onHov = params.hov ? 1 : 0;
+
   const note = params.note
     ? [
         {
@@ -50,9 +52,10 @@ const formatOutputData = (params) => {
       ]
     : [{}];
 
-  return {
+  const body = {
     name: params.name,
     idCompany,
+    onHov,
     linkContact,
     relatedTo,
     rank,
@@ -64,6 +67,12 @@ const formatOutputData = (params) => {
     status: 'In-progress',
     note,
   };
+
+  if (params.lane) {
+    body.lane = params.lane;
+  }
+
+  return body;
 };
 
 export async function getLeadById(params) {
@@ -81,14 +90,11 @@ export async function getAllFile(params) {
 export async function fullCreateLead(params) {
   const outputData = formatOutputData(params);
 
-  const body = {
-    ...outputData,
-  };
-
-  return request('/lead', {
-    method: 'POST',
-    data: body,
-  });
+  console.table(outputData);
+  // return request('/lead', {
+  //     method: 'POST',
+  //     data: outputData,
+  // });
 }
 
 export async function changeRank(params) {

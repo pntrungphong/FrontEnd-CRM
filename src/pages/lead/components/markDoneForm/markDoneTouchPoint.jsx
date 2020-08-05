@@ -1,5 +1,5 @@
 import React from 'react';
-import { Modal, Form, Button, Tag, notification, DatePicker, Input, Radio } from 'antd';
+import { Modal, Form, Button, Col, Row, Tag, notification, DatePicker, Input, Radio } from 'antd';
 import moment from 'moment';
 import styles from './style.less';
 
@@ -7,12 +7,12 @@ const { TextArea } = Input;
 
 const layout = {
   labelCol: { span: 6 },
-  wrappercol: { span: 12 },
 };
+
 class MarkDoneModal extends React.Component {
   constructor(props) {
     super(props);
-
+    this.form = React.createRef();
     this.state = {
       visible: false,
       rankReason: true,
@@ -50,7 +50,7 @@ class MarkDoneModal extends React.Component {
     }
 
     let statusData;
-    if (values.status && values.status !== 'In-progess') {
+    if (values.status && values.status !== 'In-progress') {
       statusData = {
         review: values.lead_reason,
         status: values.status,
@@ -62,7 +62,6 @@ class MarkDoneModal extends React.Component {
       statusData: statusData || undefined,
       rankData: rankData || undefined,
     };
-
     this.props
       .dispatch({
         type: 'touchpoint/markDone',
@@ -105,8 +104,13 @@ class MarkDoneModal extends React.Component {
     }
   };
 
+  onLaneChange = (value) => {
+    this.form.current.setFieldsValue({ lane: value });
+    this.form.current.submit();
+  };
+
   onLeadChange = (value) => {
-    if (value.target.value !== 'In-progess') {
+    if (value.target.value !== 'In-progress') {
       this.setState({
         reviewReason: false,
       });
@@ -135,10 +139,11 @@ class MarkDoneModal extends React.Component {
           onCancel={this.onCancel}
         >
           <Form
+            ref={this.form}
             {...layout}
             onFinish={this.onOk}
             initialValues={{
-              status: 'In-progess',
+              status: 'In-progress',
               rank: this.props.rank,
               actualdate: moment(this.props.actualdate),
             }}
@@ -194,9 +199,9 @@ class MarkDoneModal extends React.Component {
             </Form.Item>
             <Form.Item name="status" label="Lead Status">
               <Radio.Group onChange={this.onLeadChange}>
-                <Radio value="In-progess">Continue</Radio>
-                <Radio value="Win">Win</Radio>
-                <Radio value="Lost">Lost</Radio>
+                <Radio value="In-progress">On-Going</Radio>
+                <Radio value="Win">Qualified</Radio>
+                <Radio value="Lost">Unqualified</Radio>
               </Radio.Group>
             </Form.Item>
             {!this.state.reviewReason ? (
@@ -216,11 +221,37 @@ class MarkDoneModal extends React.Component {
                 />
               </Form.Item>
             ) : null}
-            <Form.Item>
-              <Button type="primary" htmlType="submit">
-                Complete
-              </Button>
-            </Form.Item>
+            {this.state.reviewReason ? (
+              <Row justify="space-around">
+                <Col span={6}>
+                  <Form.Item>
+                    <Button type="primary" onClick={() => this.onLaneChange('PH')}>
+                      #PH
+                    </Button>
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Form.Item>
+                    <Button type="primary" onClick={() => this.onLaneChange('PC')}>
+                      #PC
+                    </Button>
+                  </Form.Item>
+                </Col>
+                <Col span={6}>
+                  <Form.Item>
+                    <Button type="primary" onClick={() => this.onLaneChange('LM')}>
+                      #LM
+                    </Button>
+                  </Form.Item>
+                </Col>
+              </Row>
+            ) : (
+              <Form.Item className={styles.submitButton}>
+                <Button type="primary" htmlType="submit">
+                  Submit
+                </Button>
+              </Form.Item>
+            )}
           </Form>
         </Modal>
         {this.state.status === 'In-progress' ? (
