@@ -11,8 +11,9 @@ const formItemLayout = {
 };
 
 const SharedForm = (props) => {
-  const email = props.compnayDetail?.email ?? [];
-  const website = props.compnayDetail?.website ?? [];
+  const email = props.companyDetail?.email ?? [];
+  const website = props.companyDetail?.website ?? [];
+  const address = props.companyDetail?.address ?? [];
   return (
     <div className={styles.getAll}>
       <div>
@@ -224,50 +225,49 @@ const SharedForm = (props) => {
           );
         }}
       </Form.List>
-      <div>
-        <Form.List name="address">
-          {(fields, { add, remove }) => {
-            return (
-              <div>
-                {fields.map((field, index) => (
-                  <Row key={field.key}>
-                    <Form.Item
-                      {...field}
-                      {...formItemLayout}
-                      label={index === 0 ? 'Address' : ' '}
-                      colon={!index}
-                      className={styles.phoneFormItem}
-                      name={[field.name, 'address']}
-                      fieldKey={[field.fieldKey]}
-                      rules={[{ required: true, message: 'Please enter address!' }]}
-                    >
-                      <div className={styles.customLayoutRow}>
-                        <Input
-                          addonAfter={
-                            <MinusCircleOutlined
-                              style={{ fontSize: 'medium' }}
-                              onClick={() => remove(field.name)}
-                            />
-                          }
-                        />
-                      </div>
-                    </Form.Item>
-                  </Row>
-                ))}
-                <Form.Item
-                  {...formItemLayout}
-                  label={fields.length > 0 ? ' ' : 'Address'}
-                  colon={!(fields.length > 0)}
-                >
-                  <Button onClick={() => add()} className={styles.addButton}>
-                    <PlusOutlined /> Add address
-                  </Button>
-                </Form.Item>
-              </div>
-            );
-          }}
-        </Form.List>
-      </div>
+      <Form.List name="address">
+        {(fields, { add, remove }) => {
+          return (
+            <div>
+              {fields.map((field, index) => (
+                <Row key={field.key}>
+                  <Form.Item
+                    {...field}
+                    {...formItemLayout}
+                    label={index === 0 ? 'Address' : ' '}
+                    colon={!index}
+                    className={styles.phoneFormItem}
+                    name={[field.name, 'address']}
+                    fieldKey={[field.fieldKey, 'address']}
+                    rules={[{ required: true, message: 'Please enter address!' }]}
+                  >
+                    <div className={styles.customLayoutRow}>
+                      <Input
+                        defaultValue={address[index]?.address}
+                        addonAfter={
+                          <MinusCircleOutlined
+                            style={{ fontSize: 'medium' }}
+                            onClick={() => remove(field.name)}
+                          />
+                        }
+                      />
+                    </div>
+                  </Form.Item>
+                </Row>
+              ))}
+              <Form.Item
+                {...formItemLayout}
+                label={fields.length > 0 ? ' ' : 'Address'}
+                colon={!(fields.length > 0)}
+              >
+                <Button onClick={() => add()} className={styles.addButton}>
+                  <PlusOutlined /> Add address
+                </Button>
+              </Form.Item>
+            </div>
+          );
+        }}
+      </Form.List>
     </div>
   );
 };

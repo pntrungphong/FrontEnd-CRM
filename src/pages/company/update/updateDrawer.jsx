@@ -79,7 +79,6 @@ class UpdateCompanyDrawer extends React.Component {
     if ((querying || !company) && this.state.visible) {
       return <Spin />;
     }
-
     return (
       <>
         <Drawer
@@ -132,7 +131,7 @@ class UpdateCompanyDrawer extends React.Component {
             <SharedForm
               tag={tag}
               formRef={this.formRef}
-              compnayDetail={{
+              companyDetail={{
                 name: company.name,
                 tag: company.tag,
                 phone: company.phone,

@@ -30,6 +30,7 @@ class CompanyDetail extends Component {
       return <Spin />;
     }
 
+    console.table(company);
     return (
       <div className={styles.main}>
         <PageHeaderWrapper
@@ -168,7 +169,7 @@ class CompanyDetail extends Component {
                       <h3 className={styles.cloOne}>Address {index + 1}</h3>
                     </Col>
                     <Col flex="auto" className={styles.address}>
-                      <span className={styles.customField}>{item}</span>
+                      <span className={styles.customField}>{item.address}</span>
                     </Col>
                   </>
                 );
