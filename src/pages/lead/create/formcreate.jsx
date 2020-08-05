@@ -1,4 +1,4 @@
-import { Form, Input, Select, Radio } from 'antd';
+import { Form, Input, Select, Radio, Checkbox } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
 import styles from './style.less';
@@ -19,9 +19,6 @@ const validateMessages = (label) => ({
 class CreateForm extends React.Component {
   constructor(props) {
     super(props);
-
-    this.formRef = React.createRef();
-
     this.state = {
       companyValue: undefined,
     };
@@ -34,9 +31,11 @@ class CreateForm extends React.Component {
   }
 
   onFinish = (values) => {
+    const payloadValue = values;
+    payloadValue.lane = this.props.formRef.current.getFieldValue('lane');
     this.props.dispatch({
       type: 'lead/create',
-      payload: { ...values },
+      payload: { ...payloadValue },
     });
     this.props.closeModal();
   };
@@ -48,7 +47,7 @@ class CreateForm extends React.Component {
         id={this.props.id}
         {...layout}
         className={styles.formCreateLead}
-        ref={this.formRef}
+        ref={this.props.formRef}
         name="nest-messages"
         onFinish={this.onFinish}
         validateMessages={validateMessages}
@@ -71,7 +70,7 @@ class CreateForm extends React.Component {
           }}
         >
           <QuickCreate
-            formRef={this.formRef}
+            formRef={this.props.formRef}
             placeholder="Type and select a company"
             createType={CreateType.COMPANY}
             dataIndex="company"
@@ -84,7 +83,7 @@ class CreateForm extends React.Component {
           rules={[{ required: true, message: 'Please input contact' }]}
         >
           <CreateContactDrawer
-            formRef={this.formRef}
+            formRef={this.props.formRef}
             defaultCompany={this.state.companyValue}
             placeholder="Type and select contact"
             createType={CreateType.CONTACT}
@@ -94,7 +93,7 @@ class CreateForm extends React.Component {
 
         <Form.Item name="relation" label="Related To">
           <QuickCreate
-            formRef={this.formRef}
+            formRef={this.props.formRef}
             placeholder="Type and select relation contact"
             createType={CreateType.CONTACT}
             dataIndex="relation"
@@ -133,7 +132,9 @@ class CreateForm extends React.Component {
             placeholder="Add reason for the ranking"
           />
         </Form.Item>
-
+        <Form.Item name="hov" label="HOV" valuePropName="checked">
+          <Checkbox />
+        </Form.Item>
         <Form.Item name="description" label="Description">
           <TextArea rows={4} placeholder="Add lead description here" />
         </Form.Item>
