@@ -4,75 +4,54 @@
   width: 6px;
   height: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
   background: #656565e6;
   border-radius: 10px;
 }
-
 ::-webkit-scrollbar-thumb:hover {
   background: #555;
 }
 
-.cardLead {
-  height: calc(100vh / 4 - 5px);
-  font-size: 14px;
-  line-height: 120px;
-  background: #0092ff;
-  border: 1px solid #ebeff2;
-  border-radius: 5px;
-}
 .cardCol {
   padding: 0 !important;
-}
-.laneName {
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  height: calc(100vh / 4 - 5px);
-  margin: 0 4px;
-  background: #bcc0c2;
-
-  h3 {
-    font-weight: 700;
-    text-align: center;
-  }
+  // margin: 0;
 }
 .lane {
-  // width: 100%;
-  // margin: 10px 5px !important;
-  // overflow-x: scroll;
   flex-wrap: nowrap;
+  min-height: calc(100vh / 4 - 2px);
+  margin: 1px 0 !important;
+  border-bottom: 1px dashed;
 }
 .containerBox {
   display: flex;
-  margin: 10px;
-  // width: 100%;
-  // margin: 10px 5px !important;
-  // overflow-x: scroll;
-  // flex-wrap: nowrap;
+  min-height: 100vh;
+  margin: 0;
 }
 .lanePlace {
   flex-wrap: nowrap;
   width: 100%;
-  margin-left: 5px;
-  padding-top: 9px;
-  padding-left: 5px;
+  margin-left: 50px;
+  padding: 0;
   overflow-x: scroll;
 }
-.laneNameCol {
-  display: flex;
-  flex-direction: column;
-  float: left;
-  width: 100px;
-}
+// .laneNameCol {
+//   display: flex;
+//   flex-direction: column;
+//   float: left;
+//   width: 100px;
+// }
 .touchPointNav {
-  margin-top: 10px;
-  margin-left: 110px;
+  // margin-top: 10px;
+  // margin-left: 55px;
+
+  .listTP {
+    flex-wrap: nowrap;
+    margin: 0 !important;
+    // overflow-x: scroll;
+  }
 }
 .touchPoint {
   padding: 0 !important;
@@ -80,11 +59,39 @@
 
   h1 {
     margin: 0;
-    padding: 10px;
+    padding: 5px;
     font-weight: 700;
     text-align: center;
     background: #b0b0b0;
     border: 1px solid white;
     border-radius: 5px;
+  }
+}
+
+.laneNameCol {
+  position: fixed;
+  width: 50px;
+  transform: translateX(-100%);
+
+  .laneName {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    height: calc(100vh / 4 - 5px);
+    margin: 0;
+    background: #bcc0c2;
+
+    .laneTag {
+      margin: 0;
+      font-weight: 700;
+      text-align: center;
+      text-transform: uppercase;
+      transform: rotate(270deg);
+    }
+  }
+  .customDivider {
+    width: 100vw;
+    margin: 0;
+    border-color: black;
   }
 }

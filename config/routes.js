@@ -60,6 +60,11 @@ export default [
             component: 'lead/dashboard',
           },
           {
+            path: '/dashboardv2',
+            name: 'Dashboardv2',
+            component: 'lead/dashboardv2',
+          },
+          {
             path: '/lead',
             name: 'Lead',
             component: 'lead/home',
