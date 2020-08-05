@@ -5,7 +5,7 @@ import styles from '../style.less';
 import SharedForm from '../components/sharedForm';
 
 const layout = {
-  labelCol: { span: 8 },
+  labelCol: { span: 3 },
 };
 
 class CreateCompanyForm extends React.Component {
@@ -20,16 +20,16 @@ class CreateCompanyForm extends React.Component {
     });
   }
 
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Create Company - Harmonia';
+  }
+
   onFinish = (values) => {
     this.props.dispatch({
       type: 'company/create',
       payload: { ...values },
     });
   };
-
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Create Company - Harmonia';
-  }
 
   render() {
     const { tag } = this.props.tag;
@@ -60,27 +60,19 @@ class CreateCompanyForm extends React.Component {
         <Form {...layout} ref={this.formRef} name="nest-messages" onFinish={this.onFinish}>
           <SharedForm tag={tag} formRef={this.formRef} />
           <div className={styles.aroundBtn}>
-            <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
+            <Form.Item>
+              <Button className={styles.editButton} onClick={() => history.push(`/company`)}>
+                Cancel
+              </Button>
+            </Form.Item>
+            <Form.Item>
               <Button
-                size="middle"
+                className={styles.editButton}
                 type="primary"
                 htmlType="submit"
                 loading={this.props.submitting}
               >
                 Create
-              </Button>
-            </Form.Item>
-            <Form.Item>
-              <Button
-                onClick={() => {
-                  history.push({
-                    pathname: `/company`,
-                  });
-                }}
-                size="middle"
-                type="primary"
-              >
-                Cancel
               </Button>
             </Form.Item>
           </div>

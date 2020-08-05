@@ -37,9 +37,11 @@ class CreateLead extends React.Component {
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[
-            <Button form="createLeadForm" key="submit" htmlType="submit">
-              Submit
-            </Button>,
+            <div className={styles.drawerSubmitButton}>
+              <Button form="createLeadForm" key="submit" htmlType="submit">
+                Submit
+              </Button>
+            </div>,
           ]}
         >
           <CreateForm id="createLeadForm" closeModal={() => this.showModal(false)} />

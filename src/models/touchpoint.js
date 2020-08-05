@@ -49,14 +49,14 @@ const Model = {
       }
     },
     *markDone({ payload }, { call }) {
-      let changeRankresponse =
+      let changeRankResponse =
         payload.rankData !== undefined ? yield call(changeRank, payload.rankData) : true;
-      let changeStatusresponse =
+      let changeStatusResponse =
         payload.statusData !== undefined ? yield call(changeStatus, payload.statusData) : true;
-      if (changeStatusresponse === '') changeStatusresponse = true;
-      if (changeRankresponse === '') changeRankresponse = true;
+      if (changeStatusResponse === '') changeStatusResponse = true;
+      if (changeRankResponse === '') changeRankResponse = true;
       const response = yield call(markDoneTouchpoint, payload.markDoneData);
-      if (response.id && changeStatusresponse && changeRankresponse) {
+      if (response.id && changeStatusResponse && changeRankResponse) {
         message.success('Mark done Successfully');
         return true;
       }

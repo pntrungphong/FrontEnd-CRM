@@ -1,8 +1,9 @@
-import { Input, Button, Breadcrumb } from 'antd';
+import { Input, Breadcrumb } from 'antd';
 import React from 'react';
 import { connect, history } from 'umi';
 import debounce from 'lodash/debounce';
 import CompanyTable from '../components/companyTable';
+import CreateCompanyDrawer from '../create/createDrawer';
 import styles from '../style.less';
 
 const { Search } = Input;
@@ -23,15 +24,15 @@ class ViewCompany extends React.Component {
     });
   };
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Company - Harmonia';
-  }
-
   createDetail = () => {
     history.push({
       pathname: '/company/create',
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Company - Harmonia';
+  }
 
   render() {
     return (
@@ -57,9 +58,7 @@ class ViewCompany extends React.Component {
           loading={this.props.loadingSearch}
         />
         <div className={styles.top}>
-          <Button className={styles.createBtn} type="primary" onClick={this.createDetail}>
-            Create New Company
-          </Button>
+          <CreateCompanyDrawer />
         </div>
         <CompanyTable />
       </div>
