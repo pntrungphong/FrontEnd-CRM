@@ -24,15 +24,15 @@ class ViewCompany extends React.Component {
     });
   };
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Company - Harmonia';
-  }
-
   createDetail = () => {
     history.push({
       pathname: '/company/create',
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Company - Harmonia';
+  }
 
   render() {
     return (

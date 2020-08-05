@@ -48,14 +48,16 @@ class UpdateLead extends React.Component {
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[
-            <Button
-              disabled={this.state.disableButton}
-              form="updateLeadForm"
-              key="submit"
-              htmlType="submit"
-            >
-              Submit
-            </Button>,
+            <div className={styles.drawerSubmitButton}>
+              <Button
+                disabled={this.state.disableButton}
+                form="updateLeadForm"
+                key="submit"
+                htmlType="submit"
+              >
+                Submit
+              </Button>
+            </div>,
           ]}
         >
           <UpdateLeadInformationForm
