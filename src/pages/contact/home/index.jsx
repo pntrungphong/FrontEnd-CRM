@@ -1,8 +1,9 @@
-import { Input, Button, Breadcrumb } from 'antd';
+import { Input, Breadcrumb } from 'antd';
 import React from 'react';
-import { connect, history } from 'umi';
+import { connect } from 'umi';
 import debounce from 'lodash/debounce';
 import ListContact from '../components/contactTable';
+import CreateContactDrawer from '../create/createDrawerContact';
 import styles from '../style.less';
 
 const { Search } = Input;
@@ -51,17 +52,7 @@ class ListContactPage extends React.Component {
           allowClear
         />
         <div className={styles.top}>
-          <Button
-            type="primary"
-            className={styles.createBtn}
-            onClick={() => {
-              history.push({
-                pathname: '/contact/create',
-              });
-            }}
-          >
-            Create New Contact
-          </Button>
+          <CreateContactDrawer />
         </div>
         <ListContact />
       </div>

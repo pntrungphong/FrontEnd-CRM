@@ -2,7 +2,8 @@ import { Spin, Form, Button, Breadcrumb } from 'antd';
 import React, { useRef, useEffect, useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
-import SharedForm from '../components/sharedForm';
+import SharedForm from '../components/sharedFormv2';
+
 import styles from './style.less';
 
 const layout = {

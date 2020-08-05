@@ -107,24 +107,24 @@ class UpdateCompanyForm extends React.Component {
           <div className={styles.aroundBtn}>
             <Form.Item wrapperCol={{ offset: 8 }} className={styles.editBtn}>
               <Button
+                className={styles.editButtonTwo}
                 disabled={this.state.disableButton}
                 size="middle"
                 type="primary"
                 htmlType="submit"
                 loading={this.props.submitting}
               >
-                Update
+                Save
               </Button>
             </Form.Item>
             <Form.Item>
               <Button
+                className={styles.editButton}
                 onClick={() => {
                   history.push({
                     pathname: `/company`,
                   });
                 }}
-                size="middle"
-                type="primary"
               >
                 Cancel
               </Button>
