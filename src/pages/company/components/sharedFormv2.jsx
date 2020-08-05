@@ -64,6 +64,45 @@ const SharedForm = (props) => {
       <Form.List name="phone">
         {(fields, { add, remove }) => {
           return (
+            <div>
+              {fields.map((field, index) => (
+                <Row key={field.key}>
+                  <Form.Item
+                    {...field}
+                    {...formItemLayout}
+                    label={index === 0 ? 'Phone' : ' '}
+                    colon={!index}
+                    className={styles.phoneFormItem}
+                    name={[field.name, 'number']}
+                    fieldKey={[field.fieldKey, 'number']}
+                    rules={[{ required: true, message: 'Please enter phone!' }]}
+                  >
+                    <div className={styles.customLayoutRow}>
+                      <Input pattern="^[0-9]{10}$" defaultValue={address[index]?.address} />{' '}
+                      <MinusCircleOutlined
+                        className={styles.icon}
+                        onClick={() => remove(field.name)}
+                      />
+                    </div>
+                  </Form.Item>
+                </Row>
+              ))}
+              <Form.Item
+                {...formItemLayout}
+                label={fields.length > 0 ? ' ' : 'Phone'}
+                colon={!(fields.length > 0)}
+              >
+                <Button onClick={() => add()} className={styles.addButton}>
+                  <PlusOutlined /> Add address
+                </Button>
+              </Form.Item>
+            </div>
+          );
+        }}
+      </Form.List>
+      {/* <Form.List name="phone">
+        {(fields, { add, remove }) => {
+          return (
             <>
               {fields.map((field, index) => (
                 <Row key={field.key}>
@@ -79,13 +118,10 @@ const SharedForm = (props) => {
                   >
                     <Input
                       pattern="^[0-9]{10}$"
-                      addonAfter={
-                        <MinusCircleOutlined
-                          style={{ fontSize: 'medium' }}
+                    /><MinusCircleOutlined
+                          className={styles.icon}
                           onClick={() => remove(field.name)}
                         />
-                      }
-                    />
                   </Form.Item>
                 </Row>
               ))}
@@ -101,7 +137,7 @@ const SharedForm = (props) => {
             </>
           );
         }}
-      </Form.List>
+      </Form.List> */}
       <Form.List name="email">
         {(fields, { add, remove }) => {
           return (
@@ -142,7 +178,7 @@ const SharedForm = (props) => {
                         </Select>
                       </Form.Item>
                       <MinusCircleOutlined
-                        style={{ fontSize: 'medium', margin: 'auto 10px' }}
+                        className={styles.icon}
                         onClick={() => remove(field.name)}
                       />
                     </div>
@@ -205,7 +241,7 @@ const SharedForm = (props) => {
                         </Select>
                       </Form.Item>
                       <MinusCircleOutlined
-                        style={{ fontSize: 'medium', margin: 'auto 10px' }}
+                        className={styles.icon}
                         onClick={() => remove(field.name)}
                       />
                     </div>
@@ -242,14 +278,10 @@ const SharedForm = (props) => {
                     rules={[{ required: true, message: 'Please enter address!' }]}
                   >
                     <div className={styles.customLayoutRow}>
-                      <Input
-                        defaultValue={address[index]?.address}
-                        addonAfter={
-                          <MinusCircleOutlined
-                            style={{ fontSize: 'medium' }}
-                            onClick={() => remove(field.name)}
-                          />
-                        }
+                      <Input defaultValue={address[index]?.address} />{' '}
+                      <MinusCircleOutlined
+                        className={styles.icon}
+                        onClick={() => remove(field.name)}
                       />
                     </div>
                   </Form.Item>

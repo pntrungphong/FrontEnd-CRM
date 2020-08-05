@@ -2,7 +2,8 @@ import { Tag, Pagination, Table, Row } from 'antd';
 import React, { useState } from 'react';
 import { connect, history } from 'umi';
 import { useMount, useUnmount } from 'ahooks';
-import { FormOutlined, EyeOutlined } from '@ant-design/icons';
+import { EyeOutlined } from '@ant-design/icons';
+import UpdateContactDrawer from '../update/updateDrawer';
 import styles from '../style.less';
 
 const columns = [
@@ -101,14 +102,8 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <span
-            onClick={() => {
-              history.push({
-                pathname: `/contact/update/${record.id}`,
-              });
-            }}
-          >
-            <FormOutlined />
+          <span>
+            <UpdateContactDrawer contactId={record.id} />
           </span>
         </li>
         <li>

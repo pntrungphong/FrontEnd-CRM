@@ -65,7 +65,7 @@ class CompanyDetail extends Component {
               </Col>
               <Col flex="auto">
                 <span className={styles.customField}>
-                  <a href={company.detail.url} target="_blank" rel="noreferrer">
+                  <a href={company.detail.url} rel="noreferrer">
                     {company.detail.url}
                   </a>
                 </span>
@@ -151,7 +151,7 @@ class CompanyDetail extends Component {
                   return (
                     <Row key={item.url}>
                       <span className={styles.customField}>
-                        <a href={item.url} target="_blank" rel="noreferrer">
+                        <a href={item.url} rel="noreferrer">
                           {item.url}
                         </a>{' '}
                         ({item.type})

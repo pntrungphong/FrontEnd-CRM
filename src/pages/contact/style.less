@@ -11,7 +11,51 @@
     width: 100%;
   }
 }
+.getAll {
+  width: 587px;
+  margin-left: 28px;
+}
+.typeFormItem {
+  width: 55%;
+  margin: 0 !important;
 
+  :global {
+    .ant-form-item-explain {
+      position: absolute;
+      top: 100%;
+    }
+  }
+}
+.icon {
+  margin: auto 8px;
+  font-size: medium;
+}
+.addButton {
+  height: 40px;
+  line-height: 1;
+  border-radius: 4px;
+}
+.customLayoutRow {
+  display: flex;
+  width: 106%;
+
+  // &>:nth-child(1) {
+  //   flex: 1 65%;
+  // }
+  // &>:nth-child(2) {
+  //   flex: 1 45%;
+  // }
+}
+.phoneFormItem {
+  width: 100%;
+  margin-bottom: 10px !important;
+
+  :global {
+    .ant-input-group-addon {
+      line-height: 1;
+    }
+  }
+}
 .createBtn {
   border-radius: 4px;
 }
@@ -65,7 +109,7 @@
   width: 90%;
 }
 .editOne {
-  margin-bottom: 24px;
+  margin-top: -2px;
 }
 .validatePadding {
   margin-bottom: 12px;

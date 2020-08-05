@@ -95,7 +95,7 @@ const SharedForm = (props) => {
                       </Form.Item>
                       {index > 0 ? (
                         <MinusCircleOutlined
-                          style={{ fontSize: 'medium', margin: 'auto 10px' }}
+                          className={styles.icon}
                           onClick={() => remove(field.name)}
                         />
                       ) : (
@@ -161,7 +161,7 @@ const SharedForm = (props) => {
                       </Form.Item>
                       {index > 0 ? (
                         <MinusCircleOutlined
-                          style={{ fontSize: 'medium', margin: 'auto 10px' }}
+                          className={styles.icon}
                           onClick={() => remove(field.name)}
                         />
                       ) : (
@@ -229,7 +229,7 @@ const SharedForm = (props) => {
                         </Select>
                       </Form.Item>
                       <MinusCircleOutlined
-                        style={{ fontSize: 'medium', margin: 'auto 10px' }}
+                        className={styles.icon}
                         onClick={() => remove(field.name)}
                       />
                     </div>
@@ -266,14 +266,10 @@ const SharedForm = (props) => {
                     rules={[{ required: true, message: 'Please enter address!' }]}
                   >
                     <div className={styles.customLayoutRow}>
-                      <Input
-                        defaultValue={address[index]?.address}
-                        addonAfter={
-                          <MinusCircleOutlined
-                            style={{ fontSize: 'medium' }}
-                            onClick={() => remove(field.name)}
-                          />
-                        }
+                      <Input defaultValue={address[index]?.address} />{' '}
+                      <MinusCircleOutlined
+                        className={styles.icon}
+                        onClick={() => remove(field.name)}
                       />
                     </div>
                   </Form.Item>
