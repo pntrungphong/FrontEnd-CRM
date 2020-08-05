@@ -43,7 +43,7 @@ const EditableCell = ({
   datetime,
   selectData,
   children,
-  status,
+  // status,
   dataIndex,
   record,
   handleSave,
@@ -59,7 +59,7 @@ const EditableCell = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    if (status === 'Done') return;
+    // if (status === 'Done') return;
     if (record.taskname === '' && dataIndex !== 'taskname') return;
     setEditing(!editing);
     form.setFieldsValue({
@@ -357,7 +357,7 @@ class EditableTable extends React.Component {
           onCell: (record) => ({
             record,
             select: col.select,
-            status: this.props.status,
+            // status: this.props.status,
             selectData: col.selectData,
             dataIndex: col.dataIndex,
             title: col.title,
@@ -374,7 +374,7 @@ class EditableTable extends React.Component {
             datetime: col.datetime,
             dataIndex: col.dataIndex,
             title: col.title,
-            status: this.props.status,
+            // status: this.props.status,
             handleSave: this.handleSave,
           }),
         };
@@ -385,7 +385,7 @@ class EditableTable extends React.Component {
         onCell: (record) => ({
           record,
           editable: col.editable,
-          status: this.props.status,
+          // status: this.props.status,
           dataIndex: col.dataIndex,
           title: col.title,
           handleSave: this.handleSave,
@@ -430,11 +430,10 @@ class EditableTable extends React.Component {
           </Form>
         </Modal>
         <h3 className={styles.modalTaskTitle}>
-          <span>Task</span>
           <Button
             type="primary"
             size="middle"
-            hidden={!!(this.props.status === 'Done')}
+            // hidden={!!(this.props.status === 'Done')}
             onClick={this.onShow}
           >
             Add task

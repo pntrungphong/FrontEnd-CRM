@@ -1,12 +1,13 @@
 import React from 'react';
 import { Form } from 'antd';
 import { connect } from 'umi';
-import styles from './style.less';
-import CustomUploadFile from '../fileComponent/customuploadfile';
+// import styles from './style.less';
+// import CustomUploadFile from '../fileComponent/customuploadfile';
 import LeadInfomation from './leadInfomation';
-import UpdateGeneralInformation from './updategeneralform';
+import TouchPointModal from './touchpointmodal';
+// import UpdateGeneralInformation from './updategeneralform';
 
-class UpdateTouchpointForm extends React.Component {
+class LeadForm extends React.Component {
   onPlaning = (values) => {
     const returnValue = values;
     returnValue.leadId = this.props.leadId;
@@ -79,17 +80,18 @@ class UpdateTouchpointForm extends React.Component {
         name="form_in_modal"
         onValuesChange={this.onValuesChange}
         initialValues={{
-          goal: this.props.touchpoint.data.goal,
-          meetingdate: this.props.touchpoint.data.meetingdate,
-          note: this.props.touchpoint.data.note,
-          review: this.props.touchpoint.data.review,
-          rank: this.props.rank,
-          scope: this.props.touchpoint.data.scope,
-          sla: this.props.touchpoint.data.sla,
-          pricing: this.props.touchpoint.data.pricing,
-          estimation: this.props.touchpoint.data.estimation,
-          quotation: this.props.touchpoint.data.quotation,
-          proposal: this.props.touchpoint.data.proposal,
+          scope: [],
+          sla: [],
+          pricing: [],
+          estimation: [],
+          quotation: [],
+          proposal: [],
+          // scope: this.props.touchpoint.data.scope,
+          // sla: this.props.touchpoint.data.sla,
+          // pricing: this.props.touchpoint.data.pricing,
+          // estimation: this.props.touchpoint.data.estimation,
+          // quotation: this.props.touchpoint.data.quotation,
+          // proposal: this.props.touchpoint.data.proposal,
           lead: {
             name: this.props.lead.detail.name,
             rank: this.props.lead.detail.rank,
@@ -103,18 +105,19 @@ class UpdateTouchpointForm extends React.Component {
         }}
       >
         <div id="general">
-          <UpdateGeneralInformation
-            status={this.props.status}
-            dispatch={this.props.dispatch}
-            touchpointId={this.props.touchpointId}
-            listTask={this.props.touchpoint.data.task}
-          />
+          {this.props.lead.detail.touchPoint.map((touchPoint) => {
+            return (
+              <TouchPointModal update leadId={this.props.leadId} touchPointId={touchPoint.id} />
+            );
+          })}
+
+          <TouchPointModal update={false} />
         </div>
 
         <div id="lead-information">
           <LeadInfomation lead={this.props.lead.detail} />
         </div>
-        <div id="scope">
+        {/* <div id="scope">
           <div className={styles.header}>
             <h2 className={styles.title}>Scope</h2>
           </div>
@@ -197,11 +200,11 @@ class UpdateTouchpointForm extends React.Component {
               order={this.props.touchpoint.data.order}
             />
           </Form.Item>
-        </div>
+        </div> */}
       </Form>
     );
   }
 }
 export default connect(({ lead }) => ({
   lead,
-}))(UpdateTouchpointForm);
+}))(LeadForm);
