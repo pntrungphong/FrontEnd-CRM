@@ -1,13 +1,13 @@
-import { Drawer, Form, Button, Breadcrumb } from 'antd';
+import { Drawer, Form, Button } from 'antd';
 import React from 'react';
-import { connect, history } from 'umi';
+import { connect } from 'umi';
 import SharedForm from '../components/sharedFormv2';
 import styles from '../style.less';
 
 const layout = {
   labelCol: { span: 3 },
 };
-class CreateCompanyDrawer extends React.Component {
+class CreateContactDrawer extends React.Component {
   constructor(props) {
     super(props);
 
@@ -26,14 +26,14 @@ class CreateCompanyDrawer extends React.Component {
   onFinish = (values) => {
     this.props
       .dispatch({
-        type: 'company/create',
+        type: 'contact/create',
         payload: { ...values },
       })
       .then((result) =>
         result
           ? this.props
               .dispatch({
-                type: 'company/getList',
+                type: 'contact/getList',
               })
               .then(() => this.setState({ visible: false }))
           : null,
@@ -41,7 +41,7 @@ class CreateCompanyDrawer extends React.Component {
   };
 
   UNSAFE_componentWillUpdate() {
-    document.title = 'Create Company - Harmonia';
+    document.title = 'Create contact - Harmonia';
   }
 
   showDrawer = () => {
@@ -56,34 +56,21 @@ class CreateCompanyDrawer extends React.Component {
     });
   };
 
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'contact/cleanData',
+    });
+  }
+
   render() {
     const { tag } = this.props.tag;
     return (
       <>
         <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-          Create New Company
+          Create New contact
         </Button>
         <Drawer
-          title={
-            <div className={styles.editBreadOne}>
-              <Breadcrumb>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
-                <Breadcrumb.Item>
-                  <a
-                    href="#"
-                    onClick={() => {
-                      history.push({
-                        pathname: `/company`,
-                      });
-                    }}
-                  >
-                    Contact
-                  </a>
-                </Breadcrumb.Item>
-                <Breadcrumb.Item>Create</Breadcrumb.Item>
-              </Breadcrumb>
-            </div>
-          }
+          title="create"
           width={720}
           destroyOnClose
           onClose={this.onClose}
@@ -95,11 +82,11 @@ class CreateCompanyDrawer extends React.Component {
                 textAlign: 'right',
               }}
             >
-              <Button form="form-create-company" onClick={this.onClose} style={{ marginRight: 8 }}>
+              <Button form="form-create-contact" onClick={this.onClose} style={{ marginRight: 8 }}>
                 Cancel
               </Button>
               <Button
-                form="form-create-company"
+                form="form-create-contact"
                 htmlType="submit"
                 type="primary"
                 loading={this.props.submitting}
@@ -111,10 +98,24 @@ class CreateCompanyDrawer extends React.Component {
         >
           <Form
             {...layout}
-            id="form-create-company"
+            id="form-create-contact"
             ref={this.formRef}
-            name="create-company"
+            name="nest-messages"
             onFinish={this.onFinish}
+            initialValues={{
+              phone: [
+                {
+                  number: undefined,
+                  type: undefined,
+                },
+              ],
+              email: [
+                {
+                  url: undefined,
+                  type: undefined,
+                },
+              ],
+            }}
           >
             <SharedForm tag={tag} formRef={this.formRef} />
           </Form>
@@ -124,8 +125,8 @@ class CreateCompanyDrawer extends React.Component {
   }
 }
 
-export default connect(({ company, tag, loading }) => ({
-  company,
+export default connect(({ contact, tag, loading }) => ({
+  contact,
   tag,
-  submitting: loading.effects['company/create'],
-}))(CreateCompanyDrawer);
+  submitting: loading.effects['contact/create'],
+}))(CreateContactDrawer);

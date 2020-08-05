@@ -61,18 +61,18 @@ class CreateCompanyForm extends React.Component {
           <SharedForm tag={tag} formRef={this.formRef} />
           <div className={styles.aroundBtn}>
             <Form.Item>
-              <Button className={styles.editButton} onClick={() => history.push(`/company`)}>
-                Cancel
-              </Button>
-            </Form.Item>
-            <Form.Item>
               <Button
-                className={styles.editButton}
+                className={styles.editButtonOne}
                 type="primary"
                 htmlType="submit"
                 loading={this.props.submitting}
               >
                 Create
+              </Button>
+            </Form.Item>
+            <Form.Item>
+              <Button className={styles.editButton} onClick={() => history.push(`/company`)}>
+                Cancel
               </Button>
             </Form.Item>
           </div>
