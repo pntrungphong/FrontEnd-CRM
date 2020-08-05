@@ -1,4 +1,4 @@
-import { Card, Spin, Divider, Tag, Row, Col, Breadcrumb } from 'antd';
+import { Card, Spin, Divider, Tag, Row, Col, Breadcrumb, Button } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
@@ -36,7 +36,9 @@ class CompanyDetail extends Component {
         <PageHeaderWrapper
           title={
             <Breadcrumb>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>
+                <b>Database Management</b>
+              </Breadcrumb.Item>
               <Breadcrumb.Item>
                 <a
                   href="#"
@@ -46,7 +48,7 @@ class CompanyDetail extends Component {
                     });
                   }}
                 >
-                  Company
+                  <b>Company</b>
                 </a>
               </Breadcrumb.Item>
               <Breadcrumb.Item>Detail</Breadcrumb.Item>
@@ -176,7 +178,49 @@ class CompanyDetail extends Component {
               })}
             </Row>
           </Card>
+          <br />
+          <Card bordered="true" className={styles.cardOne}>
+            <div className={styles.one}>
+              <h2>Leads</h2>
+            </div>
+            <Divider className={styles.two} />
+            <Row className={styles.rowCol}>
+              {company.detail.lead.map((item) => {
+                return (
+                  <>
+                    <Col flex="150px">
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/lead/detail/${item.id}`,
+                          });
+                        }}
+                      >
+                        <h3 className={styles.linkLead}>
+                          {item.name} - {company.detail.name}
+                        </h3>
+                      </a>
+                    </Col>
+                    <Col flex="auto" className={styles.address}>
+                      <Tag>{item.status}</Tag>
+                    </Col>
+                  </>
+                );
+              })}
+            </Row>
+          </Card>
         </PageHeaderWrapper>
+        <br />
+        <Button
+          className={styles.edit}
+          onClick={() => {
+            history.push({
+              pathname: `/lead/detail/${company.detail.id}`,
+            });
+          }}
+        >
+          Edit Company
+        </Button>
       </div>
     );
   }
