@@ -26,7 +26,7 @@ class ViewCompany extends React.Component {
 
   createDetail = () => {
     history.push({
-      pathname: '/company/create',
+      pathname: '/client/company/create',
     });
   };
 

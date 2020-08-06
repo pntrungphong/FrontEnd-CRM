@@ -17,7 +17,7 @@ const LeadTitle = ({ leadName, rank, id }) => {
     <>
       <div className={styles.leadTitle}>
         <div
-          onClick={() => history.push({ pathname: `/lead/detail/${id}` })}
+          onClick={() => history.push({ pathname: `'/sales/lead/detail/${id}` })}
           className={styles.textTwo}
         >
           {leadName}

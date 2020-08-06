@@ -13,90 +13,91 @@ export default [
         authority: ['admin', 'user', 'USER'],
         routes: [
           {
-            path: '/',
-            name: 'Database Management',
+            path: '/client',
+            name: 'Client Management',
             routes: [
               {
-                path: '/company',
+                path: '/client/company',
                 name: 'Company',
                 component: 'company/home',
               },
               {
-                path: '/contact',
+                path: '/client/contact',
                 name: 'Contact',
                 component: 'contact/home',
               },
               {
-                path: '/company/update/:id?',
+                path: '/client/company/update/:id?',
                 component: 'company/update',
               },
               {
-                path: '/company/detail/:id?',
+                path: '/client/company/detail/:id?',
                 component: 'company/detail',
               },
               {
-                path: '/contact/detail/:id?',
+                path: '/client/contact/detail/:id?',
                 component: 'contact/detail',
               },
               {
-                path: '/company/create',
+                path: '/client/company/create',
                 component: 'company/create',
               },
 
               {
-                path: '/contact/update/:id?',
+                path: '/client/contact/update/:id?',
                 component: 'contact/update',
               },
               {
-                path: '/contact/create',
+                path: '/client/contact/create',
                 component: 'contact/create',
               },
               {
-                path: '/contact/detail/:id?',
+                path: '/client/contact/detail/:id?',
                 component: 'contact/detail',
               },
+            ],
+          },
+          {
+            path: '/sales',
+            name: 'Sales Management',
+            routes: [
               {
-                path: '/',
+                path: '/sales/dashboard',
+                name: 'Dashboard',
+                component: 'lead/dashboard',
+              },
+              {
+                path: '/sales/lead',
+                name: 'Sales flow',
                 component: 'lead/home',
               },
               {
-                path: '/lead',
-                name: 'Lead Achives',
-                component: 'lead/home',
-              },
-              {
-                path: '/lead/update/:id?',
+                path: '/sales/lead/update/:id?',
                 component: 'lead/update',
               },
               {
-                path: '/lead/detail/:id?',
+                path: '/sales/lead/detail/:id?',
                 component: 'lead/detail',
               },
               {
-                path: '/lead/create',
+                path: '/sales/lead/create',
                 component: 'lead/create',
               },
               {
-                path: '/archives',
-                name: 'Archives',
+                path: '/sales/lead/archives',
+                name: 'Lead Database',
                 component: 'archives/home',
               },
               {
-                path: '/archives/detail/:id?',
+                path: '/sales/lead/archives/detail/:id?',
                 component: 'archives/detail',
               },
               {
-                path: '/archives/create',
+                path: '/sales/lead/archives/create',
                 component: 'archives/create',
               },
             ],
           },
-
-          // {
-          //   path: '/service',
-          //   name: 'Service',
-          //   component: 'service/home',
-          // },
         ],
       },
     ],

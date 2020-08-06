@@ -21,7 +21,10 @@ class PopInfomation extends React.Component {
         <Descriptions title={detail.name} column={1} style={{ width: '300px' }}>
           <Descriptions.Item label="Contact">
             {detail.contact.map((item, index, list) => (
-              <a key={`link${index}`} onClick={() => history.push(`/contact/detail/${item.key}`)}>
+              <a
+                key={`link${index}`}
+                onClick={() => history.push(`/client/contact/detail/${item.key}`)}
+              >
                 {item.label}
                 {index + 1 !== list.length ? ', ' : ''}
               </a>
@@ -35,7 +38,7 @@ class PopInfomation extends React.Component {
           </Descriptions.Item>
         </Descriptions>
         <a
-          onClick={() => history.push(`/company/detail/${detail.id}`)}
+          onClick={() => history.push(`/client/company/detail/${detail.id}`)}
           className={styles.moreDetailBtn}
         >
           {' '}

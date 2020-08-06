@@ -25,7 +25,7 @@ const columns = [
                   <a
                     onClick={() => {
                       history.push({
-                        pathname: `/contact/detail/${item.key}`,
+                        pathname: `/client/contact/detail/${item.key}`,
                       });
                     }}
                   >
@@ -38,7 +38,7 @@ const columns = [
                   <a
                     onClick={() => {
                       history.push({
-                        pathname: `/contact/detail/${item.key}`,
+                        pathname: `/client/contact/detail/${item.key}`,
                       });
                     }}
                   >

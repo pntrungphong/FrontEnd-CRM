@@ -47,7 +47,7 @@ class LeadDetail extends Component {
                     href="#"
                     onClick={() => {
                       history.push({
-                        pathname: `/lead`,
+                        pathname: `'/sales/lead`,
                       });
                     }}
                   >
@@ -63,19 +63,25 @@ class LeadDetail extends Component {
             <Descriptions title="General Info">
               <Descriptions.Item label="Name">{lead.detail.name}</Descriptions.Item>
               <Descriptions.Item label="Company">
-                <a onClick={() => history.push(`/company/detail/${lead.detail.company.key}`)}>
+                <a
+                  onClick={() => history.push(`/client/company/detail/${lead.detail.company.key}`)}
+                >
                   {lead.detail.company.label}
                 </a>
               </Descriptions.Item>
               <Descriptions.Item label="Rank">{rankStore[lead.detail.rank]}</Descriptions.Item>
               <Descriptions.Item label="Contact">
                 {lead.detail.contact.map((item) => (
-                  <a onClick={() => history.push(`/contact/detail/${item.key}`)}>{item.label}</a>
+                  <a onClick={() => history.push(`/client/contact/detail/${item.key}`)}>
+                    {item.label}
+                  </a>
                 ))}
               </Descriptions.Item>
               <Descriptions.Item label="Related to">
                 {lead.detail.relation.map((item) => (
-                  <a onClick={() => history.push(`/contact/detail/${item.key}`)}>{item.label}</a>
+                  <a onClick={() => history.push(`/client/contact/detail/${item.key}`)}>
+                    {item.label}
+                  </a>
                 ))}
               </Descriptions.Item>
               <Descriptions.Item label="Status">{lead.detail.status}</Descriptions.Item>

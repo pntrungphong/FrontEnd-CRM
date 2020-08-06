@@ -44,7 +44,7 @@ class CreateCompanyForm extends React.Component {
                 href="#"
                 onClick={() => {
                   history.push({
-                    pathname: `/company`,
+                    pathname: `/client/company`,
                   });
                 }}
               >
@@ -71,7 +71,7 @@ class CreateCompanyForm extends React.Component {
               </Button>
             </Form.Item>
             <Form.Item>
-              <Button className={styles.editButton} onClick={() => history.push(`/company`)}>
+              <Button className={styles.editButton} onClick={() => history.push(`/client/company`)}>
                 Cancel
               </Button>
             </Form.Item>

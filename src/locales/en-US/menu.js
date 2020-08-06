@@ -54,4 +54,6 @@ export default {
   'menu.Contact': 'Contact',
   'menu.Lead': 'Lead',
   'menu.Archives': 'Archive',
+  'menu.Dashboard': 'Dashboard',
+  'menu.Dashboardv2': 'Dashboardv2',
 };

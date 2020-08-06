@@ -66,7 +66,7 @@ const Update = connect(({ contact, tag, loading }) => ({
               href="#"
               onClick={() => {
                 history.push({
-                  pathname: `/contact`,
+                  pathname: `/client/contact`,
                 });
               }}
             >
@@ -114,7 +114,7 @@ const Update = connect(({ contact, tag, loading }) => ({
             <Button
               onClick={() => {
                 history.push({
-                  pathname: `/contact`,
+                  pathname: `/client/contact`,
                 });
               }}
               size="middle"
