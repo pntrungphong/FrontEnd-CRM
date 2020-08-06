@@ -47,22 +47,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         <FontAwesomeIcon icon={faEllipsisH} size="sm" />
       </a>
       <Modal
-        title={
-          <CustomHeader
-            company={props.company}
-            status={props.status}
-            rank={props.rank}
-            name={props.name}
-            goal={props.goal}
-            actualdate={props.actualdate}
-            touchpoint={props.touchpoint.data}
-            lead={props.lead}
-            dispatch={props.dispatch}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-            reloadData={onCancel}
-          />
-        }
+        title={<CustomHeader company={props.company} status={props.status} name={props.name} />}
         visible={visible}
         destroyOnClose
         width={800}
