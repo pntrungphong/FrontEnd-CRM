@@ -1,7 +1,7 @@
 import { message } from 'antd';
 import {
   createTouchPoint,
-  updateTouchpoint,
+  updateTouchPoint,
   markDoneTouchpoint,
   getTouchpoint,
 } from '../services/touchpoint';
@@ -21,22 +21,27 @@ const Model = {
       message.success('Create Successfully');
     },
     *update({ payload }, { call }) {
-      const response = yield call(updateTouchpoint, payload);
-      let changeRankresponse =
-        payload.rank.rank !== undefined
-          ? yield call(changeRank, {
-              rank: payload.rank.rank,
-              reason: payload.rank.reason,
-              id: payload.leadId,
-            })
-          : true;
-
-      if (changeRankresponse === '') changeRankresponse = true;
-      if (response.id && changeRankresponse) {
+      const response = yield call(updateTouchPoint, payload);
+      if (response && response.id) {
         message.success('Update Successfully');
         return true;
       }
       return false;
+      // let changeRankresponse =
+      //     payload.rank.rank !== undefined ?
+      //     yield call(changeRank, {
+      //         rank: payload.rank.rank,
+      //         reason: payload.rank.reason,
+      //         id: payload.leadId,
+      //     }) :
+      //     true;
+
+      // if (changeRankresponse === '') changeRankresponse = true;
+      // if (response.id && changeRankresponse) {
+      //     message.success('Update Successfully');
+      //     return true;
+      // }
+      // return false;
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getTouchpoint, payload);

@@ -15,14 +15,14 @@ class CreateLead extends React.Component {
     };
   }
 
-  showModal(showModal) {
-    this.setState({ showModal });
-  }
-
   onLaneChange = (value) => {
     this.formRef.current.setFieldsValue({ lane: value });
     this.formRef.current.submit();
   };
+
+  showModal(showModal) {
+    this.setState({ showModal });
+  }
 
   render() {
     return (

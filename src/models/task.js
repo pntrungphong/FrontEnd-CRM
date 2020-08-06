@@ -1,5 +1,4 @@
-import { message } from 'antd';
-import { createTaskTouchpoint, updateTaskTouchpoint } from '../services/touchpoint';
+import { updateTaskTouchpoint } from '../services/touchpoint';
 
 const User = {
   'chau.dh': '48862ade-6f9a-471f-835a-cff4f3b9a567',
@@ -14,26 +13,26 @@ const Model = {
     listTask: [],
   },
   effects: {
-    *create({ payload }, { call, put }) {
-      const response = yield call(createTaskTouchpoint, payload);
+    // * create({ payload }, { call, put }) {
+    //     // const response = yield call(createTaskTouchpoint, payload);
 
-      if (response != null) {
-        const newValue = {
-          id: response.id,
-          touchpointId: payload.touchpointId,
-          taskname: response.taskname,
-          type: response.type,
-          userId: response.userId,
-          dueDate: response.dueDate,
-        };
-        yield put({
-          type: 'addTask',
-          payload: newValue,
-        });
-      }
+    //     // if (response != null) {
+    //     //   const newValue = {
+    //     //     id: response.id,
+    //     //     touchpointId: payload.touchpointId,
+    //     //     taskname: response.taskname,
+    //     //     type: response.type,
+    //     //     userId: response.userId,
+    //     //     dueDate: response.dueDate,
+    //     //   };
+    //     //   yield put({
+    //     //     type: 'addTask',
+    //     //     payload: newValue,
+    //     //   });
+    //     // }
 
-      message.success('Successfully');
-    },
+    //     message.success('Successfully');
+    // },
     *update({ payload }, { call, put }) {
       const newData = {
         id: payload.listTask[payload.index].id,
