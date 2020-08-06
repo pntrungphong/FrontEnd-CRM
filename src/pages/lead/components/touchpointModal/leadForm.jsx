@@ -107,6 +107,7 @@ class LeadForm extends React.Component {
               <TouchPointModal
                 key={touchPoint.id}
                 update
+                status={touchPoint.status}
                 leadId={this.props.leadId}
                 touchPoint={touchPoint}
               />
@@ -117,6 +118,7 @@ class LeadForm extends React.Component {
           this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1].status ===
             'Done' ? (
             <TouchPointModal
+              status="Undone"
               onCancel={this.props.onCancel}
               leadId={this.props.leadId}
               update={false}

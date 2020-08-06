@@ -7,6 +7,12 @@ const User = {
   'nhan.lh': '39d088f6-cc81-4263-ac27-b920983a4eb0',
 };
 
+const lane = {
+  'Product Consulting': 'PC',
+  'Lead Management': 'LM',
+  'Proposal Handling': 'PH',
+};
+
 const taskFormat = (listTask) => {
   return listTask.map((element) => ({
     taskName: element.taskName,
@@ -18,7 +24,7 @@ const taskFormat = (listTask) => {
 
 export async function createTouchPoint(params) {
   const body = {
-    lane: params.lane,
+    lane: lane[params.lane],
     goal: params.goal,
     review: params.recap,
     status: 'Undone',
@@ -58,7 +64,7 @@ export async function markDoneTouchpoint(params) {
     status: 'Done',
   };
 
-  return request(`/touchpoint/${params.touchPointId}/markDone`, {
+  return request(`/touchpoint/${params}/markDone`, {
     method: 'PUT',
     data: body,
   });
@@ -135,7 +141,7 @@ export async function updateTouchPoint(params) {
   //   .filter((it) => it.order === params.order);
 
   const body = {
-    lane: params.lane,
+    lane: lane[params.lane],
     goal: params.goal,
     review: params.recap,
     task: params.task ? taskFormat(params.task) : [],

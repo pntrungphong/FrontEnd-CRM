@@ -35,6 +35,7 @@ const EditableCell = ({
   editable,
   datetime,
   selectData,
+  status,
   children,
   dataIndex,
   record,
@@ -51,7 +52,7 @@ const EditableCell = ({
   }, [editing]);
 
   const toggleEdit = () => {
-    // if (status === 'Done') return;
+    if (status === 'Done') return;
     if (record.taskName === '' && dataIndex !== 'taskName') return;
     setEditing(!editing);
     form.setFieldsValue({
@@ -175,34 +176,57 @@ class EditableTable extends React.Component {
   constructor(props) {
     super(props);
 
-    this.columns = [
-      {
-        title: 'Task name',
-        dataIndex: 'taskName',
-        width: '25%',
-        editable: true,
-      },
-      {
-        title: 'PIC',
-        dataIndex: 'pic',
-        selectData: ['chau.dh', 'tu.tt', 'khoa.nd', 'nhan.lh'],
-        width: '25%',
-        select: true,
-      },
-      {
-        title: 'Due date',
-        width: '25%',
-        dataIndex: 'dueDate',
-        datetime: true,
-      },
-      {
-        title: 'Action',
-        key: 'action',
-        size: 'small',
-        width: '25%',
-        render: (record) => <a onClick={() => this.handleDelete(record.key)}>Delete</a>,
-      },
-    ];
+    this.columns =
+      this.props.status === 'Done'
+        ? [
+            {
+              title: 'Task name',
+              dataIndex: 'taskName',
+              width: '25%',
+              editable: true,
+            },
+            {
+              title: 'PIC',
+              dataIndex: 'pic',
+              selectData: ['chau.dh', 'tu.tt', 'khoa.nd', 'nhan.lh'],
+              width: '25%',
+              select: true,
+            },
+            {
+              title: 'Due date',
+              width: '25%',
+              dataIndex: 'dueDate',
+              datetime: true,
+            },
+          ]
+        : [
+            {
+              title: 'Task name',
+              dataIndex: 'taskName',
+              width: '25%',
+              editable: true,
+            },
+            {
+              title: 'PIC',
+              dataIndex: 'pic',
+              selectData: ['chau.dh', 'tu.tt', 'khoa.nd', 'nhan.lh'],
+              width: '25%',
+              select: true,
+            },
+            {
+              title: 'Due date',
+              width: '25%',
+              dataIndex: 'dueDate',
+              datetime: true,
+            },
+            {
+              title: 'Action',
+              key: 'action',
+              size: 'small',
+              width: '25%',
+              render: (record) => <a onClick={() => this.handleDelete(record.key)}>Delete</a>,
+            },
+          ];
 
     const newData = this.props.value
       ? this.props.value.map((element, index) => {
@@ -309,6 +333,7 @@ class EditableTable extends React.Component {
           onCell: (record) => ({
             record,
             select: col.select,
+            status: this.props.status,
             selectData: col.selectData,
             dataIndex: col.dataIndex,
             title: col.title,
@@ -323,6 +348,7 @@ class EditableTable extends React.Component {
           onCell: (record) => ({
             record,
             datetime: col.datetime,
+            status: this.props.status,
             dataIndex: col.dataIndex,
             title: col.title,
             handleSave: this.handleSave,
@@ -336,6 +362,7 @@ class EditableTable extends React.Component {
           record,
           editable: col.editable,
           dataIndex: col.dataIndex,
+          status: this.props.status,
           title: col.title,
           handleSave: this.handleSave,
         }),
@@ -402,7 +429,7 @@ class EditableTable extends React.Component {
           <Button
             type="primary"
             size="middle"
-            // hidden={!!(this.props.status === 'Done')}
+            hidden={!!(this.props.status === 'Done')}
             onClick={this.onShow}
           >
             Add task

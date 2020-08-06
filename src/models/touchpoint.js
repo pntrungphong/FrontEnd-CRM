@@ -58,7 +58,7 @@ const Model = {
       }
     },
     *markDone({ payload }, { call }) {
-      const response = yield call(markDoneTouchpoint, payload.markDoneData);
+      const response = yield call(markDoneTouchpoint, payload);
       if (response.id) {
         message.success('Mark done Successfully');
         return true;

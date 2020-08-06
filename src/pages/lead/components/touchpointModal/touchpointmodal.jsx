@@ -1,20 +1,14 @@
 import React, { useState } from 'react';
-import { Modal, Avatar, Col, Tag, Row, Form, Button } from 'antd';
+import { Modal, Avatar, Col, Tag, Popover, Row, Form, Button } from 'antd';
 import { connect } from 'umi';
 import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
 
-const lane = {
-  PC: 'Product Consulting',
-  LM: 'Lead Management',
-  PH: 'Proposal Handling',
-};
-
 const laneColor = {
-  LM: '#D3ADF7',
-  PC: '#B5F5EC',
-  PH: '#FFCCC7',
+  'Lead Management': '#D3ADF7',
+  'Product Consulting': '#B5F5EC',
+  'Proposal Handling': '#FFCCC7',
 };
 
 const layout = {
@@ -48,6 +42,14 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
               type: 'lead/get',
               payload: { id: props.leadId },
             });
+            props.dispatch({
+              type: 'lead/getList',
+              payload: {
+                page: 1,
+                searchValue: props.lead.searchValue,
+                status: props.lead.status,
+              },
+            });
           }
         });
     else
@@ -78,22 +80,30 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
     });
   };
 
-  // const onDone = () => {
-  //   this.props
-  //     .dispatch({
-  //       type: 'touchpoint/markDone',
-  //       payload,
-  //     })
-  //     .then((response) => {
-  //       if (response) {
-  //         setVisible(false);
-  //         props.dispatch({
-  //           type: 'lead/get',
-  //           payload: { id: props.leadId },
-  //         });
-  //       }
-  //     });
-  // }
+  const onDone = () => {
+    props
+      .dispatch({
+        type: 'touchpoint/markDone',
+        payload: props.touchPoint.id,
+      })
+      .then((response) => {
+        if (response) {
+          setVisible(false);
+          props.dispatch({
+            type: 'lead/get',
+            payload: { id: props.leadId },
+          });
+          props.dispatch({
+            type: 'lead/getList',
+            payload: {
+              page: 1,
+              searchValue: props.lead.searchValue,
+              status: props.lead.status,
+            },
+          });
+        }
+      });
+  };
 
   return (
     <div>
@@ -106,7 +116,17 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
             >{`TouchPoint ${props.touchPoint.order}`}</a>
           </Col>
           <Col span={4}>
-            <div className={styles.viewNote}>View recap</div>
+            <Popover
+              content={
+                props.touchPoint.review !== '' ? (
+                  <div className={styles.popoverRecap}>{props.touchPoint.review}</div>
+                ) : (
+                  'Nothing to view'
+                )
+              }
+            >
+              <div className={styles.viewNote}>View recap</div>
+            </Popover>
           </Col>
           <Col span={4}>
             <div>
@@ -135,7 +155,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
               })}
           </Col>
           <Col span={5}>
-            <Tag color={laneColor[props.touchPoint.lane]}>{lane[props.touchPoint.lane]}</Tag>
+            <Tag color={laneColor[props.touchPoint.lane]}>{props.touchPoint.lane}</Tag>
           </Col>
         </Row>
       ) : (
@@ -162,7 +182,13 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
         onCancel={onCancel}
         footer={[
           props.update ? (
-            <Button key="done" type="ghost" htmlType="reset" onClick={onCancel}>
+            <Button
+              key="done"
+              hidden={props.status === 'Done'}
+              type="ghost"
+              htmlType="reset"
+              onClick={onDone}
+            >
               Done
             </Button>
           ) : null,
@@ -170,6 +196,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
             Cancel
           </Button>,
           <Button
+            hidden={props.status === 'Done'}
             loading={props.updateLoading === true || props.createLoading === true}
             key="submit"
             form="touchPointForm"
