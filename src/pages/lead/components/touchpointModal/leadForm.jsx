@@ -113,7 +113,15 @@ class LeadForm extends React.Component {
             );
           })}
 
-          <TouchPointModal leadId={this.props.leadId} update={false} />
+          {this.props.lead.detail.touchPoint.length === 0 ||
+          this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1].status ===
+            'Done' ? (
+            <TouchPointModal
+              onCancel={this.props.onCancel}
+              leadId={this.props.leadId}
+              update={false}
+            />
+          ) : null}
         </div>
 
         <div id="lead-information">

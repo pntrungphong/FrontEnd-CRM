@@ -22,7 +22,7 @@ export async function createTouchPoint(params) {
     goal: params.goal,
     review: params.recap,
     status: 'Undone',
-    task: taskFormat(params.task),
+    task: params.task ? taskFormat(params.task) : [],
     meetingDate: params.meetingdate.format('YYYY-MM-DD HH:mm'),
     leadId: params.leadId,
   };
@@ -36,7 +36,7 @@ export async function createTouchPoint(params) {
 export async function createTaskTouchpoint(params) {
   const body = {
     taskName: params.taskname,
-    type: params.type,
+    type: 'PIC',
     userId: params.pic,
     dueDate: params.duedate,
   };
@@ -56,8 +56,6 @@ export async function getTask(params) {
 export async function markDoneTouchpoint(params) {
   const body = {
     status: 'Done',
-    review: params.review,
-    actualDate: params.actualDate,
   };
 
   return request(`/touchpoint/${params.touchPointId}/markDone`, {
@@ -153,7 +151,7 @@ export async function updateTouchPoint(params) {
 export async function updateTaskTouchpoint(params) {
   const body = {
     taskName: params.taskname,
-    type: params.type,
+    type: 'PIC',
     userId: params.userId,
     dueDate: params.duedate,
   };
