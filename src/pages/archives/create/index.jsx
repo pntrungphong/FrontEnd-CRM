@@ -72,7 +72,7 @@ class Create extends React.Component {
 
   createContact = () => {
     history.push({
-      pathname: '/contact/create',
+      pathname: '/client/contact/create',
     });
   };
 

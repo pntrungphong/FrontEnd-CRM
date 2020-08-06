@@ -23,7 +23,7 @@ const CustomHeader = (props) => {
               <a
                 onClick={() => {
                   history.push({
-                    pathname: `/company/detail/${props.company.id}`,
+                    pathname: `/client/company/detail/${props.company.id}`,
                   });
                 }}
               >

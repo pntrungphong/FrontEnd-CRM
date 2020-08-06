@@ -36,7 +36,7 @@ const columns = [
               className={styles.customCell}
               onClick={() => {
                 history.push({
-                  pathname: `/company/detail/${item.key}`,
+                  pathname: `/client/company/detail/${item.key}`,
                 });
               }}
             >
@@ -110,7 +110,7 @@ const columns = [
           <span
             onClick={() => {
               history.push({
-                pathname: `/contact/detail/${record.id}`,
+                pathname: `/client/contact/detail/${record.id}`,
               });
             }}
           >

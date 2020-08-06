@@ -43,7 +43,7 @@ class CompanyDetail extends Component {
                   href="#"
                   onClick={() => {
                     history.push({
-                      pathname: `/company`,
+                      pathname: `/client/company`,
                     });
                   }}
                 >
@@ -83,7 +83,7 @@ class CompanyDetail extends Component {
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: `/contact/detail/${item.key}`,
+                            pathname: `/client/contact/detail/${item.key}`,
                           });
                         }}
                       >
@@ -189,7 +189,7 @@ class CompanyDetail extends Component {
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: `/lead/detail/${item.id}`,
+                            pathname: `'/sales/lead/detail/${item.id}`,
                           });
                         }}
                       >
@@ -212,7 +212,7 @@ class CompanyDetail extends Component {
           className={styles.edit}
           onClick={() => {
             history.push({
-              pathname: `/company`,
+              pathname: `/client/company`,
             });
           }}
         >

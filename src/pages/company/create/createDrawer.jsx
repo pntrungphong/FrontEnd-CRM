@@ -73,7 +73,7 @@ class CreateCompanyDrawer extends React.Component {
                     href="#"
                     onClick={() => {
                       history.push({
-                        pathname: `/company`,
+                        pathname: `/client/company`,
                       });
                     }}
                   >

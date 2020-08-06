@@ -35,7 +35,7 @@ class ContactDetail extends Component {
                   href="#"
                   onClick={() => {
                     history.push({
-                      pathname: `/contact`,
+                      pathname: `/client/contact`,
                     });
                   }}
                 >
@@ -75,7 +75,7 @@ class ContactDetail extends Component {
                         className={styles.hover}
                         onClick={() => {
                           history.push({
-                            pathname: `/company/detail/${item.key}`,
+                            pathname: `/client/company/detail/${item.key}`,
                           });
                         }}
                       >
@@ -98,7 +98,7 @@ class ContactDetail extends Component {
                         <a
                           onClick={() => {
                             history.push({
-                              pathname: `/contact/detail/${item.key}`,
+                              pathname: `/client/contact/detail/${item.key}`,
                             });
                           }}
                         >
@@ -214,7 +214,7 @@ class ContactDetail extends Component {
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: `/lead/detail/${item.id}`,
+                            pathname: `'/sales/lead/detail/${item.id}`,
                           });
                         }}
                       >
@@ -237,7 +237,7 @@ class ContactDetail extends Component {
           className={styles.edit}
           onClick={() => {
             history.push({
-              pathname: `/contact`,
+              pathname: `/client/contact`,
             });
           }}
         >

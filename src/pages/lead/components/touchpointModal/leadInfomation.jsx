@@ -20,7 +20,7 @@ const LeadInfomation = (props) => {
           <a
             onClick={() => {
               history.push({
-                pathname: `/company/detail/${props.lead.company.key}`,
+                pathname: `/client/company/detail/${props.lead.company.key}`,
               });
             }}
           >
@@ -33,7 +33,7 @@ const LeadInfomation = (props) => {
             <a
               onClick={() => {
                 history.push({
-                  pathname: `/contact/detail/${item.key}`,
+                  pathname: `/client/contact/detail/${item.key}`,
                 });
               }}
               key={item.label}
@@ -50,7 +50,7 @@ const LeadInfomation = (props) => {
             <a
               onClick={() => {
                 history.push({
-                  pathname: `/contact/detail/${item.key}`,
+                  pathname: `/client/contact/detail/${item.key}`,
                 });
               }}
               key={item.label}
