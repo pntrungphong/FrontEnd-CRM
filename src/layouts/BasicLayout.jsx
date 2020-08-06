@@ -108,7 +108,6 @@ const BasicLayout = (props) => {
         )}
         onCollapse={handleMenuCollapse}
         menuItemRender={(menuItemProps) => {
-          console.log('menuItem', menuItemProps);
           const { name } = menuItemProps;
           const customDom = <span className={styles.antMenuItemInner}>{name}</span>;
           if (menuItemProps.isUrl || menuItemProps.children || !menuItemProps.path) {

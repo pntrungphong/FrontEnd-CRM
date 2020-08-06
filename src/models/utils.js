@@ -197,7 +197,6 @@ export const formatDetailContactData = (response) => {
       name: response.name,
       id: response.id,
     };
-    console.table(returnData);
     return returnData;
   } catch (error) {
     throw new Error('Missing data');
@@ -279,8 +278,6 @@ export const formatDetailCompanyData = (response) => {
       name: response.name,
       id: response.id,
     };
-    console.table(returnData);
-
     return returnData;
   } catch (error) {
     throw new Error('Missing data');

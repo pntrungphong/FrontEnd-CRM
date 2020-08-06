@@ -30,7 +30,6 @@ class CompanyDetail extends Component {
       return <Spin />;
     }
 
-    console.table(company);
     return (
       <div className={styles.main}>
         <PageHeaderWrapper

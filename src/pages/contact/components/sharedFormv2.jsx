@@ -11,7 +11,6 @@ const formItemLayout = {
 };
 
 const SharedForm = (props) => {
-  console.table(props);
   return (
     <div className={styles.getAll}>
       <div>

@@ -288,11 +288,7 @@ class EditableTable extends React.Component {
       pic: values.pic ? values.pic[0] : '',
       duedate: values.duedate ? values.duedate : '',
     };
-    // console.table(dataSource);
     const newSource = [newData, ...dataSource];
-    // const testSource = [newData,...dataSource];
-    // console.table(newSource);
-    // console.table(testSource);
     this.setState({
       dataSource: newSource,
       count: count + 1,

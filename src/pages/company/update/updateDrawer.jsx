@@ -18,10 +18,6 @@ class UpdateCompanyDrawer extends React.Component {
     };
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Update Company - Harmonia';
-  }
-
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanDetail',
@@ -29,7 +25,6 @@ class UpdateCompanyDrawer extends React.Component {
   }
 
   onFinish = (values) => {
-    console.table(values);
     this.props
       .dispatch({
         type: 'company/update',
@@ -69,6 +64,10 @@ class UpdateCompanyDrawer extends React.Component {
       visible: false,
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Update Company - Harmonia';
+  }
 
   render() {
     const { tag } = this.props.tag;
