@@ -27,11 +27,15 @@ const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => (
           },
         ]}
       >
-        <Radio.Group>
-          <Radio value="LM">Lead Management</Radio>
-          <Radio value="PC">Product Consulting</Radio>
-          <Radio value="PH">Proposal Handling</Radio>
-        </Radio.Group>
+        {props.status === 'Done' ? (
+          <Input disabled className={styles.disableField} />
+        ) : (
+          <Radio.Group>
+            <Radio value="Lead Management">Lead Management</Radio>
+            <Radio value="Product Consulting">Product Consulting</Radio>
+            <Radio value="Proposal Handling">Proposal Handling</Radio>
+          </Radio.Group>
+        )}
       </Form.Item>
       <Form.Item
         className={styles.customFormItem}
@@ -62,15 +66,15 @@ const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => (
         ]}
       >
         <DatePicker
-          // className={props.status === 'Done' ? styles.disableField : ''}
-          // disabled={props.status === 'Done'}
+          className={props.status === 'Done' ? styles.disableField : ''}
+          disabled={props.status === 'Done'}
           format="YYYY-MM-DD HH:mm"
           showTime
         />
       </Form.Item>
       <Form.Item name="task" label="Task">
         <EditableTable
-          // status={props.status}
+          status={props.status}
           dispatch={props.dispatch}
           lead={props.lead}
           user={props.user}
@@ -80,8 +84,8 @@ const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => (
       </Form.Item>
       <Form.Item className={styles.customFormItem} name="recap" label="Recap" rules={[{ min: 10 }]}>
         <TextArea
-          // disabled={props.status === 'Done'}
-          // className={props.status === 'Done' ? styles.disableField : ''}
+          disabled={props.status === 'Done'}
+          className={props.status === 'Done' ? styles.disableField : ''}
           rows={4}
         />
       </Form.Item>
