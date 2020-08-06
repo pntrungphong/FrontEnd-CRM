@@ -3,7 +3,7 @@ import React from 'react';
 import { connect } from 'umi';
 import { useMount } from 'ahooks';
 import moment from 'moment';
-import TouchPointCreateForm from '../../components/touchpointModal/touchpointmodal';
+import TouchPointCreateForm from '../../components/touchpointModal/leadModal';
 import styles from '../style.less';
 import AddTouchPointButton from '../../components/addButton/addtouchpointbutton';
 import CreateLead from '../../create/createlead';
