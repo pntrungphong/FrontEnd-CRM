@@ -18,10 +18,6 @@ class UpdateCompanyDrawer extends React.Component {
     };
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Update Company - Harmonia';
-  }
-
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanDetail',
@@ -68,6 +64,10 @@ class UpdateCompanyDrawer extends React.Component {
       visible: false,
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Update Company - Harmonia';
+  }
 
   render() {
     const { tag } = this.props.tag;
@@ -128,21 +128,7 @@ class UpdateCompanyDrawer extends React.Component {
               address: company.address,
             }}
           >
-            <SharedForm
-              tag={tag}
-              formRef={this.formRef}
-              companyDetail={{
-                name: company.name,
-                tag: company.tag,
-                phone: company.phone,
-                website: company.website,
-                url: company.url,
-                email: company.email,
-                title: company.title,
-                contact: company.contact,
-                address: company.address,
-              }}
-            />
+            <SharedForm tag={tag} formRef={this.formRef} />
           </Form>
         </Drawer>
       </>

@@ -6,6 +6,7 @@ const formatOutputData = (params) => {
   const phone = params.phone ?? [];
   const address = params.address ?? [];
   const website = params.website ?? [];
+
   const company = params.company
     ? params.company.map((item) => ({
         idCompany: parseInt(item.key, 10),

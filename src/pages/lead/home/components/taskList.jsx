@@ -30,7 +30,7 @@ const TaskList = (props) => {
                     borderRadius: '50%',
                   }}
                 />
-                {taskItem.taskname}
+                {taskItem.taskName}
                 <br />
               </span>
               <span className={styles.taskDueDate}>{moment(taskItem.dueDate).format('DD-MM')}</span>

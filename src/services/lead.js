@@ -90,11 +90,10 @@ export async function getAllFile(params) {
 export async function fullCreateLead(params) {
   const outputData = formatOutputData(params);
 
-  console.table(outputData);
-  // return request('/lead', {
-  //     method: 'POST',
-  //     data: outputData,
-  // });
+  return request('/lead', {
+    method: 'POST',
+    data: outputData,
+  });
 }
 
 export async function changeRank(params) {
