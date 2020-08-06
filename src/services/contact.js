@@ -6,6 +6,11 @@ const formatOutputData = (params) => {
   const phone = params.phone ?? [];
   const address = params.address ?? [];
   const website = params.website ?? [];
+  // const lead = params.lead
+  //   ? params.lead.map((item) => ({
+  //       idLead: parseInt(item.key, 10),
+  //     }))
+  //   : [];
   const company = params.company
     ? params.company.map((item) => ({
         idCompany: parseInt(item.key, 10),
@@ -58,10 +63,12 @@ export async function getContactById(params) {
 }
 
 export async function fullCreateContact(params) {
+  console.table(params);
   const outputData = formatOutputData(params);
   const body = {
     ...outputData,
   };
+  console.table(outputData);
   return request('/contact', {
     method: 'POST',
     data: body,

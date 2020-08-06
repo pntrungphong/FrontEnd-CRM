@@ -174,8 +174,18 @@ export const formatDetailContactData = (response) => {
     const email = emailFormat(response.email ?? []);
     const address = response.address ?? [];
     const phone = phoneFormat(response.phone ?? []);
+    const lead = response.lead
+      ? response.lead.map((element) => {
+          return {
+            id: element.id,
+            name: element.name,
+            status: element.status,
+          };
+        })
+      : [];
 
     const returnData = {
+      lead,
       referral,
       company,
       email,
@@ -187,7 +197,7 @@ export const formatDetailContactData = (response) => {
       name: response.name,
       id: response.id,
     };
-
+    console.table(returnData);
     return returnData;
   } catch (error) {
     throw new Error('Missing data');
@@ -269,6 +279,7 @@ export const formatDetailCompanyData = (response) => {
       name: response.name,
       id: response.id,
     };
+    console.table(returnData);
 
     return returnData;
   } catch (error) {

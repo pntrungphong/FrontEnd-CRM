@@ -49,6 +49,34 @@ const columns = [
       </>
     ),
   },
+  // {
+  //   title: 'Lead',
+  //   dataIndex: 'lead',
+  //   key: 'lead',
+  //   size: 'small',
+  //   width: '25%',
+  //   render: (lead) => (
+  //     <>
+  //       {lead.map((item) => {
+  //         return item.key !== undefined ? (
+  //           <Tag
+  //             key={item.key}
+  //             className={styles.customCell}
+  //             onClick={() => {
+  //               history.push({
+  //                 pathname: `/lead/detail/${item.key}`,
+  //               });
+  //             }}
+  //           >
+  //             {item.name}
+  //           </Tag>
+  //         ) : (
+  //           ''
+  //         );
+  //       })}
+  //     </>
+  //   ),
+  // },
   {
     title: 'Phone',
     dataIndex: 'phone',
