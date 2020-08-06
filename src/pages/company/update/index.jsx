@@ -28,10 +28,6 @@ class UpdateCompanyForm extends React.Component {
     });
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Update Company - Harmonia';
-  }
-
   componentWillUnmount() {
     this.props.dispatch({
       type: 'company/cleanDetail',
@@ -52,6 +48,10 @@ class UpdateCompanyForm extends React.Component {
       });
     }
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Update Company - Harmonia';
+  }
 
   render() {
     const { tag } = this.props.tag;
