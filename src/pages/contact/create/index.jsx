@@ -74,7 +74,7 @@ class Create extends React.Component {
                 href="#"
                 onClick={() => {
                   history.push({
-                    pathname: `/contact`,
+                    pathname: `/client/contact`,
                   });
                 }}
               >
@@ -124,7 +124,7 @@ class Create extends React.Component {
               <Button
                 onClick={() => {
                   history.push({
-                    pathname: `/contact`,
+                    pathname: `/client/contact`,
                   });
                 }}
                 size="middle"

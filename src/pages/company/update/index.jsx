@@ -72,7 +72,7 @@ class UpdateCompanyForm extends React.Component {
                 href="#"
                 onClick={() => {
                   history.push({
-                    pathname: `/company`,
+                    pathname: `/client/company`,
                   });
                 }}
               >
@@ -122,7 +122,7 @@ class UpdateCompanyForm extends React.Component {
                 className={styles.editButton}
                 onClick={() => {
                   history.push({
-                    pathname: `/company`,
+                    pathname: `/client/company`,
                   });
                 }}
               >

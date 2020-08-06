@@ -122,7 +122,7 @@ class ArchivesDetail extends Component {
                           <a
                             onClick={() => {
                               history.push({
-                                pathname: `/contact/detail/${item.key}`,
+                                pathname: `/client/contact/detail/${item.key}`,
                               });
                             }}
                           >

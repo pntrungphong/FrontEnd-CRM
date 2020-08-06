@@ -30,7 +30,7 @@ const columns = [
           className={styles.customCell}
           onClick={() => {
             history.push({
-              pathname: `/company/detail/${company.id}`,
+              pathname: `/client/company/detail/${company.id}`,
             });
           }}
         >
@@ -52,7 +52,7 @@ const columns = [
               className={styles.customCell}
               onClick={() => {
                 history.push({
-                  pathname: `/contact/detail/${item.id}`,
+                  pathname: `/client/contact/detail/${item.id}`,
                 });
               }}
             >
@@ -77,7 +77,7 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <a onClick={() => history.push({ pathname: `/lead/detail/${record.id}` })}>
+          <a onClick={() => history.push({ pathname: `'/sales/lead/detail/${record.id}` })}>
             <EyeOutlined />
           </a>
         </li>
