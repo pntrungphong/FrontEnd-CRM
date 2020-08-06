@@ -241,7 +241,7 @@ class ContactDetail extends Component {
             });
           }}
         >
-          Edit Company
+          Edit Contact
         </Button>
       </div>
     );

@@ -1,11 +1,21 @@
 import React, { useState } from 'react';
 import { Modal, Avatar, Col, Tag, Row, Form, Button } from 'antd';
 import { connect } from 'umi';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
+
+const lane = {
+  PC: 'Product Consulting',
+  LM: 'Lead Management',
+  PH: 'Proposal Handling',
+};
+
+const laneColor = {
+  LM: '#D3ADF7',
+  PC: '#B5F5EC',
+  PH: '#FFCCC7',
+};
 
 const layout = {
   labelCol: { span: 5 },
@@ -16,6 +26,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
   touchpoint,
   lead,
   updateLoading: loading.effects['touchpoint/update'],
+  createLoading: loading.effects['touchpoint/create'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
 
@@ -40,10 +51,24 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
           }
         });
     else
-      props.dispatch({
-        type: 'touchpoint/create',
-        payload: { leadId: props.leadId, ...values },
-      });
+      props
+        .dispatch({
+          type: 'touchpoint/create',
+          payload: { leadId: props.leadId, ...values },
+        })
+        .then((response) => {
+          if (response) {
+            props.onCancel();
+            props.dispatch({
+              type: 'lead/getList',
+              payload: {
+                page: 1,
+                searchValue: props.lead.searchValue,
+                status: props.lead.status,
+              },
+            });
+          }
+        });
   };
 
   const onCancel = () => {
@@ -53,12 +78,32 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
     });
   };
 
+  // const onDone = () => {
+  //   this.props
+  //     .dispatch({
+  //       type: 'touchpoint/markDone',
+  //       payload,
+  //     })
+  //     .then((response) => {
+  //       if (response) {
+  //         setVisible(false);
+  //         props.dispatch({
+  //           type: 'lead/get',
+  //           payload: { id: props.leadId },
+  //         });
+  //       }
+  //     });
+  // }
+
   return (
     <div>
       {props.update ? (
         <Row className={styles.touchPointListTile}>
           <Col span={5}>
-            <a onClick={onShow}>{`TouchPoint ${props.touchPoint.order}`}</a>
+            <a
+              className={styles.touchPointName}
+              onClick={onShow}
+            >{`TouchPoint ${props.touchPoint.order}`}</a>
           </Col>
           <Col span={4}>
             <div className={styles.viewNote}>View recap</div>
@@ -90,13 +135,11 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
               })}
           </Col>
           <Col span={5}>
-            <Tag>Proposal Handling</Tag>
+            <Tag color={laneColor[props.touchPoint.lane]}>{lane[props.touchPoint.lane]}</Tag>
           </Col>
         </Row>
       ) : (
-        <a onClick={onShow}>
-          <FontAwesomeIcon icon={faEllipsisH} size="sm" />
-        </a>
+        <Button onClick={onShow}>Add new touchpoint</Button>
       )}
 
       <Modal
@@ -118,14 +161,16 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
-          <Button key="done" type="ghost" htmlType="reset" onClick={onCancel}>
-            Done
-          </Button>,
+          props.update ? (
+            <Button key="done" type="ghost" htmlType="reset" onClick={onCancel}>
+              Done
+            </Button>
+          ) : null,
           <Button key="cancel" type="ghost" htmlType="reset" onClick={onCancel}>
             Cancel
           </Button>,
           <Button
-            loading={props.updateLoading}
+            loading={props.updateLoading === true || props.createLoading === true}
             key="submit"
             form="touchPointForm"
             type="primary"

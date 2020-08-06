@@ -1,15 +1,15 @@
 import React from 'react';
-import { Col, Row, Menu } from 'antd';
+import { Col, Row } from 'antd';
 import { history } from 'umi';
 
 const CustomHeader = (props) => {
-  const onClickNavLink = (event, tag) => {
-    event.preventDefault();
-    const targetSection = document.querySelector(tag);
-    const topMenu = document.querySelector('#menu-touchpoint-update');
-    const topMenuHeight = topMenu.offsetHeight + topMenu.offsetTop + 10;
-    document.querySelector('.ant-modal-body').scrollTo(0, targetSection.offsetTop - topMenuHeight);
-  };
+  // const onClickNavLink = (event, tag) => {
+  //   event.preventDefault();
+  //   const targetSection = document.querySelector(tag);
+  //   const topMenu = document.querySelector('#menu-touchpoint-update');
+  //   const topMenuHeight = topMenu.offsetHeight + topMenu.offsetTop + 10;
+  //   document.querySelector('.ant-modal-body').scrollTo(0, targetSection.offsetTop - topMenuHeight);
+  // };
 
   return (
     <div>
@@ -33,7 +33,7 @@ const CustomHeader = (props) => {
           </Row>
         </Col>
       </Row>
-      <Row>
+      {/* <Row>
         <Menu mode="horizontal" id="menu-touchpoint-update" defaultSelectedKeys="general">
           <Menu.Item key="general">
             <a href="#general" onClick={(event) => onClickNavLink(event, '#general')}>
@@ -79,7 +79,7 @@ const CustomHeader = (props) => {
             </a>
           </Menu.Item>
         </Menu>
-      </Row>
+      </Row> */}
     </div>
   );
 };

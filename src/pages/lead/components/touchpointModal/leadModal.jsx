@@ -3,6 +3,7 @@ import { Modal, Spin, Button } from 'antd';
 import { connect } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
+import { useUnmount } from 'ahooks';
 import styles from './style.less';
 import LeadForm from './leadForm';
 import CustomHeader from './customHeaderModal';
@@ -32,10 +33,13 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
 
   const onCancel = () => {
     setVisible(false);
-    props.dispatch({
-      type: 'task/cleanData',
-    });
   };
+
+  useUnmount(() => {
+    props.dispatch({
+      type: 'lead/cleanData',
+    });
+  });
 
   return (
     <div>
@@ -105,7 +109,9 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           </Button>,
         ]}
       >
-        {props.lead.detail || props.getLoading === false ? (
+        {!props.lead.detail || props.getLoading === true ? (
+          <Spin className={styles.customSpin} />
+        ) : (
           <LeadForm
             fileTouchPoint={props.fileTouchPoint}
             leadId={props.lead.detail.id}
@@ -117,8 +123,6 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             touchpointId={props.touchpointId}
             status={props.status}
           />
-        ) : (
-          <Spin className={styles.customSpin} />
         )}
       </Modal>
     </div>
