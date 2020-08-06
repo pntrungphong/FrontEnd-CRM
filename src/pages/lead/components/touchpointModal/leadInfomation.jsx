@@ -10,9 +10,6 @@ import styles from './style.less';
 const LeadInfomation = (props) => {
   return (
     <>
-      <div className={styles.header}>
-        <h2 className={styles.title}>Lead Information</h2>
-      </div>
       <div className={styles.contentLead}>
         <h4>Name: {props.lead.name}</h4>
         <h4>

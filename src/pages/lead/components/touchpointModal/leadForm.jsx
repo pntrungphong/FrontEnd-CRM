@@ -3,6 +3,8 @@ import { Form } from 'antd';
 import { connect } from 'umi';
 import LeadInfomation from './leadInfomation';
 import TouchPointModal from './touchpointmodal';
+import styles from './style.less';
+import CurrentTouchPointInfo from './currentTouchPointInfo';
 
 class LeadForm extends React.Component {
   onPlaning = (values) => {
@@ -102,17 +104,19 @@ class LeadForm extends React.Component {
         }}
       >
         <div id="general">
-          {this.props.lead.detail.touchPoint.map((touchPoint) => {
-            return (
-              <TouchPointModal
-                key={touchPoint.id}
-                update
-                status={touchPoint.status}
-                leadId={this.props.leadId}
-                touchPoint={touchPoint}
-              />
-            );
-          })}
+          {this.props.lead.detail.touchPoint.length !== 0 ? (
+            <CurrentTouchPointInfo
+              update
+              status={
+                this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1]
+                  .status
+              }
+              leadId={this.props.leadId}
+              touchPoint={
+                this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1]
+              }
+            />
+          ) : null}
 
           {this.props.lead.detail.touchPoint.length === 0 ||
           this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1].status ===
@@ -127,7 +131,27 @@ class LeadForm extends React.Component {
         </div>
 
         <div id="lead-information">
+          <div className={styles.header}>
+            <h2 className={styles.title}>Lead Information</h2>
+          </div>
           <LeadInfomation lead={this.props.lead.detail} />
+        </div>
+        <div id="past-touchpoint">
+          <div className={styles.header}>
+            <h2 className={styles.title}>Pass TouchPoint</h2>
+          </div>
+          {this.props.lead.detail.touchPoint.map((touchPoint, index) => {
+            if (index === this.props.lead.detail.touchPoint.length - 1) return null;
+            return (
+              <TouchPointModal
+                key={touchPoint.id}
+                update
+                status={touchPoint.status}
+                leadId={this.props.leadId}
+                touchPoint={touchPoint}
+              />
+            );
+          })}
         </div>
         {/* <div id="scope">
           <div className={styles.header}>
