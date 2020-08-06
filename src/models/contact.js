@@ -1,5 +1,4 @@
 import { message } from 'antd';
-import { history } from 'umi';
 import { formatListContactData, formatDetailContactData } from './utils';
 import { getContact, updateContact, getContactById, fullCreateContact } from '../services/contact';
 
@@ -54,10 +53,9 @@ const ContactModel = {
       const response = yield call(fullCreateContact, payload);
       if (response && response.id) {
         message.success('Successfully');
-        history.push({
-          pathname: '/contact/',
-        });
+        return response;
       }
+      return null;
     },
     *quickCreateContact({ payload }, { call }) {
       const createdContact = yield call(fullCreateContact, payload);
@@ -74,11 +72,10 @@ const ContactModel = {
     *update({ payload }, { call }) {
       const response = yield call(updateContact, payload);
       if (response && response.id) {
-        history.push({
-          pathname: '/contact',
-        });
         message.success('Successfully');
+        return response;
       }
+      return null;
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getContactById, payload);

@@ -87,7 +87,7 @@ class CompanyDetail extends Component {
                           });
                         }}
                       >
-                        {item.label}
+                        <h4 className={styles.editTag}>{item.label}</h4>
                       </a>
                     </Tag>
                   );
@@ -103,7 +103,7 @@ class CompanyDetail extends Component {
                   return (
                     <>
                       <Tag key={item.key} className={styles.tagOne}>
-                        {item.label}
+                        <h4 className={styles.editTag}>{item.label}</h4>
                       </Tag>
                     </>
                   );
@@ -119,9 +119,7 @@ class CompanyDetail extends Component {
                 {company.detail.phone.map((item) => {
                   return (
                     <Row key={item.number}>
-                      <Tag key={item.number} className={styles.customField}>
-                        {item.number}
-                      </Tag>
+                      <Tag key={item.number} className={styles.customField} />
                     </Row>
                   );
                 })}
@@ -135,9 +133,9 @@ class CompanyDetail extends Component {
                 {company.detail.email.map((item) => {
                   return (
                     <Row key={item.url}>
-                      <Tag key={item.type} className={styles.customField}>
-                        {item.url}
-                      </Tag>
+                      <span key={item.type} className={styles.customField}>
+                        <h4>{item.url}</h4>
+                      </span>
                     </Row>
                   );
                 })}
@@ -166,11 +164,11 @@ class CompanyDetail extends Component {
               {company.detail.address.map((item, index) => {
                 return (
                   <>
-                    <Col flex="150px">
+                    <Col flex="450px">
                       <h3 className={styles.cloOne}>Address {index + 1}</h3>
                     </Col>
                     <Col flex="auto" className={styles.address}>
-                      <span className={styles.customField}>{item.address}</span>
+                      <span className={styles.customField}>{item}</span>
                     </Col>
                   </>
                 );
@@ -187,7 +185,7 @@ class CompanyDetail extends Component {
               {company.detail.lead.map((item) => {
                 return (
                   <>
-                    <Col flex="150px">
+                    <Col flex="440px">
                       <a
                         onClick={() => {
                           history.push({
@@ -214,7 +212,7 @@ class CompanyDetail extends Component {
           className={styles.edit}
           onClick={() => {
             history.push({
-              pathname: `/lead/detail/${company.detail.id}`,
+              pathname: `/company`,
             });
           }}
         >

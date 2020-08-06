@@ -11,9 +11,6 @@ const formItemLayout = {
 };
 
 const SharedForm = (props) => {
-  const email = props.companyDetail?.email ?? [];
-  const website = props.companyDetail?.website ?? [];
-  const address = props.companyDetail?.address ?? [];
   return (
     <div className={styles.getAll}>
       <div>
@@ -64,28 +61,37 @@ const SharedForm = (props) => {
       <Form.List name="phone">
         {(fields, { add, remove }) => {
           return (
-            <div>
+            <div style={{ width: '104%' }}>
               {fields.map((field, index) => (
-                <Row key={field.key}>
-                  <Form.Item
-                    {...field}
-                    {...formItemLayout}
-                    label={index === 0 ? 'Phone' : ' '}
-                    colon={!index}
-                    className={styles.phoneFormItem}
-                    name={[field.name, 'number']}
-                    fieldKey={[field.fieldKey, 'number']}
-                    rules={[{ required: true, message: 'Please enter phone!' }]}
-                  >
-                    <div className={styles.customLayoutRow}>
-                      <Input pattern="^[0-9]{10}$" defaultValue={address[index]?.address} />{' '}
+                <div className={styles.editInput}>
+                  <Row key={field.key} className={styles.phoneFormItem}>
+                    <Form.Item
+                      {...field}
+                      {...formItemLayout}
+                      label={index === 0 ? 'Phone' : ' '}
+                      colon={!index}
+                      className={styles.phoneFormItem}
+                      name={[field.name, 'number']}
+                      fieldKey={[field.fieldKey, 'number']}
+                      rules={[{ required: true, message: 'Please enter phone!' }]}
+                    >
+                      <Input pattern="^[0-9]{10}$" className={styles.getInput} />
+                    </Form.Item>
+                  </Row>
+                  <div className={styles.iconOne}>
+                    {index > 0 ? (
                       <MinusCircleOutlined
                         className={styles.icon}
                         onClick={() => remove(field.name)}
                       />
-                    </div>
-                  </Form.Item>
-                </Row>
+                    ) : (
+                      <MinusCircleOutlined
+                        className={['dynamic-delete-button', styles.customEmptySpace]}
+                        onClick={() => remove(field.name)}
+                      />
+                    )}
+                  </div>
+                </div>
               ))}
               <Form.Item
                 {...formItemLayout}
@@ -93,97 +99,68 @@ const SharedForm = (props) => {
                 colon={!(fields.length > 0)}
               >
                 <Button onClick={() => add()} className={styles.addButton}>
-                  <PlusOutlined /> Add address
+                  <PlusOutlined /> Add Phone
                 </Button>
               </Form.Item>
             </div>
           );
         }}
       </Form.List>
-      {/* <Form.List name="phone">
-        {(fields, { add, remove }) => {
-          return (
-            <>
-              {fields.map((field, index) => (
-                <Row key={field.key}>
-                  <Form.Item
-                    {...field}
-                    {...formItemLayout}
-                    label={index === 0 ? 'Phone' : ' '}
-                    colon={!index}
-                    className={styles.phoneFormItem}
-                    name={[field.name, 'number']}
-                    fieldKey={[field.fieldKey, 'number']}
-                    rules={[{ required: true, message: 'Please enter phone!' }]}
-                  >
-                    <Input
-                      pattern="^[0-9]{10}$"
-                    /><MinusCircleOutlined
-                          className={styles.icon}
-                          onClick={() => remove(field.name)}
-                        />
-                  </Form.Item>
-                </Row>
-              ))}
-              <Form.Item
-                {...formItemLayout}
-                label={fields.length > 0 ? ' ' : 'Phone'}
-                colon={!(fields.length > 0)}
-              >
-                <Button onClick={() => add()} className={styles.addButton}>
-                  <PlusOutlined /> Add phone
-                </Button>
-              </Form.Item>
-            </>
-          );
-        }}
-      </Form.List> */}
       <Form.List name="email">
         {(fields, { add, remove }) => {
           return (
-            <>
+            <div style={{ width: '104%' }}>
               {fields.map((field, index) => (
-                <Row key={field.key}>
+                <div className={styles.editInput}>
+                  <Row key={field.key} className={styles.phoneFormItemOne}>
+                    <Form.Item
+                      {...field}
+                      {...formItemLayout}
+                      label={index === 0 ? 'Email' : ' '}
+                      colon={!index}
+                      className={styles.phoneFormItemOne}
+                      name={[field.name, 'url']}
+                      fieldKey={[field.fieldKey, 'url']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter email',
+                        },
+                        {
+                          type: 'email',
+                          message: 'This field must be a valid email.',
+                        },
+                      ]}
+                    >
+                      <Input style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Row>
                   <Form.Item
-                    {...field}
-                    {...formItemLayout}
-                    label={index === 0 ? 'Email' : ' '}
-                    colon={!index}
-                    className={styles.phoneFormItem}
-                    name={[field.name, 'url']}
-                    fieldKey={[field.fieldKey, 'url']}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter email',
-                      },
-                      {
-                        type: 'email',
-                        message: 'This field must be a valid email.',
-                      },
-                    ]}
+                    className={styles.typeFormItem}
+                    name={[field.name, 'type']}
+                    fieldKey={[field.fieldKey, 'type']}
+                    rules={[{ required: true, message: 'Select type' }]}
                   >
-                    <div className={styles.customLayoutRow}>
-                      <Input defaultValue={email[index]?.url} />
-                      <Form.Item
-                        className={styles.typeFormItem}
-                        name={[field.name, 'type']}
-                        fieldKey={[field.fieldKey, 'type']}
-                        rules={[{ required: true, message: 'Select type' }]}
-                      >
-                        <Select placeholder="Type">
-                          <Option value="Primary">Primary</Option>
-                          <Option value="Company">Company</Option>
-                          <Option value="Personal">Personal</Option>
-                        </Select>
-                      </Form.Item>
+                    <Select placeholder="Type">
+                      <Option value="Primary">Primary</Option>
+                      <Option value="Company">Company</Option>
+                      <Option value="Personal">Personal</Option>
+                    </Select>
+                  </Form.Item>
+                  <div className={styles.iconOne}>
+                    {index > 0 ? (
                       <MinusCircleOutlined
                         className={styles.icon}
                         onClick={() => remove(field.name)}
                       />
-                    </div>
-                  </Form.Item>
-                </Row>
+                    ) : (
+                      <MinusCircleOutlined
+                        className={['dynamic-delete-button', styles.customEmptySpace]}
+                        onClick={() => remove(field.name)}
+                      />
+                    )}
+                  </div>
+                </div>
               ))}
               <Form.Item
                 {...formItemLayout}
@@ -191,101 +168,106 @@ const SharedForm = (props) => {
                 colon={!(fields.length > 0)}
               >
                 <Button onClick={() => add()} className={styles.addButton}>
-                  <PlusOutlined /> Add email
-                </Button>
-              </Form.Item>
-            </>
-          );
-        }}
-      </Form.List>
-      <Form.List name="website">
-        {(fields, { add, remove }) => {
-          return (
-            <div>
-              {fields.map((field, index) => (
-                <Row key={field.key}>
-                  <Form.Item
-                    {...field}
-                    {...formItemLayout}
-                    label={index === 0 ? 'Social Link' : ' '}
-                    colon={!index}
-                    className={styles.phoneFormItem}
-                    name={[field.name, 'url']}
-                    fieldKey={[field.fieldKey, 'url']}
-                    rules={[
-                      {
-                        required: true,
-                        message: 'Please enter Social Link',
-                      },
-                      {
-                        type: 'url',
-                        message: 'This field must be a valid Social Link.',
-                      },
-                    ]}
-                  >
-                    <div className={styles.customLayoutRow}>
-                      <Input defaultValue={website[index]?.url} />
-                      <Form.Item
-                        className={styles.typeFormItem}
-                        name={[field.name, 'type']}
-                        fieldKey={[field.fieldKey, 'type']}
-                        rules={[{ required: true, message: 'Select type' }]}
-                      >
-                        <Select placeholder="Type">
-                          <Option value="Facebook">Facebook</Option>
-                          <Option value="Skype">Skype</Option>
-                          <Option value="Zalo">Zalo</Option>
-                          <Option value="Youtube">Youtube</Option>
-                          <Option value="Linkedin">Linkedin</Option>
-                          <Option value="Instagram">Instagram</Option>
-                        </Select>
-                      </Form.Item>
-                      <MinusCircleOutlined
-                        className={styles.icon}
-                        onClick={() => remove(field.name)}
-                      />
-                    </div>
-                  </Form.Item>
-                </Row>
-              ))}
-              <Form.Item
-                {...formItemLayout}
-                label={fields.length > 0 ? ' ' : 'Social Link'}
-                colon={!(fields.length > 0)}
-              >
-                <Button onClick={() => add()} className={styles.addButton}>
-                  <PlusOutlined /> Add social link
+                  <PlusOutlined /> Add Email
                 </Button>
               </Form.Item>
             </div>
           );
         }}
       </Form.List>
-      <Form.List name="address">
+      <Form.List name="website">
         {(fields, { add, remove }) => {
           return (
-            <div>
+            <div style={{ width: '102.5%' }}>
               {fields.map((field, index) => (
-                <Row key={field.key}>
+                <div className={styles.editInput}>
+                  <Row key={field.key} className={styles.phoneFormItemOne}>
+                    <Form.Item
+                      {...field}
+                      {...formItemLayout}
+                      label={index === 0 ? 'Social Link' : ' '}
+                      colon={!index}
+                      className={styles.phoneFormItemOne}
+                      name={[field.name, 'url']}
+                      fieldKey={[field.fieldKey, 'url']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter social link',
+                        },
+                        {
+                          type: 'url',
+                          message: 'This field must be a valid social link.',
+                        },
+                      ]}
+                    >
+                      <Input style={{ width: '100%' }} />
+                    </Form.Item>
+                  </Row>
                   <Form.Item
-                    {...field}
-                    {...formItemLayout}
-                    label={index === 0 ? 'Address' : ' '}
-                    colon={!index}
-                    className={styles.phoneFormItem}
-                    name={[field.name, 'address']}
-                    fieldKey={[field.fieldKey, 'address']}
-                    rules={[{ required: true, message: 'Please enter address!' }]}
+                    className={styles.typeFormItem}
+                    name={[field.name, 'type']}
+                    fieldKey={[field.fieldKey, 'type']}
+                    rules={[{ required: true, message: 'Select type' }]}
                   >
-                    <div className={styles.customLayoutRow}>
-                      <Input defaultValue={address[index]?.address} />{' '}
+                    <Select placeholder="Type">
+                      <Option value="Primary">Primary</Option>
+                      <Option value="Company">Company</Option>
+                      <Option value="Personal">Personal</Option>
+                    </Select>
+                  </Form.Item>
+                  <div className={styles.iconOne}>
+                    {index > 0 ? (
                       <MinusCircleOutlined
                         className={styles.icon}
                         onClick={() => remove(field.name)}
                       />
-                    </div>
-                  </Form.Item>
-                </Row>
+                    ) : (
+                      <MinusCircleOutlined
+                        className={['dynamic-delete-button', styles.customEmptySpace]}
+                        onClick={() => remove(field.name)}
+                      />
+                    )}
+                  </div>
+                </div>
+              ))}
+              <Form.Item
+                {...formItemLayout}
+                label={
+                  fields.length > 0 ? ' ' : <div className={styles.editLabel}>Social Link</div>
+                }
+                colon={!(fields.length > 0)}
+              >
+                <Button onClick={() => add()} className={styles.addButton}>
+                  <PlusOutlined /> Add Social Link
+                </Button>
+              </Form.Item>
+            </div>
+          );
+        }}
+      </Form.List>
+
+      <Form.List name="address">
+        {(fields, { add, remove }) => {
+          return (
+            <div style={{ width: '104.5%' }}>
+              {fields.map((field, index) => (
+                <div className={styles.editInput}>
+                  <Row key={field.key} className={styles.phoneFormItem}>
+                    <Form.Item
+                      {...field}
+                      {...formItemLayout}
+                      label={index === 0 ? 'Address' : ' '}
+                      colon={!index}
+                      className={styles.phoneFormItem}
+                      fieldKey={[field.fieldKey, 'address']}
+                      rules={[{ required: true, message: 'Please enter address!' }]}
+                    >
+                      <Input className={styles.getInput} />
+                    </Form.Item>
+                  </Row>
+                  <MinusCircleOutlined className={styles.icon} onClick={() => remove(field.name)} />
+                </div>
               ))}
               <Form.Item
                 {...formItemLayout}
@@ -293,7 +275,7 @@ const SharedForm = (props) => {
                 colon={!(fields.length > 0)}
               >
                 <Button onClick={() => add()} className={styles.addButton}>
-                  <PlusOutlined /> Add address
+                  <PlusOutlined /> Add Address
                 </Button>
               </Form.Item>
             </div>

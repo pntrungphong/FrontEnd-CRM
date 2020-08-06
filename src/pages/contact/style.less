@@ -16,7 +16,7 @@
   margin-left: 28px;
 }
 .typeFormItem {
-  width: 55%;
+  width: 20%;
   margin: 0 !important;
 
   :global {
@@ -25,10 +25,6 @@
       top: 100%;
     }
   }
-}
-.icon {
-  margin: auto 8px;
-  font-size: medium;
 }
 .addButton {
   height: 40px;
@@ -45,16 +41,6 @@
   // &>:nth-child(2) {
   //   flex: 1 45%;
   // }
-}
-.phoneFormItem {
-  width: 100%;
-  margin-bottom: 10px !important;
-
-  :global {
-    .ant-input-group-addon {
-      line-height: 1;
-    }
-  }
 }
 .createBtn {
   border-radius: 4px;
@@ -88,7 +74,6 @@
 }
 
 .customEmptySpace {
-  margin: 8px 8px;
   color: transparent;
   font-size: 0.9rem;
 }
@@ -96,7 +81,45 @@
   margin: 8px;
   font-size: 0.9rem;
 }
+.editInput {
+  display: flex;
+}
+.icon {
+  margin: 8px 0;
+  font-size: medium;
+}
+.iconOne {
+  margin: 5px -9px 0 7px;
+  font-size: medium;
+}
+.editLabel {
+  position: relative;
+  left: -9px;
+}
+.phoneFormItem {
+  width: 100%;
+  margin-right: 8px;
+  margin-bottom: 10px;
 
+  :global {
+    .ant-input-group-addon {
+      line-height: 1;
+    }
+  }
+}
+.getInput {
+  width: 101.5%;
+}
+.phoneFormItemOne {
+  width: 100%;
+  margin-bottom: 10px;
+  margin-left: 9px;
+  :global {
+    .ant-input-group-addon {
+      line-height: 1;
+    }
+  }
+}
 .customButtonAdd {
   width: 100%;
   height: auto;

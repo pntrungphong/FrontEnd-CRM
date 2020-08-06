@@ -128,21 +128,7 @@ class UpdateCompanyDrawer extends React.Component {
               address: company.address,
             }}
           >
-            <SharedForm
-              tag={tag}
-              formRef={this.formRef}
-              companyDetail={{
-                name: company.name,
-                tag: company.tag,
-                phone: company.phone,
-                website: company.website,
-                url: company.url,
-                email: company.email,
-                title: company.title,
-                contact: company.contact,
-                address: company.address,
-              }}
-            />
+            <SharedForm tag={tag} formRef={this.formRef} />
           </Form>
         </Drawer>
       </>

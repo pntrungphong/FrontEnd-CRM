@@ -1,4 +1,4 @@
-import { Card, Divider, Tag, Spin, Row, Col, Breadcrumb } from 'antd';
+import { Card, Divider, Tag, Spin, Row, Col, Breadcrumb, Button } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
@@ -72,14 +72,14 @@ class ContactDetail extends Component {
                     <>
                       <Tag
                         key={item.key}
-                        className={styles.ta}
+                        className={styles.hover}
                         onClick={() => {
                           history.push({
                             pathname: `/company/detail/${item.key}`,
                           });
                         }}
                       >
-                        {item.label}
+                        <h4 className={styles.editTag}>{item.label}</h4>
                       </Tag>
                     </>
                   );
@@ -102,7 +102,7 @@ class ContactDetail extends Component {
                             });
                           }}
                         >
-                          {item.label}
+                          <h4 className={styles.editTag}>{item.label}</h4>
                         </a>
                       </Tag>
                     </>
@@ -120,7 +120,9 @@ class ContactDetail extends Component {
                     <>
                       <Row>
                         <Tag key={item.type} className={styles.customField}>
-                          {item.number} ({item.type})
+                          <h4 className={styles.editTag}>
+                            {item.number} ({item.type})
+                          </h4>
                         </Tag>
                       </Row>
                     </>
@@ -198,7 +200,49 @@ class ContactDetail extends Component {
             </Row>
             <Divider className={styles.three} />
           </Card>
+          <br />
+          <Card bordered="true" className={styles.cardOne}>
+            <div className={styles.one}>
+              <h2>Leads</h2>
+            </div>
+            <Divider className={styles.two} />
+            <Row className={styles.rowCol}>
+              {contact.detail.lead.map((item) => {
+                return (
+                  <>
+                    <Col flex="150px">
+                      <a
+                        onClick={() => {
+                          history.push({
+                            pathname: `/lead/detail/${item.id}`,
+                          });
+                        }}
+                      >
+                        <h3 className={styles.linkLead}>
+                          {item.name} - {contact.detail.name}
+                        </h3>
+                      </a>
+                    </Col>
+                    <Col flex="auto" className={styles.address}>
+                      <Tag>{item.status}</Tag>
+                    </Col>
+                  </>
+                );
+              })}
+            </Row>
+          </Card>
         </PageHeaderWrapper>
+        <br />
+        <Button
+          className={styles.edit}
+          onClick={() => {
+            history.push({
+              pathname: `/contact`,
+            });
+          }}
+        >
+          Edit Company
+        </Button>
       </div>
     );
   }

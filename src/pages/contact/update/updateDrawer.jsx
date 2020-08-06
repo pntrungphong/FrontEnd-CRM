@@ -119,30 +119,17 @@ class UpdateContactDrawer extends React.Component {
             initialValues={{
               name: contact.name,
               tag: contact.tag,
+              company: contact.company,
+              referral: contact.referral,
               phone: contact.phone,
               website: contact.website,
-              url: contact.url,
               email: contact.email,
               title: contact.title,
               contact: contact.contact,
               address: contact.address,
             }}
           >
-            <SharedForm
-              tag={tag}
-              formRef={this.formRef}
-              contactDetail={{
-                name: contact.name,
-                tag: contact.tag,
-                phone: contact.phone,
-                website: contact.website,
-                url: contact.url,
-                email: contact.email,
-                title: contact.title,
-                contact: contact.contact,
-                address: contact.address,
-              }}
-            />
+            <SharedForm tag={tag} formRef={this.formRef} />
           </Form>
         </Drawer>
       </>
@@ -154,4 +141,5 @@ export default connect(({ contact, tag, loading }) => ({
   contact,
   tag,
   querying: loading.effects['contact/get'],
+  submitting: loading.effects['contact/update'],
 }))(UpdateContactDrawer);
