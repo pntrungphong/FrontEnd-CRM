@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
-import { Drawer, Button } from 'antd';
+import { Drawer, Button, Col, Row } from 'antd';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
@@ -9,6 +9,7 @@ import CreateForm from './formcreate';
 class CreateLead extends React.Component {
   constructor(props) {
     super(props);
+    this.formRef = React.createRef();
     this.state = {
       showModal: false,
     };
@@ -17,6 +18,11 @@ class CreateLead extends React.Component {
   showModal(showModal) {
     this.setState({ showModal });
   }
+
+  onLaneChange = (value) => {
+    this.formRef.current.setFieldsValue({ lane: value });
+    this.formRef.current.submit();
+  };
 
   render() {
     return (
@@ -33,18 +39,37 @@ class CreateLead extends React.Component {
           style={{ top: 0 }}
           title="Add new Lead"
           closable
-          width={750}
+          width={800}
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[
-            <div className={styles.drawerSubmitButton}>
-              <Button form="createLeadForm" key="submit" htmlType="submit">
-                Submit
-              </Button>
-            </div>,
+            <Row justify="space-around">
+              <Col span={4}>
+                <Button onClick={() => this.onLaneChange()}>Save</Button>
+              </Col>
+              <Col span={4}>
+                <Button type="primary" onClick={() => this.onLaneChange('LM')}>
+                  #LM
+                </Button>
+              </Col>
+              <Col span={4}>
+                <Button type="primary" onClick={() => this.onLaneChange('PC')}>
+                  #PC
+                </Button>
+              </Col>
+              <Col span={4}>
+                <Button type="primary" onClick={() => this.onLaneChange('PH')}>
+                  #PH
+                </Button>
+              </Col>
+            </Row>,
           ]}
         >
-          <CreateForm id="createLeadForm" closeModal={() => this.showModal(false)} />
+          <CreateForm
+            formRef={this.formRef}
+            id="createLeadForm"
+            closeModal={() => this.showModal(false)}
+          />
         </Drawer>
       </>
     );

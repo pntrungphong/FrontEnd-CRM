@@ -12,7 +12,10 @@
 .header {
   display: inline;
 }
-
+.icon {
+  margin: auto 8px;
+  font-size: medium;
+}
 .title {
   margin-bottom: 20px;
   font-weight: bold;
@@ -41,7 +44,7 @@
 
 .customLayoutRow {
   display: flex;
-  width: 100%;
+  width: 106%;
 
   // &>:nth-child(1) {
   //   flex: 1 65%;
@@ -118,12 +121,27 @@
 }
 
 .editButton {
+  min-width: 80px;
+  border-radius: 4px;
+}
+.editButtonOne {
+  left: 47px;
+  min-width: 80px;
+  background-color: #1890ff;
+  border-radius: 4px;
+}
+.editButtonTwo {
+  left: 20px;
+  min-width: 80px;
+  background-color: #1890ff;
   border-radius: 4px;
 }
 
 .aroundBtn {
   display: flex;
-  justify-self: end;
+  justify-content: space-evenly;
+  width: 400px;
+  margin-top: 36px;
 }
 
 .search {

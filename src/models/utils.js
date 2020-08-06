@@ -224,6 +224,16 @@ export const formatDetailCompanyData = (response) => {
         })
       : [];
 
+    const lead = response.lead
+      ? response.lead.map((element) => {
+          return {
+            id: element.id,
+            name: element.name,
+            status: element.status,
+          };
+        })
+      : [];
+
     const email = response.email
       ? response.email.map((element) => {
           return {
@@ -253,6 +263,7 @@ export const formatDetailCompanyData = (response) => {
       email,
       website,
       tag,
+      lead,
       address,
       phone,
       name: response.name,
@@ -394,7 +405,7 @@ export const formatDetailLeadData = (response) => {
       label: response.company.name,
     };
     const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
-    return {
+    const body = {
       listFile,
       company,
       touchPoint: response.touchPoint,
@@ -409,6 +420,7 @@ export const formatDetailLeadData = (response) => {
       note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
     };
+    return body;
   } catch (error) {
     throw new Error('Missing pagination data');
   }

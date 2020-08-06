@@ -1,44 +1,38 @@
 import React, { useState } from 'react';
-import { Modal, Spin, Button } from 'antd';
+import { Modal, Spin, Form, Button } from 'antd';
 import { connect } from 'umi';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEllipsisH } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
-import UpdateTouchpointForm from './updateTouchpointForm';
-import CustomHeader from './customHeaderModal';
-import MarkDoneModal from '../markDoneForm/markDoneTouchPoint';
+import UpdateGeneralInformation from './updategeneralform';
 
-const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
+const layout = {
+  labelCol: { span: 5 },
+};
+
+const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
   task,
   touchpoint,
   lead,
   updateLoading: loading.effects['touchpoint/update'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
-  const [disableButton, setDisableButton] = useState(true);
 
   const onShow = () => {
     setVisible(true);
-    setDisableButton(true);
-    props.dispatch({
-      type: 'touchpoint/get',
-      payload: { id: props.touchpointId, leadId: props.leadId },
-    });
-    props.dispatch({
-      type: 'lead/get',
-      payload: { id: props.leadId },
-    });
+    if (props.update)
+      props.dispatch({
+        type: 'touchpoint/get',
+        payload: { id: props.touchPointId, leadId: props.leadId },
+      });
   };
 
-  const enableButton = () => {
-    if (disableButton) setDisableButton(false);
+  const onFinish = (values) => {
+    console.table(values);
   };
 
   const onCancel = () => {
     setVisible(false);
-    props.dispatch({
-      type: 'task/cleanData',
-    });
     props.dispatch({
       type: 'touchpoint/cleanData',
     });
@@ -46,29 +40,18 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
 
   return (
     <div>
-      <a onClick={onShow} className={styles.updateTouchPointButton}>
+      <a onClick={onShow}>
         <FontAwesomeIcon icon={faEllipsisH} size="sm" />
       </a>
       <Modal
-        title={
-          <CustomHeader
-            company={props.company}
-            status={props.status}
-            rank={props.rank}
-            name={props.name}
-            goal={props.goal}
-            actualdate={props.actualdate}
-            touchpoint={props.touchpoint.data}
-            lead={props.lead}
-            dispatch={props.dispatch}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-            reloadData={onCancel}
-          />
-        }
         visible={visible}
         destroyOnClose
         width={800}
+        title={
+          <div className={styles.header}>
+            <p className={styles.title}>General Information</p>
+          </div>
+        }
         style={{ top: 0, background: 'white' }}
         bodyStyle={{
           height: '71.5vh',
@@ -79,56 +62,52 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
         className={styles.customModal}
         onCancel={onCancel}
         footer={[
-          <MarkDoneModal
-            form={props.form}
-            goal={props.goal}
-            dispatch={props.dispatch}
-            status={props.status}
-            lead={props.lead}
-            actualdate={props.actualdate}
-            rank={props.rank}
-            leadId={props.leadId}
-            touchpointId={props.touchpointId}
-            reloadData={onCancel}
-          />,
-          <Button
-            key="cancel"
-            type="ghost"
-            htmlType="reset"
-            onClick={onCancel}
-            form={props.touchpointId}
-          >
+          <Button key="done" type="ghost" htmlType="reset" onClick={onCancel}>
+            Done
+          </Button>,
+          <Button key="cancel" type="ghost" htmlType="reset" onClick={onCancel}>
             Cancel
           </Button>,
           <Button
             loading={props.updateLoading}
-            disabled={props.status === 'Done' || disableButton}
-            form={props.touchpointId}
             key="submit"
+            form="touchPointForm"
             type="primary"
             htmlType="submit"
           >
-            Submit
+            Save
           </Button>,
         ]}
       >
-        {(props.touchpoint.data && props.lead.detail) || props.updateLoading ? (
-          <UpdateTouchpointForm
-            fileTouchPoint={props.fileTouchPoint}
-            leadId={props.lead.detail.id}
-            onCancel={onCancel}
-            enableButton={enableButton}
-            touchpoint={props.touchpoint}
-            lead={props.lead}
-            rank={props.rank}
-            touchpointId={props.touchpointId}
-            status={props.status}
-          />
+        {props.touchpoint.data || props.update === false ? (
+          <Form
+            {...layout}
+            onFinish={onFinish}
+            id="touchPointForm"
+            initialValues={
+              props.update
+                ? {
+                    goal: props.touchpoint.data.goal,
+                    meetingdate: props.touchpoint.data.meetingdate,
+                    note: props.touchpoint.data.note,
+                    recap: props.touchpoint.data.review,
+                  }
+                : {}
+            }
+          >
+            <UpdateGeneralInformation
+              status={props.status}
+              dispatch={props.dispatch}
+              touchpointId={props.touchpointId}
+              listTask={props.touchpoint.data ? props.touchpoint.data.task : []}
+            />
+          </Form>
         ) : (
-          <Spin className={styles.customSpin} />
+          <Spin />
         )}
       </Modal>
     </div>
   );
 });
-export default TouchPointCreateForm;
+
+export default TouchPointModal;
