@@ -23,6 +23,24 @@ class CreateContactDrawer extends React.Component {
     });
   }
 
+  componentWillUnmount() {
+    this.props.dispatch({
+      type: 'contact/cleanData',
+    });
+  }
+
+  onClose = () => {
+    this.setState({
+      visible: false,
+    });
+  };
+
+  showDrawer = () => {
+    this.setState({
+      visible: true,
+    });
+  };
+
   onFinish = (values) => {
     this.props
       .dispatch({
@@ -42,24 +60,6 @@ class CreateContactDrawer extends React.Component {
 
   UNSAFE_componentWillUpdate() {
     document.title = 'Create contact - Harmonia';
-  }
-
-  showDrawer = () => {
-    this.setState({
-      visible: true,
-    });
-  };
-
-  onClose = () => {
-    this.setState({
-      visible: false,
-    });
-  };
-
-  componentWillUnmount() {
-    this.props.dispatch({
-      type: 'contact/cleanData',
-    });
   }
 
   render() {

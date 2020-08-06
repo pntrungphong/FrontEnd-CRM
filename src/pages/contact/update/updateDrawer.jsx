@@ -18,10 +18,6 @@ class UpdateContactDrawer extends React.Component {
     };
   }
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Update Contact - Harmonia';
-  }
-
   componentWillUnmount() {
     this.props.dispatch({
       type: 'contact/cleanDetail',
@@ -68,6 +64,10 @@ class UpdateContactDrawer extends React.Component {
       visible: false,
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Update Contact - Harmonia';
+  }
 
   render() {
     const { tag } = this.props.tag;

@@ -12,7 +12,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   task,
   touchpoint,
   lead,
-  updateLoading: loading.effects['touchpoint/update'],
+  getLoading: loading.effects['lead/get'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
   const [disableButton, setDisableButton] = useState(true);
@@ -105,7 +105,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
           </Button>,
         ]}
       >
-        {props.lead.detail || props.updateLoading ? (
+        {props.lead.detail || props.getLoading === false ? (
           <LeadForm
             fileTouchPoint={props.fileTouchPoint}
             leadId={props.lead.detail.id}

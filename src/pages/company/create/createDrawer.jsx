@@ -40,10 +40,6 @@ class CreateCompanyDrawer extends React.Component {
       );
   };
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Create Company - Harmonia';
-  }
-
   showDrawer = () => {
     this.setState({
       visible: true,
@@ -55,6 +51,10 @@ class CreateCompanyDrawer extends React.Component {
       visible: false,
     });
   };
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Create Company - Harmonia';
+  }
 
   render() {
     const { tag } = this.props.tag;

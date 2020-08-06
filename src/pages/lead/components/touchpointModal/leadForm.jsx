@@ -45,12 +45,12 @@ class LeadForm extends React.Component {
 
     scrollItems.push(document.querySelector('#general'));
     scrollItems.push(document.querySelector('#lead-information'));
-    scrollItems.push(document.querySelector('#scope'));
-    scrollItems.push(document.querySelector('#estimation'));
-    scrollItems.push(document.querySelector('#pricing'));
-    scrollItems.push(document.querySelector('#proposal'));
-    scrollItems.push(document.querySelector('#quotation'));
-    scrollItems.push(document.querySelector('#sla'));
+    // scrollItems.push(document.querySelector('#scope'));
+    // scrollItems.push(document.querySelector('#estimation'));
+    // scrollItems.push(document.querySelector('#pricing'));
+    // scrollItems.push(document.querySelector('#proposal'));
+    // scrollItems.push(document.querySelector('#quotation'));
+    // scrollItems.push(document.querySelector('#sla'));
 
     document.querySelector('.ant-modal-body').addEventListener('scroll', (event) => {
       // Get container scroll position
@@ -107,11 +107,16 @@ class LeadForm extends React.Component {
         <div id="general">
           {this.props.lead.detail.touchPoint.map((touchPoint) => {
             return (
-              <TouchPointModal update leadId={this.props.leadId} touchPointId={touchPoint.id} />
+              <TouchPointModal
+                key={touchPoint.id}
+                update
+                leadId={this.props.leadId}
+                touchPoint={touchPoint}
+              />
             );
           })}
 
-          <TouchPointModal update={false} />
+          <TouchPointModal leadId={this.props.leadId} update={false} />
         </div>
 
         <div id="lead-information">

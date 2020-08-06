@@ -1,5 +1,12 @@
 import moment from 'moment';
 
+const User = {
+  '48862ade-6f9a-471f-835a-cff4f3b9a567': 'chau.dh',
+  '50b0cb2e-3782-4b11-82c0-4e2f6580ab94': 'tu.tt',
+  '171ecb82-4daa-43dc-8fec-61878b42d506': 'khoa.nd',
+  '39d088f6-cc81-4263-ac27-b920983a4eb0': 'nhan.lh',
+};
+
 const emailFormat = (listEmail) => {
   return listEmail.map((element) => ({
     type: element.type,
@@ -25,6 +32,36 @@ const listReferralFormat = (listData) => {
     value: data.idTarget.toString(),
     label: data.name,
   }));
+};
+
+const touchPointFormat = (listTouchPoint) => {
+  return listTouchPoint.map((touchPoint) => {
+    const tasks = touchPoint.task.map((task) => {
+      return {
+        id: task.id,
+        touchpointId: touchPoint.id,
+        taskName: task.taskName,
+        type: task.type,
+        pic: User[task.userId],
+        avatar: task.user.avatar,
+        dueDate: moment(task.dueDate),
+        userName: task.user.firstName,
+      };
+    });
+    return {
+      status: touchPoint.status,
+      lane: touchPoint.lane,
+      order: touchPoint.order,
+      review: touchPoint.review ? touchPoint.review : '',
+      note: touchPoint.note ? touchPoint.note : '',
+      id: touchPoint.id,
+      goal: touchPoint.goal ? touchPoint.goal : '',
+      meetingDate: touchPoint.meetingDate ? moment(touchPoint.meetingDate) : moment(),
+      createdAt: touchPoint.createdAt,
+      actualDate: touchPoint.actualDate,
+      task: tasks,
+    };
+  });
 };
 
 const listTagFormat = (listData) => {
@@ -112,34 +149,7 @@ export const formatListLeadData = (response) => {
     }
     const formattedData = [];
     response.data.forEach((element) => {
-      const touchPoints = element.touchPoint
-        ? element.touchPoint.map((touchPoint) => {
-            const tasks = touchPoint.task.map((task) => {
-              return {
-                id: task.id,
-                touchpointId: touchPoint.id,
-                taskname: task.taskName,
-                type: task.type,
-                userId: task.userId,
-                avatar: task.user.avatar,
-                dueDate: task.dueDate,
-                userName: task.user.firstName,
-              };
-            });
-            return {
-              status: touchPoint.status,
-              order: touchPoint.order,
-              review: touchPoint.review ? touchPoint.review : '',
-              note: touchPoint.note ? touchPoint.note : '',
-              id: touchPoint.id,
-              goal: touchPoint.goal ? touchPoint.goal : '',
-              meetingDate: touchPoint.meetingDate ? touchPoint.meetingDate : '',
-              createdAt: touchPoint.createdAt,
-              actualDate: touchPoint.actualDate,
-              task: tasks,
-            };
-          })
-        : [];
+      const touchPoints = element.touchPoint ? touchPointFormat(element.touchPoint) : [];
       const data = {
         name: element.name,
         touchPoint: touchPoints,
@@ -412,11 +422,12 @@ export const formatDetailLeadData = (response) => {
       key: response.company.id,
       label: response.company.name,
     };
+    const touchPoints = response.touchPoint ? touchPointFormat(response.touchPoint) : [];
     const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
     const body = {
       listFile,
       company,
-      touchPoint: response.touchPoint,
+      touchPoint: touchPoints,
       description: response.description,
       rank: response.rank,
       id: response.id,
@@ -430,6 +441,6 @@ export const formatDetailLeadData = (response) => {
     };
     return body;
   } catch (error) {
-    throw new Error('Missing pagination data');
+    throw new Error(error);
   }
 };
