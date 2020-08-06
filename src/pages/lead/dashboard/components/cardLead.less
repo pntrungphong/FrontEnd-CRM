@@ -2,8 +2,8 @@
   position: relative;
   margin: 0;
   margin-bottom: 2px;
-  background: #b4d1e7;
-  border-radius: 5px;
+  background: #d4e2ec;
+  border-radius: 3px;
 
   .contentBox {
     position: relative;
@@ -11,12 +11,14 @@
     height: 100%;
     padding: 0 5px;
     overflow: hidden;
-    border-radius: 5px;
+    border-left: 4px solid;
+    border-radius: 3px;
 
     .pic {
       display: flex;
       justify-content: space-between;
       margin-top: 5px;
+      margin-bottom: 2px;
 
       .picAvatar {
         .avatar {
@@ -30,18 +32,26 @@
     }
 
     .leadName {
-      margin: 0;
+      margin: 2px 0;
       padding-right: 25px;
-      font-size: 16px;
+      font-size: 14px;
     }
 
-    .meetingDate {
-      display: inline;
-      padding: 2px 5px;
-      color: white;
-      font-weight: 500;
-      background: #7cb305;
-      border-radius: 3px;
+    .meetingDateBox {
+      display: flex;
+      justify-content: space-between;
+
+      .meetingDate {
+        margin: 2px 0;
+        padding: 0 4px;
+        color: white;
+        font-weight: 500;
+        border-radius: 3px;
+      }
+
+      .dueDay {
+        line-height: 200%;
+      }
     }
 
     .rankTitle {

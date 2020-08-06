@@ -21,7 +21,7 @@ class DashBoard extends React.Component {
     return (
       <div className={styles.containerBox}>
         <div className={styles.titleBox}>
-          <h1>Sale Dashboard</h1>
+          <h1>Sales Dashboard</h1>
           <Button type="primary">Create new lead</Button>
         </div>
         <div className={styles.controllerBox}>
