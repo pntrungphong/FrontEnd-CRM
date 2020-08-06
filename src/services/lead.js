@@ -203,3 +203,9 @@ export async function getLead(params) {
     method: 'GET',
   });
 }
+
+export async function getListWithLane() {
+  return request(`/lead/lane`, {
+    method: 'GET',
+  });
+}

@@ -175,6 +175,9 @@ export const formatListLeadData = (response) => {
     throw new Error(error);
   }
 };
+export const formatListLeadDashboard = (response) => {
+  return response;
+};
 export const formatDetailContactData = (response) => {
   try {
     const company = listCompanyFormat(response.company ?? []);

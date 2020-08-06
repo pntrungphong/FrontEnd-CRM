@@ -1,8 +1,14 @@
 import { message } from 'antd';
-import { formatListLeadData, formatDetailLeadData } from './utils';
+import { formatListLeadData, formatDetailLeadData, formatListLeadDashboard } from './utils';
 import { getContact } from '../services/contact';
 import { createTouchPoint } from '../services/touchpoint';
-import { fullCreateLead, getLead, getLeadById, updateLead } from '../services/lead';
+import {
+  fullCreateLead,
+  getLead,
+  getLeadById,
+  updateLead,
+  getListWithLane,
+} from '../services/lead';
 import { getCompany } from '../services/company';
 
 const searchMethod = {
@@ -69,6 +75,16 @@ const Model = {
         yield put({
           type: 'saveLeadInfo',
           payload: formatListLeadData(response),
+        });
+      }
+    },
+    *getListWithLane(payload, { call, put }) {
+      const response = yield call(getListWithLane, {});
+      if (response != null) {
+        console.table(response);
+        yield put({
+          type: 'saveList',
+          payload: formatListLeadDashboard(response),
         });
       }
     },
@@ -142,6 +158,12 @@ const Model = {
         ...state,
         list: payload.data,
         itemCount: payload.itemCount,
+      };
+    },
+    saveList(state, { payload }) {
+      return {
+        ...state,
+        list: payload,
       };
     },
     saveStatus(state, { payload }) {

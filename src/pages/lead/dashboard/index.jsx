@@ -3,20 +3,25 @@ import React from 'react';
 import { connect } from 'umi';
 import CardLead from './components/cardLead';
 import styles from './style.less';
-import mocks from './_mock';
 import LaneTitle, { LISTDEFAULTLANE } from './components/laneTitle';
 
 const DEFAULTLISTTP = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 class DashBoard extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
+  }
+
   componentDidMount() {
-    // this.props.listLane = mocks.getListLead;
+    // this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
   }
 
   render() {
-    const { listLane } = this.props;
-    if (this.props.loading === true || !listLane) return <Spin />;
+    const { lead, loading } = this.props;
+    if (loading === true || lead.list?.length === 0) return <Spin />;
 
-    const { leadHov, leadLM, leadPC, leadPH } = this.props.listLane;
+    const { leadHov, leadLM, leadPC, leadPH } = lead.list;
     const lanes = [leadHov, leadLM, leadPC, leadPH];
     return (
       <div className={styles.containerBox}>
@@ -45,9 +50,11 @@ class DashBoard extends React.Component {
                             ''
                           )}
                           <Card className={styles.touchPointBox}>
-                            {listLead.map((lead) => {
-                              if (lead.touchPoint[0]?.order === tpIndex + 1)
-                                return <CardLead key={lead.touchPoint[0]?.id} lead={lead} />;
+                            {listLead.map((leadItem) => {
+                              if (leadItem.touchPoint[0]?.order === tpIndex + 1)
+                                return (
+                                  <CardLead key={leadItem.touchPoint[0]?.id} lead={leadItem} />
+                                );
                               return null;
                             })}
                           </Card>
@@ -67,6 +74,6 @@ class DashBoard extends React.Component {
 
 export default connect(({ lead, loading }) => ({
   lead,
-  loading: loading.effects['lead/getList'],
-  listLane: mocks.getListLead,
+  loading: loading.effects['lead/getListWithLane'],
+  // listLane: mocks.getListLead,
 }))(DashBoard);
