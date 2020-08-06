@@ -7,6 +7,12 @@ import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
 
+const Lane = {
+  PC: 'Product Consulting',
+  LM: 'Lead Management',
+  PH: 'Proposal Handling',
+};
+
 const layout = {
   labelCol: { span: 5 },
 };
@@ -90,7 +96,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
               })}
           </Col>
           <Col span={5}>
-            <Tag>Proposal Handling</Tag>
+            <Tag>{Lane[props.touchPoint.lane]}</Tag>
           </Col>
         </Row>
       ) : (

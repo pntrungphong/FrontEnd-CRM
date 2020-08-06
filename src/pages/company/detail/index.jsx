@@ -119,7 +119,9 @@ class CompanyDetail extends Component {
                 {company.detail.phone.map((item) => {
                   return (
                     <Row key={item.number}>
-                      <Tag key={item.number} className={styles.customField} />
+                      <Tag key={item.number} className={styles.customField}>
+                        {item.number}
+                      </Tag>
                     </Row>
                   );
                 })}
