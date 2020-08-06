@@ -1,110 +1,72 @@
-import { Row, Col } from 'antd';
+import { Spin, Space, Card, Button } from 'antd';
 import React from 'react';
+import { connect } from 'umi';
 import CardLead from './components/cardLead';
 import styles from './style.less';
+import mocks from './_mock';
+import LaneTitle, { LISTDEFAULTLANE } from './components/laneTitle';
 
-const DashBoard = () => {
-  return (
-    <>
+const DEFAULTLISTTP = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+class DashBoard extends React.Component {
+  componentDidMount() {
+    // this.props.listLane = mocks.getListLead;
+  }
+
+  render() {
+    const { listLane } = this.props;
+    if (this.props.loading === true || !listLane) return <Spin />;
+
+    const { leadHov, leadLM, leadPC, leadPH } = this.props.listLane;
+    const lanes = [leadHov, leadLM, leadPC, leadPH];
+    return (
       <div className={styles.containerBox}>
-        <div className={styles.laneNameCol} />
-        <div className={styles.lanePlace}>
-          <div className={styles.touchPointNav}>
-            <Row gutter={[8, 8]} className={styles.listTP}>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#1</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#2</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#3</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#4</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#5</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#6</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#7</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#8</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#9</h1>
-              </Col>
-              <Col span={3} className={styles.touchPoint}>
-                <h1>#10</h1>
-              </Col>
-            </Row>
+        <div className={styles.titleBox}>
+          <h1>Sale Dashboard</h1>
+          <Button type="primary">Create new lead</Button>
+        </div>
+        <div className={styles.controllerBox}>
+          <LaneTitle />
+          <div className={styles.horScroll}>
+            <div className={styles.touchPointCol}>
+              {lanes.map((listLead, index) => {
+                return (
+                  <Space
+                    key={LISTDEFAULTLANE[index]}
+                    align="center"
+                    direction="horizontal"
+                    className={styles.customSpaceTP}
+                  >
+                    {DEFAULTLISTTP.map((_, tpIndex) => {
+                      return (
+                        <div className={styles.boxStateTP} key={LISTDEFAULTLANE[index] + tpIndex}>
+                          {index === 0 ? (
+                            <h1 className={styles.touchPointTitle}>#{tpIndex + 1}</h1>
+                          ) : (
+                            ''
+                          )}
+                          <Card className={styles.touchPointBox}>
+                            {listLead.map((lead) => {
+                              if (lead.touchPoint[0]?.order === tpIndex + 1)
+                                return <CardLead key={lead.touchPoint[0]?.id} lead={lead} />;
+                              return null;
+                            })}
+                          </Card>
+                        </div>
+                      );
+                    })}
+                  </Space>
+                );
+              })}
+            </div>
           </div>
-          <Row gutter={[8, 8]} className={styles.lane}>
-            <div className={styles.laneNameCol}>
-              <div className={styles.laneName}>
-                <h3 className={styles.laneTag}>#Hov</h3>
-              </div>
-            </div>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-              <CardLead />
-              <CardLead />
-              <CardLead />
-            </Col>
-          </Row>
-          <Row gutter={[8, 8]} className={styles.lane}>
-            <div className={styles.laneNameCol}>
-              <div className={styles.laneName}>
-                <h3 className={styles.laneTag}>#LM</h3>
-              </div>
-            </div>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-              <CardLead />
-              <CardLead />
-            </Col>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-            </Col>
-          </Row>
-          <Row gutter={[8, 8]} className={styles.lane}>
-            <div className={styles.laneNameCol}>
-              <div className={styles.laneName}>
-                <h3 className={styles.laneTag}>#PC</h3>
-              </div>
-            </div>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-              <CardLead />
-              <CardLead />
-            </Col>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-            </Col>
-          </Row>
-          <Row gutter={[8, 8]} className={styles.lane}>
-            <div className={styles.laneNameCol}>
-              <div className={styles.laneName}>
-                <h3 className={styles.laneTag}>#PH</h3>
-              </div>
-            </div>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-              <CardLead />
-              <CardLead />
-            </Col>
-            <Col span={3} offset={3} className={styles.cardCol}>
-              <CardLead />
-            </Col>
-          </Row>
         </div>
       </div>
-    </>
-  );
-};
+    );
+  }
+}
 
-export default DashBoard;
+export default connect(({ lead, loading }) => ({
+  lead,
+  loading: loading.effects['lead/getList'],
+  listLane: mocks.getListLead,
+}))(DashBoard);

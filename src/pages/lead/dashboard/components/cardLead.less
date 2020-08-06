@@ -1,5 +1,61 @@
 .cardLead {
-  margin: 1px;
-  background: #0092ff;
+  position: relative;
+  margin: 0;
+  margin-bottom: 2px;
+  background: #b4d1e7;
   border-radius: 5px;
+
+  .contentBox {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    padding: 0 5px;
+    overflow: hidden;
+    border-radius: 5px;
+
+    .pic {
+      display: flex;
+      justify-content: space-between;
+      margin-top: 5px;
+
+      .picAvatar {
+        .avatar {
+          width: 20px;
+          height: 20px;
+        }
+      }
+      // .picIcon {
+
+      // }
+    }
+
+    .leadName {
+      margin: 0;
+      padding-right: 25px;
+      font-size: 16px;
+    }
+
+    .meetingDate {
+      display: inline;
+      padding: 2px 5px;
+      color: white;
+      font-weight: 500;
+      background: #7cb305;
+      border-radius: 3px;
+    }
+
+    .rankTitle {
+      position: absolute;
+      top: 0;
+      right: 0;
+      color: white;
+      border-bottom-left-radius: 5px;
+
+      span {
+        padding: 10px;
+        font-weight: 700;
+        cursor: default;
+      }
+    }
+  }
 }

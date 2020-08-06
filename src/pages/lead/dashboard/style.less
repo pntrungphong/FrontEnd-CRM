@@ -15,63 +15,51 @@
   background: #555;
 }
 
-.cardCol {
-  padding: 0 !important;
-  // margin: 0;
-}
-.lane {
-  flex-wrap: nowrap;
-  min-height: calc(100vh / 4 - 2px);
-  margin: 1px 0 !important;
-  border-bottom: 1px dashed;
-}
 .containerBox {
-  display: flex;
-  min-height: 100vh;
   margin: 0;
 }
-.lanePlace {
-  flex-wrap: nowrap;
-  width: 100%;
-  margin-left: 50px;
-  padding: 0;
-  overflow-x: scroll;
-}
-// .laneNameCol {
-//   display: flex;
-//   flex-direction: column;
-//   float: left;
-//   width: 100px;
-// }
-.touchPointNav {
-  // margin-top: 10px;
-  // margin-left: 55px;
 
-  .listTP {
-    flex-wrap: nowrap;
-    margin: 0 !important;
-    // overflow-x: scroll;
-  }
-}
-.touchPoint {
-  padding: 0 !important;
-  // margin: auto;
+.titleBox {
+  display: flex;
+  justify-content: space-between;
+  margin: 5px 20px;
 
   h1 {
-    margin: 0;
-    padding: 5px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 0;
     font-weight: 700;
-    text-align: center;
-    background: #b0b0b0;
-    border: 1px solid white;
-    border-radius: 5px;
+  }
+
+  button {
+    border-radius: 4px;
   }
 }
 
-.laneNameCol {
-  position: fixed;
+.customCardTP {
+  position: relative;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  color: #323c47;
+  font-size: 13px;
+  font-variant: tabular-nums;
+  line-height: 1.5715;
+  list-style: none;
+  background: #fff;
+  border-radius: 2px;
+  font-feature-settings: 'tnum', 'tnum';
+}
+.laneColumn {
+  position: relative;
   width: 50px;
-  transform: translateX(-100%);
+  margin-top: 0;
+  border-radius: 2px;
+
+  .ant-space-item {
+    margin-bottom: 4px;
+  }
 
   .laneName {
     display: flex;
@@ -89,9 +77,90 @@
       transform: rotate(270deg);
     }
   }
-  .customDivider {
-    width: 100vw;
-    margin: 0;
-    border-color: black;
+}
+
+.laneTitle {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50px;
+  height: 190px;
+  background-color: #aaa;
+
+  h3 {
+    font-weight: 700;
+    transform: rotate(270deg);
   }
+}
+
+.horScroll {
+  position: relative;
+  display: flex;
+  width: 100%;
+  height: 100%;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+.touchPointTitle {
+  margin-bottom: 8px;
+  padding: 7.5px 0;
+  font-weight: 600;
+  text-align: center;
+  background-color: #aaa;
+  border-radius: 2px;
+}
+.controllerBox {
+  display: flex;
+}
+
+.touchPointCol {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  width: 310px;
+  margin: 0 2px;
+  padding: 0;
+  border-radius: 10px;
+}
+
+.customSpaceTP {
+  :global {
+    .ant-space-item {
+      margin: 0 2px !important;
+    }
+  }
+}
+
+.touchPointBox {
+  width: 150px;
+  height: 190px;
+  margin: 0;
+  margin-bottom: 8px;
+  border: none;
+
+  :global {
+    .ant-card-body {
+      display: flex;
+      flex-direction: column;
+      justify-content: start;
+      height: 100%;
+      padding: 0;
+      padding-top: 2px;
+
+      &::before {
+        display: none;
+      }
+    }
+  }
+}
+
+.customDivider {
+  margin: 5px 0;
+  margin-bottom: 7px;
+  background-color: rgba(217, 217, 217, 0.5);
+}
+.spaceTouchPoint {
+  min-height: 155px;
+  margin: -12px;
+  padding: 0;
 }
