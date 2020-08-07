@@ -59,14 +59,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
               type: 'lead/get',
               payload: { id: props.leadId },
             });
-            props.dispatch({
-              type: 'lead/getList',
-              payload: {
-                page: 1,
-                searchValue: props.lead.searchValue,
-                status: props.lead.status,
-              },
-            });
+            props.dispatch({ type: 'lead/getListWithLane', payload: {} });
           }
         });
     else
@@ -78,14 +71,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
         .then((response) => {
           if (response) {
             props.onCancel();
-            props.dispatch({
-              type: 'lead/getList',
-              payload: {
-                page: 1,
-                searchValue: props.lead.searchValue,
-                status: props.lead.status,
-              },
-            });
+            props.dispatch({ type: 'lead/getListWithLane', payload: {} });
           }
         });
   };
@@ -110,14 +96,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
             type: 'lead/get',
             payload: { id: props.leadId },
           });
-          props.dispatch({
-            type: 'lead/getList',
-            payload: {
-              page: 1,
-              searchValue: props.lead.searchValue,
-              status: props.lead.status,
-            },
-          });
+          props.dispatch({ type: 'lead/getListWithLane', payload: {} });
         }
       });
   };

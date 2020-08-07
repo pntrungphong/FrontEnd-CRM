@@ -7,6 +7,7 @@ import {
   getLead,
   getLeadById,
   updateLead,
+  markDeal,
   getListWithLane,
 } from '../services/lead';
 import { getCompany } from '../services/company';
@@ -28,19 +29,13 @@ const Model = {
     status: '',
   },
   effects: {
-    *create({ payload }, { call, put }) {
+    *create({ payload }, { call }) {
       const response = yield call(fullCreateLead, payload);
       if (response && response.id) {
         message.success('Successfully');
-        yield put({
-          type: 'getList',
-          payload: {
-            page: 1,
-            searchValue: '',
-            status: 'In-progress',
-          },
-        });
+        return true;
       }
+      return null;
     },
     *createTouchPoint({ payload }, { call, put }) {
       const createTouchPointResponse = yield call(createTouchPoint, payload.id);
@@ -107,6 +102,14 @@ const Model = {
         type: 'saveDetail',
         payload: formatDetailLeadData(response),
       });
+    },
+    *markDeal({ payload }, { call }) {
+      const response = yield call(markDeal, payload);
+      if (response !== null) {
+        message.success('Mark deal Successfully');
+        return true;
+      }
+      return false;
     },
     *searchLeadByName(
       {

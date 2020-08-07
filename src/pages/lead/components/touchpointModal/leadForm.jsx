@@ -104,7 +104,9 @@ class LeadForm extends React.Component {
         }}
       >
         <div id="general">
-          {this.props.lead.detail.touchPoint.length !== 0 ? (
+          {this.props.lead.detail.touchPoint.length !== 0 &&
+          this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1].order >
+            0 ? (
             <CurrentTouchPointInfo
               update
               status={
