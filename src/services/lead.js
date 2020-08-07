@@ -209,3 +209,14 @@ export async function getListWithLane() {
     method: 'GET',
   });
 }
+
+export async function markDeal(params) {
+  const body = {
+    status: params.status,
+    review: params.review,
+  };
+  return request(`/lead/${params.id}/status`, {
+    method: 'PUT',
+    data: body,
+  });
+}

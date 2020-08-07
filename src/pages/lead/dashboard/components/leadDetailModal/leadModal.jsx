@@ -4,7 +4,6 @@ import { connect } from 'umi';
 import styles from './style.less';
 import LeadForm from './leadForm';
 import CustomHeader from './customHeaderModal';
-import MarkDoneModal from '../../../components/markDoneForm/markDoneTouchPoint';
 
 // if function
 const iff = (condition, then, otherwise) => (condition ? then : otherwise);
@@ -49,6 +48,10 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             <Modal
               title={
                 <CustomHeader
+                  currentTouchPoint={props.currentTouchPoint}
+                  leadId={props.leadDetail.id}
+                  currentStatus={props.currentStatus}
+                  currentType={props.currentType}
                   company={props.lead.detail.company}
                   status={props.leadDetail.status}
                   name={props.leadDetail.name}
@@ -67,19 +70,6 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               className={styles.customModal}
               onCancel={onCancel}
               footer={[
-                <MarkDoneModal
-                  form={props.form}
-                  goal={props.goal}
-                  dispatch={props.dispatch}
-                  status={props.status}
-                  lead={props.lead}
-                  actualdate={props.actualdate}
-                  rank={props.rank}
-                  leadId={props.leadId}
-                  touchpointId={props.touchpointId}
-                  reloadData={onCancel}
-                  key="MarkDoneModal"
-                />,
                 <Button
                   key="cancel"
                   type="ghost"
@@ -97,7 +87,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
                   type="primary"
                   htmlType="submit"
                 >
-                  Submit
+                  Save
                 </Button>,
               ]}
             >

@@ -29,4 +29,4 @@ const LaneTitle = () => {
 };
 
 export default LaneTitle;
-export { LISTDEFAULTLANE };
+export { LISTDEFAULTLANE, laneColor };

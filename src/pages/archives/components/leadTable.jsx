@@ -147,33 +147,33 @@ const ListLead = connect(({ lead, loading }) => ({
         });
         break;
       }
-      case 'Lost': {
+      case 'Undeal': {
         props.dispatch({
           type: 'lead/getList',
           payload: {
             page: 1,
             searchValue: props.lead.searchValue,
-            status: 'Lost',
+            status: 'Undeal',
           },
         });
         props.dispatch({
           type: 'lead/saveStatus',
-          payload: 'Lost',
+          payload: 'Undeal',
         });
         break;
       }
-      case 'Win': {
+      case 'Deal': {
         props.dispatch({
           type: 'lead/getList',
           payload: {
             page: 1,
             searchValue: props.lead.searchValue,
-            status: 'Win',
+            status: 'Deal',
           },
         });
         props.dispatch({
           type: 'lead/saveStatus',
-          payload: 'Win',
+          payload: 'Deal',
         });
         break;
       }
@@ -190,8 +190,8 @@ const ListLead = connect(({ lead, loading }) => ({
         <Radio.Group defaultValue="All" buttonStyle="solid" onChange={onFilter}>
           <Radio.Button value="All">All</Radio.Button>
           <Radio.Button value="In-progress">In-progress</Radio.Button>
-          <Radio.Button value="Win">Win</Radio.Button>
-          <Radio.Button value="Lost">Lost</Radio.Button>
+          <Radio.Button value="Deal">Deal</Radio.Button>
+          <Radio.Button value="Undeal">Undeal</Radio.Button>
         </Radio.Group>
       </div>
 

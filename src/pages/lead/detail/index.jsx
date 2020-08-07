@@ -17,7 +17,6 @@ const rankStore = {
 class LeadDetail extends Component {
   componentDidMount() {
     const { dispatch } = this.props;
-
     dispatch({
       type: 'lead/get',
       payload: { id: this.props.match.params.id },
@@ -35,6 +34,7 @@ class LeadDetail extends Component {
     if (querying || !lead.detail) {
       return <Spin />;
     }
+
     return (
       <div className={styles.main}>
         <PageHeaderWrapper
@@ -111,10 +111,7 @@ class LeadDetail extends Component {
                 return (
                   <Panel
                     header={
-                      <h4>
-                        TouchPoint:{' '}
-                        {touchPointItem.status === 'In-progress' ? 'In-progress' : index + 1}
-                      </h4>
+                      <h4>TouchPoint: {touchPointItem.status === 'Done' ? 'Done' : index + 1}</h4>
                     }
                     key={index}
                   >
@@ -135,7 +132,7 @@ class LeadDetail extends Component {
                                 </Col>
                                 <Col flex="auto">
                                   <p>
-                                    {task.user.firstName} {task.dueDate}
+                                    {task.userName} {task.dueDate.format('DD-MM-YY')}
                                   </p>
                                 </Col>
                               </Row>
