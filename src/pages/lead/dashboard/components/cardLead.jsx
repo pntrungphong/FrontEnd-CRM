@@ -17,7 +17,7 @@ const rankColor = {
   '0': '#fa7580',
   '1': '#f1753b',
   '2': '#269f99',
-  '3': '#f1753b',
+  '3': '#C4C4C4',
 };
 const laneColor = {
   LM: '#D3ADF7',
@@ -44,6 +44,7 @@ const CardLead = (props) => {
   const { lead } = props;
   const touchPoint = lead.touchPoint[0] ?? {};
   const dateInfo = getDateInfo(touchPoint.meetingDate);
+  if (touchPoint.status === 'Done') dateInfo.color = '#7CB305';
   return (
     <div className={styles.cardLead}>
       <div className={styles.contentBox} style={{ borderColor: laneColor[touchPoint.lane] }}>
@@ -64,7 +65,7 @@ const CardLead = (props) => {
           <span>{rankStore[lead.rank]}</span>
         </div>
         {touchPoint.task?.length ? (
-          <PICTask task={touchPoint.task ?? []} />
+          <PICTask tasks={touchPoint.task ?? []} />
         ) : (
           <span style={{ marginBottom: '5px', display: 'block' }} />
         )}

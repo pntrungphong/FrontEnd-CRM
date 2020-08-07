@@ -67,6 +67,11 @@ export default [
                 component: 'lead/dashboard',
               },
               {
+                path: '/sales/lead',
+                name: 'Sales flow',
+                component: 'lead/home',
+              },
+              {
                 path: '/sales/lead/update/:id?',
                 component: 'lead/update',
               },

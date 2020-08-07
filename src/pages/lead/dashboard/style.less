@@ -2,6 +2,7 @@
 
 // Variables
 @columnTouchWidth: 205px; // sea blue
+@columnTouchHeight: calc(100vh / 4 - 34px); // sea blue
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -87,7 +88,7 @@
   flex-direction: column;
   justify-content: center;
   width: 50px;
-  height: 190px;
+  height: @columnTouchHeight;
   background-color: #aaa;
   border-top: 6px solid;
   border-bottom: 6px solid;
@@ -138,7 +139,7 @@
 
 .touchPointBox {
   width: @columnTouchWidth;
-  height: 190px;
+  height: @columnTouchHeight;
   margin: 0;
   margin-bottom: 8px;
   border: none;
