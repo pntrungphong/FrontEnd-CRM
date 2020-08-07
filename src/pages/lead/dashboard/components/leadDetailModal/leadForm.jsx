@@ -140,10 +140,10 @@ class LeadForm extends React.Component {
         </div>
         <div id="past-touchpoint">
           <div className={styles.header}>
-            <h2 className={styles.title}>Pass TouchPoint</h2>
+            <h2 className={styles.title}>Past TouchPoint</h2>
           </div>
           {this.props.lead.detail.touchPoint.map((touchPoint, index) => {
-            if (index === this.props.lead.detail.touchPoint.length - 1) return null;
+            if (index === this.props.lead.detail.touchPoint.length - 1 || index === 0) return null;
             return (
               <TouchPointModal
                 key={touchPoint.id}
