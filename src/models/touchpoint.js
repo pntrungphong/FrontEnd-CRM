@@ -17,12 +17,9 @@ const Model = {
   },
   effects: {
     *create({ payload }, { call }) {
-      const response = yield call(createTouchPoint, payload);
-      if (response && response.id) {
-        message.success('Create Successfully');
-        return true;
-      }
-      return false;
+      yield call(createTouchPoint, payload);
+      message.success('Create Successfully');
+      return true;
     },
     *update({ payload }, { call }) {
       const response = yield call(updateTouchPoint, payload);
