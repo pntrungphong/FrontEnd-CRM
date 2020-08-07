@@ -58,10 +58,6 @@ class CreateContactDrawer extends React.Component {
       );
   };
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Create contact - Harmonia';
-  }
-
   render() {
     const { tag } = this.props.tag;
     return (
@@ -70,7 +66,7 @@ class CreateContactDrawer extends React.Component {
           Create New contact
         </Button>
         <Drawer
-          title="create"
+          title="Create Contact"
           width={720}
           destroyOnClose
           onClose={this.onClose}

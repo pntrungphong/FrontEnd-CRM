@@ -27,6 +27,7 @@ class ContactDetail extends Component {
     return (
       <div className={styles.main}>
         <PageHeaderWrapper
+          breadcrumb={null}
           title={
             <Breadcrumb>
               <Breadcrumb.Item>Home</Breadcrumb.Item>
@@ -46,7 +47,11 @@ class ContactDetail extends Component {
             </Breadcrumb>
           }
         >
-          <PageHeaderWrapper className={styles.wrapper} title={contact.detail.name} />
+          <PageHeaderWrapper
+            breadcrumb={null}
+            className={styles.wrapper}
+            title={contact.detail.name}
+          />
 
           <Card bordered="true" className={styles.cardOne}>
             <div className={styles.one}>

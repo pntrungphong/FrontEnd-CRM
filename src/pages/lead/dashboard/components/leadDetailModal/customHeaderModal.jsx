@@ -1,6 +1,7 @@
 import React from 'react';
-import { Col, Row, Tag } from 'antd';
-import { history } from 'umi';
+import { Col, Row, Switch, message, Tag } from 'antd';
+import { history, connect } from 'umi';
+import { CloseOutlined } from '@ant-design/icons';
 import { laneColor } from '../laneTitle';
 import MarkDealLeadModal from './markDealLeadModal';
 
@@ -10,7 +11,24 @@ const lane = {
   PH: 'Proposal Handling',
 };
 
-const CustomHeader = (props) => {
+const CustomHeader = connect(({ lead, loading }) => ({
+  lead,
+  getLoading: loading.effects['lead/changeHov'],
+}))((props) => {
+  const changeHov = (value) => {
+    props
+      .dispatch({
+        type: 'lead/changeHov',
+        payload: { id: props.leadId, onHov: value },
+      })
+      .then((returnValue) => {
+        if (returnValue) {
+          message.success('Move Successfully');
+          props.dispatch({ type: 'lead/getListWithLane', payload: {} });
+        }
+      });
+  };
+
   return (
     <div>
       <Row>
@@ -19,8 +37,17 @@ const CustomHeader = (props) => {
             <Col span={7}>
               <h2 style={{ fontWeight: '600' }}>{props.name}</h2>
             </Col>
-            <Col span={10}>
+            <Col span={4}>
               <Tag color={laneColor[`#${props.currentType}`]}>{lane[props.currentType]}</Tag>
+            </Col>
+            <Col span={6}>
+              <Switch
+                loading={props.getLoading}
+                checkedChildren="HOV"
+                onChange={changeHov}
+                unCheckedChildren={<CloseOutlined />}
+                defaultChecked={!!props.onHov}
+              />
             </Col>
             <Col span={3}>
               <MarkDealLeadModal
@@ -56,6 +83,6 @@ const CustomHeader = (props) => {
       </Row>
     </div>
   );
-};
+});
 
 export default CustomHeader;

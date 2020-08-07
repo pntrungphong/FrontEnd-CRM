@@ -6,6 +6,7 @@ import {
   fullCreateLead,
   getLead,
   getLeadById,
+  changeLaneHov,
   updateLead,
   markDeal,
   getListWithLane,
@@ -146,6 +147,10 @@ const Model = {
           },
         });
       }
+    },
+    *changeHov({ payload }, { call }) {
+      yield call(changeLaneHov, payload);
+      return true;
     },
   },
 

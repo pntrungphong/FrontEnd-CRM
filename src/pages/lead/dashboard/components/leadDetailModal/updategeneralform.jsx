@@ -37,17 +37,7 @@ const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => (
           </Radio.Group>
         )}
       </Form.Item>
-      <Form.Item
-        className={styles.customFormItem}
-        name="goal"
-        label="Goal"
-        rules={[
-          {
-            required: true,
-            message: 'Please input goal',
-          },
-        ]}
-      >
+      <Form.Item className={styles.customFormItem} name="goal" label="Goal">
         <TextArea
           disabled={props.status === 'Done'}
           className={props.status === 'Done' ? styles.disableField : ''}
