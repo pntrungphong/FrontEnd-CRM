@@ -11,32 +11,14 @@ const DEFAULTLISTTP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 class DashBoard extends React.Component {
   constructor(props) {
     super(props);
-
     this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
-
-    // this.state = {
-    //   showleadDetailModal: false,
-    //   selectedLeadItem: undefined
-    // }
   }
-
-  componentDidMount() {
-    // this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
-  }
-
-  // showleadDetailModal = (leadItem) => {
-  //   console.table(leadItem);
-  //   this.setState({
-  //     selectedLeadItem: leadItem,
-  //     showleadDetailModal: true
-  //   })
-  // }
 
   render() {
     const { lead, loading } = this.props;
-    if (loading === true || lead.list?.length === 0) return <Spin />;
+    if (loading === true || lead.onGoingList?.length === 0) return <Spin />;
 
-    const { leadHov, leadLM, leadPC, leadPH } = lead.list;
+    const { leadHov, leadLM, leadPC, leadPH } = lead.onGoingList;
     const lanes = [leadHov, leadLM, leadPC, leadPH];
 
     return (
@@ -98,5 +80,4 @@ class DashBoard extends React.Component {
 export default connect(({ lead, loading }) => ({
   lead,
   loading: loading.effects['lead/getListWithLane'],
-  // listLane: mocks.getListLead,
 }))(DashBoard);
