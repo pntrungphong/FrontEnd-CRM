@@ -210,6 +210,17 @@ export async function getListWithLane() {
   });
 }
 
+export async function changeLaneHov(params) {
+  const body = {
+    onHov: params.onHov ? 1 : 0,
+  };
+
+  return request(`/lead/${params.id}/onHov`, {
+    method: 'PUT',
+    data: body,
+  });
+}
+
 export async function markDeal(params) {
   const body = {
     status: params.status,

@@ -65,10 +65,6 @@ class UpdateContactDrawer extends React.Component {
     });
   };
 
-  UNSAFE_componentWillUpdate() {
-    document.title = 'Update Contact - Harmonia';
-  }
-
   render() {
     const { tag } = this.props.tag;
     const contact = this.props.contact.detail;

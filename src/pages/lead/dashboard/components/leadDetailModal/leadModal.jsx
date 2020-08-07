@@ -48,6 +48,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
             <Modal
               title={
                 <CustomHeader
+                  onHov={props.leadDetail.onHov}
                   currentTouchPoint={props.currentTouchPoint}
                   leadId={props.leadDetail.id}
                   currentStatus={props.currentStatus}

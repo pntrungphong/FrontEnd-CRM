@@ -16,7 +16,7 @@ const lane = {
 const taskFormat = (listTask) => {
   return listTask.map((element) => ({
     taskName: element.taskName,
-    type: "PIC",
+    type: 'PIC',
     userId: User[element.pic],
     dueDate: element.dueDate !== '' ? element.dueDate.format('YYYY-MM-DD') : '',
   }));
@@ -142,7 +142,7 @@ export async function updateTouchPoint(params) {
 
   const body = {
     lane: lane[params.lane],
-    goal: params.goal,
+    goal: params.goal ? params.goal : '',
     review: params.recap,
     task: params.task ? taskFormat(params.task) : [],
     meetingDate: params.meetingdate.format('YYYY-MM-DD HH:mm'),

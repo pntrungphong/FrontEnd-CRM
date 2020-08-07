@@ -33,6 +33,7 @@ class CompanyDetail extends Component {
     return (
       <div className={styles.main}>
         <PageHeaderWrapper
+          breadcrumb={null}
           title={
             <Breadcrumb>
               <Breadcrumb.Item>
@@ -54,7 +55,11 @@ class CompanyDetail extends Component {
             </Breadcrumb>
           }
         >
-          <PageHeaderWrapper className={styles.wrapper} title={company.detail.name} />
+          <PageHeaderWrapper
+            breadcrumb={null}
+            className={styles.wrapper}
+            title={company.detail.name}
+          />
           <Card bordered="true" className={styles.cardOne}>
             <div className={styles.one}>
               <h2>Details</h2>
