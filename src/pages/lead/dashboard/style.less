@@ -2,7 +2,8 @@
 
 // Variables
 @columnTouchWidth: 205px; // sea blue
-@columnTouchHeight: calc(100vh / 4 - 34px); // sea blue
+@columnTouchHeight: 250px; // sea blue
+// @columnTouchHeight: calc(100vh / 4 - 34px); // sea blue
 
 ::-webkit-scrollbar {
   width: 6px;
@@ -142,6 +143,7 @@
   height: @columnTouchHeight;
   margin: 0;
   margin-bottom: 8px;
+  overflow-y: auto;
   border: none;
 
   :global {
