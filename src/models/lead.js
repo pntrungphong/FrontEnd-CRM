@@ -20,6 +20,7 @@ const Model = {
   namespace: 'lead',
   state: {
     list: [],
+    onGoingList: [],
     detail: undefined,
     itemCount: undefined,
     listSearchData: [],
@@ -162,7 +163,7 @@ const Model = {
     saveList(state, { payload }) {
       return {
         ...state,
-        list: payload,
+        onGoingList: payload,
       };
     },
     saveStatus(state, { payload }) {
