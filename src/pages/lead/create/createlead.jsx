@@ -1,8 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Drawer, Button, Col, Row } from 'antd';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import styles from './style.less';
 import CreateForm from './formcreate';
 
@@ -27,12 +25,13 @@ class CreateLead extends React.Component {
   render() {
     return (
       <>
-        <FontAwesomeIcon
-          icon={faPlus}
-          size="1x"
+        <Button
+          type="primary"
           onClick={() => this.showModal(true)}
           className={styles.customCreateBtn}
-        />
+        >
+          Create New Lead
+        </Button>
         <Drawer
           destroyOnClose
           className={styles.modalCreate}
@@ -43,7 +42,7 @@ class CreateLead extends React.Component {
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[
-            <Row justify="space-around">
+            <Row justify="space-around" key="listController">
               <Col span={4}>
                 <Button onClick={() => this.onLaneChange()}>Save</Button>
               </Col>

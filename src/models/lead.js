@@ -81,7 +81,6 @@ const Model = {
     *getListWithLane(payload, { call, put }) {
       const response = yield call(getListWithLane, {});
       if (response != null) {
-        console.table(response);
         yield put({
           type: 'saveList',
           payload: formatListLeadDashboard(response),

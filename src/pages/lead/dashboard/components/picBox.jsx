@@ -8,8 +8,17 @@ const PICBox = (props) => {
     <div className={styles.pic}>
       <div className={styles.picAvatar}>
         <Avatar.Group>
-          <Avatar size="small" className={styles.avatar} icon={<AntDesignOutlined />} />
-          <Avatar
+          {props.tasks.map((task) => {
+            return (
+              <Avatar
+                size="small"
+                className={styles.avatar}
+                src={task.user.avatar}
+                icon={<AntDesignOutlined />}
+              />
+            );
+          })}
+          {/* <Avatar
             size="small"
             className={styles.avatar}
             style={{ backgroundColor: '#f56a00' }}
@@ -20,11 +29,11 @@ const PICBox = (props) => {
             className={styles.avatar}
             style={{ backgroundColor: '#1890ff' }}
             icon={<AntDesignOutlined />}
-          />
+          /> */}
         </Avatar.Group>
       </div>
       <div className={styles.picIcon}>
-        {props.task.length} <UnorderedListOutlined />
+        {props.tasks.length} <UnorderedListOutlined />
       </div>
     </div>
   );

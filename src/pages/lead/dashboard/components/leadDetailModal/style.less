@@ -1,0 +1,185 @@
+@import '~antd/es/style/themes/default.less';
+
+.main {
+  width: 75%;
+  max-width: 545px;
+  padding: 1rem;
+  @media screen and (max-width: @screen-sm) {
+    width: 100%;
+  }
+}
+
+.updateTouchPointButton {
+  position: absolute;
+  top: 0;
+  right: 8px;
+  box-sizing: border-box;
+  padding: 0;
+  color: black;
+  font-weight: bold;
+  font-size: 20px;
+}
+
+.customModal {
+  scroll-behavior: smooth;
+  padding: 0;
+
+  :global {
+    .ant-modal-header {
+      border-bottom: none;
+    }
+  }
+}
+.customModalFooter {
+  text-align: right;
+  background: white;
+
+  button {
+    margin-right: 16px;
+  }
+}
+
+.customBodyModal {
+  height: 100%;
+  margin-bottom: 50px;
+  background: white;
+}
+
+.customSpin {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+}
+
+.viewMoreTaskTag {
+  font-weight: 800;
+  font-size: 10px;
+  border-radius: 20px;
+}
+.header {
+  display: inline;
+}
+.title {
+  font-weight: 600;
+  font-size: 20px;
+}
+.contentLead {
+  font-size: 16px;
+}
+.titleInfo {
+  font-weight: 500;
+}
+.resultNotFound {
+  color: #000;
+  opacity: 0.65;
+}
+.popoverRecap {
+  width: 300px;
+}
+.createNewContact {
+  padding-top: 5px;
+  padding-bottom: 5px;
+  color: #000;
+  font-weight: 500;
+  cursor: pointer;
+}
+
+.createNewContact:hover {
+  background: #f5f5f5;
+}
+.touchPointTitle {
+  color: black;
+  font-size: large;
+  cursor: pointer;
+}
+
+.customDevider {
+  margin-top: 10px;
+  margin-bottom: 10px;
+  padding-top: 0;
+  padding-bottom: 0;
+}
+.customField {
+  margin-left: 10px;
+}
+.customBrief {
+  width: 100%;
+}
+.viewNote {
+  text-decoration: underline;
+  cursor: pointer;
+}
+
+.touchPointName {
+  color: black;
+}
+.touchPointStatus {
+  color: black;
+  vertical-align: -webkit-baseline-middle;
+}
+.touchPointDueDate {
+  vertical-align: -webkit-baseline-middle;
+}
+.touchPointListTile {
+  align-items: flex-end;
+  padding: 10px;
+}
+.picAvatar {
+  margin-right: 5px;
+  vertical-align: 'middle';
+}
+.disableField {
+  color: black !important;
+  font-weight: 400 !important;
+}
+
+:global {
+  .ant-input[disabled] {
+    color: black;
+  }
+
+  .ant-picker-input > input[disabled] {
+    color: black !important;
+  }
+}
+.changRankBtn {
+  position: absolute;
+  top: 0;
+  right: 0;
+  z-index: 1;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  border: none;
+  box-shadow: none;
+}
+.rankInput {
+  :global {
+    .ant-input-group-addon {
+      padding: 0;
+    }
+  }
+}
+.customFormItem {
+  flex-direction: row !important;
+
+  :global {
+    .ant-col.ant-form-item-label {
+      margin: auto;
+      padding: 0;
+    }
+  }
+}
+.modalTaskTitle {
+  display: flex;
+  justify-content: space-between;
+
+  span {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+}
+.actionBtn {
+  width: 100%;
+}
