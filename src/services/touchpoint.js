@@ -16,7 +16,7 @@ const lane = {
 const taskFormat = (listTask) => {
   return listTask.map((element) => ({
     taskName: element.taskName,
-    type: element.type,
+    type: "PIC",
     userId: User[element.pic],
     dueDate: element.dueDate !== '' ? element.dueDate.format('YYYY-MM-DD') : '',
   }));
