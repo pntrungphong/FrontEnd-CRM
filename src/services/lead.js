@@ -82,7 +82,7 @@ export async function getLeadById(params) {
 }
 
 export async function getAllFile(params) {
-  return request(`/lead/${params.leadId}/file`, {
+  return request(`/lead/${params.id}/file`, {
     method: 'GET',
   });
 }
