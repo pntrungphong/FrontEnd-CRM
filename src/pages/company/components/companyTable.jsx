@@ -148,7 +148,7 @@ const CompanyTable = connect(({ company, loading }) => ({
         size="small"
         dataSource={props.company.list}
       />
-      {props.company.itemCount / 10 >= 1 ? (
+      {props.company.itemCount / 10 > 1 ? (
         <Pagination
           current={currentPage}
           pageSizeOptions={[]}

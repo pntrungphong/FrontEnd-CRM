@@ -3,6 +3,7 @@ import { Form } from 'antd';
 import { connect } from 'umi';
 import LeadInfomation from './leadInfomation';
 import TouchPointModal from './touchpointmodal';
+import CustomUploadFile from '../../../components/fileComponent/customuploadfile';
 import styles from './style.less';
 import CurrentTouchPointInfo from './currentTouchPointInfo';
 
@@ -66,10 +67,6 @@ class LeadForm extends React.Component {
   //   });
   // };
 
-  onValuesChange = (value) => {
-    if (Object.keys(value)[0] !== 'task') this.props.enableButton();
-  };
-
   render() {
     return (
       <Form
@@ -77,30 +74,16 @@ class LeadForm extends React.Component {
         id={this.props.touchpointId}
         layout="vertical"
         name="form_in_modal"
-        onValuesChange={this.onValuesChange}
         initialValues={{
-          scope: [],
-          sla: [],
-          pricing: [],
-          estimation: [],
-          quotation: [],
-          proposal: [],
-          // scope: this.props.touchpoint.data.scope,
-          // sla: this.props.touchpoint.data.sla,
-          // pricing: this.props.touchpoint.data.pricing,
-          // estimation: this.props.touchpoint.data.estimation,
-          // quotation: this.props.touchpoint.data.quotation,
-          // proposal: this.props.touchpoint.data.proposal,
-          lead: {
-            name: this.props.lead.detail.name,
-            rank: this.props.lead.detail.rank,
-            company: this.props.lead.detail.company,
-            contact: this.props.lead.detail.contact,
-            tag: this.props.lead.detail.tag,
-            relation: this.props.lead.detail.relation,
-            brief: this.props.lead.detail.file,
-            description: this.props.lead.detail.description,
-          },
+          name: this.props.lead.detail.name,
+          rank: this.props.lead.detail.rank,
+          company: this.props.lead.detail.company,
+          contact: this.props.lead.detail.contact,
+          tag: this.props.lead.detail.tag,
+          relation: this.props.lead.detail.relation,
+          brief: this.props.lead.detail.file,
+          description: this.props.lead.detail.description,
+          file: this.props.lead.detail.touchPointFile,
         }}
       >
         <div id="general">
@@ -138,6 +121,19 @@ class LeadForm extends React.Component {
           </div>
           <LeadInfomation lead={this.props.lead.detail} />
         </div>
+        <div id="file">
+          <div className={styles.header}>
+            <h2 className={styles.title}>File</h2>
+          </div>
+          <Form.Item name="file">
+            <CustomUploadFile
+              leadId={this.props.leadId}
+              touchPointId={this.props.touchpointId}
+              status={this.props.status}
+              dataIndex="file"
+            />
+          </Form.Item>
+        </div>
         <div id="past-touchpoint">
           <div className={styles.header}>
             <h2 className={styles.title}>Past TouchPoint</h2>
@@ -155,90 +151,6 @@ class LeadForm extends React.Component {
             );
           })}
         </div>
-        {/* <div id="scope">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Scope</h2>
-          </div>
-          <Form.Item name="scope">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="scope"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="estimation">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Estimation</h2>
-          </div>
-          <Form.Item name="estimation">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="estimation"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="pricing">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Pricing</h2>
-          </div>
-          <Form.Item name="pricing">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="pricing"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="proposal">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Proposal</h2>
-          </div>
-          <Form.Item name="proposal">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="proposal"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="quotation">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Quotation</h2>
-          </div>
-          <Form.Item name="quotation">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="quotation"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="sla">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Service Level Agreement</h2>
-          </div>
-          <Form.Item name="sla">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="sla"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div> */}
       </Form>
     );
   }

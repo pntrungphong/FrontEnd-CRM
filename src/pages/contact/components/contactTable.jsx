@@ -163,7 +163,7 @@ const ListContact = connect(({ contact, loading }) => ({
         rowKey="id"
         dataSource={props.contact.list}
       />
-      {props.contact.itemCount / 10 >= 1 ? (
+      {props.contact.itemCount / 10 > 1 ? (
         <Pagination
           pageSizeOptions={[]}
           current={currentPage}

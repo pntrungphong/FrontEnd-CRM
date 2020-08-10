@@ -204,7 +204,7 @@ const ListLead = connect(({ lead, loading }) => ({
         rowKey="id"
         dataSource={props.lead.list}
       />
-      {props.lead.itemCount / 10 >= 1 ? (
+      {props.lead.itemCount / 10 > 1 ? (
         <Pagination
           current={currentPage}
           pageSizeOptions={[]}

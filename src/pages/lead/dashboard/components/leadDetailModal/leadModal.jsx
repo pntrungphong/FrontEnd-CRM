@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Modal, Spin, Button } from 'antd';
+import { Modal, Spin } from 'antd';
 import { connect } from 'umi';
 import styles from './style.less';
 import LeadForm from './leadForm';
@@ -14,7 +14,6 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
   getLoading: loading.effects['lead/get'],
 }))((props) => {
   const [visible, setVisible] = useState(false);
-  const [disableButton, setDisableButton] = useState(true);
 
   const onShow = () => {
     props.dispatch({
@@ -22,11 +21,6 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
       payload: { id: props.leadDetail.id },
     });
     setVisible(true);
-    setDisableButton(true);
-  };
-
-  const enableButton = () => {
-    if (disableButton) setDisableButton(false);
   };
 
   const onCancel = () => {
@@ -70,33 +64,12 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               }}
               className={styles.customModal}
               onCancel={onCancel}
-              footer={[
-                <Button
-                  key="cancel"
-                  type="ghost"
-                  htmlType="reset"
-                  onClick={onCancel}
-                  form={props.currentTouchPoint.id}
-                >
-                  Cancel
-                </Button>,
-                <Button
-                  loading={props.updateLoading}
-                  disabled={props.status === 'Done' || disableButton}
-                  form={props.currentTouchPoint.id}
-                  key="submit"
-                  type="primary"
-                  htmlType="submit"
-                >
-                  Save
-                </Button>,
-              ]}
+              footer={[]}
             >
               <LeadForm
                 fileTouchPoint={props.fileTouchPoint}
                 leadId={props.lead.detail.id}
                 onCancel={onCancel}
-                enableButton={enableButton}
                 touchpoint={props.touchpoint}
                 lead={props.leadDetail}
                 rank={props.leadDetail.rank}

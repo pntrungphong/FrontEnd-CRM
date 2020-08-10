@@ -421,7 +421,7 @@ export const formatDetailTouchPointData = (response, fileResponse) => {
   }
 };
 
-export const formatDetailLeadData = (response) => {
+export const formatDetailLeadData = (response, fileResponse) => {
   try {
     const contact = listCompanyFormat(response.contact ?? []);
     const relation = listCompanyFormat(response.relatedTo ?? []);
@@ -432,6 +432,23 @@ export const formatDetailLeadData = (response) => {
     };
     const touchPoints = response.touchPoint ? touchPointFormat(response.touchPoint) : [];
     const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
+
+    const touchPointFile = fileResponse
+      ? fileResponse.map((file) => {
+          return {
+            id: file.fileId,
+            originalname: file.file.originalname,
+            note: file.note,
+            createdBy: file.file.createdBy,
+            createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
+            order: file.touchPoint.order,
+            touchPointId: file.touchPointId,
+            fileType: file.type,
+            fileUrl: file.file.url ?? '',
+          };
+        })
+      : [];
+
     const body = {
       listFile,
       company,
@@ -446,7 +463,9 @@ export const formatDetailLeadData = (response) => {
       relation,
       note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
+      touchPointFile,
     };
+
     return body;
   } catch (error) {
     throw new Error(error);
