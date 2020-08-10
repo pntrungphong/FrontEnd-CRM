@@ -15,6 +15,20 @@ export async function uploadLink(params) {
   });
 }
 
+export async function uploadFile(params) {
+  const body = {
+    fileId: params.fileId.toString(),
+    note: params.note,
+    type: 'file',
+    touchPointId: params.touchPointId.toString(),
+    leadId: params.leadId.toString(),
+  };
+  return request(`/file/attachment`, {
+    method: 'POST',
+    data: body,
+  });
+}
+
 export async function updateNote(params) {
   return request(`/noteFile/${params.id}`, {
     method: 'PUT',

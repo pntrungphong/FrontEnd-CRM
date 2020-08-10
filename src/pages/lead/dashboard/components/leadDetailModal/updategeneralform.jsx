@@ -59,6 +59,7 @@ const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => (
           className={props.status === 'Done' ? styles.disableField : ''}
           disabled={props.status === 'Done'}
           format="YYYY-MM-DD HH:mm"
+          minuteStep={15}
           showTime
         />
       </Form.Item>

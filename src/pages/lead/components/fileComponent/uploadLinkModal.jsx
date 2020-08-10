@@ -1,7 +1,6 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Button, Form, Modal, Input } from 'antd';
-import styles from './style.less';
 
 class UploadLinkModal extends React.Component {
   state = {
@@ -31,10 +30,8 @@ class UploadLinkModal extends React.Component {
 
   render() {
     return (
-      <div className={styles.uploadLinkModalBtn}>
-        <Button size="small" onClick={() => this.setModalVisible(true)} hidden={this.props.hidden}>
-          Upload link
-        </Button>
+      <div>
+        <a onClick={() => this.setModalVisible(true)}>Upload link</a>
         <Modal
           title="Upload link"
           centered

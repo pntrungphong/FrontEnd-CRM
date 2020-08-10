@@ -1,7 +1,8 @@
 import React from 'react';
 import { connect } from 'umi';
+import moment from 'moment';
 import { Button, Form, Modal, Tag, Input, List } from 'antd';
-import { PaperClipOutlined, FormOutlined, DeleteOutlined, LinkOutlined } from '@ant-design/icons';
+import { PaperClipOutlined, FormOutlined, LinkOutlined } from '@ant-design/icons';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
 
@@ -137,7 +138,7 @@ class ListFile extends React.Component {
                 ''
               )}
               <h3>
-                <span>{item.createdAt}</span>
+                <span>{moment(item.createdAt).format('DD-MM-YYYY')}</span>
               </h3>
               <h3>
                 <span>{item.createdBy}</span>
@@ -153,13 +154,6 @@ class ListFile extends React.Component {
                   <Tag className={styles.customTagStyle}>Lead Generation</Tag>,
                 )
               )}
-              {!dataSource[item.key].old ? (
-                <DeleteOutlined
-                  onClick={() => {
-                    this.props.removeFile(item.key);
-                  }}
-                />
-              ) : null}
             </List.Item>
           )}
         />
