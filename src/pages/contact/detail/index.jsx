@@ -219,7 +219,7 @@ class ContactDetail extends Component {
                       <a
                         onClick={() => {
                           history.push({
-                            pathname: `'/sales/lead/detail/${item.id}`,
+                            pathname: `'/client/lead/detail/${item.id}`,
                           });
                         }}
                       >

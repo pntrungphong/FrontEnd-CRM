@@ -2,14 +2,8 @@ import React from 'react';
 import { Col, Row, Switch, message, Tag } from 'antd';
 import { history, connect } from 'umi';
 import { CloseOutlined } from '@ant-design/icons';
-import { laneColor } from '../laneTitle';
+import { laneColor, laneTitle } from '../../../components/definition';
 import MarkDealLeadModal from './markDealLeadModal';
-
-const lane = {
-  PC: 'Product Consulting',
-  LM: 'Lead Management',
-  PH: 'Proposal Handling',
-};
 
 const CustomHeader = connect(({ lead, loading }) => ({
   lead,
@@ -38,7 +32,7 @@ const CustomHeader = connect(({ lead, loading }) => ({
               <h2 style={{ fontWeight: '600' }}>{props.name}</h2>
             </Col>
             <Col span={4}>
-              <Tag color={laneColor[`#${props.currentType}`]}>{lane[props.currentType]}</Tag>
+              <Tag color={laneColor[props.currentType]}>{laneTitle[props.currentType]}</Tag>
             </Col>
             <Col span={6}>
               <Switch
