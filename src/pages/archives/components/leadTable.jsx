@@ -77,7 +77,7 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <a onClick={() => history.push({ pathname: `/sales/lead/detail/${record.id}` })}>
+          <a onClick={() => history.push({ pathname: `/client/lead/detail/${record.id}` })}>
             <EyeOutlined />
           </a>
         </li>

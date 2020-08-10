@@ -2,52 +2,43 @@ import React from 'react';
 import { Typography } from 'antd';
 import moment from 'moment';
 import { CalendarOutlined } from '@ant-design/icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import PICTask from './picBox';
 import styles from './cardLead.less';
+import * as def from '../../components/definition';
 
 const { Title } = Typography;
 
-const rankStore = {
-  '0': 'A',
-  '1': 'B',
-  '2': 'C',
-  '3': 'D',
-};
-const rankColor = {
-  '0': '#fa7580',
-  '1': '#f1753b',
-  '2': '#269f99',
-  '3': '#C4C4C4',
-};
-const laneColor = {
-  LM: '#D3ADF7',
-  PC: '#B5F5EC',
-  PH: '#FFCCC7',
-};
 const getDateInfo = (meetingDate) => {
   const data = moment(meetingDate);
-  let color = '#979797';
+  let backgroundColor = '#979797';
+  let color = '#FFFFFF';
   let description = data.fromNow();
   const title = data.format('MMM DD - HH:MM');
   if (data.isSame(moment(), 'day')) {
-    color = '#1890FF';
+    backgroundColor = '#1890FF';
     description = 'Today';
   } else if (data.isAfter(moment(), 'day')) {
-    color = '#D4B106';
+    backgroundColor = '#D4B106';
   } else if (data.isBefore(moment(), 'day')) {
-    color = '#A8071A';
+    backgroundColor = '#D7D5D5';
+    color = '#373D40';
   }
-  return { color, description, title };
+  return { backgroundColor, color, description, title };
 };
 
 const CardLead = (props) => {
   const { lead } = props;
   const touchPoint = lead.touchPoint[0] ?? {};
   const dateInfo = getDateInfo(touchPoint.meetingDate);
-  if (touchPoint.status === 'Done') dateInfo.color = '#7CB305';
+  const tpIsDone = touchPoint.status === 'Done';
   return (
     <div className={styles.cardLead}>
-      <div className={styles.contentBox} style={{ borderColor: laneColor[touchPoint.lane] }}>
+      <div
+        className={styles.contentBox}
+        style={{ borderColor: def.laneBoderColor[touchPoint.lane] }}
+      >
         <Title
           ellipsis={{ rows: 1, expandable: true, symbol: '..' }}
           level={4}
@@ -55,20 +46,27 @@ const CardLead = (props) => {
         >
           {lead.name}
         </Title>
-        <div className={styles.meetingDateBox}>
-          <div className={styles.meetingDate} style={{ background: dateInfo.color }}>
-            <CalendarOutlined /> {dateInfo.title}
+        {tpIsDone ? (
+          <div className={styles.showPlanning}>
+            <FontAwesomeIcon icon={faArrowRight} size="2x" />
           </div>
-          <div className={styles.dueDay}>{dateInfo.description}</div>
-        </div>
-        <div className={styles.rankTitle} style={{ background: rankColor[lead.rank] }}>
-          <span>{rankStore[lead.rank]}</span>
-        </div>
-        {touchPoint.task?.length ? (
-          <PICTask tasks={touchPoint.task ?? []} />
         ) : (
-          <span style={{ marginBottom: '5px', display: 'block' }} />
+          <>
+            <div className={styles.meetingDateBox}>
+              <div
+                className={styles.meetingDate}
+                style={{ background: dateInfo.backgroundColor, color: dateInfo.color }}
+              >
+                <CalendarOutlined /> {dateInfo.title}
+              </div>
+              <div className={styles.dueDay}>{dateInfo.description}</div>
+            </div>
+            <PICTask tasks={touchPoint.task ?? []} />
+          </>
         )}
+      </div>
+      <div className={styles.rankTitle}>
+        <span>{def.rankTitle[lead.rank]}</span>
       </div>
     </div>
   );
