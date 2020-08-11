@@ -6,11 +6,6 @@ const User = {
   '171ecb82-4daa-43dc-8fec-61878b42d506': 'khoa.nd',
   '39d088f6-cc81-4263-ac27-b920983a4eb0': 'nhan.lh',
 };
-const lane = {
-  PC: 'Product Consulting',
-  LM: 'Lead Management',
-  PH: 'Proposal Handling',
-};
 
 const emailFormat = (listEmail) => {
   return listEmail.map((element) => ({
@@ -55,7 +50,7 @@ const touchPointFormat = (listTouchPoint) => {
     });
     return {
       status: touchPoint.status,
-      lane: lane[touchPoint.lane],
+      lane: touchPoint.lane,
       order: touchPoint.order,
       review: touchPoint.review ? touchPoint.review : '',
       note: touchPoint.note ? touchPoint.note : '',

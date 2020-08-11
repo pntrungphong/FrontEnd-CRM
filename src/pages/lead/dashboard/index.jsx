@@ -23,6 +23,10 @@ class DashBoard extends React.Component {
     this.scrollToBottom();
   }
 
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Sales Dashboard - Harmonia';
+  }
+
   render() {
     const { lead, loading } = this.props;
     if (lead.onGoingList?.length === 0) return <Spin />;

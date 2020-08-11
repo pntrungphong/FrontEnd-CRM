@@ -5,12 +5,7 @@ import { CalendarOutlined, CarryOutOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
-
-const laneColor = {
-  'Lead Management': '#D3ADF7',
-  'Product Consulting': '#B5F5EC',
-  'Proposal Handling': '#FFCCC7',
-};
+import { laneColor, laneTitle } from '../../../components/definition';
 
 const getDateInfo = (meetingDate) => {
   const data = moment(meetingDate);
@@ -103,6 +98,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
 
   return (
     <div>
+      {console.table(props.touchPoint)}
       <Row className={styles.touchPointListTile}>
         <Col span={4}>
           <a
@@ -121,7 +117,9 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
           </Tag>
         </Col>
         <Col span={5}>
-          <Tag color={laneColor[props.touchPoint.lane]}>{props.touchPoint.lane}</Tag>
+          <Tag color={laneColor[props.touchPoint.lane]} style={{ color: 'black' }}>
+            {laneTitle[props.touchPoint.lane]}
+          </Tag>
         </Col>
       </Row>
       <Row className={styles.touchPointListTile}>

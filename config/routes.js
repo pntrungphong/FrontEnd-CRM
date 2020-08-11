@@ -13,8 +13,12 @@ export default [
         authority: ['admin', 'user', 'USER'],
         routes: [
           {
+            path: '/',
+            component: 'lead/dashboard',
+          },
+          {
             path: '/sales/dashboard',
-            name: 'Sale Dashboard',
+            name: 'Sales Dashboard',
             component: 'lead/dashboard',
           },
           {
