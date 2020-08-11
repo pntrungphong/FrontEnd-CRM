@@ -54,13 +54,8 @@ class UploadFileModal extends React.Component {
     return {
       key: this.props.count,
       originalname: info.file.name,
-      order: this.props.order,
       id: info.file.response.id,
-      createdAt: info.file.createdAt,
-      createdBy: info.file.response.createdBy,
       note: '',
-      fileType: info.file.response.mimetype,
-      fileUrl: info.file.response.url ?? '',
     };
   };
 
@@ -68,8 +63,6 @@ class UploadFileModal extends React.Component {
     const payload = {
       fileId: this.formRef.current.getFieldValue('file').id,
       originalname: this.formRef.current.getFieldValue('file').originalname,
-      createdAt: this.formRef.current.getFieldValue('file').createdAt,
-      createdBy: this.formRef.current.getFieldValue('file').createdBy,
       note: values.note,
     };
 

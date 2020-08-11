@@ -1,5 +1,4 @@
 import React from 'react';
-import moment from 'moment';
 import { Col, Row } from 'antd';
 import UploadLinkModal from './uploadLinkModal';
 import UploadFileModal from './uploadFileModal';
@@ -20,8 +19,6 @@ class CustomUploadFile extends React.Component {
             createdAt: file.createdAt,
             createdBy: file.createdBy,
             note: file.note,
-            fileType: file.fileType,
-            fileUrl: file.fileUrl,
           };
         })
       : [];
@@ -35,20 +32,40 @@ class CustomUploadFile extends React.Component {
     this.updateDataSource(fileData);
   };
 
+  removeFile = (key) => {
+    const { dataSource, count } = this.state;
+    const fileData = [...dataSource];
+    const index = fileData.findIndex((item) => key === item.key);
+    fileData.splice(index, 1);
+    const newFileData = fileData.map((file, newIndex) => {
+      return {
+        key: newIndex,
+        id: file.id,
+        originalname: file.originalname,
+        note: file.note,
+      };
+    });
+    this.setState({
+      dataSource: newFileData,
+      count: count - 1,
+    });
+    if (fileData.length !== 0) {
+      this.props.onChange([...fileData]);
+    } else {
+      this.props.onChange(undefined);
+    }
+  };
+
   onAddFile = (fileData) => {
     this.updateDataSource(fileData);
   };
 
   updateDataSource = (fileData) => {
     if (!fileData) return;
-    const updatedData = fileData;
     const { dataSource, count } = this.state;
-    updatedData.createdAt = moment(fileData.createdAt).format('MMM DD');
     const newFileData = {
-      ...updatedData,
+      ...fileData,
       key: count,
-      fileType: fileData.mimetype,
-      fileUrl: fileData.url ?? '',
     };
 
     const newSource = [...dataSource, newFileData];
@@ -86,6 +103,7 @@ class CustomUploadFile extends React.Component {
         <ListFile
           onChange={this.props.onChange}
           order={this.props.order}
+          removeFile={(key) => this.removeFile(key)}
           dataSource={this.state.dataSource}
         />
       </div>

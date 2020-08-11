@@ -1,13 +1,11 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Button, Form, Modal, Tag, Input, List } from 'antd';
-import { PaperClipOutlined, FormOutlined, LinkOutlined } from '@ant-design/icons';
+import { PaperClipOutlined, FormOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
 
 const { TextArea } = Input;
-
-const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 
 class ListFile extends React.Component {
   constructor(props) {
@@ -25,29 +23,17 @@ class ListFile extends React.Component {
     });
   };
 
-  onFinish = async (values) => {
+  onFinish = (values) => {
     const { dataSource } = this.props;
     const fileData = [...dataSource];
     const index = fileData.findIndex((item) => this.state.currentFile === item.key);
     const selectItem = fileData[index];
     selectItem.note = values.note;
-    this.props
-      .dispatch({
-        type: 'file/updateNote',
-        payload: {
-          note: values.note,
-          id: selectItem.id,
-        },
-      })
-      .then((result) => {
-        if (result) {
-          fileData.splice(index, 1, { ...selectItem });
-          this.setState({
-            visible: false,
-          });
-          this.props.onChange([...fileData]);
-        }
-      });
+    fileData.splice(index, 1, { ...selectItem });
+    this.setState({
+      visible: false,
+    });
+    this.props.onChange([...fileData]);
   };
 
   handleCancel = () => {
@@ -57,7 +43,7 @@ class ListFile extends React.Component {
   };
 
   render() {
-    const { dataSource, order } = this.props;
+    const { dataSource } = this.props;
 
     return (
       <>
@@ -114,10 +100,7 @@ class ListFile extends React.Component {
                   </h3>
                 }
               />
-              <h3 className={styles.listH3}>
-                <span>{item.createdAt}</span>
-              </h3>
-              <span
+              <div
                 onClick={() => {
                   this.addNote(item.key, false);
                 }}
@@ -129,21 +112,12 @@ class ListFile extends React.Component {
                     <FormOutlined /> Add note
                   </Tag>
                 )}
-              </span>
-              <h3 className={styles.listH3}>
-                <span>{item.createdBy}</span>
-              </h3>
-              {item.order !== order ? (
-                <Tag className={styles.customTagStyle}>{`Touchpoint ${item.order}`}</Tag>
-              ) : (
-                iff(
-                  item.order !== undefined,
-                  <Tag color="#EFDBFF" className={styles.customTagStyle}>
-                    {`Touchpoint ${item.order}`}
-                  </Tag>,
-                  <Tag className={styles.customTagStyle}>Lead Generation</Tag>,
-                )
-              )}
+              </div>
+              <DeleteOutlined
+                onClick={() => {
+                  this.props.removeFile(item.key);
+                }}
+              />
             </List.Item>
           )}
         />
