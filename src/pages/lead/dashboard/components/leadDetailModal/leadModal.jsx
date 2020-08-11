@@ -57,7 +57,7 @@ const TouchPointCreateForm = connect(({ task, lead, touchpoint, loading }) => ({
               width={800}
               style={{ top: 0, background: 'white' }}
               bodyStyle={{
-                height: '78vh',
+                height: '85vh',
                 overflowY: 'scroll',
                 paddingTop: 0,
                 scrollBehavior: 'smooth',
