@@ -4,7 +4,7 @@ import { connect } from 'umi';
 import styles from './style.less';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
 import CreateContactDrawer from '../../common/createContactDrawer';
-import CustomUploadFile from '../components/fileComponent/customuploadfile';
+import CustomUploadFile from './components/customuploadfile';
 
 const { Option } = Select;
 const { TextArea } = Input;
@@ -31,17 +31,18 @@ class CreateForm extends React.Component {
   }
 
   onFinish = (values) => {
-    const payloadValue = values;
-    payloadValue.lane = this.props.formRef.current.getFieldValue('lane');
-    this.props
-      .dispatch({
-        type: 'lead/create',
-        payload: { ...payloadValue },
-      })
-      .then((value) => {
-        if (value) this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
-      });
-    this.props.closeModal();
+    console.table(values);
+    // const payloadValue = values;
+    // payloadValue.lane = this.props.formRef.current.getFieldValue('lane');
+    // this.props
+    //   .dispatch({
+    //     type: 'lead/create',
+    //     payload: { ...payloadValue },
+    //   })
+    //   .then((value) => {
+    //     if (value) this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
+    //   });
+    // this.props.closeModal();
   };
 
   render() {

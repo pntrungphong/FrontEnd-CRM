@@ -9,18 +9,18 @@ import TouchPointCreateForm from './components/leadDetailModal/leadModal';
 
 const DEFAULTLISTTP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 class DashBoard extends React.Component {
-  UNSAFE_componentWillMount() {
-    this.props
-      .dispatch({ type: 'lead/getListWithLane', payload: {} })
-      .then(() => this.scrollToBottom());
+  componentDidMount() {
+    this.scrollToBottom();
   }
 
   scrollToBottom = () => {
     if (this.messagesEnd) this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
   };
 
-  componentDidMount() {
-    this.scrollToBottom();
+  UNSAFE_componentWillMount() {
+    this.props
+      .dispatch({ type: 'lead/getListWithLane', payload: {} })
+      .then(() => this.scrollToBottom());
   }
 
   render() {

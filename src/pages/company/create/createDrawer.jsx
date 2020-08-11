@@ -61,7 +61,7 @@ class CreateCompanyDrawer extends React.Component {
     return (
       <>
         <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-          Create New Company
+          Create new company
         </Button>
         <Drawer
           title={

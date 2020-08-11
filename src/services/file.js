@@ -30,7 +30,7 @@ export async function uploadFile(params) {
 }
 
 export async function updateNote(params) {
-  return request(`/noteFile/${params.id}`, {
+  return request(`/touchPointFile/${params.id}`, {
     method: 'PUT',
     data: {
       note: params.note,

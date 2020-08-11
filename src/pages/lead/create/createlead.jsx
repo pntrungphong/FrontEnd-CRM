@@ -38,7 +38,7 @@ class CreateLead extends React.Component {
             onClick={() => this.showModal(true)}
             className={styles.customCreateBtn}
           >
-            Create New Lead
+            Create new lead
           </Button>
         )}
         <Drawer
