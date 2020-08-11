@@ -1,7 +1,13 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Button, Form, Modal, Tag, Input, List } from 'antd';
-import { PaperClipOutlined, FormOutlined, LinkOutlined } from '@ant-design/icons';
+import {
+  PaperClipOutlined,
+  FormOutlined,
+  LinkOutlined,
+  DownOutlined,
+  UpOutlined,
+} from '@ant-design/icons';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
 
@@ -15,6 +21,7 @@ class ListFile extends React.Component {
     this.state = {
       visible: false,
       currentFile: 0,
+      showLess: true,
     };
   }
 
@@ -56,9 +63,32 @@ class ListFile extends React.Component {
     });
   };
 
+  onLoadMore = (showLess) => {
+    this.setState({
+      showLess,
+    });
+  };
+
+  ControllerButton = (btnProps) => {
+    if (!btnProps) return null;
+    return (
+      <div className={styles.controllerButton}>
+        {this.state.showLess ? (
+          <a onClick={() => this.onLoadMore(false)}>
+            Show more <DownOutlined style={{ fontSize: '10px' }} />
+          </a>
+        ) : (
+          <a onClick={() => this.onLoadMore(true)}>
+            Show less <UpOutlined style={{ fontSize: '10px' }} />
+          </a>
+        )}
+      </div>
+    );
+  };
+
   render() {
     const { dataSource, order } = this.props;
-
+    const listData = dataSource.slice(0, this.state.showLess ? 3 : dataSource.length);
     return (
       <>
         <Modal
@@ -89,8 +119,8 @@ class ListFile extends React.Component {
         </Modal>
         <List
           itemLayout="horizontal"
-          split={false}
-          dataSource={dataSource}
+          dataSource={listData}
+          loadMore={this.ControllerButton(dataSource.length > 3)}
           locale={{ emptyText: 'No file' }}
           renderItem={(item) => (
             <List.Item>

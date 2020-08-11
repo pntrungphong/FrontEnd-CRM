@@ -35,38 +35,6 @@ class LeadForm extends React.Component {
       });
   };
 
-  // componentDidMount = () => {
-  //   // Cache selectors
-  //   const topMenu = document.querySelector('#menu-touchpoint-update');
-  //   const topMenuHeight = topMenu.offsetHeight + 150;
-  //   // All list items
-  //   const menuItems = [...topMenu.querySelectorAll('li.ant-menu-item')];
-  //   const scrollItems = [];
-
-  //   scrollItems.push(document.querySelector('#general'));
-  //   scrollItems.push(document.querySelector('#lead-information'));
-  //   // scrollItems.push(document.querySelector('#scope'));
-  //   // scrollItems.push(document.querySelector('#estimation'));
-  //   // scrollItems.push(document.querySelector('#pricing'));
-  //   // scrollItems.push(document.querySelector('#proposal'));
-  //   // scrollItems.push(document.querySelector('#quotation'));
-  //   // scrollItems.push(document.querySelector('#sla'));
-
-  //   document.querySelector('.ant-modal-body').addEventListener('scroll', (event) => {
-  //     // Get container scroll position
-  //     const { scrollTop } = event.srcElement;
-  //     const fromTop = scrollTop + topMenuHeight;
-  //     let cur = scrollItems.filter((it) => it.offsetTop < fromTop);
-  //     if (cur.length === 0) return;
-  //     cur = cur[cur.length - 1];
-  //     const id = cur ? cur.id : '';
-  //     menuItems.map((it) => it.classList.remove('ant-menu-item-selected'));
-  //     const item = menuItems.filter((it) => it.children[0].getAttribute('href') === `#${id}`);
-  //     if (item.length === 0) return;
-  //     item[0].classList.add('ant-menu-item-selected');
-  //   });
-  // };
-
   render() {
     return (
       <Form

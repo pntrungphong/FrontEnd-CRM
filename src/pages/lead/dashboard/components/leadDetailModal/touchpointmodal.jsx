@@ -4,12 +4,7 @@ import { connect } from 'umi';
 import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
-
-const laneColor = {
-  'Lead Management': '#D3ADF7',
-  'Product Consulting': '#B5F5EC',
-  'Proposal Handling': '#FFCCC7',
-};
+import { laneColor, laneTitle } from '../../../components/definition';
 
 const layout = {
   labelCol: { span: 5 },
@@ -134,7 +129,9 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
               })}
           </Col>
           <Col span={5}>
-            <Tag color={laneColor[props.touchPoint.lane]}>{props.touchPoint.lane}</Tag>
+            <Tag color={laneColor[props.touchPoint.lane]} style={{ color: 'black' }}>
+              {laneTitle[props.touchPoint.lane]}
+            </Tag>
           </Col>
         </Row>
       ) : (

@@ -50,7 +50,7 @@ export default {
   'menu.editor.mind': 'Mind Editor',
   'menu.editor.koni': 'Koni Editor',
 
-  'menu.Sale Dashboard': 'Sale Dashboard',
+  'menu.Sales Dashboard': 'Sales Dashboard',
   'menu.Database Management': 'Database Management',
   'menu.Database Management.Contact': 'Contact',
   'menu.Database Management.Company': 'Company',

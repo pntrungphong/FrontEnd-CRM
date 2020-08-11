@@ -65,7 +65,7 @@ const CardLead = (props) => {
           </>
         )}
       </div>
-      <div className={styles.rankTitle}>
+      <div className={styles.rankTitle} style={{ background: def.laneBoderColor[touchPoint.lane] }}>
         <span>{def.rankTitle[lead.rank]}</span>
       </div>
     </div>
