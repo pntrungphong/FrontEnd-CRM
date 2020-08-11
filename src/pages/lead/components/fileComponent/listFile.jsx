@@ -144,9 +144,9 @@ class ListFile extends React.Component {
                   </h3>
                 }
               />
-              <h3 className={styles.listH3}>
+              <h4 className={styles.listH3}>
                 <span>{item.createdAt}</span>
-              </h3>
+              </h4>
               <span
                 onClick={() => {
                   this.addNote(item.key, false);
@@ -155,14 +155,23 @@ class ListFile extends React.Component {
                 {dataSource[item.key].note && dataSource[item.key].note !== '' ? (
                   <div className={styles.viewNote}>View note</div>
                 ) : (
-                  <Tag>
+                  <Tag style={{ margin: 0 }}>
                     <FormOutlined /> Add note
                   </Tag>
                 )}
               </span>
-              <h3 className={styles.listH3}>
+              <h4 className={styles.listH3}>
                 <span>{item.createdBy}</span>
-              </h3>
+                {/* <Tooltip title={item.userName}>
+                      <Avatar
+                        key={item.createdBy}
+                        className={styles.picAvatar}
+                        src={taskItem.avatar}
+                        style={{ width: 24, height: 24 }}>
+                        {taskItem.userName}
+                      </Avatar>
+                    </Tooltip> */}
+              </h4>
               {item.order !== order ? (
                 <Tag className={styles.customTagStyle}>{`Touchpoint ${item.order}`}</Tag>
               ) : (
