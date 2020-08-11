@@ -31,18 +31,17 @@ class CreateForm extends React.Component {
   }
 
   onFinish = (values) => {
-    console.table(values);
-    // const payloadValue = values;
-    // payloadValue.lane = this.props.formRef.current.getFieldValue('lane');
-    // this.props
-    //   .dispatch({
-    //     type: 'lead/create',
-    //     payload: { ...payloadValue },
-    //   })
-    //   .then((value) => {
-    //     if (value) this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
-    //   });
-    // this.props.closeModal();
+    const payloadValue = values;
+    payloadValue.lane = this.props.formRef.current.getFieldValue('lane');
+    this.props
+      .dispatch({
+        type: 'lead/create',
+        payload: { ...payloadValue },
+      })
+      .then((value) => {
+        if (value) this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
+      });
+    this.props.closeModal();
   };
 
   render() {
