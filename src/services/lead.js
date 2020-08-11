@@ -16,7 +16,14 @@ const formatOutputData = (params) => {
       }))
     : [];
 
-  const file = params.brief ? params.brief.map((item) => item.id) : [];
+  const file = params.brief
+    ? params.brief.map((item) => {
+        return {
+          fileId: item.fileId,
+          note: item.note,
+        };
+      })
+    : [];
 
   const tag = params.tag
     ? params.tag.map((item) =>
