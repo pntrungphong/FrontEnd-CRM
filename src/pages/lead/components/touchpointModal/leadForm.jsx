@@ -140,7 +140,7 @@ class LeadForm extends React.Component {
         </div>
         <div id="past-touchpoint">
           <div className={styles.header}>
-            <h2 className={styles.title}>Pass TouchPoint</h2>
+            <h2 className={styles.title}>Pass Touchpoint</h2>
           </div>
           {this.props.lead.detail.touchPoint.map((touchPoint, index) => {
             if (index === this.props.lead.detail.touchPoint.length - 1) return null;
@@ -155,90 +155,6 @@ class LeadForm extends React.Component {
             );
           })}
         </div>
-        {/* <div id="scope">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Scope</h2>
-          </div>
-          <Form.Item name="scope">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="scope"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="estimation">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Estimation</h2>
-          </div>
-          <Form.Item name="estimation">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="estimation"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="pricing">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Pricing</h2>
-          </div>
-          <Form.Item name="pricing">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="pricing"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="proposal">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Proposal</h2>
-          </div>
-          <Form.Item name="proposal">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="proposal"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="quotation">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Quotation</h2>
-          </div>
-          <Form.Item name="quotation">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="quotation"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div>
-        <div id="sla">
-          <div className={styles.header}>
-            <h2 className={styles.title}>Service Level Agreement</h2>
-          </div>
-          <Form.Item name="sla">
-            <CustomUploadFile
-              leadId={this.props.leadId}
-              touchPointId={this.props.touchpointId}
-              status={this.props.status}
-              dataIndex="sla"
-              order={this.props.touchpoint.data.order}
-            />
-          </Form.Item>
-        </div> */}
       </Form>
     );
   }

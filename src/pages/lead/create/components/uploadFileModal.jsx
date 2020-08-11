@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'umi';
 import { Button, Form, Col, Row, Modal, Input, Upload, message } from 'antd';
 import { DeleteOutlined } from '@ant-design/icons';
-import moment from 'moment';
 import { getToken } from '../../../../utils/authority';
 import fileConfig from '../../../../../config/apiConfig';
 
@@ -57,7 +56,7 @@ class UploadFileModal extends React.Component {
       originalname: info.file.name,
       order: this.props.order,
       id: info.file.response.id,
-      createdAt: moment(info.file.createdAt).format('DD-MM-YYYY'),
+      createdAt: info.file.createdAt,
       createdBy: info.file.response.createdBy,
       note: '',
       fileType: info.file.response.mimetype,
@@ -68,24 +67,14 @@ class UploadFileModal extends React.Component {
   onFinish = (values) => {
     const payload = {
       fileId: this.formRef.current.getFieldValue('file').id,
+      originalname: this.formRef.current.getFieldValue('file').originalname,
+      createdAt: this.formRef.current.getFieldValue('file').createdAt,
+      createdBy: this.formRef.current.getFieldValue('file').createdBy,
       note: values.note,
-      touchPointId: this.props.touchPointId,
-      leadId: this.props.leadId,
     };
 
-    this.props
-      .dispatch({
-        type: 'file/uploadFile',
-        payload,
-      })
-      .then((uploadedFile) => {
-        this.props.onAddFile({ ...uploadedFile, note: payload.note });
-      });
+    this.props.onAddFile({ ...payload });
     this.setModalVisible(false);
-    this.setState({
-      buttonVisible: true,
-      file: undefined,
-    });
   };
 
   render() {

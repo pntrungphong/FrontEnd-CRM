@@ -427,7 +427,6 @@ export const formatDetailLeadData = (response, fileResponse) => {
     };
     const touchPoints = response.touchPoint ? touchPointFormat(response.touchPoint) : [];
     const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
-
     const touchPointFile = fileResponse
       ? fileResponse.map((file) => {
           return {
@@ -435,7 +434,7 @@ export const formatDetailLeadData = (response, fileResponse) => {
             originalname: file.file.originalname,
             note: file.note,
             createdBy: file.file.createdBy,
-            createdAt: moment(file.file.createdAt).format('DD-MM-YYYY'),
+            createdAt: moment(file.file.createdAt).format('MMM DD'),
             order: file.touchPoint.order,
             touchPointId: file.touchPointId,
             fileType: file.type,

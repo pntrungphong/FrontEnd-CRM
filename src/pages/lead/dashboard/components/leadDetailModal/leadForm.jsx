@@ -95,6 +95,10 @@ class LeadForm extends React.Component {
           </div>
           <Form.Item name="file">
             <CustomUploadFile
+              order={
+                this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1]
+                  .order
+              }
               leadId={this.props.leadId}
               touchPointId={this.props.touchpointId}
               status={this.props.status}

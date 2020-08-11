@@ -129,7 +129,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
           <a
             className={styles.touchPointTitle}
             onClick={onShow}
-          >{`TouchPoint ${props.touchPoint.order}`}</a>
+          >{`Touchpoint ${props.touchPoint.order}`}</a>
         </Col>
         <Col span={3}>
           <Tag className={styles.touchPointStatus} color="#E9FAF0">

@@ -63,7 +63,7 @@ class CreateContactDrawer extends React.Component {
     return (
       <>
         <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-          Create New contact
+          Create new contact
         </Button>
         <Drawer
           title="Create Contact"
