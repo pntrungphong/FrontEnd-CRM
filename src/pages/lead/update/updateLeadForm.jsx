@@ -1,9 +1,8 @@
 import React, { useState, useRef } from 'react';
 import { Form, Input, Radio, Spin, Select } from 'antd';
 import { connect } from 'umi';
-import { useUnmount, useMount } from 'ahooks';
+import { useMount } from 'ahooks';
 import styles from './style.less';
-import CustomUploadFile from '../components/fileComponent/customuploadfile';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
 
 const { TextArea } = Input;
@@ -19,19 +18,10 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
 }))((props) => {
   useMount(() => {
     props.dispatch({
-      type: 'lead/get',
-      payload: { id: props.leadId },
+      type: 'tag/getTag',
     });
   });
 
-  useUnmount(() => {
-    props.dispatch({
-      type: 'tag/getTag',
-    });
-    props.dispatch({
-      type: 'lead/cleanData',
-    });
-  });
   const [form] = Form.useForm();
   const formRef = useRef(null);
   const [rankReason, setRankReason] = useState(true);
@@ -39,10 +29,21 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
   const onFinish = (values) => {
     const returnValue = values;
     returnValue.id = props.leadId;
-    props.dispatch({
-      type: 'lead/update',
-      payload: { ...returnValue },
-    });
+    props
+      .dispatch({
+        type: 'lead/update',
+        payload: { ...returnValue },
+      })
+      .then(() => {
+        props
+          .dispatch({
+            type: 'lead/get',
+            payload: { id: props.leadId },
+          })
+          .then(() => {
+            props.dispatch({ type: 'lead/getListWithLane', payload: {} });
+          });
+      });
     props.closeModal();
   };
 
@@ -59,9 +60,6 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
   }
   return (
     <>
-      <div className={styles.header}>
-        <p className={styles.title}>Lead Information</p>
-      </div>
       <Form
         form={form}
         ref={formRef}
@@ -116,7 +114,7 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         <Form.Item name="tag" label="Tag">
           <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']} />
         </Form.Item>
-        <Form.Item label="Rank" name="rank">
+        <Form.Item label="Rank" name="rank" rules={[{ required: true, message: 'Choose rank' }]}>
           <Radio.Group onChange={onRankChange}>
             <Radio value={0}>A</Radio>
             <Radio value={1}>B</Radio>
@@ -141,9 +139,6 @@ const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({
         </Form.Item>
         <Form.Item name="note" label="Note">
           <TextArea rows={4} />
-        </Form.Item>
-        <Form.Item name="brief" label="Brief">
-          <CustomUploadFile dataIndex="brief" />
         </Form.Item>
       </Form>
     </>

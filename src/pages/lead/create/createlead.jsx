@@ -45,7 +45,7 @@ class CreateLead extends React.Component {
           destroyOnClose
           className={styles.modalCreate}
           style={{ top: 0 }}
-          title="Add new Lead"
+          title="Create new lead"
           closable
           width={800}
           visible={this.state.showModal}

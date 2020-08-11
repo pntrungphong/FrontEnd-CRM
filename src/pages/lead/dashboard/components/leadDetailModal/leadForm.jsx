@@ -1,5 +1,5 @@
 import React from 'react';
-import { Form } from 'antd';
+import { Form, Col, Row } from 'antd';
 import { connect } from 'umi';
 import LeadInfomation from './leadInfomation';
 import TouchPointModal from './touchpointmodal';
@@ -7,6 +7,7 @@ import CustomUploadFile from '../../../components/fileComponent/customuploadfile
 import styles from './style.less';
 import CurrentTouchPointInfo from './currentTouchPointInfo';
 import ListPastTouchPoint from './listPastTouchPoint';
+import UpdateLead from '../../../update/updateLeadModal';
 
 class LeadForm extends React.Component {
   onPlaning = (values) => {
@@ -80,7 +81,14 @@ class LeadForm extends React.Component {
 
         <div id="lead-information">
           <div className={styles.header}>
-            <h2 className={styles.title}>Lead Information</h2>
+            <Row>
+              <Col span="22">
+                <h2 className={styles.title}>Information</h2>
+              </Col>
+              <Col className={styles.editButton} span="2">
+                <UpdateLead onCancel={this.props.onCancel} leadId={this.props.leadId} />
+              </Col>
+            </Row>
           </div>
           <LeadInfomation lead={detail} />
         </div>
