@@ -9,7 +9,7 @@ const LaneTitle = () => {
     <div className={styles.laneColumn}>
       <h3 className={styles.touchPointTitle}>#</h3>
       <div className={styles.stateColumn}>
-        <Space align="center" direction="vertical">
+        <Space align="center" direction="vertical" className={styles.stateBox}>
           {LISTDEFAULTLANE.map((item) => {
             return (
               <div

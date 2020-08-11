@@ -7,12 +7,6 @@ const User = {
   'nhan.lh': '39d088f6-cc81-4263-ac27-b920983a4eb0',
 };
 
-const lane = {
-  'Product Consulting': 'PC',
-  'Lead Management': 'LM',
-  'Proposal Handling': 'PH',
-};
-
 const taskFormat = (listTask) => {
   return listTask.map((element) => ({
     taskName: element.taskName,
@@ -24,7 +18,7 @@ const taskFormat = (listTask) => {
 
 export async function createTouchPoint(params) {
   const body = {
-    lane: lane[params.lane],
+    lane: params.lane,
     goal: params.goal,
     review: params.recap,
     status: 'Undone',
@@ -71,77 +65,8 @@ export async function markDoneTouchpoint(params) {
 }
 
 export async function updateTouchPoint(params) {
-  // const scope = params.scope
-  //   ? params.scope.map((file) => {
-  //     return {
-  //       fileId: file.id,
-  //       note: file.note ? file.note : '',
-  //       type: 'scope',
-  //       order: file.order,
-  //     };
-  //   })
-  //   : [];
-  // const sla = params.sla
-  //   ? params.sla.map((file) => {
-  //     return {
-  //       fileId: file.id,
-  //       note: file.note ? file.note : '',
-  //       type: 'sla',
-  //       order: file.order,
-  //     };
-  //   })
-  //   : [];
-  // const estimation = params.estimation
-  //   ? params.estimation.map((file) => {
-  //     return {
-  //       fileId: file.id,
-  //       note: file.note ? file.note : '',
-  //       type: 'estimation',
-  //       order: file.order,
-  //     };
-  //   })
-  //   : [];
-  // const pricing = params.pricing
-  //   ? params.pricing.map((file) => {
-  //     return {
-  //       fileId: file.id,
-  //       note: file.note ? file.note : '',
-  //       type: 'pricing',
-  //       order: file.order,
-  //     };
-  //   })
-  //   : [];
-  // const quotation = params.quotation
-  //   ? params.quotation.map((file) => {
-  //     return {
-  //       fileId: file.id,
-  //       note: file.note ? file.note : '',
-  //       type: 'quotation',
-  //       order: file.order,
-  //     };
-  //   })
-  //   : [];
-  // const proposal = params.proposal
-  //   ? params.proposal.map((file) => {
-  //     return {
-  //       fileId: file.id,
-  //       note: file.note ? file.note : '',
-  //       type: 'proposal',
-  //       order: file.order,
-  //     };
-  //   })
-  //   : [];
-
-  // const file = scope
-  //   .concat(sla)
-  //   .concat(estimation)
-  //   .concat(pricing)
-  //   .concat(quotation)
-  //   .concat(proposal)
-  //   .filter((it) => it.order === params.order);
-
   const body = {
-    lane: lane[params.lane],
+    lane: params.lane,
     goal: params.goal ? params.goal : '',
     review: params.recap,
     task: params.task ? taskFormat(params.task) : [],
