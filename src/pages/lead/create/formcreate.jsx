@@ -12,10 +12,6 @@ const layout = {
   labelCol: { span: 4 },
 };
 
-const validateMessages = (label) => ({
-  required: `${label} is required!`,
-});
-
 class CreateForm extends React.Component {
   constructor(props) {
     super(props);
@@ -54,7 +50,6 @@ class CreateForm extends React.Component {
         ref={this.props.formRef}
         name="nest-messages"
         onFinish={this.onFinish}
-        validateMessages={validateMessages}
       >
         <Form.Item
           name="name"

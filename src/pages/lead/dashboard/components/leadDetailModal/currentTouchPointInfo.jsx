@@ -57,7 +57,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
             props.dispatch({ type: 'lead/getListWithLane', payload: {} });
           }
         });
-    else
+    else {
       props
         .dispatch({
           type: 'touchpoint/create',
@@ -69,6 +69,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
             props.dispatch({ type: 'lead/getListWithLane', payload: {} });
           }
         });
+    }
   };
 
   const onCancel = () => {
