@@ -62,7 +62,10 @@
   float: left;
 }
 .actionBtn {
-  text-align: right;
+  display: flex;
+  justify-content: flex-end;
+  font-weight: 600;
+  user-select: none;
   :global {
     .ant-form-item-control-input {
       min-height: auto;
@@ -92,7 +95,6 @@
 }
 .controllerButton {
   height: 32px;
-  margin-top: 12px;
   line-height: 32px;
   text-align: center;
 }

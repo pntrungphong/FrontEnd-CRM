@@ -6,6 +6,7 @@ import TouchPointModal from './touchpointmodal';
 import CustomUploadFile from '../../../components/fileComponent/customuploadfile';
 import styles from './style.less';
 import CurrentTouchPointInfo from './currentTouchPointInfo';
+import ListPastTouchPoint from './listPastTouchPoint';
 
 class LeadForm extends React.Component {
   onPlaning = (values) => {
@@ -36,6 +37,7 @@ class LeadForm extends React.Component {
   };
 
   render() {
+    const { detail } = this.props.lead;
     return (
       <Form
         onFinish={this.onPlaning}
@@ -43,37 +45,30 @@ class LeadForm extends React.Component {
         layout="vertical"
         name="form_in_modal"
         initialValues={{
-          name: this.props.lead.detail.name,
-          rank: this.props.lead.detail.rank,
-          company: this.props.lead.detail.company,
-          contact: this.props.lead.detail.contact,
-          tag: this.props.lead.detail.tag,
-          relation: this.props.lead.detail.relation,
-          brief: this.props.lead.detail.file,
-          description: this.props.lead.detail.description,
-          file: this.props.lead.detail.touchPointFile,
+          name: detail.name,
+          rank: detail.rank,
+          company: detail.company,
+          contact: detail.contact,
+          tag: detail.tag,
+          relation: detail.relation,
+          brief: detail.file,
+          description: detail.description,
+          file: detail.touchPointFile,
         }}
       >
         <div id="general">
-          {this.props.lead.detail.touchPoint.length !== 0 &&
-          this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1].order >
-            0 ? (
+          {detail.touchPoint.length !== 0 &&
+          detail.touchPoint[detail.touchPoint.length - 1].order > 0 ? (
             <CurrentTouchPointInfo
               update
-              status={
-                this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1]
-                  .status
-              }
+              status={detail.touchPoint[detail.touchPoint.length - 1].status}
               leadId={this.props.leadId}
-              touchPoint={
-                this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1]
-              }
+              touchPoint={detail.touchPoint[detail.touchPoint.length - 1]}
             />
           ) : null}
 
-          {this.props.lead.detail.touchPoint.length === 0 ||
-          this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1].status ===
-            'Done' ? (
+          {detail.touchPoint.length === 0 ||
+          detail.touchPoint[detail.touchPoint.length - 1].status === 'Done' ? (
             <TouchPointModal
               status="Undone"
               onCancel={this.props.onCancel}
@@ -87,7 +82,7 @@ class LeadForm extends React.Component {
           <div className={styles.header}>
             <h2 className={styles.title}>Lead Information</h2>
           </div>
-          <LeadInfomation lead={this.props.lead.detail} />
+          <LeadInfomation lead={detail} />
         </div>
         <div id="file">
           <div className={styles.header}>
@@ -95,14 +90,12 @@ class LeadForm extends React.Component {
           </div>
           <Form.Item name="file">
             <CustomUploadFile
-              order={
-                this.props.lead.detail.touchPoint[this.props.lead.detail.touchPoint.length - 1]
-                  .order
-              }
+              order={detail.touchPoint[detail.touchPoint.length - 1].order}
               leadId={this.props.leadId}
               touchPointId={this.props.touchpointId}
               status={this.props.status}
               dataIndex="file"
+              actionStyle={{ position: 'absolute', right: 0, transform: 'translateY(-175%)' }}
             />
           </Form.Item>
         </div>
@@ -110,18 +103,7 @@ class LeadForm extends React.Component {
           <div className={styles.header}>
             <h2 className={styles.title}>Past TouchPoint</h2>
           </div>
-          {this.props.lead.detail.touchPoint.map((touchPoint, index) => {
-            if (index === this.props.lead.detail.touchPoint.length - 1 || index === 0) return null;
-            return (
-              <TouchPointModal
-                key={touchPoint.id}
-                update
-                status={touchPoint.status}
-                leadId={this.props.leadId}
-                touchPoint={touchPoint}
-              />
-            );
-          })}
+          <ListPastTouchPoint touchPoints={detail.touchPoint} />
         </div>
       </Form>
     );

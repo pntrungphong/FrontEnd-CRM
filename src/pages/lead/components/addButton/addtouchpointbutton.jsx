@@ -2,7 +2,7 @@ import { Button } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
 import { PlusOutlined } from '@ant-design/icons';
-import styles from '../../home/style.less';
+import styles from '../../dashboard/style.less';
 
 class AddTouchPointButton extends React.Component {
   constructor(props) {

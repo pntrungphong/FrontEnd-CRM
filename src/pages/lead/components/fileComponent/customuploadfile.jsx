@@ -1,6 +1,5 @@
 import React from 'react';
 import moment from 'moment';
-import { Col, Row } from 'antd';
 import UploadLinkModal from './uploadLinkModal';
 import UploadFileModal from './uploadFileModal';
 import styles from './style.less';
@@ -63,26 +62,20 @@ class CustomUploadFile extends React.Component {
   render() {
     return (
       <div>
-        <div className={styles.actionBtn}>
-          <Row>
-            <Col span={16} />
-            <Col span={4}>
-              <UploadLinkModal
-                touchPointId={this.props.touchPointId}
-                leadId={this.props.leadId}
-                onAddLink={this.onAddLink}
-                count={this.state.count}
-              />
-            </Col>
-            <Col span={4}>
-              <UploadFileModal
-                touchPointId={this.props.touchPointId}
-                leadId={this.props.leadId}
-                onAddFile={this.onAddFile}
-                count={this.state.count}
-              />
-            </Col>
-          </Row>
+        <div className={styles.actionBtn} style={this.props.actionStyle}>
+          <UploadLinkModal
+            touchPointId={this.props.touchPointId}
+            leadId={this.props.leadId}
+            onAddLink={this.onAddLink}
+            count={this.state.count}
+          />
+          <span style={{ margin: '0 10px' }}>|</span>
+          <UploadFileModal
+            touchPointId={this.props.touchPointId}
+            leadId={this.props.leadId}
+            onAddFile={this.onAddFile}
+            count={this.state.count}
+          />
         </div>
         <ListFile
           onChange={this.props.onChange}

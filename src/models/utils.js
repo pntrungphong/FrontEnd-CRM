@@ -434,7 +434,7 @@ export const formatDetailLeadData = (response, fileResponse) => {
             originalname: file.file.originalname,
             note: file.note,
             createdBy: file.file.createdBy,
-            createdAt: moment(file.file.createdAt).format('MMM DD'),
+            createdAt: moment(file.file.createdAt).format('HH:MM MMM DD'),
             order: file.touchPoint.order,
             touchPointId: file.touchPointId,
             fileType: file.type,
