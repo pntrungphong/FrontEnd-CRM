@@ -24,7 +24,7 @@ const getDateInfo = (meetingDate) => {
 };
 
 const layout = {
-  labelCol: { span: 5 },
+  labelCol: { span: 3 },
 };
 
 const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => ({
@@ -98,7 +98,6 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
 
   return (
     <div>
-      {console.table(props.touchPoint)}
       <Row className={styles.touchPointListTile}>
         <Col span={4}>
           <a
@@ -124,11 +123,10 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
       </Row>
       <Row className={styles.touchPointListTile}>
         <Col span={19}>
-          <div>Goal: {props.touchPoint.goal}</div>
+          <div style={{ fontWeight: 'bold' }}>Goal: {props.touchPoint.goal}</div>
         </Col>
-        <Col span={5}>
-          {props.touchPoint.task.length}
-          <CarryOutOutlined />
+        <Col span={5} style={{ fontSize: '14px' }}>
+          {props.touchPoint.task.length} <CarryOutOutlined />
           {props.touchPoint.task
             .filter(
               (value, index, self) => self.map((x) => x.userName).indexOf(value.userName) === index,
@@ -149,7 +147,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
       </Row>
       <Row className={styles.touchPointListTile}>
         <Col span={19}>
-          <div>Recap: {props.touchPoint.review}</div>
+          <div style={{ fontWeight: 'bold' }}>Recap: {props.touchPoint.review}</div>
         </Col>
       </Row>
       <Modal
@@ -163,7 +161,7 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
         }
         style={{ top: 0, background: 'white' }}
         bodyStyle={{
-          height: '71.5vh',
+          height: '80vh',
           overflowY: 'scroll',
           paddingTop: 0,
           scrollBehavior: 'smooth',

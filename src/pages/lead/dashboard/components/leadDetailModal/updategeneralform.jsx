@@ -31,9 +31,9 @@ const UpdateGeneralInformation = connect(({ task, user, lead, touchpoint }) => (
           <Input disabled className={styles.disableField} />
         ) : (
           <Radio.Group>
-            <Radio value="Lead Management">Lead Management</Radio>
-            <Radio value="Product Consulting">Product Consulting</Radio>
-            <Radio value="Proposal Handling">Proposal Handling</Radio>
+            <Radio value="LM">Lead Management</Radio>
+            <Radio value="PC">Product Consulting</Radio>
+            <Radio value="PH">Proposal Handling</Radio>
           </Radio.Group>
         )}
       </Form.Item>
