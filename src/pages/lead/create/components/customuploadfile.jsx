@@ -47,7 +47,6 @@ class CustomUploadFile extends React.Component {
     const newFileData = {
       ...updatedData,
       key: count,
-      order: this.props.order,
       fileType: fileData.mimetype,
       fileUrl: fileData.url ?? '',
     };

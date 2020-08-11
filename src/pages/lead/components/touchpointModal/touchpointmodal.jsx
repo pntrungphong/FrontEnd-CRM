@@ -113,7 +113,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
             <a
               className={styles.touchPointName}
               onClick={onShow}
-            >{`TouchPoint ${props.touchPoint.order}`}</a>
+            >{`Touchpoint ${props.touchPoint.order}`}</a>
           </Col>
           <Col span={4}>
             <Popover
