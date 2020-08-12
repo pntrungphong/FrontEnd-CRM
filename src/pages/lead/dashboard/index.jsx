@@ -86,6 +86,25 @@ class DashBoard extends React.Component {
                                       <CardLead key={leadItem.touchPoint[0]?.id} lead={leadItem} />
                                     </TouchPointCreateForm>
                                   );
+                                if (leadItem.touchPoint[0]?.order > 10 && tpIndex === 10) {
+                                  return (
+                                    <TouchPointCreateForm
+                                      currentStatus={leadItem.touchPoint[0].status}
+                                      currentType={leadItem.touchPoint[0].lane}
+                                      currentTouchPoint={leadItem.touchPoint[0]}
+                                      leadDetail={leadItem}
+                                      show={false}
+                                      key={`TPUpt${leadItem.touchPoint[0]?.id}`}
+                                    >
+                                      <CardLead
+                                        order={leadItem.touchPoint[0]?.order}
+                                        alertLead
+                                        key={leadItem.touchPoint[0]?.id}
+                                        lead={leadItem}
+                                      />
+                                    </TouchPointCreateForm>
+                                  );
+                                }
                                 return null;
                               })}
                             </Card>
