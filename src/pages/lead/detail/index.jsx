@@ -131,7 +131,7 @@ class LeadDetail extends Component {
                         <Descriptions.Item label={<b>Status</b>}>
                           {touchPointItem.status}
                         </Descriptions.Item>
-                        <Descriptions.Item label={<b>Review</b>}>
+                        <Descriptions.Item label={<b>Recap</b>}>
                           {touchPointItem.review}
                         </Descriptions.Item>
                         <Descriptions.Item label={<b>Note</b>}>
@@ -141,17 +141,17 @@ class LeadDetail extends Component {
 
                         <Descriptions.Item label="">{}</Descriptions.Item>
 
-                        <Descriptions.Item label={<b>TouchPoint</b>}>
+                        <Descriptions.Item label={<b>Task</b>}>
                           {touchPointItem.task.map((task) => {
                             return (
-                              <Descriptions label="TouchPoint">
+                              <Descriptions label="Task">
                                 <Descriptions.Item label={<b>Task Name</b>}>
                                   {task.taskName}({task.type}
                                 </Descriptions.Item>
                                 <Descriptions.Item label={<b>User Name</b>}>
                                   {task.userName}
                                 </Descriptions.Item>
-                                <Descriptions.Item label={<b>Due Date</b>}>
+                                <Descriptions.Item label={<b>Meeting Date</b>}>
                                   {task.dueDate.format('DD-MM-YY')}
                                 </Descriptions.Item>
                               </Descriptions>
@@ -159,30 +159,6 @@ class LeadDetail extends Component {
                           })}
                         </Descriptions.Item>
                       </Descriptions>
-                      {/* <h2>Goal:{touchPointItem.goal}</h2>
-                      <p className={styles.statusTp}>Status: {touchPointItem.status}</p>
-                      <p>Note: {touchPointItem.note}</p>
-                      <p>Review: {touchPointItem.review}</p>
-                      <div>
-                        {touchPointItem.task.map((task) => {
-                          return (
-                            <div className={styles.showTask}>
-                              <Row>
-                                <Col flex="40%">
-                                  <p className={styles.textTask}>
-                                    TaskName: {task.taskName}({task.type})
-                                  </p>
-                                </Col>
-                                <Col flex="auto">
-                                  <p>
-                                    {task.userName} {task.dueDate.format('DD-MM-YY')}
-                                  </p>
-                                </Col>
-                              </Row>
-                            </div>
-                          );
-                        })}
-                      </div> */}
                     </div>
                   </Panel>
                 );

@@ -64,7 +64,7 @@ class CreateContactDrawer extends React.Component {
       <>
         <div className={styles.editBtn}>
           <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-            Create New contact
+            Create new contact
           </Button>
         </div>
 

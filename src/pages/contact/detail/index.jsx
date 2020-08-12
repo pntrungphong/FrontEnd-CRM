@@ -31,7 +31,7 @@ class ContactDetail extends Component {
           breadcrumb={null}
           title={
             <Breadcrumb>
-              <Breadcrumb.Item>Home</Breadcrumb.Item>
+              <Breadcrumb.Item>Database Management</Breadcrumb.Item>
               <Breadcrumb.Item>
                 <a
                   href="#"
@@ -213,7 +213,7 @@ class ContactDetail extends Component {
             </div>
             <Divider />
             <div className={styles.editSpace}>
-              <Row>
+              <Row className={styles.editLead}>
                 {contact.detail.lead.map((item) => {
                   return (
                     <>
@@ -221,7 +221,7 @@ class ContactDetail extends Component {
                         <a
                           onClick={() => {
                             history.push({
-                              pathname: `/sales/lead/detail/${item.id}`,
+                              pathname: `/client/lead/detail/${item.id}`,
                             });
                           }}
                         >
@@ -239,8 +239,13 @@ class ContactDetail extends Component {
           </Card>
         </PageHeaderWrapper>
         <br />
-
-        <UpdateContactDrawer loading>Edit Contact</UpdateContactDrawer>
+        <div className={styles.editDraw}>
+          <UpdateContactDrawer
+            className={styles.editDraw}
+            contactId={this.props.match.params.id}
+            atDetail
+          />
+        </div>
       </div>
     );
   }

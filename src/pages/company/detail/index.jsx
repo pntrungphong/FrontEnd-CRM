@@ -1,4 +1,4 @@
-import { Card, Spin, Divider, Tag, Row, Col, Breadcrumb, Button } from 'antd';
+import { Card, Spin, Divider, Tag, Row, Col, Breadcrumb } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
@@ -15,9 +15,9 @@ class CompanyDetail extends Component {
 
   UNSAFE_componentWillUpdate() {
     document.title = 'Detail Company - Harmonia';
-    this.props.dispatch({
-      type: 'company/cleanData',
-    });
+    // this.props.dispatch({
+    //   type: 'company/cleanData',
+    // });
   }
 
   render() {
@@ -34,9 +34,7 @@ class CompanyDetail extends Component {
           breadcrumb={null}
           title={
             <Breadcrumb>
-              <Breadcrumb.Item>
-                <b>Database Management</b>
-              </Breadcrumb.Item>
+              <Breadcrumb.Item>Database Management</Breadcrumb.Item>
               <Breadcrumb.Item>
                 <a
                   href="#"
@@ -195,7 +193,7 @@ class CompanyDetail extends Component {
                         <a
                           onClick={() => {
                             history.push({
-                              pathname: `'/sales/lead/detail/${item.id}`,
+                              pathname: `/client/lead/detail/${item.id}`,
                             });
                           }}
                         >
@@ -213,12 +211,13 @@ class CompanyDetail extends Component {
           </Card>
         </PageHeaderWrapper>
         <br />
-        <Button className={styles.edit}>
-          Edit Company
+        <div className={styles.editDraw}>
           <UpdateCompanyDrawer
-          //  companyId={record.id}
+            className={styles.editDraw}
+            companyId={this.props.match.params.id}
+            atDetail
           />
-        </Button>
+        </div>
       </div>
     );
   }

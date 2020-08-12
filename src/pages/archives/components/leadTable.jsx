@@ -28,10 +28,6 @@ const columns = [
       }
       return 0;
     },
-
-    //     if(a.name.toLowerCase < b.name) { return -1; }
-    //  if(a.name > b.name) { return 1; }
-    //  return 0;},
   },
   {
     title: 'Rank',
@@ -61,11 +57,6 @@ const columns = [
       }
       return 0;
     },
-
-    //   sorter: (a, b) => {
-    //     return a.company.localeCompare(b.company)
-
-    //  },
     render: (company) => (
       <>
         <a

@@ -112,27 +112,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {}
-                  {/* {archives.data.contact.map((item) => {
-                    return (
-                      <>
-                        <Tag key={item.name} className={styles.tagOne}>
-                          
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/client/contact/detail/${item.key}`,
-                              });
-                            }}
-                          >
-                            {item.label}
-                          </a>
-                        </Tag>
-                      </>
-                    );
-                  })} */}
-                </span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>
@@ -144,16 +124,7 @@ class ArchivesDetail extends Component {
             </Col>
             <Col flex="auto">
               <div className={styles.cloFour}>
-                <span className={styles.cloTwo}>
-                  {}
-                  {/* {archives.data.address.map((item) => {
-                    return (
-                      <>
-                        <span key={item}>{item}</span>
-                      </>
-                    );
-                  })} */}
-                </span>
+                <span className={styles.cloTwo}>{}</span>
               </div>
             </Col>
           </Row>

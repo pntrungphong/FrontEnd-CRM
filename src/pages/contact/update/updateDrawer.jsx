@@ -50,7 +50,7 @@ class UpdateContactDrawer extends React.Component {
   };
 
   showDrawer = () => {
-    if (!this.props.loading) {
+    if (!this.props.atDetail) {
       this.props.dispatch({
         type: 'contact/get',
         payload: { id: this.props.contactId },
@@ -72,8 +72,10 @@ class UpdateContactDrawer extends React.Component {
     const contact = this.props.contact.detail;
     const { querying } = this.props;
 
-    if (!this.state.visible) return <FormOutlined onClick={this.showDrawer} />;
-
+    if (!this.state.visible) {
+      if (this.props.atDetail) return <Button onClick={this.showDrawer}>Edit</Button>;
+      return <FormOutlined onClick={this.showDrawer} />;
+    }
     if ((querying || !contact) && this.state.visible) {
       return <Spin />;
     }

@@ -56,13 +56,6 @@ const SharedForm = (props) => {
           dataIndex="referral"
         />
       </Form.Item>
-      {/* <Form.Item name="tag" {...formItemLayout} label="Tag" className={styles.editOne}>
-        <Select mode="tags" className={styles.tag} labelInValue tokenSeparators={[',']}>
-          {props.tag.map((item) => {
-            return <Option key={item.key}>{item.label}</Option>;
-          })}
-        </Select>
-      </Form.Item> */}
       <Form.List name="phone">
         {(fields, { add, remove }) => {
           return (
