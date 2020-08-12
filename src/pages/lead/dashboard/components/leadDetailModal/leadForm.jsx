@@ -59,7 +59,8 @@ class LeadForm extends React.Component {
       >
         <div id="general">
           {detail.touchPoint.length !== 0 &&
-          detail.touchPoint[detail.touchPoint.length - 1].order > 0 ? (
+          detail.touchPoint[detail.touchPoint.length - 1].order > 0 &&
+          detail.touchPoint[detail.touchPoint.length - 1].status === 'Undone' ? (
             <CurrentTouchPointInfo
               update
               status={detail.touchPoint[detail.touchPoint.length - 1].status}
