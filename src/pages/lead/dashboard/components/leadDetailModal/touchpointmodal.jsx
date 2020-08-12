@@ -141,7 +141,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
       ) : (
         <>
           <h3>
-            You haven’t added any touchpoint. <a onClick={onShow}>Add new touchpoint now</a>
+            You haven’t added a new touchpoint. <a onClick={onShow}>Add new touchpoint now</a>
           </h3>
         </>
       )}

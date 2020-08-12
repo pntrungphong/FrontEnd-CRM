@@ -29,7 +29,7 @@ const getDateInfo = (meetingDate) => {
 };
 
 const CardLead = (props) => {
-  const { lead } = props;
+  const { lead, alertLead } = props;
   const touchPoint = lead.touchPoint[0] ?? {};
   const dateInfo = getDateInfo(touchPoint.meetingDate);
   const tpIsDone = touchPoint.status === 'Done';
@@ -68,6 +68,14 @@ const CardLead = (props) => {
       <div className={styles.rankTitle} style={{ background: def.laneBoderColor[touchPoint.lane] }}>
         <span>{def.rankTitle[lead.rank]}</span>
       </div>
+      {alertLead ? (
+        <div
+          className={styles.alertTitle}
+          style={{ background: def.laneBoderColor[touchPoint.lane] }}
+        >
+          {props.order}
+        </div>
+      ) : null}
     </div>
   );
 };
