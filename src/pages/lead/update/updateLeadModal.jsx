@@ -31,11 +31,12 @@ class UpdateLead extends React.Component {
   render() {
     return (
       <>
-        <a onClick={() => this.showModal(true)}>Edit</a>
+        <h3>
+          <a onClick={() => this.showModal(true)}>Edit</a>
+        </h3>
         <Drawer
           destroyOnClose
           bodyStyle={{
-            height: '71.5vh',
             overflowY: 'scroll',
             padding: '24px 24px 0 24px',
             scrollBehavior: 'smooth',
@@ -43,7 +44,7 @@ class UpdateLead extends React.Component {
           className={styles.modalCreate}
           style={{ top: 0 }}
           title="Update lead"
-          width={800}
+          width={700}
           visible={this.state.showModal}
           onClose={() => this.showModal(false)}
           footer={[

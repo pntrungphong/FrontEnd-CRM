@@ -7,7 +7,7 @@ import QuickCreate, { CreateType } from '../../common/quickCreate';
 
 const { TextArea } = Input;
 const layout = {
-  labelCol: { span: 4 },
+  labelCol: { span: 5 },
 };
 
 const UpdateLeadInformationForm = connect(({ lead, tag, loading }) => ({

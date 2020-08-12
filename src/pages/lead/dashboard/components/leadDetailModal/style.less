@@ -24,6 +24,7 @@
 }
 .editButton {
   margin-top: 7px;
+  text-align: right;
 }
 .customModal {
   scroll-behavior: smooth;
@@ -70,6 +71,17 @@
 }
 .contentLead {
   font-size: 16px;
+
+  h4 {
+    margin-bottom: 0.45rem;
+  }
+
+  :global {
+    .ant-col.ant-col-4 {
+      margin-right: 10px;
+      text-align: right;
+    }
+  }
 }
 .titleInfo {
   font-weight: 500;
@@ -127,7 +139,8 @@
 }
 .touchPointListTile {
   align-items: flex-end;
-  padding: 10px;
+  justify-content: space-between;
+  padding: 10px 0;
   padding-left: 0;
 }
 .picAvatar {

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Modal, Avatar, Col, Tag, Row, Form, Button } from 'antd';
 import { connect } from 'umi';
-import { CalendarOutlined, CarryOutOutlined } from '@ant-design/icons';
+import { CalendarOutlined, UnorderedListOutlined } from '@ant-design/icons';
 import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
@@ -99,56 +99,62 @@ const CurrentTouchPointInfo = connect(({ task, lead, touchpoint, loading }) => (
 
   return (
     <div>
+      <a
+        className={styles.touchPointTitle}
+        onClick={onShow}
+      >{`Touchpoint ${props.touchPoint.order}`}</a>
       <Row className={styles.touchPointListTile}>
-        <Col span={4}>
-          <a
-            className={styles.touchPointTitle}
-            onClick={onShow}
-          >{`Touchpoint ${props.touchPoint.order}`}</a>
-        </Col>
-        <Col span={3}>
+        {/* <Col span={3}>
           <Tag className={styles.touchPointStatus} color="#E9FAF0">
             {props.status}
           </Tag>
-        </Col>
-        <Col span={12}>
+        </Col> */}
+        <div style={{ display: 'flex' }}>
           <Tag className={styles.touchPointDueDate} color={dateInfo.color}>
             <CalendarOutlined /> {dateInfo.title}
-          </Tag>
-        </Col>
-        <Col span={5}>
-          <Tag color={laneColor[props.touchPoint.lane]} style={{ color: 'black' }}>
+          </Tag>{' '}
+          {dateInfo.description}{' '}
+        </div>
+        <Col span={5} style={{ textAlign: 'right' }}>
+          <Tag color={laneColor[props.touchPoint.lane]} style={{ color: 'black', margin: 0 }}>
             {laneTitle[props.touchPoint.lane]}
           </Tag>
         </Col>
       </Row>
       <Row className={styles.touchPointListTile}>
         <Col span={19}>
-          <div style={{ fontWeight: 'bold' }}>Goal: {props.touchPoint.goal}</div>
+          <div>
+            <span style={{ fontWeight: 'bold' }}>Goal:</span> {props.touchPoint.goal}
+          </div>
         </Col>
-        <Col span={5} style={{ fontSize: '14px' }}>
-          {props.touchPoint.task.length} <CarryOutOutlined />
-          {props.touchPoint.task
-            .filter(
-              (value, index, self) => self.map((x) => x.userName).indexOf(value.userName) === index,
-            )
-            .map((taskItem) => {
-              return (
-                <Avatar
-                  key={taskItem.userName}
-                  className={styles.picAvatar}
-                  src={taskItem.avatar}
-                  size="small"
-                >
-                  {taskItem.userName}
-                </Avatar>
-              );
-            })}
+        <Col span={5} style={{ fontSize: '14px', textAlign: 'right' }}>
+          <Avatar.Group style={{ display: 'inline', marginRight: '15px' }}>
+            {props.touchPoint.task
+              .filter(
+                (value, index, self) =>
+                  self.map((x) => x.userName).indexOf(value.userName) === index,
+              )
+              .map((taskItem) => {
+                return (
+                  <Avatar
+                    key={taskItem.userName}
+                    className={styles.picAvatar}
+                    src={taskItem.avatar}
+                    style={{ width: 20, height: 20 }}
+                  >
+                    {taskItem.userName}
+                  </Avatar>
+                );
+              })}
+          </Avatar.Group>
+          {props.touchPoint.task.length} <UnorderedListOutlined />
         </Col>
       </Row>
       <Row className={styles.touchPointListTile}>
         <Col span={19}>
-          <div style={{ fontWeight: 'bold' }}>Recap: {props.touchPoint.review}</div>
+          <div>
+            <span style={{ fontWeight: 'bold' }}>Recap:</span> {props.touchPoint.review}
+          </div>
         </Col>
       </Row>
       <Modal

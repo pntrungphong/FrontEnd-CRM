@@ -19,7 +19,7 @@ const formatOutputData = (params) => {
   const file = params.brief
     ? params.brief.map((item) => {
         return {
-          fileId: item.fileId,
+          fileId: item.fileId ?? item.id,
           note: item.note,
         };
       })
