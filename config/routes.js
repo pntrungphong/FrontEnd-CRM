@@ -13,18 +13,32 @@ export default [
         authority: ['admin', 'user', 'USER'],
         routes: [
           {
+            path: '/',
+            component: 'lead/dashboard',
+          },
+          {
+            path: '/sales/dashboard',
+            name: 'Sales Dashboard',
+            component: 'lead/dashboard',
+          },
+          {
             path: '/client',
-            name: 'Client Management',
+            name: 'Database Management',
             routes: [
-              {
-                path: '/client/company',
-                name: 'Company',
-                component: 'company/home',
-              },
               {
                 path: '/client/contact',
                 name: 'Contact',
                 component: 'contact/home',
+              },
+              {
+                path: '/client/lead',
+                name: 'Lead',
+                component: 'archives/home',
+              },
+              {
+                path: '/client/company',
+                name: 'Company',
+                component: 'company/home',
               },
               {
                 path: '/client/company/update/:id?',
@@ -42,7 +56,6 @@ export default [
                 path: '/client/company/create',
                 component: 'company/create',
               },
-
               {
                 path: '/client/contact/update/:id?',
                 component: 'contact/update',
@@ -55,45 +68,24 @@ export default [
                 path: '/client/contact/detail/:id?',
                 component: 'contact/detail',
               },
-            ],
-          },
-          {
-            path: '/sales',
-            name: 'Sales Management',
-            routes: [
               {
-                path: '/sales/dashboard',
-                name: 'Dashboard',
-                component: 'lead/dashboard',
-              },
-              {
-                path: '/sales/lead',
-                name: 'Sales flow',
-                component: 'lead/home',
-              },
-              {
-                path: '/sales/lead/update/:id?',
+                path: '/client/lead/update/:id?',
                 component: 'lead/update',
               },
               {
-                path: '/sales/lead/detail/:id?',
+                path: '/client/lead/detail/:id?',
                 component: 'lead/detail',
               },
               {
-                path: '/sales/lead/create',
+                path: '/client/lead/create',
                 component: 'lead/create',
               },
               {
-                path: '/sales/lead/archives',
-                name: 'Lead Database',
-                component: 'archives/home',
-              },
-              {
-                path: '/sales/lead/archives/detail/:id?',
+                path: '/client/lead/archives/detail/:id?',
                 component: 'archives/detail',
               },
               {
-                path: '/sales/lead/archives/create',
+                path: '/client/lead/archives/create',
                 component: 'archives/create',
               },
             ],

@@ -79,7 +79,7 @@ class ListFileView extends React.Component {
               </h5>
               {this.props.dataIndex !== 'brief' ? (
                 <span onClick={() => this.addNote(index)}>
-                  <h5 className={styles.viewNote}>View Note </h5>
+                  <h5 className={styles.viewNote}>View note </h5>
                 </span>
               ) : (
                 ''

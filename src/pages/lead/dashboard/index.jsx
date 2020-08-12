@@ -9,8 +9,22 @@ import TouchPointCreateForm from './components/leadDetailModal/leadModal';
 
 const DEFAULTLISTTP = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
 class DashBoard extends React.Component {
+  componentDidMount() {
+    this.scrollToBottom();
+  }
+
+  scrollToBottom = () => {
+    if (this.messagesEnd) this.messagesEnd.scrollIntoView({ behavior: 'smooth' });
+  };
+
   UNSAFE_componentWillMount() {
-    this.props.dispatch({ type: 'lead/getListWithLane', payload: {} });
+    this.props
+      .dispatch({ type: 'lead/getListWithLane', payload: {} })
+      .then(() => this.scrollToBottom());
+  }
+
+  UNSAFE_componentWillUpdate() {
+    document.title = 'Sales Dashboard - Harmonia';
   }
 
   render() {
@@ -37,13 +51,26 @@ class DashBoard extends React.Component {
                       key={LISTDEFAULTLANE[index]}
                       align="center"
                       direction="horizontal"
-                      className={styles.customSpaceTP}>
+                      className={styles.customSpaceTP}
+                    >
                       {DEFAULTLISTTP.map((_, tpIndex) => {
                         return (
-                          <div className={styles.boxStateTP} key={`${LISTDEFAULTLANE[index]}${tpIndex}`}>
+                          <div
+                            className={styles.boxStateTP}
+                            key={`${LISTDEFAULTLANE[index]}${tpIndex}`}
+                          >
                             {index === 0 ? (
-                              <h1 className={styles.touchPointTitle}>#{tpIndex}</h1>
-                            ) : ('')}
+                              <h1
+                                className={styles.touchPointTitle}
+                                ref={(el) => {
+                                  this.messagesEnd = el;
+                                }}
+                              >
+                                #{tpIndex}
+                              </h1>
+                            ) : (
+                              ''
+                            )}
                             <Card className={styles.touchPointBox}>
                               {listLead.map((leadItem) => {
                                 if (leadItem.touchPoint[0]?.order === tpIndex)
@@ -54,7 +81,8 @@ class DashBoard extends React.Component {
                                       currentTouchPoint={leadItem.touchPoint[0]}
                                       leadDetail={leadItem}
                                       show={false}
-                                      key={`TPUpt${leadItem.touchPoint[0]?.id}`}>
+                                      key={`TPUpt${leadItem.touchPoint[0]?.id}`}
+                                    >
                                       <CardLead key={leadItem.touchPoint[0]?.id} lead={leadItem} />
                                     </TouchPointCreateForm>
                                   );

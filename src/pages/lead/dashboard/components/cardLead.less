@@ -1,9 +1,11 @@
 .cardLead {
   position: relative;
+  min-height: 85px;
   margin: 0;
   margin-bottom: 2px;
-  background: #d4e2ec;
+  background: #efefef;
   border-radius: 3px;
+  box-shadow: 0 1px 8px 0 #7272723b;
 
   .contentBox {
     position: relative;
@@ -12,7 +14,7 @@
     padding: 0 5px;
     overflow: hidden;
     overflow-y: auto;
-    border-left: 4px solid;
+    border-top: 4px solid;
     border-radius: 3px;
 
     .pic {
@@ -38,6 +40,12 @@
       // }
     }
 
+    .showPlanning {
+      margin-top: 10px;
+      color: #373d4042;
+      text-align: center;
+    }
+
     .leadName {
       margin: 2px 0;
       padding-right: 25px;
@@ -50,9 +58,9 @@
 
       .meetingDate {
         margin: 2px 0;
-        padding: 0 4px;
+        padding: 0 2px;
         color: white;
-        font-weight: 500;
+        font-weight: 600;
         border-radius: 3px;
       }
 
@@ -60,19 +68,19 @@
         line-height: 200%;
       }
     }
+  }
+  .rankTitle {
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    background: #35b4ac;
+    border-bottom-left-radius: 5px;
 
-    .rankTitle {
-      position: absolute;
-      top: 0;
-      right: 0;
-      color: white;
-      border-bottom-left-radius: 5px;
-
-      span {
-        padding: 10px;
-        font-weight: 700;
-        cursor: default;
-      }
+    span {
+      padding: 10px;
+      font-weight: 700;
+      cursor: default;
     }
   }
 }

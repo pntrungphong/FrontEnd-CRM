@@ -5,6 +5,7 @@ import { createTouchPoint } from '../services/touchpoint';
 import {
   fullCreateLead,
   getLead,
+  getAllFile,
   getLeadById,
   changeLaneHov,
   updateLead,
@@ -99,9 +100,10 @@ const Model = {
     },
     *get({ payload }, { call, put }) {
       const response = yield call(getLeadById, payload);
+      const fileResponse = yield call(getAllFile, payload);
       yield put({
         type: 'saveDetail',
-        payload: formatDetailLeadData(response),
+        payload: formatDetailLeadData(response, fileResponse),
       });
     },
     *markDeal({ payload }, { call }) {

@@ -11,6 +11,7 @@ const PICBox = (props) => {
           {props.tasks.map((task) => {
             return (
               <Avatar
+                key={task.id}
                 size="small"
                 className={styles.avatar}
                 src={task.user.avatar}
@@ -18,18 +19,6 @@ const PICBox = (props) => {
               />
             );
           })}
-          {/* <Avatar
-            size="small"
-            className={styles.avatar}
-            style={{ backgroundColor: '#f56a00' }}
-            icon={<AntDesignOutlined />}
-          />
-          <Avatar
-            size="small"
-            className={styles.avatar}
-            style={{ backgroundColor: '#1890ff' }}
-            icon={<AntDesignOutlined />}
-          /> */}
         </Avatar.Group>
       </div>
       <div className={styles.picIcon}>

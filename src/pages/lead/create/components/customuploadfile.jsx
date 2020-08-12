@@ -1,5 +1,5 @@
 import React from 'react';
-import moment from 'moment';
+import { Col, Row } from 'antd';
 import UploadLinkModal from './uploadLinkModal';
 import UploadFileModal from './uploadFileModal';
 import styles from './style.less';
@@ -19,8 +19,6 @@ class CustomUploadFile extends React.Component {
             createdAt: file.createdAt,
             createdBy: file.createdBy,
             note: file.note,
-            fileType: file.fileType,
-            fileUrl: file.fileUrl,
           };
         })
       : [];
@@ -34,21 +32,40 @@ class CustomUploadFile extends React.Component {
     this.updateDataSource(fileData);
   };
 
+  removeFile = (key) => {
+    const { dataSource, count } = this.state;
+    const fileData = [...dataSource];
+    const index = fileData.findIndex((item) => key === item.key);
+    fileData.splice(index, 1);
+    const newFileData = fileData.map((file, newIndex) => {
+      return {
+        key: newIndex,
+        id: file.id,
+        originalname: file.originalname,
+        note: file.note,
+      };
+    });
+    this.setState({
+      dataSource: newFileData,
+      count: count - 1,
+    });
+    if (fileData.length !== 0) {
+      this.props.onChange([...fileData]);
+    } else {
+      this.props.onChange(undefined);
+    }
+  };
+
   onAddFile = (fileData) => {
     this.updateDataSource(fileData);
   };
 
   updateDataSource = (fileData) => {
     if (!fileData) return;
-    const updatedData = fileData;
     const { dataSource, count } = this.state;
-    updatedData.createdAt = moment(fileData.createdAt).format('MMM DD');
     const newFileData = {
-      ...updatedData,
+      ...fileData,
       key: count,
-      order: this.props.order,
-      fileType: fileData.mimetype,
-      fileUrl: fileData.url ?? '',
     };
 
     const newSource = [...dataSource, newFileData];
@@ -62,24 +79,31 @@ class CustomUploadFile extends React.Component {
   render() {
     return (
       <div>
-        <div className={styles.actionBtn} style={this.props.actionStyle}>
-          <UploadLinkModal
-            touchPointId={this.props.touchPointId}
-            leadId={this.props.leadId}
-            onAddLink={this.onAddLink}
-            count={this.state.count}
-          />
-          <span style={{ margin: '0 10px' }}>|</span>
-          <UploadFileModal
-            touchPointId={this.props.touchPointId}
-            leadId={this.props.leadId}
-            onAddFile={this.onAddFile}
-            count={this.state.count}
-          />
+        <div className={styles.actionBtn}>
+          <Row>
+            <Col span={16} />
+            <Col span={4}>
+              <UploadLinkModal
+                touchPointId={this.props.touchPointId}
+                leadId={this.props.leadId}
+                onAddLink={this.onAddLink}
+                count={this.state.count}
+              />
+            </Col>
+            <Col span={4}>
+              <UploadFileModal
+                touchPointId={this.props.touchPointId}
+                leadId={this.props.leadId}
+                onAddFile={this.onAddFile}
+                count={this.state.count}
+              />
+            </Col>
+          </Row>
         </div>
         <ListFile
           onChange={this.props.onChange}
           order={this.props.order}
+          removeFile={(key) => this.removeFile(key)}
           dataSource={this.state.dataSource}
         />
       </div>

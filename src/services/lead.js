@@ -16,7 +16,14 @@ const formatOutputData = (params) => {
       }))
     : [];
 
-  const file = params.brief ? params.brief.map((item) => item.id) : [];
+  const file = params.brief
+    ? params.brief.map((item) => {
+        return {
+          fileId: item.fileId ?? item.id,
+          note: item.note,
+        };
+      })
+    : [];
 
   const tag = params.tag
     ? params.tag.map((item) =>
@@ -82,7 +89,7 @@ export async function getLeadById(params) {
 }
 
 export async function getAllFile(params) {
-  return request(`/lead/${params.leadId}/file`, {
+  return request(`/lead/${params.id}/file`, {
     method: 'GET',
   });
 }

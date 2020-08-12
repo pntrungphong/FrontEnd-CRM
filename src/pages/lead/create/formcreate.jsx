@@ -4,17 +4,13 @@ import { connect } from 'umi';
 import styles from './style.less';
 import QuickCreate, { CreateType } from '../../common/quickCreate';
 import CreateContactDrawer from '../../common/createContactDrawer';
-import CustomUploadFile from '../components/fileComponent/customuploadfile';
+import CustomUploadFile from './components/customuploadfile';
 
 const { Option } = Select;
 const { TextArea } = Input;
 const layout = {
   labelCol: { span: 4 },
 };
-
-const validateMessages = (label) => ({
-  required: `${label} is required!`,
-});
 
 class CreateForm extends React.Component {
   constructor(props) {
@@ -54,7 +50,6 @@ class CreateForm extends React.Component {
         ref={this.props.formRef}
         name="nest-messages"
         onFinish={this.onFinish}
-        validateMessages={validateMessages}
       >
         <Form.Item
           name="name"

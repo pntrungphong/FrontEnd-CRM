@@ -127,7 +127,7 @@ const columns = [
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
-          <a onClick={() => history.push({ pathname: `/sales/lead/detail/${record.id}` })}>
+          <a onClick={() => history.push({ pathname: `/client/lead/detail/${record.id}` })}>
             <EyeOutlined />
           </a>
         </li>
@@ -254,7 +254,7 @@ const ListLead = connect(({ lead, loading }) => ({
         rowKey="id"
         dataSource={props.lead.list}
       />
-      {props.lead.itemCount / 10 >= 1 ? (
+      {props.lead.itemCount / 10 > 1 ? (
         <Pagination
           current={currentPage}
           pageSizeOptions={[]}

@@ -48,7 +48,7 @@ class LeadDetail extends Component {
                     href="#"
                     onClick={() => {
                       history.push({
-                        pathname: `'/sales/lead`,
+                        pathname: `'/client/lead`,
                       });
                     }}
                   >

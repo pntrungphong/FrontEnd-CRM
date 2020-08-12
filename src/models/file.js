@@ -1,5 +1,5 @@
 import { message } from 'antd';
-import { uploadLink, updateNote } from '../services/file';
+import { uploadLink, updateNote, uploadFile } from '../services/file';
 
 const FileModel = {
   namespace: 'file',
@@ -9,6 +9,15 @@ const FileModel = {
   effects: {
     *uploadLink({ payload }, { call }) {
       const response = yield call(uploadLink, payload);
+      if (response && response.id) {
+        message.success('Successfully');
+        return response;
+      }
+      message.error('Fail');
+      return null;
+    },
+    *uploadFile({ payload }, { call }) {
+      const response = yield call(uploadFile, payload);
       if (response && response.id) {
         message.success('Successfully');
         return response;

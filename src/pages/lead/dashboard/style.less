@@ -2,11 +2,10 @@
 
 // Variables
 @columnTouchWidth: 205px; // sea blue
-@columnTouchHeight: 250px; // sea blue
-// @columnTouchHeight: calc(100vh / 4 - 34px); // sea blue
+@columnTouchHeight: calc(100vh / 4 - 25px); // sea blue
 
 ::-webkit-scrollbar {
-  width: 6px;
+  width: 4px;
   height: 6px;
 }
 ::-webkit-scrollbar-track {
@@ -58,7 +57,7 @@
 }
 .laneColumn {
   position: relative;
-  width: 50px;
+  width: 40px;
   margin-top: 0;
   border-radius: 2px;
 
@@ -88,15 +87,18 @@
   display: flex;
   flex-direction: column;
   justify-content: center;
-  width: 50px;
+  width: 40px;
   height: @columnTouchHeight;
-  background-color: #aaa;
-  border-top: 6px solid;
-  border-bottom: 6px solid;
 
   h3 {
-    font-weight: 700;
-    transform: rotate(270deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 0;
+    font-weight: 600;
+    transform: rotate(180deg);
+    user-select: none;
+    writing-mode: vertical-lr;
   }
 }
 
@@ -109,8 +111,8 @@
   overflow-y: hidden;
 }
 .touchPointTitle {
-  margin-bottom: 8px;
-  padding: 7.5px 0;
+  margin-bottom: 4px;
+  padding: 0;
   font-weight: 600;
   text-align: center;
   background-color: #aaa;
@@ -142,8 +144,9 @@
   width: @columnTouchWidth;
   height: @columnTouchHeight;
   margin: 0;
-  margin-bottom: 8px;
+  margin-bottom: 4px;
   overflow-y: auto;
+  background: #dfdfdf6b;
   border: none;
 
   :global {
@@ -170,4 +173,11 @@
   min-height: 155px;
   margin: -12px;
   padding: 0;
+}
+.stateBox {
+  :global {
+    .ant-space-item {
+      margin-bottom: 4px !important;
+    }
+  }
 }

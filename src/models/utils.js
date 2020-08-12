@@ -6,11 +6,6 @@ const User = {
   '171ecb82-4daa-43dc-8fec-61878b42d506': 'khoa.nd',
   '39d088f6-cc81-4263-ac27-b920983a4eb0': 'nhan.lh',
 };
-const lane = {
-  PC: 'Product Consulting',
-  LM: 'Lead Management',
-  PH: 'Proposal Handling',
-};
 
 const emailFormat = (listEmail) => {
   return listEmail.map((element) => ({
@@ -55,7 +50,7 @@ const touchPointFormat = (listTouchPoint) => {
     });
     return {
       status: touchPoint.status,
-      lane: lane[touchPoint.lane],
+      lane: touchPoint.lane,
       order: touchPoint.order,
       review: touchPoint.review ? touchPoint.review : '',
       note: touchPoint.note ? touchPoint.note : '',
@@ -421,7 +416,7 @@ export const formatDetailTouchPointData = (response, fileResponse) => {
   }
 };
 
-export const formatDetailLeadData = (response) => {
+export const formatDetailLeadData = (response, fileResponse) => {
   try {
     const contact = listCompanyFormat(response.contact ?? []);
     const relation = listCompanyFormat(response.relatedTo ?? []);
@@ -432,6 +427,22 @@ export const formatDetailLeadData = (response) => {
     };
     const touchPoints = response.touchPoint ? touchPointFormat(response.touchPoint) : [];
     const listFile = listFileFormatDetail(response.file ?? [], response.touchPoint ?? []);
+    const touchPointFile = fileResponse
+      ? fileResponse.map((file) => {
+          return {
+            id: file.fileId,
+            originalname: file.file.originalname,
+            note: file.note,
+            createdBy: file.file.createdBy,
+            createdAt: moment(file.file.createdAt).format('HH:MM MMM DD'),
+            order: file.touchPoint.order,
+            touchPointId: file.touchPointId,
+            fileType: file.type,
+            fileUrl: file.file.url ?? '',
+          };
+        })
+      : [];
+
     const body = {
       listFile,
       company,
@@ -446,7 +457,9 @@ export const formatDetailLeadData = (response) => {
       relation,
       note: response.note.length > 0 ? response.note[0].content : '',
       file: response.file,
+      touchPointFile,
     };
+
     return body;
   } catch (error) {
     throw new Error(error);

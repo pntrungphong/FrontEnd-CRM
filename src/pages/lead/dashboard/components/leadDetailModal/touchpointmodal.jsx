@@ -1,15 +1,10 @@
 import React, { useState } from 'react';
-import { Modal, Avatar, Col, Tag, Popover, Row, Form, Button } from 'antd';
+import { Modal, Avatar, Col, Tag, Popover, Row, Form, Button, Tooltip } from 'antd';
 import { connect } from 'umi';
 import moment from 'moment';
 import styles from './style.less';
 import UpdateGeneralInformation from './updategeneralform';
-
-const laneColor = {
-  'Lead Management': '#D3ADF7',
-  'Product Consulting': '#B5F5EC',
-  'Proposal Handling': '#FFCCC7',
-};
+import { laneColor, laneTitle } from '../../../components/definition';
 
 const layout = {
   labelCol: { span: 5 },
@@ -92,7 +87,7 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
             <a
               className={styles.touchPointName}
               onClick={onShow}
-            >{`TouchPoint ${props.touchPoint.order}`}</a>
+            >{`Touchpoint ${props.touchPoint.order}`}</a>
           </Col>
           <Col span={4}>
             <Popover
@@ -115,30 +110,40 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
             </div>
           </Col>
           <Col span={6}>
-            {props.touchPoint.task
-              .filter(
-                (value, index, self) =>
-                  self.map((x) => x.userName).indexOf(value.userName) === index,
-              )
-              .map((taskItem) => {
-                return (
-                  <Avatar
-                    key={taskItem.userName}
-                    className={styles.picAvatar}
-                    src={taskItem.avatar}
-                    size="small"
-                  >
-                    {taskItem.userName}
-                  </Avatar>
-                );
-              })}
+            <Avatar.Group style={{ display: 'block' }}>
+              {props.touchPoint.task
+                .filter(
+                  (value, index, self) =>
+                    self.map((x) => x.userName).indexOf(value.userName) === index,
+                )
+                .map((taskItem) => {
+                  return (
+                    <Tooltip title={taskItem.userName} key={taskItem.id}>
+                      <Avatar
+                        key={taskItem.userName}
+                        className={styles.picAvatar}
+                        src={taskItem.avatar}
+                        style={{ width: 24, height: 24 }}
+                      >
+                        {taskItem.userName}
+                      </Avatar>
+                    </Tooltip>
+                  );
+                })}
+            </Avatar.Group>
           </Col>
           <Col span={5}>
-            <Tag color={laneColor[props.touchPoint.lane]}>{props.touchPoint.lane}</Tag>
+            <Tag color={laneColor[props.touchPoint.lane]} style={{ color: 'black' }}>
+              {laneTitle[props.touchPoint.lane]}
+            </Tag>
           </Col>
         </Row>
       ) : (
-        <Button onClick={onShow}>Add new touchpoint</Button>
+        <>
+          <h3>
+            You haven’t added any touchpoint. <a onClick={onShow}>Add new touchpoint now</a>
+          </h3>
+        </>
       )}
 
       <Modal

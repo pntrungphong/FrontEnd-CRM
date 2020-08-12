@@ -1,15 +1,7 @@
 import React from 'react';
-import { Col, Row, Switch, message, Tag } from 'antd';
+import { Col, Row, Switch, message } from 'antd';
 import { history, connect } from 'umi';
-import { CloseOutlined } from '@ant-design/icons';
-import { laneColor } from '../laneTitle';
 import MarkDealLeadModal from './markDealLeadModal';
-
-const lane = {
-  PC: 'Product Consulting',
-  LM: 'Lead Management',
-  PH: 'Proposal Handling',
-};
 
 const CustomHeader = connect(({ lead, loading }) => ({
   lead,
@@ -37,17 +29,19 @@ const CustomHeader = connect(({ lead, loading }) => ({
             <Col span={7}>
               <h2 style={{ fontWeight: '600' }}>{props.name}</h2>
             </Col>
-            <Col span={4}>
-              <Tag color={laneColor[`#${props.currentType}`]}>{lane[props.currentType]}</Tag>
-            </Col>
+            {/* <Col span={4}>
+              <Tag color={laneColor[props.currentType]}>{laneTitle[props.currentType]}</Tag>
+            </Col> */}
             <Col span={6}>
               <Switch
                 loading={props.getLoading}
                 checkedChildren="HOV"
+                size="small"
                 onChange={changeHov}
-                unCheckedChildren={<CloseOutlined />}
+                // unCheckedChildren={<CloseOutlined />}
                 defaultChecked={!!props.onHov}
-              />
+              />{' '}
+              Set high priority
             </Col>
             <Col span={3}>
               <MarkDealLeadModal

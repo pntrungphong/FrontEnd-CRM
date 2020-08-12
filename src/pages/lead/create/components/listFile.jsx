@@ -1,19 +1,11 @@
 import React from 'react';
 import { connect } from 'umi';
 import { Button, Form, Modal, Tag, Input, List } from 'antd';
-import {
-  PaperClipOutlined,
-  FormOutlined,
-  LinkOutlined,
-  DownOutlined,
-  UpOutlined,
-} from '@ant-design/icons';
+import { PaperClipOutlined, FormOutlined, LinkOutlined, DeleteOutlined } from '@ant-design/icons';
 import { downloadFile } from '../../../../utils/downloadfile';
 import styles from './style.less';
 
 const { TextArea } = Input;
-
-const iff = (condition, then, otherwise) => (condition ? then : otherwise);
 
 class ListFile extends React.Component {
   constructor(props) {
@@ -21,7 +13,6 @@ class ListFile extends React.Component {
     this.state = {
       visible: false,
       currentFile: 0,
-      showLess: true,
     };
   }
 
@@ -32,29 +23,17 @@ class ListFile extends React.Component {
     });
   };
 
-  onFinish = async (values) => {
+  onFinish = (values) => {
     const { dataSource } = this.props;
     const fileData = [...dataSource];
     const index = fileData.findIndex((item) => this.state.currentFile === item.key);
     const selectItem = fileData[index];
     selectItem.note = values.note;
-    this.props
-      .dispatch({
-        type: 'file/updateNote',
-        payload: {
-          note: values.note,
-          id: selectItem.id,
-        },
-      })
-      .then((result) => {
-        if (result) {
-          fileData.splice(index, 1, { ...selectItem });
-          this.setState({
-            visible: false,
-          });
-          this.props.onChange([...fileData]);
-        }
-      });
+    fileData.splice(index, 1, { ...selectItem });
+    this.setState({
+      visible: false,
+    });
+    this.props.onChange([...fileData]);
   };
 
   handleCancel = () => {
@@ -63,32 +42,9 @@ class ListFile extends React.Component {
     });
   };
 
-  onLoadMore = (showLess) => {
-    this.setState({
-      showLess,
-    });
-  };
-
-  ControllerButton = (btnProps) => {
-    if (!btnProps) return null;
-    return (
-      <div className={styles.controllerButton}>
-        {this.state.showLess ? (
-          <a onClick={() => this.onLoadMore(false)}>
-            Show more <DownOutlined style={{ fontSize: '10px' }} />
-          </a>
-        ) : (
-          <a onClick={() => this.onLoadMore(true)}>
-            Show less <UpOutlined style={{ fontSize: '10px' }} />
-          </a>
-        )}
-      </div>
-    );
-  };
-
   render() {
-    const { dataSource, order } = this.props;
-    const listData = dataSource.slice(0, this.state.showLess ? 3 : dataSource.length);
+    const { dataSource } = this.props;
+
     return (
       <>
         <Modal
@@ -119,8 +75,8 @@ class ListFile extends React.Component {
         </Modal>
         <List
           itemLayout="horizontal"
-          dataSource={listData}
-          loadMore={this.ControllerButton(dataSource.length > 3)}
+          split={false}
+          dataSource={dataSource}
           locale={{ emptyText: 'No file' }}
           renderItem={(item) => (
             <List.Item>
@@ -144,10 +100,7 @@ class ListFile extends React.Component {
                   </h3>
                 }
               />
-              <h4 className={styles.listH3}>
-                <span>{item.createdAt}</span>
-              </h4>
-              <span
+              <div
                 onClick={() => {
                   this.addNote(item.key, false);
                 }}
@@ -155,34 +108,16 @@ class ListFile extends React.Component {
                 {dataSource[item.key].note && dataSource[item.key].note !== '' ? (
                   <div className={styles.viewNote}>View note</div>
                 ) : (
-                  <Tag style={{ margin: 0 }}>
+                  <Tag>
                     <FormOutlined /> Add note
                   </Tag>
                 )}
-              </span>
-              <h4 className={styles.listH3}>
-                <span>{item.createdBy}</span>
-                {/* <Tooltip title={item.userName}>
-                      <Avatar
-                        key={item.createdBy}
-                        className={styles.picAvatar}
-                        src={taskItem.avatar}
-                        style={{ width: 24, height: 24 }}>
-                        {taskItem.userName}
-                      </Avatar>
-                    </Tooltip> */}
-              </h4>
-              {item.order !== order ? (
-                <Tag className={styles.customTagStyle}>{`Touchpoint ${item.order}`}</Tag>
-              ) : (
-                iff(
-                  item.order !== undefined,
-                  <Tag color="#EFDBFF" className={styles.customTagStyle}>
-                    {`Touchpoint ${item.order}`}
-                  </Tag>,
-                  <Tag className={styles.customTagStyle}>Lead Generation</Tag>,
-                )
-              )}
+              </div>
+              <DeleteOutlined
+                onClick={() => {
+                  this.props.removeFile(item.key);
+                }}
+              />
             </List.Item>
           )}
         />
