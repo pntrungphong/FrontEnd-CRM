@@ -62,9 +62,12 @@ class CreateContactDrawer extends React.Component {
     const { tag } = this.props.tag;
     return (
       <>
-        <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-          Create new contact
-        </Button>
+        <div className={styles.editBtn}>
+          <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
+            Create New contact
+          </Button>
+        </div>
+
         <Drawer
           title="Create Contact"
           width={720}

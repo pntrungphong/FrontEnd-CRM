@@ -50,10 +50,12 @@ class UpdateContactDrawer extends React.Component {
   };
 
   showDrawer = () => {
-    this.props.dispatch({
-      type: 'contact/get',
-      payload: { id: this.props.contactId },
-    });
+    if (!this.props.loading) {
+      this.props.dispatch({
+        type: 'contact/get',
+        payload: { id: this.props.contactId },
+      });
+    }
     this.setState({
       visible: true,
     });

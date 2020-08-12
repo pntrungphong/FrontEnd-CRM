@@ -153,9 +153,11 @@ const SharedForm = (props) => {
                     rules={[{ required: true, message: 'Select type' }]}
                   >
                     <Select placeholder="Type">
-                      <Option value="Primary">Primary</Option>
-                      <Option value="Company">Company</Option>
-                      <Option value="Personal">Personal</Option>
+                      <Option value="Facebook">Facebook</Option>
+                      <Option value="Twitter">Twitter</Option>
+                      <Option value="Instagram">Instagram</Option>
+                      <Option value="Zalo">Zalo</Option>
+                      <Option value="Another">Another</Option>
                     </Select>
                   </Form.Item>
                   <div className={styles.iconOne}>
@@ -222,9 +224,10 @@ const SharedForm = (props) => {
                     rules={[{ required: true, message: 'Select type' }]}
                   >
                     <Select placeholder="Type">
-                      <Option value="Primary">Primary</Option>
-                      <Option value="Company">Company</Option>
-                      <Option value="Personal">Personal</Option>
+                      <Option value="Facebook">Facebook</Option>
+                      <Option value="Twitter">Twitter</Option>
+                      <Option value="Instagram">Instagram</Option>
+                      <Option value="Another">Another</Option>
                     </Select>
                   </Form.Item>
                   <div className={styles.iconOne}>

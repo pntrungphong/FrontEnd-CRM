@@ -12,6 +12,16 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     width: '15%',
+    sorter: (a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    },
+
     render: (name) => <h3>{name}</h3>,
   },
   {
@@ -27,20 +37,30 @@ const columns = [
     key: 'company',
     size: 'small',
     width: '25%',
+    sorter: (a, b) => {
+      if (a.company < b.company) {
+        return -1;
+      }
+      if (a.company > b.company) {
+        return 1;
+      }
+      return 0;
+    },
     render: (company) => (
       <>
         {company.map((item) => {
           return item.key !== undefined ? (
-            <Tag
-              key={item.key}
-              className={styles.customCell}
-              onClick={() => {
-                history.push({
-                  pathname: `/client/company/detail/${item.key}`,
-                });
-              }}
-            >
-              {item.label}
+            <Tag key={item.key} className={styles.customCell}>
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: `/client/company/detail/${item.key}`,
+                  });
+                }}
+              >
+                {' '}
+                {item.label}
+              </a>
             </Tag>
           ) : (
             ''
@@ -98,7 +118,8 @@ const columns = [
   {
     title: 'Action',
     key: 'action',
-    width: '10%',
+    size: 'small',
+    width: '7%',
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
@@ -121,7 +142,7 @@ const columns = [
     ),
   },
 ];
-
+console.table(columns);
 const ListContact = connect(({ contact, loading }) => ({
   contact,
   loading: loading.effects['contact/getList'],

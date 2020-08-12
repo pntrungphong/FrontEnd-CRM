@@ -26,6 +26,12 @@
     }
   }
 }
+.editBtn {
+  text-decoration: none;
+  :hover {
+    background-color: #1890ff;
+  }
+}
 .addButton {
   height: 40px;
   line-height: 1;
@@ -34,15 +40,9 @@
 .customLayoutRow {
   display: flex;
   width: 106%;
-
-  // &>:nth-child(1) {
-  //   flex: 1 65%;
-  // }
-  // &>:nth-child(2) {
-  //   flex: 1 45%;
-  // }
 }
 .createBtn {
+  right: 92px;
   border-radius: 4px;
 }
 .header {
@@ -137,10 +137,6 @@
 .validatePadding {
   margin-bottom: 12px;
 }
-.editBtn {
-  margin-right: 82px;
-  margin-left: 93px;
-}
 
 .aroundBtn {
   display: flex;
@@ -160,7 +156,8 @@
 
 .customUl {
   display: flex;
-  float: left;
+  justify-content: space-evenly;
+  float: none;
   padding: 0;
   list-style-type: none;
 }
@@ -179,15 +176,14 @@
   color: #269f99;
 }
 .customCell {
-  font-size: 14px;
-}
+  font-weight: 500;
 
-ul.customUl > li {
-  margin-left: 50%;
   :hover {
-    color: blue;
+    color: #40a9ff;
+    background: rgba(24, 144, 255, 0.2);
   }
 }
+
 .editBread {
   margin-bottom: 20px;
 }

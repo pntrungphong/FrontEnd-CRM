@@ -12,7 +12,16 @@ const columns = [
     dataIndex: 'name',
     key: 'name',
     render: (name) => <h3>{name}</h3>,
-    width: '15%',
+    width: '20%',
+    sorter: (a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    },
   },
   {
     title: 'Contact',
@@ -20,20 +29,29 @@ const columns = [
     key: 'contact',
     size: 'small',
     width: '25%',
+    sorter: (a, b) => {
+      if (a.contact < b.contact) {
+        return -1;
+      }
+      if (a.contact > b.contact) {
+        return 1;
+      }
+      return 0;
+    },
     render: (contact) => (
       <>
         {contact.map((item) => {
           return item.key !== undefined ? (
-            <Tag
-              key={item.key}
-              className={styles.customCell}
-              onClick={() => {
-                history.push({
-                  pathname: `/client/contact/detail/${item.key}`,
-                });
-              }}
-            >
-              {item.label}
+            <Tag key={item.key} className={styles.customCell}>
+              <a
+                onClick={() => {
+                  history.push({
+                    pathname: `/client/contact/detail/${item.key}`,
+                  });
+                }}
+              >
+                {item.label}
+              </a>
             </Tag>
           ) : (
             ''
@@ -90,7 +108,7 @@ const columns = [
     title: 'Action',
     key: 'action',
     size: 'small',
-    width: '10%',
+    width: '7%',
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
