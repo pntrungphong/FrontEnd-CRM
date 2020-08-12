@@ -8,7 +8,15 @@
   width: 587px;
   margin-left: 28px;
 }
-
+.editBtn {
+  text-decoration: none;
+  :hover {
+    background-color: #1890ff;
+  }
+}
+.createBtn {
+  border-radius: 4px;
+}
 .header {
   display: inline;
 }
@@ -17,7 +25,7 @@
   font-size: medium;
 }
 .iconOne {
-  margin: 5px -9px 0 7px;
+  margin: 8px -8px 0 7px;
   font-size: medium;
 }
 .editLabel {
@@ -204,23 +212,29 @@
   margin-top: 4px;
 }
 
-.customField,
-.customFieldContact {
+.customField {
   font-weight: 500;
   font-size: 14px;
 }
-
-.customField:hover {
-  color: black;
+.customFieldContact {
+  font-weight: 500;
 }
 
-.customFieldContact:hover a {
-  color: #269f99;
-}
+// .customField:hover {
+//   color: black;
+// }
+
+// .customFieldContact:hover a {
+//   color: #269f99;
+// }
 
 .customCell {
-  margin: 1px 3px;
-  font-size: 14px;
+  font-weight: 500;
+
+  :hover {
+    color: #40a9ff;
+    background: rgba(24, 144, 255, 0.2);
+  }
 }
 
 .create_btn {

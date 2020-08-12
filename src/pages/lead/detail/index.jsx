@@ -1,4 +1,4 @@
-import { Card, Spin, Row, Col, Collapse, Breadcrumb, Descriptions } from 'antd';
+import { Card, Spin, Collapse, Breadcrumb, Descriptions, Divider } from 'antd';
 import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
@@ -38,6 +38,7 @@ class LeadDetail extends Component {
     return (
       <div className={styles.main}>
         <PageHeaderWrapper
+          breadcrumb={null}
           title={
             <div>
               <Breadcrumb>
@@ -105,7 +106,14 @@ class LeadDetail extends Component {
                 {lead.detail.note}
               </Descriptions.Item>
             </Descriptions>
-            <CollapseFileDetail listFile={lead.detail.listFile} />
+            <Card bordered="true" className={styles.cardOne}>
+              <div className={styles.one}>
+                <h2>Attachment(s)</h2>
+              </div>
+              <Divider />
+              <CollapseFileDetail listFile={lead.detail.listFile} />
+            </Card>
+
             <Collapse accordion className={styles.editCollapse}>
               {lead.detail.touchPoint.map((touchPointItem, index) => {
                 return (
@@ -116,7 +124,42 @@ class LeadDetail extends Component {
                     key={index}
                   >
                     <div>
-                      <h2>Goal:{touchPointItem.goal}</h2>
+                      <Descriptions title="Information">
+                        <Descriptions.Item label={<b>Goal</b>}>
+                          {touchPointItem.goal}
+                        </Descriptions.Item>
+                        <Descriptions.Item label={<b>Status</b>}>
+                          {touchPointItem.status}
+                        </Descriptions.Item>
+                        <Descriptions.Item label={<b>Review</b>}>
+                          {touchPointItem.review}
+                        </Descriptions.Item>
+                        <Descriptions.Item label={<b>Note</b>}>
+                          {touchPointItem.note}
+                        </Descriptions.Item>
+                        <Descriptions.Item label="">{}</Descriptions.Item>
+
+                        <Descriptions.Item label="">{}</Descriptions.Item>
+
+                        <Descriptions.Item label={<b>TouchPoint</b>}>
+                          {touchPointItem.task.map((task) => {
+                            return (
+                              <Descriptions label="TouchPoint">
+                                <Descriptions.Item label={<b>Task Name</b>}>
+                                  {task.taskName}({task.type}
+                                </Descriptions.Item>
+                                <Descriptions.Item label={<b>User Name</b>}>
+                                  {task.userName}
+                                </Descriptions.Item>
+                                <Descriptions.Item label={<b>Due Date</b>}>
+                                  {task.dueDate.format('DD-MM-YY')}
+                                </Descriptions.Item>
+                              </Descriptions>
+                            );
+                          })}
+                        </Descriptions.Item>
+                      </Descriptions>
+                      {/* <h2>Goal:{touchPointItem.goal}</h2>
                       <p className={styles.statusTp}>Status: {touchPointItem.status}</p>
                       <p>Note: {touchPointItem.note}</p>
                       <p>Review: {touchPointItem.review}</p>
@@ -139,7 +182,7 @@ class LeadDetail extends Component {
                             </div>
                           );
                         })}
-                      </div>
+                      </div> */}
                     </div>
                   </Panel>
                 );

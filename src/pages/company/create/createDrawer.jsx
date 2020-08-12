@@ -60,9 +60,12 @@ class CreateCompanyDrawer extends React.Component {
     const { tag } = this.props.tag;
     return (
       <>
-        <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-          Create New Company
-        </Button>
+        <div className={styles.editBtn}>
+          <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
+            Create New Company
+          </Button>
+        </div>
+
         <Drawer
           title={
             <div className={styles.editBreadOne}>

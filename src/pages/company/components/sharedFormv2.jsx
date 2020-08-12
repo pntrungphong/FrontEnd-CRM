@@ -78,19 +78,7 @@ const SharedForm = (props) => {
                       <Input pattern="^[0-9]{10}$" className={styles.getInput} />
                     </Form.Item>
                   </Row>
-                  <div className={styles.iconOne}>
-                    {index > 0 ? (
-                      <MinusCircleOutlined
-                        className={styles.icon}
-                        onClick={() => remove(field.name)}
-                      />
-                    ) : (
-                      <MinusCircleOutlined
-                        className={['dynamic-delete-button', styles.customEmptySpace]}
-                        onClick={() => remove(field.name)}
-                      />
-                    )}
-                  </div>
+                  <MinusCircleOutlined className={styles.icon} onClick={() => remove(field.name)} />
                 </div>
               ))}
               <Form.Item
@@ -107,6 +95,51 @@ const SharedForm = (props) => {
         }}
       </Form.List>
       <Form.List name="email">
+        {(fields, { add, remove }) => {
+          return (
+            <div style={{ width: '104%' }}>
+              {fields.map((field, index) => (
+                <div className={styles.editInput}>
+                  <Row key={field.key} className={styles.phoneFormItem}>
+                    <Form.Item
+                      {...field}
+                      {...formItemLayout}
+                      label={index === 0 ? 'Email' : ' '}
+                      colon={!index}
+                      className={styles.phoneFormItem}
+                      name={[field.name, 'url']}
+                      fieldKey={[field.fieldKey, 'url']}
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Please enter email',
+                        },
+                        {
+                          type: 'email',
+                          message: 'This field must be a valid email.',
+                        },
+                      ]}
+                    >
+                      <Input className={styles.getInput} />
+                    </Form.Item>
+                  </Row>
+                  <MinusCircleOutlined className={styles.icon} onClick={() => remove(field.name)} />
+                </div>
+              ))}
+              <Form.Item
+                {...formItemLayout}
+                label={fields.length > 0 ? ' ' : 'Email'}
+                colon={!(fields.length > 0)}
+              >
+                <Button onClick={() => add()} className={styles.addButton}>
+                  <PlusOutlined /> Add Phone
+                </Button>
+              </Form.Item>
+            </div>
+          );
+        }}
+      </Form.List>
+      {/* <Form.List name="email">
         {(fields, { add, remove }) => {
           return (
             <div style={{ width: '104%' }}>
@@ -174,7 +207,7 @@ const SharedForm = (props) => {
             </div>
           );
         }}
-      </Form.List>
+      </Form.List> */}
       <Form.List name="website">
         {(fields, { add, remove }) => {
           return (
@@ -211,24 +244,17 @@ const SharedForm = (props) => {
                     rules={[{ required: true, message: 'Select type' }]}
                   >
                     <Select placeholder="Type">
-                      <Option value="Primary">Primary</Option>
-                      <Option value="Company">Company</Option>
-                      <Option value="Personal">Personal</Option>
+                      <Option value="Facebook">Facebook</Option>
+                      <Option value="Twitter">Twitter</Option>
+                      <Option value="Instagram">Instagram</Option>
+                      <Option value="Zalo">Zalo</Option>
+                      <Option value="Another">Another</Option>
                     </Select>
                   </Form.Item>
-                  <div className={styles.iconOne}>
-                    {index > 0 ? (
-                      <MinusCircleOutlined
-                        className={styles.icon}
-                        onClick={() => remove(field.name)}
-                      />
-                    ) : (
-                      <MinusCircleOutlined
-                        className={['dynamic-delete-button', styles.customEmptySpace]}
-                        onClick={() => remove(field.name)}
-                      />
-                    )}
-                  </div>
+                  <MinusCircleOutlined
+                    className={styles.iconOne}
+                    onClick={() => remove(field.name)}
+                  />
                 </div>
               ))}
               <Form.Item

@@ -17,12 +17,55 @@ const columns = [
     title: 'Name',
     dataIndex: 'name',
     key: 'name',
+    width: '20%',
     render: (leadName) => <h4>{leadName}</h4>,
+    sorter: (a, b) => {
+      if (a.name < b.name) {
+        return -1;
+      }
+      if (a.name > b.name) {
+        return 1;
+      }
+      return 0;
+    },
+
+    //     if(a.name.toLowerCase < b.name) { return -1; }
+    //  if(a.name > b.name) { return 1; }
+    //  return 0;},
+  },
+  {
+    title: 'Rank',
+    dataIndex: 'rank',
+    key: 'rank',
+    width: '7%',
+    render: (rank) => <div className={styles.customCell}>{rankStore[rank]}</div>,
+  },
+  {
+    title: 'Status',
+    dataIndex: 'status',
+    width: '17%',
+    key: 'status',
+    render: (status) => <div className={styles.customCell}>{status}</div>,
   },
   {
     title: 'Company',
     dataIndex: 'company',
     key: 'company',
+    width: '24%',
+    sorter: (a, b) => {
+      if (a.company < b.company) {
+        return -1;
+      }
+      if (a.company > b.company) {
+        return 1;
+      }
+      return 0;
+    },
+
+    //   sorter: (a, b) => {
+    //     return a.company.localeCompare(b.company)
+
+    //  },
     render: (company) => (
       <>
         <a
@@ -43,6 +86,16 @@ const columns = [
     title: 'Contact',
     dataIndex: 'contact',
     key: 'contact',
+    width: '24%',
+    sorter: (a, b) => {
+      if (a.contact < b.contact) {
+        return -1;
+      }
+      if (a.contact > b.contact) {
+        return 1;
+      }
+      return 0;
+    },
     render: (contact) => (
       <>
         {contact.map((item) => {
@@ -65,15 +118,12 @@ const columns = [
       </>
     ),
   },
-  {
-    title: 'Rank',
-    dataIndex: 'rank',
-    key: 'rank',
-    render: (rank) => <div className={styles.customCell}>{rankStore[rank]}</div>,
-  },
+
   {
     title: 'Action',
     key: 'action',
+    width: '5%',
+
     render: (record) => (
       <ul className={styles.customUl}>
         <li>
