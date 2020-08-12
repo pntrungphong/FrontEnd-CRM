@@ -139,7 +139,11 @@ const TouchPointModal = connect(({ task, lead, touchpoint, loading }) => ({
           </Col>
         </Row>
       ) : (
-        <Button onClick={onShow}>Add new touchpoint</Button>
+        <>
+          <h3>
+            You haven’t added any touchpoint. <a onClick={onShow}>Add new touchpoint now</a>
+          </h3>
+        </>
       )}
 
       <Modal

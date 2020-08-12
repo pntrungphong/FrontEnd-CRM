@@ -6,8 +6,8 @@ export async function uploadLink(params) {
     url: params.url,
     note: params.note,
     type: 'link',
-    touchPointId: params.touchPointId.toString(),
-    leadId: params.leadId.toString(),
+    touchPointId: params.touchPointId,
+    leadId: params.leadId,
   };
   return request(`/file/url`, {
     method: 'POST',
