@@ -44,7 +44,7 @@ class CompanyDetail extends Component {
                     });
                   }}
                 >
-                  <b>Company</b>
+                  Company
                 </a>
               </Breadcrumb.Item>
               <Breadcrumb.Item>Detail</Breadcrumb.Item>
@@ -123,7 +123,7 @@ class CompanyDetail extends Component {
                     return (
                       <Row key={item.number}>
                         <span key={item.number} className={styles.customField}>
-                          {item.number}
+                          :{item.number}
                         </span>
                       </Row>
                     );
@@ -139,7 +139,7 @@ class CompanyDetail extends Component {
                     return (
                       <Row key={item.url}>
                         <span key={item.type} className={styles.customField}>
-                          <a key={item.url}>{item.url}</a>
+                          :<a key={item.url}>{item.url}</a>
                         </span>
                       </Row>
                     );
@@ -155,7 +155,7 @@ class CompanyDetail extends Component {
                     return (
                       <Row key={item.url}>
                         <span className={styles.customField}>
-                          {item.type}: <a key={item.url}>{item.url}</a>
+                          :<a key={item.url}>{item.url}</a> ({item.type})
                         </span>
                       </Row>
                     );
@@ -170,7 +170,7 @@ class CompanyDetail extends Component {
                         <h3 className={styles.cloOne}>Address {index + 1}</h3>
                       </Col>
                       <Col flex="auto" className={styles.address}>
-                        <span className={styles.customField}>{item}</span>
+                        <span className={styles.customField}>:{item}</span>
                       </Col>
                     </>
                   );

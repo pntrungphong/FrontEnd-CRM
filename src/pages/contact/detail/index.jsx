@@ -25,6 +25,7 @@ class ContactDetail extends Component {
     if (querying || !contact.detail) {
       return <Spin />;
     }
+
     return (
       <div className={styles.main}>
         <PageHeaderWrapper
@@ -65,7 +66,7 @@ class ContactDetail extends Component {
                   <h3 className={styles.cloOne}>Title</h3>
                 </Col>
                 <Col flex="auto">
-                  <span className={styles.customField}>{contact.detail.title}</span>
+                  <span className={styles.customField}>:{contact.detail.title}</span>
                 </Col>
               </Row>
               <Row className={styles.rowCol}>
@@ -100,19 +101,17 @@ class ContactDetail extends Component {
                 <Col flex="auto">
                   {contact.detail.referral.map((item) => {
                     return (
-                      <>
-                        <Tag key={item.name} className={styles.customFieldContact}>
-                          <a
-                            onClick={() => {
-                              history.push({
-                                pathname: `/client/contact/detail/${item.key}`,
-                              });
-                            }}
-                          >
-                            <h4 className={styles.editTag}>{item.label}</h4>
-                          </a>
-                        </Tag>
-                      </>
+                      <Tag key={item.name} className={styles.customFieldContact}>
+                        <a
+                          onClick={() => {
+                            history.push({
+                              pathname: `/client/contact/detail/${item.key}`,
+                            });
+                          }}
+                        >
+                          <h4 className={styles.editTag}>{item.label}</h4>
+                        </a>
+                      </Tag>
                     );
                   })}
                 </Col>
@@ -127,7 +126,7 @@ class ContactDetail extends Component {
                       <>
                         <Row>
                           <span key={item.type} className={styles.customField}>
-                            {item.type}: <a key={item.number}>{item.number}</a>
+                            :<a key={item.number}>{item.number}</a> ({item.type})
                           </span>
                         </Row>
                       </>
@@ -145,7 +144,7 @@ class ContactDetail extends Component {
                       <>
                         <Row>
                           <span key={item.type} className={styles.customField}>
-                            {item.type}: <a key={item.url}>{item.url}</a>
+                            :<a key={item.url}>{item.url}</a> ({item.type})
                           </span>
                         </Row>
                       </>

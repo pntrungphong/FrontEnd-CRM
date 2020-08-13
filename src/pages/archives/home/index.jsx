@@ -1,4 +1,4 @@
-import { Input } from 'antd';
+import { Input, Breadcrumb } from 'antd';
 import React from 'react';
 import { connect } from 'umi';
 import debounce from 'lodash/debounce';
@@ -31,6 +31,14 @@ class ViewLead extends React.Component {
   render() {
     return (
       <div className={styles.containerBox}>
+        <div className={styles.editBread}>
+          <Breadcrumb>
+            <Breadcrumb.Item>Database Management</Breadcrumb.Item>
+            <Breadcrumb.Item>
+              <a href="#">Company</a>
+            </Breadcrumb.Item>
+          </Breadcrumb>
+        </div>
         <div className={styles.top}>
           <Search
             className={styles.search}

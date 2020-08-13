@@ -3,7 +3,7 @@ import React, { Component } from 'react';
 import { PageHeaderWrapper } from '@ant-design/pro-layout';
 import { connect, history } from 'umi';
 import styles from './style.less';
-import CollapseFileDetail from '../components/collapseDetail/collapseFileDetail';
+// import CollapseFileDetail from '../components/collapseDetail/collapseFileDetail';
 
 const { Panel } = Collapse;
 
@@ -42,7 +42,7 @@ class LeadDetail extends Component {
           title={
             <div>
               <Breadcrumb>
-                <Breadcrumb.Item>Home</Breadcrumb.Item>
+                <Breadcrumb.Item>Database Management</Breadcrumb.Item>
                 <Breadcrumb.Item>
                   <a
                     href="#"
@@ -111,59 +111,64 @@ class LeadDetail extends Component {
                 <h2>Attachment(s)</h2>
               </div>
               <Divider />
-              <CollapseFileDetail listFile={lead.detail.listFile} />
+              {lead.detail.listFile}
             </Card>
+            <Card bordered="true" className={styles.cardOne}>
+              <div className={styles.one}>
+                <h2>Touchpoint(s)</h2>
+              </div>
+              <Divider />
+              <Collapse accordion className={styles.editCollapse}>
+                {lead.detail.touchPoint.map((touchPointItem, index) => {
+                  return (
+                    <Panel
+                      header={
+                        <h4>Touchpoint: {touchPointItem.status === 'Done' ? 'Done' : index + 1}</h4>
+                      }
+                      key={index}
+                    >
+                      <div>
+                        <Descriptions title="Information">
+                          <Descriptions.Item label={<b>Goal</b>}>
+                            {touchPointItem.goal}
+                          </Descriptions.Item>
+                          <Descriptions.Item label={<b>Status</b>}>
+                            {touchPointItem.status}
+                          </Descriptions.Item>
+                          <Descriptions.Item label={<b>Recap</b>}>
+                            {touchPointItem.review}
+                          </Descriptions.Item>
+                          <Descriptions.Item label={<b>Note</b>}>
+                            {touchPointItem.note}
+                          </Descriptions.Item>
+                          <Descriptions.Item label="">{}</Descriptions.Item>
 
-            <Collapse accordion className={styles.editCollapse}>
-              {lead.detail.touchPoint.map((touchPointItem, index) => {
-                return (
-                  <Panel
-                    header={
-                      <h4>TouchPoint: {touchPointItem.status === 'Done' ? 'Done' : index + 1}</h4>
-                    }
-                    key={index}
-                  >
-                    <div>
-                      <Descriptions title="Information">
-                        <Descriptions.Item label={<b>Goal</b>}>
-                          {touchPointItem.goal}
-                        </Descriptions.Item>
-                        <Descriptions.Item label={<b>Status</b>}>
-                          {touchPointItem.status}
-                        </Descriptions.Item>
-                        <Descriptions.Item label={<b>Recap</b>}>
-                          {touchPointItem.review}
-                        </Descriptions.Item>
-                        <Descriptions.Item label={<b>Note</b>}>
-                          {touchPointItem.note}
-                        </Descriptions.Item>
-                        <Descriptions.Item label="">{}</Descriptions.Item>
+                          <Descriptions.Item label="">{}</Descriptions.Item>
 
-                        <Descriptions.Item label="">{}</Descriptions.Item>
-
-                        <Descriptions.Item label={<b>Task</b>}>
-                          {touchPointItem.task.map((task) => {
-                            return (
-                              <Descriptions label="Task">
-                                <Descriptions.Item label={<b>Task Name</b>}>
-                                  {task.taskName}({task.type}
-                                </Descriptions.Item>
-                                <Descriptions.Item label={<b>User Name</b>}>
-                                  {task.userName}
-                                </Descriptions.Item>
-                                <Descriptions.Item label={<b>Meeting Date</b>}>
-                                  {task.dueDate.format('DD-MM-YY')}
-                                </Descriptions.Item>
-                              </Descriptions>
-                            );
-                          })}
-                        </Descriptions.Item>
-                      </Descriptions>
-                    </div>
-                  </Panel>
-                );
-              })}
-            </Collapse>
+                          <Descriptions.Item label={<b>Task</b>}>
+                            {touchPointItem.task.map((task) => {
+                              return (
+                                <Descriptions label="Task">
+                                  <Descriptions.Item label={<b>Task Name</b>}>
+                                    {task.taskName}({task.type}
+                                  </Descriptions.Item>
+                                  <Descriptions.Item label={<b>User Name</b>}>
+                                    {task.userName}
+                                  </Descriptions.Item>
+                                  <Descriptions.Item label={<b>Meeting Date</b>}>
+                                    {task.dueDate.format('DD-MM-YY')}
+                                  </Descriptions.Item>
+                                </Descriptions>
+                              );
+                            })}
+                          </Descriptions.Item>
+                        </Descriptions>
+                      </div>
+                    </Panel>
+                  );
+                })}
+              </Collapse>
+            </Card>
           </Card>
         </PageHeaderWrapper>
       </div>
