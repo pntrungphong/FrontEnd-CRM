@@ -50,10 +50,12 @@ class UpdateCompanyDrawer extends React.Component {
   };
 
   showDrawer = () => {
-    this.props.dispatch({
-      type: 'company/get',
-      payload: { id: this.props.companyId },
-    });
+    if (!this.props.atDetail) {
+      this.props.dispatch({
+        type: 'company/get',
+        payload: { id: this.props.companyId },
+      });
+    }
     this.setState({
       visible: true,
     });
@@ -74,8 +76,10 @@ class UpdateCompanyDrawer extends React.Component {
     const company = this.props.company.detail;
     const { querying } = this.props;
 
-    if (!this.state.visible) return <FormOutlined onClick={this.showDrawer} />;
-
+    if (!this.state.visible) {
+      if (this.props.atDetail) return <Button onClick={this.showDrawer}>Edit</Button>;
+      return <FormOutlined onClick={this.showDrawer} />;
+    }
     if ((querying || !company) && this.state.visible) {
       return <Spin />;
     }

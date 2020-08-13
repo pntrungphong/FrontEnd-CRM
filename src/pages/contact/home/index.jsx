@@ -33,7 +33,7 @@ class ListContactPage extends React.Component {
       <div className={styles.containerBox}>
         <div className={styles.editBread}>
           <Breadcrumb>
-            <Breadcrumb.Item>Home</Breadcrumb.Item>
+            <Breadcrumb.Item>Database Management</Breadcrumb.Item>
             <Breadcrumb.Item>
               <a href="#">Contact</a>
             </Breadcrumb.Item>

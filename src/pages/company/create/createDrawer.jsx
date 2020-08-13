@@ -62,7 +62,7 @@ class CreateCompanyDrawer extends React.Component {
       <>
         <div className={styles.editBtn}>
           <Button type="primary" onClick={this.showDrawer} className={styles.createBtn}>
-            Create New Company
+            Create new company
           </Button>
         </div>
 
